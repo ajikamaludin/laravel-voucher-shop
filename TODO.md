@@ -2,7 +2,7 @@
 
 ### Admin
 
--   [x] CRUD Voucher
+-   [ ] CRUD Voucher
 -   [ ] Import Voucher
 -   [ ] CRUD Customer
 -   [ ] Deposit Menu (view daftar histori deposit)
