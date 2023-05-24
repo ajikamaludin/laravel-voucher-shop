@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['inertia.admin'])
     ->prefix('admin')
     ->group(function () {
+        Route::get('/', fn () => redirect()->route('admin.login'));
+
         Route::middleware(['guest:web'])->group(function () {
             Route::get('login', [AuthenticatedSessionController::class, 'create'])
                 ->name('admin.login');
@@ -17,8 +19,8 @@ Route::middleware(['inertia.admin'])
             Route::post('login', [AuthenticatedSessionController::class, 'store']);
         });
 
-        Route::middleware(['auth'])->group(function () {
-
+        Route::middleware(['auth:web'])->group(function () {
+            // dashboard
             Route::get('/dashboard', [GeneralController::class, 'index'])->name('dashboard');
             Route::get('/maintance', [GeneralController::class, 'maintance'])->name('maintance');
 
@@ -28,8 +30,7 @@ Route::middleware(['inertia.admin'])
             Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
             // Logout
-            Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
-                ->name('logout');
+            Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 
             // User
             Route::get('/users', [UserController::class, 'index'])->name('user.index');
