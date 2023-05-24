@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\Models\Traits\CascadeSoftDeletes;
 use App\Models\Traits\UserTrackable;
+use Dyrynda\Database\Support\CascadeSoftDeletes;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model as BaseModel;
@@ -14,4 +14,6 @@ class Model extends BaseModel
     use HasFactory, HasUlids, UserTrackable, SoftDeletes, CascadeSoftDeletes;
 
     public $cascadeDeletes = [];
+
+    protected $dates = ['deleted_at'];
 }

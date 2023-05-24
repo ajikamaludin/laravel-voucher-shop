@@ -12,4 +12,9 @@ class CoinHistory extends Model
         'related_type',
         'related_id',
     ];
+
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class);
+    }
 }

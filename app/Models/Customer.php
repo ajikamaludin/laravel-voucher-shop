@@ -2,8 +2,17 @@
 
 namespace App\Models;
 
-class Customer extends Model
+use App\Models\Traits\UserTrackable;
+use Illuminate\Database\Eloquent\Concerns\HasUlids;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+
+
+class Customer extends Authenticatable
 {
+    use HasFactory, HasUlids, UserTrackable, SoftDeletes;
+
     protected $fillable = [
         'email',
         'password',

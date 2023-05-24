@@ -18,4 +18,9 @@ class Voucher extends Model
         'comment',
         'expired',
     ];
+
+    public function location()
+    {
+        return $this->belongsTo(Location::class);
+    }
 }
