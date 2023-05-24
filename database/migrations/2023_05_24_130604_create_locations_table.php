@@ -8,14 +8,16 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('roles', function (Blueprint $table) {
+        Schema::create('locations', function (Blueprint $table) {
             $table->ulid('id')->primary();
-            $table->string('name');
+
+            $table->string('name')->nullable();
+            $table->string('description')->nullable();
+            $table->string('logo')->nullable();
+
             $table->timestamps();
             $table->softDeletes();
             $table->ulid('created_by')->nullable();
@@ -26,11 +28,9 @@ return new class extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
-        Schema::dropIfExists('roles');
+        Schema::dropIfExists('locations');
     }
 };

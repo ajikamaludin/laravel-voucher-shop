@@ -8,14 +8,18 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('roles', function (Blueprint $table) {
+        Schema::create('banners', function (Blueprint $table) {
             $table->ulid('id')->primary();
-            $table->string('name');
+
+            $table->string('image');
+            $table->string('title');
+            $table->string('description')->nullable();
+            $table->string('destination')->nullable();
+            $table->string('type')->nullable();
+
             $table->timestamps();
             $table->softDeletes();
             $table->ulid('created_by')->nullable();
@@ -26,11 +30,9 @@ return new class extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
-        Schema::dropIfExists('roles');
+        Schema::dropIfExists('banners');
     }
 };

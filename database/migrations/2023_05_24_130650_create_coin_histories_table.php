@@ -8,14 +8,19 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('roles', function (Blueprint $table) {
+        Schema::create('coin_histories', function (Blueprint $table) {
             $table->ulid('id')->primary();
-            $table->string('name');
+
+            $table->decimal('debit', 20, 2)->default(0);
+            $table->decimal('credit', 20, 2)->default(0);
+            $table->text('description')->nullable();
+            $table->ulid('customer_id')->nullable();
+            $table->string('related_type')->nullable();
+            $table->string('related_id')->nullable();
+
             $table->timestamps();
             $table->softDeletes();
             $table->ulid('created_by')->nullable();
@@ -26,11 +31,9 @@ return new class extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
-        Schema::dropIfExists('roles');
+        Schema::dropIfExists('coin_histories');
     }
 };

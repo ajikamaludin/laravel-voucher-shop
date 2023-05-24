@@ -8,14 +8,18 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('roles', function (Blueprint $table) {
+        Schema::create('sale_items', function (Blueprint $table) {
             $table->ulid('id')->primary();
-            $table->string('name');
+
+            $table->ulid('sale_id')->nullable();
+            $table->string('entity_type')->nullable();
+            $table->ulid('entity_id')->nullable();
+            $table->decimal('price', 20, 2)->default(0);
+            $table->text('additional_info_json')->nullable();
+
             $table->timestamps();
             $table->softDeletes();
             $table->ulid('created_by')->nullable();
@@ -26,11 +30,9 @@ return new class extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
-        Schema::dropIfExists('roles');
+        Schema::dropIfExists('sale_items');
     }
 };

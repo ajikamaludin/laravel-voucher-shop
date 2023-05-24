@@ -8,14 +8,16 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('roles', function (Blueprint $table) {
+        Schema::create('customer_level_histories', function (Blueprint $table) {
             $table->ulid('id')->primary();
-            $table->string('name');
+
+            $table->ulid('customer_id')->nullable();
+            $table->ulid('customer_level_id')->nullable();
+            $table->timestamp('date_time')->nullable();
+
             $table->timestamps();
             $table->softDeletes();
             $table->ulid('created_by')->nullable();
@@ -26,11 +28,9 @@ return new class extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
-        Schema::dropIfExists('roles');
+        Schema::dropIfExists('customer_level_histories');
     }
 };

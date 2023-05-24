@@ -1,15 +1,14 @@
-# Voucher Online Shop
+# Laravel Template - Flowbite
 
-[fill desc here]
-
+This just a laravel template with breeze react, user role based access crud with setup flowbite admin template
 ## Support me
 
 <a href="https://trakteer.id/ajikamaludin" target="_blank"><img id="wse-buttons-preview" src="https://cdn.trakteer.id/images/embed/trbtn-blue-2.png" height="40" style="border:0px;height:40px;" alt="Trakteer Saya"></a>
 
 ## Requirements
 
--   PHP 8.1 or latest
--   Node 16+ or latest
+- PHP 8.1 or latest
+- Node 16+ or latest
 
 ## How to run
 

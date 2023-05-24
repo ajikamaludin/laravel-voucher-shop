@@ -30,7 +30,7 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|max:255',
-            'role_id' => 'required|uuid|exists:roles,id',
+            'role_id' => 'required|ulid|exists:roles,id',
         ]);
 
         User::create([
@@ -54,7 +54,7 @@ class UserController extends Controller
 
         if ($user->role != null) {
             $request->validate([
-                'role_id' => 'required|uuid|exists:roles,id',
+                'role_id' => 'required|ulid|exists:roles,id',
             ]);
         }
 
