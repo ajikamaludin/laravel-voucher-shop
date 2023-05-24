@@ -27,6 +27,7 @@ return new class extends Migration
             $table->decimal('coin_balance', 20, 2)->default(0);
             $table->smallInteger('identity_verified')->nullable();
             $table->string('identity_image')->nullable();
+            $table->ulid('customer_level_id')->nullable();
 
             $table->timestamps();
             $table->softDeletes();

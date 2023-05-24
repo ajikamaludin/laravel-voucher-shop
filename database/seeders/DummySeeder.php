@@ -13,6 +13,5 @@ class DummySeeder extends Seeder
      */
     public function run()
     {
-        //
     }
 }

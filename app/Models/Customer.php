@@ -26,5 +26,6 @@ class Customer extends Authenticatable
         'coin_balance',
         'identity_verified',
         'identity_image',
+        'customer_level_id',
     ];
 }

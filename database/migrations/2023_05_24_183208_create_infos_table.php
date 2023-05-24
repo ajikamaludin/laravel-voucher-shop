@@ -11,15 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('customer_levels', function (Blueprint $table) {
+        Schema::create('infos', function (Blueprint $table) {
             $table->ulid('id')->primary();
 
-            $table->string('name')->nullable();
-            $table->string('description')->nullable();
-            $table->string('key')->nullable();
-            $table->decimal('min_amount', 20, 2)->default(0);
-            $table->decimal('max_amount', 20, 2)->default(0);
-            $table->decimal('max_loan', 20, 2)->default(0);
+            $table->string('title');
+            $table->string('destination')->nullable();
+            $table->string('type')->nullable();
+            $table->smallInteger('is_publish')->nullable();
 
             $table->timestamps();
             $table->softDeletes();
@@ -34,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('customer_levels');
+        Schema::dropIfExists('infos');
     }
 };

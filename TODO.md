@@ -5,6 +5,9 @@
 -   [ ] CRUD Voucher
 -   [ ] Import Voucher
 -   [ ] CRUD Customer
+-   [ ] CRUD Rekening / Account
+-   [ ] CRUD Info
+-   [ ] CRUD Banner
 -   [ ] Deposit Menu (view daftar histori deposit)
 -   [ ] Manual Approve Deposit
 -   [ ] Setting Web (enable affilate, amount bonus affilate)
@@ -19,7 +22,7 @@
 
 ### Customer
 
--   [ ] Tampilan Depan Customer (banner, info, voucher, saldo, coin) - mobile page
+-   [x] Tampilan Depan Customer (banner, info, voucher, saldo, coin) - mobile page
 -   [ ] Register Customer (wajib data lengkap)
 -   [ ] Register Customer Gmail
 -   [ ] Login Customer

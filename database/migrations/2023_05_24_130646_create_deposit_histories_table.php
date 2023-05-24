@@ -20,6 +20,8 @@ return new class extends Migration
             $table->ulid('customer_id')->nullable();
             $table->string('related_type')->nullable();
             $table->string('related_id')->nullable();
+            $table->smallInteger('is_valid')->default(0);
+            $table->string('image_prove')->nullable();
 
             $table->timestamps();
             $table->softDeletes();

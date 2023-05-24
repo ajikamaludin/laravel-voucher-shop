@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('description')->nullable();
             $table->string('destination')->nullable();
             $table->string('type')->nullable();
+            $table->smallInteger('is_publish')->nullable();
 
             $table->timestamps();
             $table->softDeletes();
