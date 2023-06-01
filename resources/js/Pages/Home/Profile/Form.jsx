@@ -49,8 +49,8 @@ export default function Index({ auth: { user }, flash }) {
     console.log(user)
     return (
         <CustomerLayout>
-            <Head title="Login" />
-            <div className="flex flex-col min-h-screen">
+            <Head title="Update Profile" />
+            <div className="flex flex-col min-h-[calc(90dvh)]">
                 <div className="m-4 p-2">
                     <div className="text-2xl font-bold mb-4">Profile</div>
                     <Alert type={flash.message.type}>

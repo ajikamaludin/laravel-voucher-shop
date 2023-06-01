@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware(['guard_should_customer', 'inertia.customer'])->group(function () {
+Route::middleware(['http_secure_aware', 'guard_should_customer', 'inertia.customer'])->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home.index');
 
     Route::middleware('auth:customer')->group(function () {

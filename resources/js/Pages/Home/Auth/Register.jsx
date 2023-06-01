@@ -47,8 +47,8 @@ export default function Index({ app_name, flash }) {
 
     return (
         <CustomerLayout>
-            <Head title="Login" />
-            <div className="flex flex-col justify-center min-h-screen">
+            <Head title="Register" />
+            <div className="flex flex-col justify-center min-h-[calc(90dvh)]">
                 <div className="m-4 border shadow-md p-6 pt-4">
                     <div className="text-2xl font-bold mb-4">Register</div>
                     <Alert type={flash.message.type}>

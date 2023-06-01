@@ -41,7 +41,7 @@ export default function Index({ app_name, flash }) {
     return (
         <CustomerLayout>
             <Head title="Login" />
-            <div className="flex flex-col justify-center min-h-screen">
+            <div className="flex flex-col justify-center min-h-[calc(90dvh)]">
                 <div className="m-4 border shadow-md p-6 pt-4">
                     <div className="text-2xl font-bold mb-4">Sign in</div>
                     <Alert type={flash.message.type}>
@@ -85,7 +85,7 @@ export default function Index({ app_name, flash }) {
                     </div>
                     <div className="flex flex-row w-full justify-center">
                         <div
-                            className="flex flex-row items-center space-x-2 border-2 border-blue-600 px-4 py-2 hover:bg-blue-500 hover:text-white rounded"
+                            className="flex flex-row items-center space-x-2 border-2 border-blue-600 px-4 py-2 hover:bg-blue-500 hover:text-white rounded select-none"
                             onClick={handleLoginWithGoogle}
                         >
                             <FcGoogle className="h-6 w-6" />

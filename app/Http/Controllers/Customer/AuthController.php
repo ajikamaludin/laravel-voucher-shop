@@ -23,8 +23,8 @@ class AuthController extends Controller
     public function update(Request $request)
     {
         $request->validate([
-            'username' => 'string|required|alpha_dash',
-            'password' => 'string|required',
+            'username' => 'required|string|alpha_dash',
+            'password' => 'required|string',
         ]);
 
         $isAuth = Auth::guard('customer')->attempt(['username' => $request->username, 'password' => $request->password]);
@@ -51,7 +51,14 @@ class AuthController extends Controller
 
     public function callback_google()
     {
-        $user = Socialite::driver('google')->user();
+        $config = new Config(
+            env('GOOGLE_CLIENT_ID'),
+            env('GOOGLE_CLIENT_SECRET'),
+            route('customer.login.callback_google')
+        );
+        $user = Socialite::driver('google')
+            ->setConfig($config)
+            ->user();
         $customer = Customer::where('google_id', $user->id)->first();
         if ($customer == null) {
             DB::beginTransaction();
@@ -87,12 +94,12 @@ class AuthController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'fullname' => 'string|required',
-            'name' => 'string|required',
-            'address' => 'string|required',
-            'phone' => 'string|required|numeric',
-            'username' => 'string|required|min:5|alpha_dash|unique:customers,username',
-            'password' => 'string|required|min:8|confirmed',
+            'fullname' => 'required|string',
+            'name' => 'required|string',
+            'address' => 'required|string',
+            'phone' => 'required|string|numeric',
+            'username' => 'required|string|min:5|alpha_dash|unique:customers,username',
+            'password' => 'required|string|min:8|confirmed',
         ]);
 
         DB::beginTransaction();

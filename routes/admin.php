@@ -7,7 +7,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(['inertia.admin'])
+Route::middleware(['http_secure_aware', 'inertia.admin'])
     ->prefix('admin')
     ->group(function () {
         Route::get('/', fn () => redirect()->route('admin.login'));

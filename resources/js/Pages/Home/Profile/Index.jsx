@@ -24,8 +24,8 @@ export default function Index({ auth: { user } }) {
 
     return (
         <CustomerLayout>
-            <Head title="Login" />
-            <div className="flex flex-col min-h-screen">
+            <Head title="Profile" />
+            <div className="flex flex-col min-h-[calc(90dvh)]">
                 <div>
                     {/* user */}
                     <div className="flex flex-row justify-between items-center px-5 py-6 text-lg bg-blue-600">
