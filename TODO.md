@@ -23,11 +23,12 @@
 ### Customer
 
 -   [x] Tampilan Depan Customer (banner, info, voucher, saldo, coin) - mobile page
--   [ ] Register Customer (wajib data lengkap)
--   [ ] Register Customer Gmail
--   [ ] Login Customer
--   [ ] Login Customer Gmail
--   [ ] Customer Edit Profile
+-   [x] Register Customer (wajib data lengkap)
+-   [x] Register Customer Gmail
+-   [x] Login Customer
+-   [x] Login Customer Gmail
+-   [x] Customer Edit Profile
+-   [ ] Register Refferal
 -   [ ] Customer Deposit Manual
 -   [ ] Customer Deposit Payment Gateway
 -   [ ] Customer Purchase Voucher

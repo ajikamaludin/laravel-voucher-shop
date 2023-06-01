@@ -11,7 +11,7 @@ export default function UserBanner({ user }) {
                     <div className="flex flex-row items-center space-x-1">
                         <div>+62{user.phone}</div>
                         <div className="text-xs font-semibold px-2 py-1 bg-white text-black rounded-xl">
-                            Gold
+                            {user.level.name}
                         </div>
                     </div>
                 </div>
@@ -32,9 +32,11 @@ export default function UserBanner({ user }) {
                             <HiOutlineCash />
                             <div>Saldo</div>
                         </div>
-                        <div className="font-bold">Rp 10.000</div>
+                        <div className="font-bold">
+                            Rp {user.display_deposit}
+                        </div>
                         <div className="text-xs flex flex-row items-center space-x-1 text-gray-400">
-                            <div>Coin 10.000</div>
+                            <div>Coin {user.display_coin}</div>
                         </div>
                     </div>
                     <div className="flex flex-col border-l-2 pl-5 pr-5">
@@ -42,7 +44,9 @@ export default function UserBanner({ user }) {
                             {/* <HiOutlineAwa /> */}
                             <div>Rewards</div>
                         </div>
-                        <div className="font-bold">Gold Member</div>
+                        <div className="font-bold">
+                            {user.level.name} Member
+                        </div>
                         <div className="text-xs flex flex-row items-center space-x-1 text-gray-400">
                             <div>Limit 100.000</div>
                         </div>

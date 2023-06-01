@@ -34,7 +34,11 @@ class ProfileController extends Controller
         if ($request->hasFile('image')) {
             $file = $request->file('image');
             $file->store('uploads', 'public');
-            $customer->image = $file->hashName();
+            $customer->image = $file->hashName('uploads');
+        }
+
+        if ($request->password != null) {
+            $customer->password = bcrypt($request->password);
         }
 
         $customer->update([
@@ -43,8 +47,11 @@ class ProfileController extends Controller
             'address' => $request->address,
             'phone' => $request->phone,
             'username' => $request->username,
-            'password' => bcrypt($request->password),
             'image' => $customer->image,
+            'password' => $customer->password
         ]);
+
+        redirect()->route('customer.profile.show')
+            ->with('message', ['type' => 'success', 'message' => 'profile updateded']);
     }
 }

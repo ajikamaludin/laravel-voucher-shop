@@ -1,5 +1,5 @@
 import React from 'react'
-import { Head, useForm, Link } from '@inertiajs/react'
+import { Head, useForm, Link, router } from '@inertiajs/react'
 import { FcGoogle } from 'react-icons/fc'
 
 import CustomerLayout from '@/Layouts/CustomerLayout'
@@ -35,7 +35,10 @@ export default function Index({ auth: { user }, flash }) {
     }
 
     const handleSubmit = () => {
-        post(route('customer.show'))
+        post(route('customer.profile.show'), {
+            onSuccess: () =>
+                setTimeout(router.get(route(route().current())), 1000),
+        })
     }
 
     const handleKeyDown = (e) => {
@@ -43,7 +46,7 @@ export default function Index({ auth: { user }, flash }) {
             handleSubmit()
         }
     }
-
+    console.log(user)
     return (
         <CustomerLayout>
             <Head title="Login" />
@@ -138,7 +141,7 @@ export default function Index({ auth: { user }, flash }) {
                             preview={
                                 <img
                                     src={`${data.image_url}`}
-                                    className="w-40 mb-1"
+                                    className="w-20 h-20 mb-1 rounded-full"
                                     alt="site logo"
                                 />
                             }

@@ -31,7 +31,7 @@ class HandleInertiaCustomerRequests extends Middleware
     {
         return array_merge(parent::share($request), [
             'auth' => [
-                'user' => auth('customer')->user(),
+                'user' => auth('customer')->user()->load(['level']),
             ],
             'flash' => [
                 'message' => fn () => $request->session()->get('message') ?? ['type' => null, 'message' => null],

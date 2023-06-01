@@ -39,25 +39,46 @@ class Customer extends Authenticatable
 
     protected $appends = [
         'image_url',
+        'display_deposit',
+        'display_coin',
     ];
 
     public function imageUrl(): Attribute
     {
         return Attribute::make(
             get: function () {
-                if ($this->google_id != null) {
-                    $image = explode('-', $this->images);
-                    if ($image[0] == "IMAGE") {
-                        return $image[1];
-                    }
+                if ($this->google_id != null && $this->image == null) {
+                    $user = json_decode($this->google_oauth_response);
+                    return $user?->avatar;
                 }
 
                 if ($this->image != null) {
-                    return $this->asset($this->image);
+                    return asset($this->image);
                 }
 
                 return asset('sample/avatar.svg');
             }
         );
+    }
+
+
+    public function displayDeposit(): Attribute
+    {
+        return Attribute::make(get: function () {
+            return number_format($this->deposit_balance, 0, ',', '.');
+        });
+    }
+
+
+    public function displayCoin(): Attribute
+    {
+        return Attribute::make(get: function () {
+            return number_format($this->coin_balance, 0, ',', '.');
+        });
+    }
+
+    public function level()
+    {
+        return $this->belongsTo(CustomerLevel::class, 'customer_level_id');
     }
 }
