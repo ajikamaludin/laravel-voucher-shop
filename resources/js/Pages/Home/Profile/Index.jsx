@@ -1,0 +1,115 @@
+import React from 'react'
+import { Head, Link, router } from '@inertiajs/react'
+import CustomerLayout from '@/Layouts/CustomerLayout'
+import UserBanner from '../Index/UserBanner'
+import {
+    HiChevronRight,
+    HiOutlineUser,
+    HiOutlineUserCircle,
+} from 'react-icons/hi2'
+import { HiOutlineBell, HiOutlineCash } from 'react-icons/hi'
+import { useModalState } from '@/hooks'
+import ModalConfirm from '@/Components/ModalConfirm'
+
+export default function Index({ auth: { user } }) {
+    const confirmModal = useModalState()
+
+    const handleLogoutClick = () => {
+        confirmModal.toggle()
+    }
+
+    const onLogout = () => {
+        router.post(route('customer.logout'))
+    }
+
+    return (
+        <CustomerLayout>
+            <Head title="Login" />
+            <div className="flex flex-col min-h-screen">
+                <div>
+                    {/* user */}
+                    <div className="flex flex-row justify-between items-center px-5 py-6 text-lg bg-blue-600">
+                        <div className="flex flex-row items-center space-x-2">
+                            <HiOutlineUserCircle className="text-white h-14 w-14" />
+                            <div className="flex flex-col text-white">
+                                <div className="font-bold">{user.name}</div>
+                                <div className="flex flex-row items-center space-x-1">
+                                    <div>+62{user.phone}</div>
+                                    <div className="text-xs font-semibold px-2 py-1 bg-white text-black rounded-xl">
+                                        Gold
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="flex flex-row">
+                            <HiOutlineBell className="text-white w-7 h-7" />
+                            <div>
+                                <div className="bg-white text-blue-700 rounded-lg px-1 text-xs -ml-2.5">
+                                    1
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {/* saldo */}
+                    <div className="flex flex-row px-5 pb-3 text-base bg-blue-600">
+                        <div className="flex flex-row w-full shadow py-2 px-2 rounded bg-white items-center justify-between">
+                            <div className="flex flex-col">
+                                <div className="text-xs flex flex-row items-center space-x-1 text-gray-400">
+                                    <HiOutlineCash />
+                                    <div>Saldo</div>
+                                </div>
+                                <div className="font-bold">Rp 10.000</div>
+                                <div className="text-xs flex flex-row items-center space-x-1 text-gray-400">
+                                    <div>Coin 10.000</div>
+                                </div>
+                            </div>
+                            <div className="flex flex-col border-l-2 pl-5 pr-5">
+                                <div className="text-xs flex flex-row items-center space-x-1 text-gray-400">
+                                    <div>Rewards</div>
+                                </div>
+                                <div className="font-bold">Gold Member</div>
+                                <div className="text-xs flex flex-row items-center space-x-1 text-gray-400">
+                                    <div>Limit 100.000</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="p-4 flex flex-col">
+                    <div className="flex flex-row justify-between items-center px-2 py-4 w-full border-b border-gray-400 hover:bg-gray-100">
+                        <div>Upgrade Member</div>
+                        <HiChevronRight className="h-5 w-5" />
+                    </div>
+                    <div className="flex flex-row justify-between items-center px-2 py-4 w-full border-b border-gray-400 hover:bg-gray-100">
+                        <div>Deposit Saldo</div>
+                        <HiChevronRight className="h-5 w-5" />
+                    </div>
+                    <div className="flex flex-row justify-between items-center px-2 py-4 w-full border-b border-gray-400 hover:bg-gray-100">
+                        <div>Transaksi</div>
+                        <HiChevronRight className="h-5 w-5" />
+                    </div>
+                    <div className="flex flex-row justify-between items-center px-2 py-4 w-full border-b border-gray-400 hover:bg-gray-100">
+                        <div>Notifikasi</div>
+                        <HiChevronRight className="h-5 w-5" />
+                    </div>
+                    <div
+                        className="flex flex-row justify-between items-center px-2 py-4 w-full border-b border-gray-400 hover:bg-gray-100"
+                        onClick={() =>
+                            router.get(route('customer.profile.show'))
+                        }
+                    >
+                        <div>Profile</div>
+                        <HiChevronRight className="h-5 w-5" />
+                    </div>
+                    <div
+                        onClick={() => handleLogoutClick()}
+                        className="flex flex-row justify-between items-center px-2 py-4 w-full border-b border-gray-400 text-red-700 hover:bg-gray-100"
+                    >
+                        Logout
+                    </div>
+                </div>
+            </div>
+            <ModalConfirm modalState={confirmModal} onConfirm={onLogout} />
+        </CustomerLayout>
+    )
+}

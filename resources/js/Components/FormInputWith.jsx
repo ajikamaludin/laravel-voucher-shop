@@ -1,7 +1,7 @@
 import React from 'react'
 import Input from './Input'
 
-export default function FormInput({
+export default function FormInputWith({
     type,
     name,
     onChange,
@@ -30,14 +30,17 @@ export default function FormInput({
                 <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                     {leftItem}
                 </div>
-                <Input
-                    className={formClassName}
+                <input
                     type={type}
-                    name={name}
+                    className={`mb-2 bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700  dark:placeholder-gray-400 dark:text-white ${
+                        error
+                            ? 'border-red-500 dark:border-red-500 focus:ring-red-500 focus:border-red-500 dark:focus:ring-red-500 dark:focus:border-red-500'
+                            : 'border-gray-300 dark:border-gray-600 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                    } ${formClassName}`}
                     onChange={onChange}
+                    name={name}
                     value={value}
-                    error={error}
-                    autoComplete={autoComplete}
+                    autoComplete={autoComplete ? 'on' : 'off'}
                     autoFocus={autoFocus}
                     placeholder={placeholder}
                     disabled={disabled}
@@ -45,6 +48,11 @@ export default function FormInput({
                     onKeyDownCapture={onKeyDownCapture}
                 />
             </div>
+            {error && (
+                <p className="mb-2 text-sm text-red-600 dark:text-red-500">
+                    {error}
+                </p>
+            )}
         </div>
     )
 }

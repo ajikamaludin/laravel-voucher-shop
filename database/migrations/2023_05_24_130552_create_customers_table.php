@@ -16,6 +16,7 @@ return new class extends Migration
 
             $table->string('email')->nullable();
             $table->string('password')->nullable();
+            $table->string('username')->nullable();
             $table->string('name')->nullable();
             $table->string('fullname')->nullable();
             $table->text('address')->nullable();
@@ -28,6 +29,7 @@ return new class extends Migration
             $table->smallInteger('identity_verified')->nullable();
             $table->string('identity_image')->nullable();
             $table->ulid('customer_level_id')->nullable();
+            $table->text('google_oauth_response')->nullable();
 
             $table->timestamps();
             $table->softDeletes();

@@ -68,5 +68,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'inertia.admin' => \App\Http\Middleware\HandleInertiaRequests::class,
         'inertia.customer' => \App\Http\Middleware\HandleInertiaCustomerRequests::class,
+        'guard_should_customer' => \App\Http\Middleware\GuardCustomer::class,
     ];
 }
