@@ -13,6 +13,7 @@
         "laravel/sanctum": "^3.2.5",
         "laravel/socialite": "^5.6",
         "laravel/tinker": "^2.8.1",
+        "midtrans/midtrans-php": "^2.5",
         "react/async": "^4",
         "socialiteproviders/google": "^4.1",
         "tightenco/ziggy": "^1.6.0"

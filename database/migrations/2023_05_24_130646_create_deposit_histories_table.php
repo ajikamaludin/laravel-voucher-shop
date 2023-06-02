@@ -22,6 +22,11 @@ return new class extends Migration
             $table->string('related_id')->nullable();
             $table->smallInteger('is_valid')->default(0);
             $table->string('image_prove')->nullable();
+            $table->string('payment_token')->nullable();
+            $table->string('payment_status')->nullable();
+            $table->string('payment_response')->nullable();
+            $table->string('payment_channel')->nullable();
+            $table->string('payment_type')->nullable();
 
             $table->timestamps();
             $table->softDeletes();

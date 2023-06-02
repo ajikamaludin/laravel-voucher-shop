@@ -30,13 +30,15 @@ class HandleInertiaCustomerRequests extends Middleware
     public function share(Request $request): array
     {
         return array_merge(parent::share($request), [
+            'app_name' => env('APP_NAME', 'App Name'),
             'auth' => [
                 'user' => auth('customer')->user()?->load(['level']),
             ],
             'flash' => [
                 'message' => fn () => $request->session()->get('message') ?? ['type' => null, 'message' => null],
             ],
-            'app_name' => env('APP_NAME', 'App Name'),
+            'notification_count' => 0,
+            'carts' => []
         ]);
     }
 }

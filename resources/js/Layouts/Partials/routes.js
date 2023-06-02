@@ -11,6 +11,7 @@ import {
     HiMap,
     HiOutlineGlobeAlt,
     HiQuestionMarkCircle,
+    HiTicket,
     HiUserCircle,
 } from 'react-icons/hi2'
 
@@ -54,6 +55,14 @@ export default [
         route: route('location.index'),
         active: 'location.*',
         permission: 'view-location',
+    },
+    {
+        name: 'Voucher',
+        show: true,
+        icon: HiTicket,
+        route: route('voucher.index'),
+        active: 'voucher.*',
+        permission: 'view-voucher',
     },
     {
         name: 'Front Home',

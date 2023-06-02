@@ -19,5 +19,10 @@ class DepositHistory extends Model
         'related_id',
         'is_valid',
         'image_prove',
+        'payment_token',
+        'payment_status',
+        'payment_response',
+        'payment_channel',
+        'payment_type',
     ];
 }

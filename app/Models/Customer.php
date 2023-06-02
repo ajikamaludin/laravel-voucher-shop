@@ -47,7 +47,7 @@ class Customer extends Authenticatable
     protected static function booted(): void
     {
         static::creating(function (Customer $customer) {
-            if ($customer->customer_level_id == null) {
+            if ($customer->customer_level_id == '') {
                 $basic = CustomerLevel::where('key', CustomerLevel::BASIC)->first();
 
                 $customer->customer_level_id = $basic->id;

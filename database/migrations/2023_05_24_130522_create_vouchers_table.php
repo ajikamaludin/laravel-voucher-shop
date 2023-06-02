@@ -26,6 +26,10 @@ return new class extends Migration
             $table->string('profile')->nullable();
             $table->text('comment')->nullable();
             $table->string('expired')->nullable();
+            $table->string('expired_unit')->nullable();
+            $table->smallInteger('is_sold')->default(0);
+            $table->ulid('batch_id')->nullable();
+            $table->text('additional_json')->nullable();
 
             $table->timestamps();
             $table->softDeletes();

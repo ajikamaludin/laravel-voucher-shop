@@ -11,6 +11,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VoucherController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['http_secure_aware', 'inertia.admin'])
@@ -83,6 +84,16 @@ Route::middleware(['http_secure_aware', 'inertia.admin'])
             Route::get('/customers/{customer}', [CustomerController::class, 'edit'])->name('customer.edit');
             Route::post('/customers/{customer}', [CustomerController::class, 'update'])->name('customer.update');
             Route::delete('/customers/{customer}', [CustomerController::class, 'destroy'])->name('customer.destroy');
+
+            // voucher
+            Route::get('/vouchers/import', [VoucherController::class, 'form_import'])->name('voucher.form_import');
+            Route::post('/vouchers/import', [VoucherController::class, 'import'])->name('voucher.import');
+            Route::get('/vouchers', [VoucherController::class, 'index'])->name('voucher.index');
+            Route::get('/vouchers/create', [VoucherController::class, 'create'])->name('voucher.create');
+            Route::post('/vouchers', [VoucherController::class, 'store'])->name('voucher.store');
+            Route::get('/vouchers/{voucher}', [VoucherController::class, 'edit'])->name('voucher.edit');
+            Route::post('/vouchers/{voucher}', [VoucherController::class, 'update'])->name('voucher.update');
+            Route::delete('/vouchers/{voucher}', [VoucherController::class, 'destroy'])->name('voucher.destroy');
 
             // setting
             Route::get('/settings', [SettingController::class, 'index'])->name('setting.index');

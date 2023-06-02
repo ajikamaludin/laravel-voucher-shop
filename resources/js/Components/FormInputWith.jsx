@@ -1,5 +1,6 @@
 import React from 'react'
 import Input from './Input'
+import { isEmpty } from 'lodash'
 
 export default function FormInputWith({
     type,
@@ -16,7 +17,10 @@ export default function FormInputWith({
     readOnly,
     onKeyDownCapture,
     leftItem,
+    rightItem,
     formClassName,
+    max,
+    min,
 }) {
     return (
         <div className={className}>
@@ -27,9 +31,11 @@ export default function FormInputWith({
                 {label}
             </label>
             <div className="relative">
-                <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                    {leftItem}
-                </div>
+                {isEmpty(leftItem) === false && (
+                    <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                        {leftItem}
+                    </div>
+                )}
                 <input
                     type={type}
                     className={`mb-2 bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700  dark:placeholder-gray-400 dark:text-white ${
@@ -46,7 +52,14 @@ export default function FormInputWith({
                     disabled={disabled}
                     readOnly={readOnly}
                     onKeyDownCapture={onKeyDownCapture}
+                    max={max}
+                    min={min}
                 />
+                {isEmpty(rightItem) === false && (
+                    <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                        {rightItem}
+                    </div>
+                )}
             </div>
             {error && (
                 <p className="mb-2 text-sm text-red-600 dark:text-red-500">
