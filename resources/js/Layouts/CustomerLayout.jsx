@@ -26,11 +26,11 @@ export default function CustomerLayout({ children }) {
     }
 
     return (
-        <div className="min-h-screen flex flex-col sm:justify-center items-center max-w-md">
-            <div className="flex flex-col w-full bg-white shadow pb-20 min-h-[calc(90dvh)]">
+        <div className="min-h-screen flex flex-col sm:justify-center items-center">
+            <div className="flex flex-col w-full bg-white shadow pb-20 min-h-[calc(90dvh)] max-w-md">
                 <div>{children}</div>
             </div>
-            <div className="fixed bottom-0 flex flex-row justify-around w-full bg-gray-50">
+            <div className="fixed bottom-0 flex flex-row justify-around w-full bg-gray-50 max-w-md">
                 <div
                     className="py-2 px-5  hover:bg-blue-200"
                     onClick={() => handleOnClick('home.index')}

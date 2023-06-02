@@ -37,7 +37,7 @@ export default function Index({ auth: { user }, flash }) {
     const handleSubmit = () => {
         post(route('customer.profile.show'), {
             onSuccess: () =>
-                setTimeout(router.get(route(route().current())), 3000),
+                setTimeout(() => router.get(route(route().current())), 3000),
         })
     }
 
@@ -46,7 +46,7 @@ export default function Index({ auth: { user }, flash }) {
             handleSubmit()
         }
     }
-    console.log(user)
+
     return (
         <CustomerLayout>
             <Head title="Update Profile" />
@@ -66,6 +66,7 @@ export default function Index({ auth: { user }, flash }) {
                             onChange={handleOnChange}
                             error={errors.fullname}
                             onKeyDownCapture={(e) => handleKeyDown(e)}
+                            label="nama lengkap"
                         />
                     </div>
                     <div className="w-full">
@@ -76,6 +77,7 @@ export default function Index({ auth: { user }, flash }) {
                             onChange={handleOnChange}
                             error={errors.name}
                             onKeyDownCapture={(e) => handleKeyDown(e)}
+                            label="nama panggilan"
                         />
                     </div>
                     <FormInputWith
@@ -88,6 +90,7 @@ export default function Index({ auth: { user }, flash }) {
                         error={errors.phone}
                         onKeyDownCapture={(e) => handleKeyDown(e)}
                         formClassName={'pl-10'}
+                        label="whatsapp"
                     />
                     <div className="w-full">
                         <TextArea
@@ -97,6 +100,7 @@ export default function Index({ auth: { user }, flash }) {
                             onChange={handleOnChange}
                             error={errors.address}
                             onKeyDownCapture={(e) => handleKeyDown(e)}
+                            label="alamat lengkap"
                         />
                     </div>
                     <div className="w-full">
@@ -107,6 +111,7 @@ export default function Index({ auth: { user }, flash }) {
                             onChange={handleOnChange}
                             error={errors.username}
                             onKeyDownCapture={(e) => handleKeyDown(e)}
+                            label="username"
                         />
                     </div>
                     <div className="w-full">
@@ -118,6 +123,7 @@ export default function Index({ auth: { user }, flash }) {
                             onChange={handleOnChange}
                             error={errors.password}
                             onKeyDownCapture={(e) => handleKeyDown(e)}
+                            label="password"
                         />
                     </div>
                     <div className="w-full">
@@ -129,6 +135,7 @@ export default function Index({ auth: { user }, flash }) {
                             onChange={handleOnChange}
                             error={errors.password_confirmation}
                             onKeyDownCapture={(e) => handleKeyDown(e)}
+                            label="password confirm"
                         />
                     </div>
                     <div className="w-full">
