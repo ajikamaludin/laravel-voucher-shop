@@ -78,6 +78,11 @@ class PermissionSeeder extends Seeder
             ['id' => Str::ulid(), 'label' => 'Update Coin Reward', 'name' => 'update-coin-reward'],
             ['id' => Str::ulid(), 'label' => 'View Coin Reward', 'name' => 'view-coin-reward'],
             ['id' => Str::ulid(), 'label' => 'Delete Coin Reward', 'name' => 'delete-coin-reward'],
+
+            ['id' => Str::ulid(), 'label' => 'Create Bank Account', 'name' => 'create-account'],
+            ['id' => Str::ulid(), 'label' => 'Update Bank Account', 'name' => 'update-account'],
+            ['id' => Str::ulid(), 'label' => 'View Bank Account', 'name' => 'view-account'],
+            ['id' => Str::ulid(), 'label' => 'Delete Bank Account', 'name' => 'delete-account'],
         ];
 
         foreach ($permissions as $permission) {

@@ -5,7 +5,7 @@ import {
     HiUserGroup,
     HiInformationCircle,
 } from 'react-icons/hi'
-import { HiQuestionMarkCircle } from 'react-icons/hi2'
+import { HiBanknotes, HiQuestionMarkCircle } from 'react-icons/hi2'
 
 export default [
     {
@@ -15,6 +15,14 @@ export default [
         route: route('dashboard'),
         active: 'dashboard',
         permission: 'view-dashboard',
+    },
+    {
+        name: 'Bank Akun',
+        show: true,
+        icon: HiBanknotes,
+        route: route('account.index'),
+        active: 'account.*',
+        permission: 'view-account',
     },
     {
         name: 'Banner',

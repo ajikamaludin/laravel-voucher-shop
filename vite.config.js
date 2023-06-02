@@ -14,4 +14,14 @@ export default defineConfig({
         }),
         react(),
     ],
+    // build: {
+    //     // chunkSizeWarningLimit: 1024 * 2048, //2MB
+    //     rollupOptions: {
+    //         output: {
+    //             manualChunks: {
+    //                 chunk1: ['tinymce', /tinymce/],
+    //             },
+    //         },
+    //     },
+    // },
 })

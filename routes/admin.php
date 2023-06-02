@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\GeneralController;
@@ -48,6 +49,12 @@ Route::middleware(['http_secure_aware', 'inertia.admin'])
             Route::post('/infos', [InfoController::class, 'store'])->name('info.store');
             Route::put('/infos/{info}', [InfoController::class, 'update'])->name('info.update');
             Route::delete('/infos/{info}', [InfoController::class, 'destroy'])->name('info.destroy');
+
+            // Account
+            Route::get('/accounts', [AccountController::class, 'index'])->name('account.index');
+            Route::post('/accounts', [AccountController::class, 'store'])->name('account.store');
+            Route::put('/accounts/{account}', [AccountController::class, 'update'])->name('account.update');
+            Route::delete('/accounts/{account}', [AccountController::class, 'destroy'])->name('account.destroy');
 
             // upload
             Route::post('/upload', [GeneralController::class, 'upload'])->name('post.upload');

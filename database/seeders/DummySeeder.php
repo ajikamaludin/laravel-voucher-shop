@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Account;
 use App\Models\Banner;
 use App\Models\Info;
 use Illuminate\Database\Seeder;
@@ -17,6 +18,7 @@ class DummySeeder extends Seeder
     {
         $this->info();
         $this->banner();
+        $this->account();
     }
 
     public function info()
@@ -35,6 +37,23 @@ class DummySeeder extends Seeder
                 'title' => 'Banner ' . $index,
                 'image' => 'sample/' . $image,
                 'description' => '<h1>Banner </h1>'
+            ]);
+        }
+    }
+
+    public function account()
+    {
+        $banks = [
+            ['name' => 'BRI', 'bank_name' => 'Bank Rakyat Indonesia', 'holder_name' => 'Aji Kamaludin', 'account_number' => '187391738129'],
+            ['name' => 'Jago', 'bank_name' => 'Bank Jago', 'holder_name' => 'Aji Kamaludin', 'account_number' => '718297389172']
+        ];
+
+        foreach ($banks as $bank) {
+            Account::create([
+                'name' => $bank['name'],
+                'bank_name' => $bank['bank_name'],
+                'holder_name' => $bank['holder_name'],
+                'account_number' => $bank['account_number'],
             ]);
         }
     }
