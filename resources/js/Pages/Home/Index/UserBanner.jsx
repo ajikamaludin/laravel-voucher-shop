@@ -9,7 +9,7 @@ export default function UserBanner({ user }) {
                 <div className="flex flex-col text-white">
                     <div className="font-bold">{user.name}</div>
                     <div className="flex flex-row items-center space-x-1">
-                        <div>+62{user.phone}</div>
+                        <div>{user.display_phone}</div>
                         <div className="text-xs font-semibold px-2 py-1 bg-white text-black rounded-xl">
                             {user.level.name}
                         </div>

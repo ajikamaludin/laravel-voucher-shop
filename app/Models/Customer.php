@@ -41,6 +41,7 @@ class Customer extends Authenticatable
         'image_url',
         'display_deposit',
         'display_coin',
+        'display_phone'
     ];
 
     public function imageUrl(): Attribute
@@ -60,6 +61,16 @@ class Customer extends Authenticatable
                 return asset('sample/avatar.svg');
             }
         );
+    }
+
+    public function displayPhone(): Attribute
+    {
+        return Attribute::make(get: function () {
+            if ($this->phone === null) {
+                return ' - ';
+            }
+            return '+62' . $this->phone;
+        });
     }
 
     public function displayDeposit(): Attribute

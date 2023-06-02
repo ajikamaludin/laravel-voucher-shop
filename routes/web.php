@@ -19,6 +19,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['http_secure_aware', 'guard_should_customer', 'inertia.customer'])->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home.index');
 
+    Route::get('/banner/{banner}', [HomeController::class, 'banner'])->name('home.banner');
+
     Route::middleware('auth:customer')->group(function () {
         // profile
         Route::get('profile', [ProfileController::class, 'index'])->name('customer.profile.index');

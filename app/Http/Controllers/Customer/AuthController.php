@@ -73,7 +73,7 @@ class AuthController extends Controller
                 'fullname' => $user->name,
                 'name' => $user->nickname,
                 'email' => $user->email,
-                'username' => Str::random(10),
+                'username' => Str::slug($user->name . '_' . Str::random(5), '_'),
                 'google_id' => $user->id,
                 'google_oauth_response' => json_encode($user),
                 'customer_level_id' => $basic->id,

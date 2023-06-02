@@ -1,5 +1,5 @@
 import React from 'react'
-import { Head, usePage } from '@inertiajs/react'
+import { Head, router, usePage } from '@inertiajs/react'
 
 import CustomerLayout from '@/Layouts/CustomerLayout'
 import { HiOutlineBell } from 'react-icons/hi2'
@@ -29,7 +29,11 @@ const GuestBanner = () => {
     )
 }
 
-export default function Index({ auth: { user }, infos }) {
+export default function Index({ auth: { user }, infos, banners }) {
+    const handleBanner = (banner) => {
+        router.get(route('home.banner', banner))
+    }
+
     return (
         <CustomerLayout>
             <Head title="Home" />
@@ -39,23 +43,16 @@ export default function Index({ auth: { user }, infos }) {
                 {/* banner */}
                 <div className="w-full">
                     <div className="flex flex-row overflow-y-scroll space-x-2 py-3 px-2">
-                        <img
-                            src="/sample/1.webp"
-                            className="rounded w-[80%] min-w-[340px] h-28 object-cover"
-                        />
-                        <img
-                            src="/sample/banner.jpg"
-                            className="rounded w-[80%] min-w-[340px]  h-28 object-cover"
-                        />
-                        <img
-                            src="/sample/2.webp"
-                            className="rounded w-[80%] min-w-[340px]  h-28 object-cover"
-                        />
-
-                        <img
-                            src="/sample/3.webp"
-                            className="rounded w-[80%] min-w-[340px] h-28 object-cover"
-                        />
+                        {banners.map((banner) => (
+                            <img
+                                onClick={() => handleBanner(banner)}
+                                key={banner.id}
+                                src={banner.image_url}
+                                className={`rounded w-${
+                                    banners.length === 1 ? 'full' : '[80%]'
+                                } min-w-[340px] h-28 object-cover`}
+                            />
+                        ))}
                     </div>
                 </div>
 

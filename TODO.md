@@ -3,7 +3,7 @@
 ### Admin
 
 -   [x] CRUD Info
--   [ ] CRUD Banner
+-   [x] CRUD Banner
 -   [ ] CRUD Rekening / Account
 -   [ ] CRUD Customer
 -   [ ] CRUD Voucher

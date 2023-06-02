@@ -1,4 +1,10 @@
-import { HiChartPie, HiUser, HiUsers, HiUserGroup } from 'react-icons/hi'
+import {
+    HiChartPie,
+    HiUser,
+    HiUsers,
+    HiUserGroup,
+    HiInformationCircle,
+} from 'react-icons/hi'
 import { HiQuestionMarkCircle } from 'react-icons/hi2'
 
 export default [
@@ -9,6 +15,14 @@ export default [
         route: route('dashboard'),
         active: 'dashboard',
         permission: 'view-dashboard',
+    },
+    {
+        name: 'Banner',
+        show: true,
+        icon: HiInformationCircle,
+        route: route('banner.index'),
+        active: 'banner.*',
+        permission: 'view-banner',
     },
     {
         name: 'Info',

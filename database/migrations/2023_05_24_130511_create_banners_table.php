@@ -16,7 +16,7 @@ return new class extends Migration
 
             $table->string('image');
             $table->string('title');
-            $table->string('description')->nullable();
+            $table->text('description')->nullable();
             $table->string('destination')->nullable();
             $table->string('type')->nullable();
             $table->smallInteger('is_publish')->nullable();

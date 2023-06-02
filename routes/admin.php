@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\BannerController;
 use App\Http\Controllers\GeneralController;
 use App\Http\Controllers\InfoController;
 use App\Http\Controllers\ProfileController;
@@ -47,5 +48,16 @@ Route::middleware(['http_secure_aware', 'inertia.admin'])
             Route::post('/infos', [InfoController::class, 'store'])->name('info.store');
             Route::put('/infos/{info}', [InfoController::class, 'update'])->name('info.update');
             Route::delete('/infos/{info}', [InfoController::class, 'destroy'])->name('info.destroy');
+
+            // upload
+            Route::post('/upload', [GeneralController::class, 'upload'])->name('post.upload');
+
+            // banner
+            Route::get('/banner', [BannerController::class, 'index'])->name('banner.index');
+            Route::get('/banner/create', [BannerController::class, 'create'])->name('banner.create');
+            Route::post('/banner', [BannerController::class, 'store'])->name('banner.store');
+            Route::get('/banner/{banner}', [BannerController::class, 'edit'])->name('banner.edit');
+            Route::post('/banner/{banner}', [BannerController::class, 'update'])->name('banner.update');
+            Route::delete('/banner/{banner}', [BannerController::class, 'destroy'])->name('banner.destroy');
         });
     });
