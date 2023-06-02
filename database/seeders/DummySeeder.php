@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Info;
 use Illuminate\Database\Seeder;
 
 class DummySeeder extends Seeder
@@ -13,5 +14,14 @@ class DummySeeder extends Seeder
      */
     public function run()
     {
+        $this->info();
+    }
+
+    public function info()
+    {
+        Info::create([
+            'title' => 'Welcome to our new site',
+            'is_publish' => 1,
+        ]);
     }
 }

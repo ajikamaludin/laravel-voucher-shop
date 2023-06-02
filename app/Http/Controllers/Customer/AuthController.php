@@ -15,6 +15,17 @@ use SocialiteProviders\Manager\Config;
 
 class AuthController extends Controller
 {
+    private $config;
+
+    public function __construct()
+    {
+        $this->config = new Config(
+            env('GOOGLE_CLIENT_ID'),
+            env('GOOGLE_CLIENT_SECRET'),
+            route('customer.login.callback_google')
+        );
+    }
+
     public function login()
     {
         return inertia('Home/Auth/Login');
@@ -38,27 +49,22 @@ class AuthController extends Controller
 
     public function signin_google()
     {
-        $config = new Config(
-            env('GOOGLE_CLIENT_ID'),
-            env('GOOGLE_CLIENT_SECRET'),
-            route('customer.login.callback_google')
-        );
-
         return Socialite::driver('google')
-            ->setConfig($config)
+            ->setConfig($this->config)
             ->redirect();
     }
 
     public function callback_google()
     {
-        $config = new Config(
-            env('GOOGLE_CLIENT_ID'),
-            env('GOOGLE_CLIENT_SECRET'),
-            route('customer.login.callback_google')
-        );
-        $user = Socialite::driver('google')
-            ->setConfig($config)
-            ->user();
+        try {
+            $user = Socialite::driver('google')
+                ->setConfig($this->config)
+                ->user();
+        } catch (\Exception $e) {
+            return redirect()->route('customer.login')
+                ->with('message', ['type' => 'error', 'message' => 'something went wrong']);
+        }
+
         $customer = Customer::where('google_id', $user->id)->first();
         if ($customer == null) {
             DB::beginTransaction();

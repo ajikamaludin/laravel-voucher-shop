@@ -1,9 +1,8 @@
 <?php
 
 use App\Http\Controllers\Customer\AuthController;
-use App\Http\Controllers\Customer\ProfileController;
 use App\Http\Controllers\Customer\HomeController;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Customer\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*

@@ -26,7 +26,7 @@ class ProfileController extends Controller
             'name' => 'string|required',
             'address' => 'string|required',
             'phone' => 'string|required|numeric',
-            'username' => 'string|required|min:5|alpha_dash|unique:customers,username,' . $customer->id,
+            'username' => 'string|required|min:5|alpha_dash|unique:customers,username,'.$customer->id,
             'password' => 'nullable|string|min:8|confirmed',
             'image' => 'nullable|image',
         ]);
@@ -48,7 +48,7 @@ class ProfileController extends Controller
             'phone' => $request->phone,
             'username' => $request->username,
             'image' => $customer->image,
-            'password' => $customer->password
+            'password' => $customer->password,
         ]);
 
         redirect()->route('customer.profile.show')

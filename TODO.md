@@ -2,12 +2,12 @@
 
 ### Admin
 
+-   [x] CRUD Info
+-   [ ] CRUD Banner
+-   [ ] CRUD Rekening / Account
+-   [ ] CRUD Customer
 -   [ ] CRUD Voucher
 -   [ ] Import Voucher
--   [ ] CRUD Customer
--   [ ] CRUD Rekening / Account
--   [ ] CRUD Info
--   [ ] CRUD Banner
 -   [ ] Deposit Menu (view daftar histori deposit)
 -   [ ] Manual Approve Deposit
 -   [ ] Setting Web (enable affilate, amount bonus affilate)

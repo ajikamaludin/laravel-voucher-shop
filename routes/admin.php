@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\GeneralController;
+use App\Http\Controllers\InfoController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
@@ -40,5 +41,11 @@ Route::middleware(['http_secure_aware', 'inertia.admin'])
 
             // Role
             Route::resource('/roles', RoleController::class);
+
+            // Info
+            Route::get('/infos', [InfoController::class, 'index'])->name('info.index');
+            Route::post('/infos', [InfoController::class, 'store'])->name('info.store');
+            Route::put('/infos/{info}', [InfoController::class, 'update'])->name('info.update');
+            Route::delete('/infos/{info}', [InfoController::class, 'destroy'])->name('info.destroy');
         });
     });

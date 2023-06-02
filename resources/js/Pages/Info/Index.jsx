@@ -13,61 +13,44 @@ import FormModal from './FormModal'
 import SearchInput from '@/Components/SearchInput'
 import { hasPermission } from '@/utils'
 
-export default function User(props) {
+export default function Info(props) {
     const {
-        data: { links, data },
+        query: { links, data },
         auth,
     } = props
-
-    const [search, setSearch] = useState('')
-    const preValue = usePrevious(search)
 
     const confirmModal = useModalState()
     const formModal = useModalState()
 
-    const toggleFormModal = (user = null) => {
-        formModal.setData(user)
+    const toggleFormModal = (info = null) => {
+        formModal.setData(info)
         formModal.toggle()
     }
 
-    const handleDeleteClick = (user) => {
-        confirmModal.setData(user)
+    const handleDeleteClick = (info) => {
+        confirmModal.setData(info)
         confirmModal.toggle()
     }
 
     const onDelete = () => {
         if (confirmModal.data !== null) {
-            router.delete(route('user.destroy', confirmModal.data.id))
+            router.delete(route('info.destroy', confirmModal.data.id))
         }
     }
 
-    const params = { q: search }
-    useEffect(() => {
-        if (preValue) {
-            router.get(
-                route(route().current()),
-                { q: search },
-                {
-                    replace: true,
-                    preserveState: true,
-                }
-            )
-        }
-    }, [search])
-
-    const canCreate = hasPermission(auth, 'create-user')
-    const canUpdate = hasPermission(auth, 'update-user')
-    const canDelete = hasPermission(auth, 'delete-user')
+    const canCreate = hasPermission(auth, 'create-info')
+    const canUpdate = hasPermission(auth, 'update-info')
+    const canDelete = hasPermission(auth, 'delete-info')
 
     return (
         <AuthenticatedLayout
             auth={props.auth}
             errors={props.errors}
             flash={props.flash}
-            page={'System'}
-            action={'User'}
+            page={'Info'}
+            action={''}
         >
-            <Head title="User" />
+            <Head title="Info" />
 
             <div>
                 <div className="mx-auto sm:px-6 lg:px-8 ">
@@ -81,12 +64,6 @@ export default function User(props) {
                                     Tambah
                                 </Button>
                             )}
-                            <div className="flex items-center">
-                                <SearchInput
-                                    onChange={(e) => setSearch(e.target.value)}
-                                    value={search}
-                                />
-                            </div>
                         </div>
                         <div className="overflow-auto">
                             <div>
@@ -97,13 +74,13 @@ export default function User(props) {
                                                 scope="col"
                                                 className="py-3 px-6"
                                             >
-                                                Name
+                                                Info
                                             </th>
                                             <th
                                                 scope="col"
                                                 className="py-3 px-6"
                                             >
-                                                Role
+                                                Publish
                                             </th>
                                             <th
                                                 scope="col"
@@ -112,21 +89,21 @@ export default function User(props) {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {data.map((user) => (
+                                        {data.map((info) => (
                                             <tr
                                                 className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-                                                key={user.id}
+                                                key={info.id}
                                             >
                                                 <td
                                                     scope="row"
                                                     className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                                 >
-                                                    {user.name}
+                                                    {info.title}
                                                 </td>
                                                 <td className="py-4 px-6">
-                                                    {user.role === null
-                                                        ? 'System'
-                                                        : user.role?.name}
+                                                    {info.is_publish === 1
+                                                        ? 'Yes'
+                                                        : 'No'}
                                                 </td>
                                                 <td className="py-4 px-6 flex justify-end">
                                                     <Dropdown
@@ -140,7 +117,7 @@ export default function User(props) {
                                                             <Dropdown.Item
                                                                 onClick={() =>
                                                                     toggleFormModal(
-                                                                        user
+                                                                        info
                                                                     )
                                                                 }
                                                             >
@@ -156,7 +133,7 @@ export default function User(props) {
                                                             <Dropdown.Item
                                                                 onClick={() =>
                                                                     handleDeleteClick(
-                                                                        user
+                                                                        info
                                                                     )
                                                                 }
                                                             >
@@ -176,7 +153,7 @@ export default function User(props) {
                                 </table>
                             </div>
                             <div className="w-full flex items-center justify-center">
-                                <Pagination links={links} params={params} />
+                                <Pagination links={links} />
                             </div>
                         </div>
                     </div>

@@ -37,7 +37,7 @@ export default function Index({ auth: { user }, flash }) {
     const handleSubmit = () => {
         post(route('customer.profile.show'), {
             onSuccess: () =>
-                setTimeout(router.get(route(route().current())), 1000),
+                setTimeout(router.get(route(route().current())), 3000),
         })
     }
 

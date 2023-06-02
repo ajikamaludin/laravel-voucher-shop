@@ -29,12 +29,7 @@ const GuestBanner = () => {
     )
 }
 
-export default function Index({ status }) {
-    const {
-        props: {
-            auth: { user },
-        },
-    } = usePage()
+export default function Index({ auth: { user }, infos }) {
     return (
         <CustomerLayout>
             <Head title="Home" />
@@ -66,14 +61,13 @@ export default function Index({ status }) {
 
                 {/* info */}
                 <div className="w-full px-3">
-                    {[1, 2].map((x) => (
+                    {infos.map((info) => (
                         <div
                             className="p-4 mb-4 text-sm text-blue-800 rounded-lg bg-blue-50"
                             role="alert"
-                            key={x}
+                            key={info.id}
                         >
-                            <span className="font-medium">Info! </span> Change a
-                            few things up and try submitting again.
+                            {info.title}
                         </div>
                     ))}
                 </div>

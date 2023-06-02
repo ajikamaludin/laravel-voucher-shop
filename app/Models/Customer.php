@@ -29,12 +29,12 @@ class Customer extends Authenticatable
         'identity_verified',
         'identity_image',
         'customer_level_id',
-        'google_oauth_response'
+        'google_oauth_response',
     ];
 
     protected $hidden = [
         'password',
-        'google_oauth_reponse'
+        'google_oauth_reponse',
     ];
 
     protected $appends = [
@@ -49,6 +49,7 @@ class Customer extends Authenticatable
             get: function () {
                 if ($this->google_id != null && $this->image == null) {
                     $user = json_decode($this->google_oauth_response);
+
                     return $user?->avatar;
                 }
 
@@ -61,14 +62,12 @@ class Customer extends Authenticatable
         );
     }
 
-
     public function displayDeposit(): Attribute
     {
         return Attribute::make(get: function () {
             return number_format($this->deposit_balance, 0, ',', '.');
         });
     }
-
 
     public function displayCoin(): Attribute
     {

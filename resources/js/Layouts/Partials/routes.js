@@ -1,4 +1,5 @@
 import { HiChartPie, HiUser, HiUsers, HiUserGroup } from 'react-icons/hi'
+import { HiQuestionMarkCircle } from 'react-icons/hi2'
 
 export default [
     {
@@ -8,6 +9,14 @@ export default [
         route: route('dashboard'),
         active: 'dashboard',
         permission: 'view-dashboard',
+    },
+    {
+        name: 'Info',
+        show: true,
+        icon: HiQuestionMarkCircle,
+        route: route('info.index'),
+        active: 'info.index',
+        permission: 'view-info',
     },
     {
         name: 'User',

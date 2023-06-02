@@ -2,11 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-
 class Info extends Model
 {
+    const TYPE_URL = 'URL';
+
     protected $fillable = [
         'title',
         'destination',

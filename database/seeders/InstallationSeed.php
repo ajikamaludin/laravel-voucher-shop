@@ -27,7 +27,7 @@ class InstallationSeed extends Seeder
             ['key' => 'MIDTRANS_CLIENT_KEY', 'value' => 'SB-Mid-client-xqqkspzoZOM10iUG', 'type' => 'text'],
             ['key' => 'MIDTRANS_MERCHANT_ID', 'value' => 'G561244367', 'type' => 'text'],
 
-            // 
+            //
         ];
 
         foreach ($settings as $setting) {
