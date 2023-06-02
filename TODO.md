@@ -6,11 +6,12 @@
 -   [x] CRUD Banner
 -   [x] CRUD Rekening / Account
 -   [x] CRUD Customer
+-   [ ] CRUD Lokasi
 -   [ ] CRUD Voucher
 -   [ ] Import Voucher
 -   [ ] Deposit Menu (view daftar histori deposit)
 -   [ ] Manual Approve Deposit
--   [ ] Setting Web (enable affilate, amount bonus affilate)
+-   [x] Setting Web (enable affilate, amount bonus affilate)
 -   [ ] Setting Bonus Coin (memasukan amount bonus coin yang didapat dengan level dan harga voucher) - coin rewards
 -   [ ] Setting Level Customer (view levels, edit name of level,minimal saldo, max amount saldo, max hutang)
 -   [ ] View Customer Coin History

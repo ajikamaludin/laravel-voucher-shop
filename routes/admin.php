@@ -8,6 +8,7 @@ use App\Http\Controllers\GeneralController;
 use App\Http\Controllers\InfoController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -75,5 +76,9 @@ Route::middleware(['http_secure_aware', 'inertia.admin'])
             Route::get('/customers/{customer}', [CustomerController::class, 'edit'])->name('customer.edit');
             Route::post('/customers/{customer}', [CustomerController::class, 'update'])->name('customer.update');
             Route::delete('/customers/{customer}', [CustomerController::class, 'destroy'])->name('customer.destroy');
+
+            // setting
+            Route::get('/settings', [SettingController::class, 'index'])->name('setting.index');
+            Route::post('/settings', [SettingController::class, 'update'])->name('setting.update');
         });
     });

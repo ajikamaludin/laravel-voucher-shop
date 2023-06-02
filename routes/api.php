@@ -20,3 +20,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/roles', [RoleController::class, 'index'])->name('api.role.index');
+Route::post('mindtrans/notification', fn () => 'Ok!')->name('api.midtrans.notification');

@@ -20,14 +20,14 @@ class InstallationSeed extends Seeder
     public function settings()
     {
         $settings = [
-            ['key' => 'AFFILATE_ENABLE', 'value' => '0', 'type' => 'checkbox'],
-            ['key' => 'AFFILATE_AMOUNT', 'value' => '0', 'type' => 'text'],
+            ['key' => 'AFFILATE_ENABLED', 'value' => '0', 'type' => 'checkbox'],
+            ['key' => 'AFFILATE_COIN_AMOUNT', 'value' => '0', 'type' => 'text'],
 
             ['key' => 'MIDTRANS_SERVER_KEY', 'value' => 'SB-Mid-server-UA0LQbY4aALV0CfLLX1v7xs8', 'type' => 'text'],
             ['key' => 'MIDTRANS_CLIENT_KEY', 'value' => 'SB-Mid-client-xqqkspzoZOM10iUG', 'type' => 'text'],
             ['key' => 'MIDTRANS_MERCHANT_ID', 'value' => 'G561244367', 'type' => 'text'],
-
-            //
+            ['key' => 'MIDTRANS_LOGO', 'value' => 'sample/midtrans_logo.png', 'type' => 'image'],
+            ['key' => 'MIDTRANS_ENABLED', 'value' => '0', 'type' => 'text'],
         ];
 
         foreach ($settings as $setting) {

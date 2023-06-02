@@ -4,6 +4,7 @@ import {
     HiUsers,
     HiUserGroup,
     HiInformationCircle,
+    HiCog,
 } from 'react-icons/hi'
 import {
     HiBanknotes,
@@ -36,6 +37,14 @@ export default [
         route: route('account.index'),
         active: 'account.*',
         permission: 'view-account',
+    },
+    {
+        name: 'Setting',
+        show: true,
+        icon: HiCog,
+        route: route('setting.index'),
+        active: 'setting.*',
+        permission: 'view-setting',
     },
     {
         name: 'Front Home',
