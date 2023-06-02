@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Head, router, usePage } from '@inertiajs/react'
 
 import CustomerLayout from '@/Layouts/CustomerLayout'
 import { HiOutlineBell } from 'react-icons/hi2'
 import UserBanner from './UserBanner'
+import VoucherCard from './VoucherCard'
 
 const GuestBanner = () => {
     const {
@@ -29,10 +30,59 @@ const GuestBanner = () => {
     )
 }
 
-export default function Index({ auth: { user }, infos, banners, locations }) {
+export default function Index({
+    auth: { user },
+    infos,
+    banners,
+    locations,
+    vouchers: { data, next_page_url },
+    _location_id,
+}) {
+    const [locId, setLocId] = useState(_location_id)
+    const [v, setV] = useState(data)
+
     const handleBanner = (banner) => {
         router.get(route('home.banner', banner))
     }
+
+    const handleSelectLoc = (loc) => {
+        if (loc.id === locId) {
+            setLocId('')
+            return
+        }
+        setLocId(loc.id)
+    }
+
+    const loadMore = () => {
+        router.get(
+            next_page_url,
+            {
+                location_id: locId,
+            },
+            {
+                replace: true,
+                preserveState: true,
+                only: ['vouchers'],
+                onSuccess: (res) => {
+                    setV(v.concat(res.props.vouchers.data))
+                },
+            }
+        )
+    }
+
+    useEffect(() => {
+        router.get(
+            route(route().current()),
+            { location_id: locId },
+            {
+                replace: true,
+                preserveState: true,
+                onSuccess: (res) => {
+                    setV(res.props.vouchers.data)
+                },
+            }
+        )
+    }, [locId])
 
     return (
         <CustomerLayout>
@@ -69,15 +119,18 @@ export default function Index({ auth: { user }, infos, banners, locations }) {
                     ))}
                 </div>
 
-                {/* voucher */}
                 <div className="w-full flex flex-col">
                     {/* chips */}
                     <div className="w-full flex flex-row overflow-y-scroll space-x-2 px-2">
                         {locations.map((location) => (
                             <div
+                                onClick={() => handleSelectLoc(location)}
                                 key={location.id}
-                                // selected: px-2 py-1 rounded-2xl text-white bg-blue-600 border border-blue-800
-                                className="px-2 py-1 rounded-2xl  bg-blue-100 border border-blue-200"
+                                className={`px-2 py-1 rounded-2xl ${
+                                    location.id === locId
+                                        ? 'text-white bg-blue-600 border border-blue-800'
+                                        : 'bg-blue-100 border border-blue-200'
+                                }`}
                             >
                                 {location.name}
                             </div>
@@ -86,43 +139,17 @@ export default function Index({ auth: { user }, infos, banners, locations }) {
 
                     {/* voucher */}
                     <div className="flex flex-col w-full px-3 mt-3 space-y-2">
-                        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((x) => (
-                            <div
-                                className="px-3 py-1 shadow-md rounded border border-gray-100"
-                                key={x}
-                            >
-                                <div className="text-base font-bold">
-                                    Lawaranet voucher internet sedap
-                                </div>
-                                <div className="w-full border border-dashed"></div>
-                                <div className="flex flex-row justify-between items-center">
-                                    <div>
-                                        <div className="text-xs text-gray-400 py-1">
-                                            Jabriel.net
-                                        </div>
-                                        <div className="text-xl font-bold">
-                                            IDR 10.000
-                                        </div>
-                                        <div className="flex flex-row space-x-2 items-center text-xs pb-2">
-                                            <div className="bg-red-300 text-red-600 px-1 py-0.5 font-bold rounded">
-                                                50%
-                                            </div>
-                                            <div className="text-gray-400 line-through">
-                                                20.000
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="flex flex-col justify-center items-center">
-                                        <div className="text-3xl font-bold">
-                                            8GB
-                                        </div>
-                                        <div className="text-gray-400">
-                                            3 Hari
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        {v.map((voucher) => (
+                            <VoucherCard key={voucher.id} voucher={voucher} />
                         ))}
+                        {next_page_url !== null && (
+                            <div
+                                onClick={loadMore}
+                                className="w-full text-center px-2 py-1 border mt-5 hover:bg-blue-600 hover:text-white"
+                            >
+                                Load more
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

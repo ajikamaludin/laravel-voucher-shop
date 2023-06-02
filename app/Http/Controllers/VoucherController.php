@@ -6,6 +6,7 @@ use App\Models\Voucher;
 use App\Services\GeneralService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class VoucherController extends Controller
 {
@@ -131,6 +132,7 @@ class VoucherController extends Controller
             'expired_unit' => 'required|string',
         ]);
 
+        $batchId = Str::ulid();
         $vouchers = GeneralService::script_parser($request->script);
 
         DB::beginTransaction();
@@ -146,6 +148,7 @@ class VoucherController extends Controller
                 'comment' => $voucher['comment'],
                 'expired' => $request->expired,
                 'expired_unit' => $request->expired_unit,
+                'batch_id' => $batchId,
             ]);
         }
         DB::commit();

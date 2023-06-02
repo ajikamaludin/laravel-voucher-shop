@@ -100,6 +100,12 @@ export default function Index(props) {
                                                 scope="col"
                                                 className="py-3 px-6"
                                             >
+                                                Lokasi
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                className="py-3 px-6"
+                                            >
                                                 Username
                                             </th>
                                             <th
@@ -143,6 +149,12 @@ export default function Index(props) {
                                                     className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                                 >
                                                     {index + 1}
+                                                </td>
+                                                <td
+                                                    scope="row"
+                                                    className="py-4 px-6"
+                                                >
+                                                    {voucher.location.name}
                                                 </td>
                                                 <td
                                                     scope="row"

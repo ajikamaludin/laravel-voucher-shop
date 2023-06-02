@@ -27,7 +27,7 @@ class Voucher extends Model
         'batch_id',
     ];
 
-    protected $appends = ['display_quota'];
+    protected $appends = ['display_quota', 'display_expired'];
 
     protected static function booted(): void
     {
@@ -59,6 +59,13 @@ class Voucher extends Model
     {
         return Attribute::make(get: function () {
             return round($this->quota / (1024 * 1024 * 1024), 2) . ' GB';
+        });
+    }
+
+    public function displayExpired(): Attribute
+    {
+        return Attribute::make(get: function () {
+            return $this->expired . ' ' . $this->expired_unit;
         });
     }
 
