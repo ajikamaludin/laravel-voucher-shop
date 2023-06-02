@@ -5,7 +5,12 @@ import {
     HiUserGroup,
     HiInformationCircle,
 } from 'react-icons/hi'
-import { HiBanknotes, HiQuestionMarkCircle } from 'react-icons/hi2'
+import {
+    HiBanknotes,
+    HiOutlineGlobeAlt,
+    HiQuestionMarkCircle,
+    HiUserCircle,
+} from 'react-icons/hi2'
 
 export default [
     {
@@ -17,6 +22,14 @@ export default [
         permission: 'view-dashboard',
     },
     {
+        name: 'Customer',
+        show: true,
+        icon: HiUserCircle,
+        route: route('customer.index'),
+        active: 'customer.*',
+        permission: 'view-customer',
+    },
+    {
         name: 'Bank Akun',
         show: true,
         icon: HiBanknotes,
@@ -25,20 +38,27 @@ export default [
         permission: 'view-account',
     },
     {
-        name: 'Banner',
+        name: 'Front Home',
         show: true,
-        icon: HiInformationCircle,
-        route: route('banner.index'),
-        active: 'banner.*',
-        permission: 'view-banner',
-    },
-    {
-        name: 'Info',
-        show: true,
-        icon: HiQuestionMarkCircle,
-        route: route('info.index'),
-        active: 'info.index',
-        permission: 'view-info',
+        icon: HiOutlineGlobeAlt,
+        items: [
+            {
+                name: 'Banner',
+                show: true,
+                icon: HiInformationCircle,
+                route: route('banner.index'),
+                active: 'banner.*',
+                permission: 'view-banner',
+            },
+            {
+                name: 'Info',
+                show: true,
+                icon: HiQuestionMarkCircle,
+                route: route('info.index'),
+                active: 'info.index',
+                permission: 'view-info',
+            },
+        ],
     },
     {
         name: 'User',

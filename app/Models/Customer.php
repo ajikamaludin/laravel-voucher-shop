@@ -44,6 +44,37 @@ class Customer extends Authenticatable
         'display_phone'
     ];
 
+    protected static function booted(): void
+    {
+        static::creating(function (Customer $customer) {
+            if ($customer->customer_level_id == null) {
+                $basic = CustomerLevel::where('key', CustomerLevel::BASIC)->first();
+
+                $customer->customer_level_id = $basic->id;
+
+                CustomerLevelHistory::create([
+                    'customer_id' => $customer->id,
+                    'customer_level_id' => $basic->id,
+                    'date_time' => now(),
+                ]);
+            }
+        });
+
+        static::updating(function (Customer $customer) {
+            if ($customer->isDirty('customer_level_id')) {
+                $level = CustomerLevel::find($customer->customer_level_id);
+
+                $customer->customer_level_id = $level->id;
+
+                CustomerLevelHistory::create([
+                    'customer_id' => $customer->id,
+                    'customer_level_id' => $level->id,
+                    'date_time' => now(),
+                ]);
+            }
+        });
+    }
+
     public function imageUrl(): Attribute
     {
         return Attribute::make(

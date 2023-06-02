@@ -4,8 +4,8 @@
 
 -   [x] CRUD Info
 -   [x] CRUD Banner
--   [ ] CRUD Rekening / Account
--   [ ] CRUD Customer
+-   [x] CRUD Rekening / Account
+-   [x] CRUD Customer
 -   [ ] CRUD Voucher
 -   [ ] Import Voucher
 -   [ ] Deposit Menu (view daftar histori deposit)

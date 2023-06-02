@@ -62,13 +62,12 @@ class AuthController extends Controller
                 ->user();
         } catch (\Exception $e) {
             return redirect()->route('customer.login')
-                ->with('message', ['type' => 'error', 'message' => 'something went wrong']);
+                ->with('message', ['type' => 'error', 'message' => 'Google authentication fail, please try again']);
         }
 
         $customer = Customer::where('google_id', $user->id)->first();
         if ($customer == null) {
             DB::beginTransaction();
-            $basic = CustomerLevel::where('key', CustomerLevel::BASIC)->first();
             $customer = Customer::create([
                 'fullname' => $user->name,
                 'name' => $user->nickname,
@@ -76,13 +75,6 @@ class AuthController extends Controller
                 'username' => Str::slug($user->name . '_' . Str::random(5), '_'),
                 'google_id' => $user->id,
                 'google_oauth_response' => json_encode($user),
-                'customer_level_id' => $basic->id,
-            ]);
-
-            CustomerLevelHistory::create([
-                'customer_id' => $customer->id,
-                'customer_level_id' => $basic->id,
-                'date_time' => now(),
             ]);
             DB::commit();
         }
@@ -103,13 +95,12 @@ class AuthController extends Controller
             'fullname' => 'required|string',
             'name' => 'required|string',
             'address' => 'required|string',
-            'phone' => 'required|string|numeric',
+            'phone' => 'required|numeric',
             'username' => 'required|string|min:5|alpha_dash|unique:customers,username',
             'password' => 'required|string|min:8|confirmed',
         ]);
 
         DB::beginTransaction();
-        $basic = CustomerLevel::where('key', CustomerLevel::BASIC)->first();
         $customer = Customer::create([
             'fullname' => $request->fullname,
             'name' => $request->name,
@@ -117,12 +108,6 @@ class AuthController extends Controller
             'phone' => $request->phone,
             'username' => $request->username,
             'password' => bcrypt($request->password),
-            'customer_level_id' => $basic->id,
-        ]);
-        CustomerLevelHistory::create([
-            'customer_id' => $customer->id,
-            'customer_level_id' => $basic->id,
-            'date_time' => now(),
         ]);
         DB::commit();
 

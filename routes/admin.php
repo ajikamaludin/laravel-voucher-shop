@@ -3,6 +3,7 @@
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\BannerController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\GeneralController;
 use App\Http\Controllers\InfoController;
 use App\Http\Controllers\ProfileController;
@@ -66,5 +67,13 @@ Route::middleware(['http_secure_aware', 'inertia.admin'])
             Route::get('/banner/{banner}', [BannerController::class, 'edit'])->name('banner.edit');
             Route::post('/banner/{banner}', [BannerController::class, 'update'])->name('banner.update');
             Route::delete('/banner/{banner}', [BannerController::class, 'destroy'])->name('banner.destroy');
+
+            // customer
+            Route::get('/customers', [CustomerController::class, 'index'])->name('customer.index');
+            Route::get('/customers/create', [CustomerController::class, 'create'])->name('customer.create');
+            Route::post('/customers', [CustomerController::class, 'store'])->name('customer.store');
+            Route::get('/customers/{customer}', [CustomerController::class, 'edit'])->name('customer.edit');
+            Route::post('/customers/{customer}', [CustomerController::class, 'update'])->name('customer.update');
+            Route::delete('/customers/{customer}', [CustomerController::class, 'destroy'])->name('customer.destroy');
         });
     });
