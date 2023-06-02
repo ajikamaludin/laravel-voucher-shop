@@ -6,6 +6,7 @@ use App\Http\Controllers\BannerController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\GeneralController;
 use App\Http\Controllers\InfoController;
+use App\Http\Controllers\LocationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SettingController;
@@ -51,6 +52,12 @@ Route::middleware(['http_secure_aware', 'inertia.admin'])
             Route::post('/infos', [InfoController::class, 'store'])->name('info.store');
             Route::put('/infos/{info}', [InfoController::class, 'update'])->name('info.update');
             Route::delete('/infos/{info}', [InfoController::class, 'destroy'])->name('info.destroy');
+
+            // Location
+            Route::get('/locations', [LocationController::class, 'index'])->name('location.index');
+            Route::post('/locations', [LocationController::class, 'store'])->name('location.store');
+            Route::put('/locations/{location}', [LocationController::class, 'update'])->name('location.update');
+            Route::delete('/locations/{location}', [LocationController::class, 'destroy'])->name('location.destroy');
 
             // Account
             Route::get('/accounts', [AccountController::class, 'index'])->name('account.index');

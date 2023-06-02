@@ -6,7 +6,7 @@
 -   [x] CRUD Banner
 -   [x] CRUD Rekening / Account
 -   [x] CRUD Customer
--   [ ] CRUD Lokasi
+-   [x] CRUD Lokasi
 -   [ ] CRUD Voucher
 -   [ ] Import Voucher
 -   [ ] Deposit Menu (view daftar histori deposit)

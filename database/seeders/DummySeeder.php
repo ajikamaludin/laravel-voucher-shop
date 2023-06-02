@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Account;
 use App\Models\Banner;
 use App\Models\Info;
+use App\Models\Location;
 use Illuminate\Database\Seeder;
 
 class DummySeeder extends Seeder
@@ -19,6 +20,7 @@ class DummySeeder extends Seeder
         $this->info();
         $this->banner();
         $this->account();
+        $this->location();
     }
 
     public function info()
@@ -54,6 +56,18 @@ class DummySeeder extends Seeder
                 'bank_name' => $bank['bank_name'],
                 'holder_name' => $bank['holder_name'],
                 'account_number' => $bank['account_number'],
+            ]);
+        }
+    }
+
+    public function location()
+    {
+        $locations = ['Jarbriel.id', 'Shaff.net', 'Weslycamp.net', 'Glory.net', 'Salgo.id', 'Terna.id', 'Kanza.id'];
+
+        foreach ($locations as $location) {
+            Location::create([
+                'name' => $location,
+                'description' => '-'
             ]);
         }
     }

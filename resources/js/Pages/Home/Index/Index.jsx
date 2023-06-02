@@ -29,7 +29,7 @@ const GuestBanner = () => {
     )
 }
 
-export default function Index({ auth: { user }, infos, banners }) {
+export default function Index({ auth: { user }, infos, banners, locations }) {
     const handleBanner = (banner) => {
         router.get(route('home.banner', banner))
     }
@@ -73,27 +73,15 @@ export default function Index({ auth: { user }, infos, banners }) {
                 <div className="w-full flex flex-col">
                     {/* chips */}
                     <div className="w-full flex flex-row overflow-y-scroll space-x-2 px-2">
-                        <div className="px-2 py-1 rounded-2xl text-white bg-blue-600 border border-blue-800">
-                            Jarbriel.id
-                        </div>
-                        <div className="px-2 py-1 rounded-2xl  bg-blue-100 border border-blue-200">
-                            Shaff.net
-                        </div>
-                        <div className="px-2 py-1 rounded-2xl  bg-blue-100 border border-blue-200">
-                            Weslycamp.net
-                        </div>
-                        <div className="px-2 py-1 rounded-2xl  bg-blue-100 border border-blue-200">
-                            Glory.net
-                        </div>
-                        <div className="px-2 py-1 rounded-2xl  bg-blue-100 border border-blue-200">
-                            Salgo.id
-                        </div>
-                        <div className="px-2 py-1 rounded-2xl  bg-blue-100 border border-blue-200">
-                            Terna.id
-                        </div>
-                        <div className="px-2 py-1 rounded-2xl  bg-blue-100 border border-blue-200">
-                            Kanza.id
-                        </div>
+                        {locations.map((location) => (
+                            <div
+                                key={location.id}
+                                // selected: px-2 py-1 rounded-2xl text-white bg-blue-600 border border-blue-800
+                                className="px-2 py-1 rounded-2xl  bg-blue-100 border border-blue-200"
+                            >
+                                {location.name}
+                            </div>
+                        ))}
                     </div>
 
                     {/* voucher */}

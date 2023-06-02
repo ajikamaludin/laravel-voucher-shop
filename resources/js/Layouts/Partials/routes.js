@@ -8,6 +8,7 @@ import {
 } from 'react-icons/hi'
 import {
     HiBanknotes,
+    HiMap,
     HiOutlineGlobeAlt,
     HiQuestionMarkCircle,
     HiUserCircle,
@@ -45,6 +46,14 @@ export default [
         route: route('setting.index'),
         active: 'setting.*',
         permission: 'view-setting',
+    },
+    {
+        name: 'Lokasi',
+        show: true,
+        icon: HiMap,
+        route: route('location.index'),
+        active: 'location.*',
+        permission: 'view-location',
     },
     {
         name: 'Front Home',
