@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Str;
 
 class Customer extends Authenticatable
 {
@@ -51,6 +52,7 @@ class Customer extends Authenticatable
                 $basic = CustomerLevel::where('key', CustomerLevel::BASIC)->first();
 
                 $customer->customer_level_id = $basic->id;
+                $customer->referral_code = Str::random(6);
 
                 CustomerLevelHistory::create([
                     'customer_id' => $customer->id,
