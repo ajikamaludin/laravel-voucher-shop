@@ -29,7 +29,7 @@ class HomeController extends Controller
             'banners' => $banners,
             'locations' => $locations,
             'vouchers' => $vouchers->paginate(10),
-            '_location_id' => $request->location_id
+            '_location_id' => $request->location_id ?? ''
         ]);
     }
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Head, router, usePage } from '@inertiajs/react'
 
 import CustomerLayout from '@/Layouts/CustomerLayout'
@@ -30,14 +30,16 @@ const GuestBanner = () => {
     )
 }
 
-export default function Index({
-    auth: { user },
-    infos,
-    banners,
-    locations,
-    vouchers: { data, next_page_url },
-    _location_id,
-}) {
+export default function Index(props) {
+    const {
+        auth: { user },
+        infos,
+        banners,
+        locations,
+        vouchers: { data, next_page_url },
+        _location_id,
+    } = props
+
     const [locId, setLocId] = useState(_location_id)
     const [v, setV] = useState(data)
 
@@ -48,12 +50,14 @@ export default function Index({
     const handleSelectLoc = (loc) => {
         if (loc.id === locId) {
             setLocId('')
+            fetch('')
             return
         }
         setLocId(loc.id)
+        fetch(loc.id)
     }
 
-    const loadMore = () => {
+    const handleNextPage = () => {
         router.get(
             next_page_url,
             {
@@ -70,7 +74,7 @@ export default function Index({
         )
     }
 
-    useEffect(() => {
+    const fetch = (locId) => {
         router.get(
             route(route().current()),
             { location_id: locId },
@@ -82,7 +86,7 @@ export default function Index({
                 },
             }
         )
-    }, [locId])
+    }
 
     return (
         <CustomerLayout>
@@ -144,7 +148,7 @@ export default function Index({
                         ))}
                         {next_page_url !== null && (
                             <div
-                                onClick={loadMore}
+                                onClick={handleNextPage}
                                 className="w-full text-center px-2 py-1 border mt-5 hover:bg-blue-600 hover:text-white"
                             >
                                 Load more

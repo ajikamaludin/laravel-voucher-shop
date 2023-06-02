@@ -6,7 +6,11 @@ use App\Models\Account;
 use App\Models\Banner;
 use App\Models\Info;
 use App\Models\Location;
+use App\Models\Voucher;
+use App\Services\GeneralService;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class DummySeeder extends Seeder
 {
@@ -21,6 +25,7 @@ class DummySeeder extends Seeder
         $this->banner();
         $this->account();
         $this->location();
+        $this->voucher();
     }
 
     public function info()
@@ -70,5 +75,31 @@ class DummySeeder extends Seeder
                 'description' => '-'
             ]);
         }
+    }
+
+    public function voucher()
+    {
+        $batchId = Str::ulid();
+        $vouchers = GeneralService::script_parser(file_get_contents(public_path('example.md')));
+
+        $location = Location::first();
+
+        DB::beginTransaction();
+        foreach ($vouchers as $voucher) {
+            Voucher::create([
+                'location_id' => $location->id,
+                'username' => $voucher['username'],
+                'password' => $voucher['password'],
+                'discount' => 10,
+                'display_price' => 100000,
+                'quota' => $voucher['quota'],
+                'profile' => $voucher['profile'],
+                'comment' => $voucher['comment'],
+                'expired' => 30,
+                'expired_unit' => 'Hari',
+                'batch_id' => $batchId,
+            ]);
+        }
+        DB::commit();
     }
 }
