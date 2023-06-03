@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import { Head, router, useForm, usePage } from '@inertiajs/react'
-import { HiChevronLeft } from 'react-icons/hi2'
+import {
+    HiChevronLeft,
+    HiClipboard,
+    HiClipboardDocumentList,
+} from 'react-icons/hi2'
 
 import CustomerLayout from '@/Layouts/CustomerLayout'
 import { formatIDR } from '@/utils'
 import FormFile from '@/Components/FormFile'
 import { isEmpty } from 'lodash'
 import Alert from '@/Components/Alert'
+import { toast } from 'react-toastify'
 
 const PayButton = () => {
     const {
@@ -118,6 +123,11 @@ const FormUpload = () => {
         setAccount(account)
     }
 
+    const handleCopyToClipboard = (text) => {
+        toast.success('copied to clipboard')
+        navigator.clipboard.writeText(account.account_number)
+    }
+
     const handleSubmit = () => {
         if (processing) {
             return
@@ -157,10 +167,9 @@ const FormUpload = () => {
             {data.account_id !== '' && (
                 <>
                     <div className="my-5">
-                        <div className="bg-red-200 text-red-600 p-3 border rounded-md border-red-700">
+                        <div className="bg-blue-50 text-blue-800 p-3 border rounded-md border-blue-400">
                             <div>Silahkan transfer nominal di atas ke</div>
                             <div>
-                                Bank :{' '}
                                 <span className="font-bold">
                                     {account.bank_name}
                                 </span>
@@ -171,11 +180,19 @@ const FormUpload = () => {
                                     {account.holder_name}
                                 </span>
                             </div>
-                            <div>
-                                Nomor Rekening :{' '}
-                                <span className="font-bold">
+                            <div
+                                className="flex flex-row items-center space-x-1"
+                                onClick={() =>
+                                    handleCopyToClipboard(
+                                        account.account_number
+                                    )
+                                }
+                            >
+                                <div>Nomor Rekening : </div>
+                                <div className="font-bold">
                                     {account.account_number}
-                                </span>
+                                </div>
+                                <HiClipboardDocumentList className="text-blue-600" />
                             </div>
                         </div>
                     </div>

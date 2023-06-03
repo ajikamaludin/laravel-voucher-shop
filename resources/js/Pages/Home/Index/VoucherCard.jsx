@@ -8,7 +8,7 @@ export default function VoucherCard({ voucher }) {
             <div className="flex flex-row justify-between items-center">
                 <div>
                     <div className="text-xs text-gray-400 py-1">
-                        {voucher.location.name}
+                        {voucher.profile}
                     </div>
                     <div className="text-xl font-bold">
                         IDR {formatIDR(voucher.price)}

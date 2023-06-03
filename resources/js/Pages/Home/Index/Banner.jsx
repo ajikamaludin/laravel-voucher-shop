@@ -1,12 +1,21 @@
 import React from 'react'
-import { Head } from '@inertiajs/react'
+import { Head, router } from '@inertiajs/react'
 import CustomerLayout from '@/Layouts/CustomerLayout'
+import { HiChevronLeft } from 'react-icons/hi2'
 
 export default function Banner({ banner }) {
     return (
         <CustomerLayout>
             <Head title="Login" />
             <div className="flex flex-col min-h-[calc(95dvh)] p-4">
+                <div
+                    className="w-full pb-4"
+                    onClick={() => {
+                        router.get(route('home.index'))
+                    }}
+                >
+                    <HiChevronLeft className="font-bold h-5 w-5" />
+                </div>
                 <img
                     src={banner.image_url}
                     className="object-cover w-full h-32"

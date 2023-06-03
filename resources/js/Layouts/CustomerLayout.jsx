@@ -1,7 +1,8 @@
 import React from 'react'
-import ApplicationLogo from '@/Components/Defaults/ApplicationLogo'
-import { Link, router, usePage } from '@inertiajs/react'
-import { HiHome, HiOutlineHome, HiOutlineUserCircle } from 'react-icons/hi'
+import { ToastContainer, toast } from 'react-toastify'
+
+import { router, usePage } from '@inertiajs/react'
+import { HiOutlineHome, HiOutlineUserCircle } from 'react-icons/hi'
 import {
     HiArrowPathRoundedSquare,
     HiOutlineShoppingCart,
@@ -68,6 +69,7 @@ export default function CustomerLayout({ children }) {
                     </div>
                 )}
             </div>
+            <ToastContainer />
         </div>
     )
 }

@@ -105,10 +105,10 @@ export default function Topup({ payments }) {
                     </div>
                 </div>
             </div>
-            <div className="fixed bottom-20 right-0 md:right-1/3 md:pl-10 max-w-md w-full">
+            <div className="fixed bottom-20 right-0 w-full">
                 <div
                     onClick={handleSubmit}
-                    className="border bg-blue-700 text-white px-5 py-2 mx-5 rounded-full hover:text-black hover:bg-white"
+                    className="border bg-blue-700 text-white px-5 py-2 mx-auto rounded-full hover:text-black hover:bg-white max-w-sm"
                 >
                     Bayar
                 </div>
