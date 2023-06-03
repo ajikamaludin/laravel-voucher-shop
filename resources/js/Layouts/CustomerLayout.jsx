@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { ToastContainer, toast } from 'react-toastify'
 
 import { router, usePage } from '@inertiajs/react'
@@ -13,8 +13,11 @@ export default function CustomerLayout({ children }) {
     const {
         props: {
             auth: { user },
+            cart_count,
+            flash,
         },
     } = usePage()
+
     const handleOnClick = (r) => {
         router.get(route(r))
     }
@@ -26,6 +29,12 @@ export default function CustomerLayout({ children }) {
 
         return 'text-gray-600'
     }
+
+    useEffect(() => {
+        if (flash.message !== null) {
+            toast(flash.message.message, { type: flash.message.type })
+        }
+    }, [flash])
 
     return (
         <div className="min-h-screen flex flex-col sm:justify-center items-center">
@@ -42,18 +51,29 @@ export default function CustomerLayout({ children }) {
                     <HiOutlineHome className="h-6 w-6" />
                     <div className="text-xs font-light">Beranda</div>
                 </div>
-                <div className="py-2 px-5 hover:bg-blue-200 flex flex-col items-center text-gray-600">
+
+                <div
+                    className={`pb-1 pt-2 px-5 hover:bg-blue-200 flex flex-col items-center ${isActive(
+                        'cart.index'
+                    )}`}
+                    onClick={() => handleOnClick('cart.index')}
+                >
                     <div className="flex flex-row">
                         <HiOutlineShoppingCart className="h-6 w-6" />
                         <div>
                             <div className="bg-blue-300 text-blue-600 rounded-lg px-1 text-xs -ml-2">
-                                1
+                                {cart_count}
                             </div>
                         </div>
                     </div>
                     <div className="text-xs font-light">Keranjang</div>
                 </div>
-                <div className="py-2 px-5 hover:bg-blue-200  flex flex-col items-center text-gray-600">
+                <div
+                    className={`pb-1 pt-2 px-5 hover:bg-blue-200 flex flex-col items-center ${isActive(
+                        'transactions.*'
+                    )}`}
+                    onClick={() => handleOnClick('transactions.index')}
+                >
                     <HiArrowPathRoundedSquare className="h-6 w-6" />
                     <div className="text-xs font-light">Transaksi</div>
                 </div>

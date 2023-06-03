@@ -41,9 +41,9 @@ class DummySeeder extends Seeder
         $images = ['1.webp', '2.webp', '3.webp'];
         foreach ($images as $index => $image) {
             Banner::create([
-                'title' => 'Banner ' . $index,
-                'image' => 'sample/' . $image,
-                'description' => '<h1>Banner </h1>'
+                'title' => 'Banner '.$index,
+                'image' => 'sample/'.$image,
+                'description' => '<h1>Banner </h1>',
             ]);
         }
     }
@@ -52,7 +52,7 @@ class DummySeeder extends Seeder
     {
         $banks = [
             ['name' => 'BRI', 'bank_name' => 'Bank Rakyat Indonesia', 'holder_name' => 'Aji Kamaludin', 'account_number' => '187391738129'],
-            ['name' => 'Jago', 'bank_name' => 'Bank Jago', 'holder_name' => 'Aji Kamaludin', 'account_number' => '718297389172']
+            ['name' => 'Jago', 'bank_name' => 'Bank Jago', 'holder_name' => 'Aji Kamaludin', 'account_number' => '718297389172'],
         ];
 
         foreach ($banks as $bank) {
@@ -72,7 +72,7 @@ class DummySeeder extends Seeder
         foreach ($locations as $location) {
             Location::create([
                 'name' => $location,
-                'description' => '-'
+                'description' => '-',
             ]);
         }
     }
@@ -81,7 +81,6 @@ class DummySeeder extends Seeder
     {
 
         $vouchers = GeneralService::script_parser(file_get_contents(public_path('example.md')));
-
 
         DB::beginTransaction();
         foreach ([1, 2] as $loop) {

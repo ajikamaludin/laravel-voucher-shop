@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Controllers\Customer\AuthController;
+use App\Http\Controllers\Customer\CartController;
 use App\Http\Controllers\Customer\DepositController;
 use App\Http\Controllers\Customer\HomeController;
 use App\Http\Controllers\Customer\ProfileController;
+use App\Http\Controllers\Customer\TransactionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -36,8 +38,16 @@ Route::middleware(['http_secure_aware', 'guard_should_customer', 'inertia.custom
         Route::post('deposit/topup', [DepositController::class, 'store']);
         Route::get('deposit/trx/{deposit}', [DepositController::class, 'show'])->name('customer.deposit.show');
         Route::post('deposit/trx/{deposit}', [DepositController::class, 'update'])->name('customer.deposit.update');
-    });
 
+        // cart
+        Route::get('cart', [CartController::class, 'index'])->name('cart.index');
+        Route::post('cart/process', [CartController::class, 'purchase'])->name('cart.purchase');
+        Route::post('cart/{voucher}', [CartController::class, 'store'])->name('cart.store');
+
+        // transaction
+        Route::get('sale/trx', [TransactionController::class, 'index'])->name('transactions.index');
+        Route::get('sale/trx/{sale}', [TransactionController::class, 'show'])->name('transactions.show');
+    });
 
     Route::middleware('guest:customer')->group(function () {
         // login

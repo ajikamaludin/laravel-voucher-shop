@@ -22,7 +22,6 @@ export default function FormModal(props) {
             },
             payment_channel: '',
             is_valid: 0,
-            status: '',
             status_text: '',
             text_color: '',
             customer_name: '',

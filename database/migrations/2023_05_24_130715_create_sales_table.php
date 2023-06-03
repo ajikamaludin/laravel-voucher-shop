@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('sales', function (Blueprint $table) {
             $table->ulid('id')->primary();
 
+            $table->string('code')->nullable();
             $table->ulid('customer_id')->nullable();
             $table->timestamp('date_time')->nullable();
             $table->decimal('amount', 20, 2)->default(0);

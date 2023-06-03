@@ -40,8 +40,8 @@ class MidtransService
                 'address' => $this->deposit->customer->address,
             ],
             'callbacks' => [
-                'finish' => route('customer.deposit.show', ['deposit' => $this->deposit->id])
-            ]
+                'finish' => route('customer.deposit.show', ['deposit' => $this->deposit->id]),
+            ],
         ];
 
         $snapToken = Snap::getSnapToken($params);

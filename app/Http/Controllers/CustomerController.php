@@ -57,14 +57,14 @@ class CustomerController extends Controller
     public function edit(Customer $customer)
     {
         return inertia('Customer/Form', [
-            'customer' => $customer
+            'customer' => $customer,
         ]);
     }
 
     public function update(Request $request, Customer $customer)
     {
         $request->validate([
-            'username' => 'required|string|min:5|alpha_dash|unique:customers,username,' . $customer->id,
+            'username' => 'required|string|min:5|alpha_dash|unique:customers,username,'.$customer->id,
             'password' => 'nullable|string|min:8',
             'name' => 'required|string',
             'fullname' => 'required|string',

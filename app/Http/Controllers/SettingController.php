@@ -14,7 +14,7 @@ class SettingController extends Controller
 
         return inertia('Setting/Index', [
             'setting' => $setting,
-            'midtrans_notification_url' => route('api.midtrans.notification')
+            'midtrans_notification_url' => route('api.midtrans.notification'),
         ]);
     }
 

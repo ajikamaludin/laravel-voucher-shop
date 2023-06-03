@@ -43,7 +43,7 @@ class Customer extends Authenticatable
         'image_url',
         'display_deposit',
         'display_coin',
-        'display_phone'
+        'display_phone',
     ];
 
     protected static function booted(): void
@@ -103,6 +103,7 @@ class Customer extends Authenticatable
             if ($this->phone === null) {
                 return ' - ';
             }
+
             return '+62' . $this->phone;
         });
     }
@@ -124,5 +125,15 @@ class Customer extends Authenticatable
     public function level()
     {
         return $this->belongsTo(CustomerLevel::class, 'customer_level_id');
+    }
+
+    public function sales()
+    {
+        return $this->hasMany(Sale::class);
+    }
+
+    public function deposites()
+    {
+        return $this->hasMany(DepositHistory::class);
     }
 }

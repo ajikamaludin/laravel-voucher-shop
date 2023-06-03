@@ -21,7 +21,7 @@ class VoucherController extends Controller
         }
 
         return inertia('Voucher/Index', [
-            'query' => $query->paginate()
+            'query' => $query->paginate(),
         ]);
     }
 

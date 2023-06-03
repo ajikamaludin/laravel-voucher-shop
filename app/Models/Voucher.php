@@ -7,6 +7,10 @@ use Illuminate\Support\Str;
 
 class Voucher extends Model
 {
+    const UNSOLD = 0;
+
+    const SOLD = 1;
+
     protected $fillable = [
         'name',
         'description',
@@ -21,8 +25,8 @@ class Voucher extends Model
         'comment',
         'expired',
         'expired_unit',
-        'is_sold', //menandakan sudah terjual atau belum 
-        // batch pada saat import , jadi ketika user ingin beli akan tetapi sudah sold , 
+        'is_sold', //menandakan sudah terjual atau belum
+        // batch pada saat import , jadi ketika user ingin beli akan tetapi sudah sold ,
         // maka akan dicarikan voucher lain dari batch yang sama
         'batch_id',
     ];
@@ -72,5 +76,15 @@ class Voucher extends Model
     public function location()
     {
         return $this->belongsTo(Location::class)->withTrashed();
+    }
+
+    public function shuffle_unsold()
+    {
+        $voucher = Voucher::where([
+            ['is_sold', '=', self::UNSOLD],
+            ['batch_id', '=', $this->batch_id]
+        ])->first();
+
+        return $voucher;
     }
 }

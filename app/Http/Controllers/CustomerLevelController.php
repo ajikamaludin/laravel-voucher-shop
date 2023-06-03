@@ -10,8 +10,9 @@ class CustomerLevelController extends Controller
     public function index()
     {
         $query = CustomerLevel::query();
+
         return inertia('CustomerLevel/Index', [
-            'query' => $query->paginate()
+            'query' => $query->paginate(),
         ]);
     }
 
@@ -21,7 +22,7 @@ class CustomerLevelController extends Controller
             'name' => 'required|string',
             'description' => 'nullable|string',
             'min_amount' => 'required|numeric|min:0',
-            'max_amount' => 'required|numeric|min:0'
+            'max_amount' => 'required|numeric|min:0',
         ]);
 
         $customerLevel->update([

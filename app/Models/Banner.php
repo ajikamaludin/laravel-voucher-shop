@@ -15,7 +15,7 @@ class Banner extends Model
     ];
 
     protected $appends = [
-        'image_url'
+        'image_url',
     ];
 
     protected function imageUrl(): Attribute

@@ -12,7 +12,7 @@ class AccountController extends Controller
         $query = Account::orderBy('updated_at', 'desc')->paginate();
 
         return inertia('Account/Index', [
-            'query' => $query
+            'query' => $query,
         ]);
     }
 

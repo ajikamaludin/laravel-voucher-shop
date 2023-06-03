@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\LocationController;
+use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Customer\DepositController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;

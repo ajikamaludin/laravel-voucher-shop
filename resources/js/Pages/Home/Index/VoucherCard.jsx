@@ -1,8 +1,15 @@
 import { formatIDR } from '@/utils'
+import { router } from '@inertiajs/react'
 
 export default function VoucherCard({ voucher }) {
+    const addCart = () => {
+        router.post(route('cart.store', voucher))
+    }
     return (
-        <div className="px-3 py-1 shadow-md rounded border border-gray-100 hover:bg-gray-50">
+        <div
+            className="px-3 py-1 shadow-md rounded border border-gray-100 hover:bg-gray-50"
+            onClick={addCart}
+        >
             <div className="text-base font-bold">{voucher.location.name}</div>
             <div className="w-full border border-dashed"></div>
             <div className="flex flex-row justify-between items-center">
@@ -24,11 +31,11 @@ export default function VoucherCard({ voucher }) {
                         </div>
                     )}
                 </div>
-                <div className="flex flex-col justify-center ">
+                <div className="flex flex-col justify-end">
                     <div className="text-3xl font-bold">
                         {voucher.display_quota}
                     </div>
-                    <div className="text-gray-400 text-right">
+                    <div className="text-gray-400 ">
                         {voucher.display_expired}
                     </div>
                 </div>

@@ -31,9 +31,9 @@
 -   [x] Customer Edit Profile
 -   [x] Customer Deposit Manual
 -   [x] Customer Deposit Payment Gateway
--   [ ] Customer Purchase Voucher
--   [ ] Register Refferal
+-   [x] Customer Purchase Voucher
 -   [ ] Customer Share Buyed Voucher, via WA dll
+-   [ ] Register Refferal
 -   [ ] Customer View Coin History
 -   [ ] Verified Akun
 -   [ ] Notification (purchase success, deposit success)

@@ -22,7 +22,7 @@ class DepositController extends Controller
             ->orderBy('is_valid', 'desc');
 
         return inertia('Home/Deposit/Index', [
-            'histories' => $histories->paginate(20)
+            'histories' => $histories->paginate(20),
         ]);
     }
 
@@ -39,15 +39,15 @@ class DepositController extends Controller
             'amount' => 'required|numeric|min:10000',
             'payment' => [
                 'required',
-                Rule::in([Setting::PAYMENT_MANUAL, Setting::PAYMENT_MIDTRANS])
-            ]
+                Rule::in([Setting::PAYMENT_MANUAL, Setting::PAYMENT_MIDTRANS]),
+            ],
         ]);
 
         DB::beginTransaction();
         $deposit = DepositHistory::make([
             'customer_id' => auth()->id(),
             'debit' => $request->amount,
-            'description' => 'Top Up #' . Str::random(5),
+            'description' => 'Top Up #'.Str::random(5),
             'payment_channel' => $request->payment,
         ]);
 
@@ -77,7 +77,7 @@ class DepositController extends Controller
             'accounts' => Account::get(),
             'midtrans_client_key' => Setting::getByKey('MIDTRANS_CLIENT_KEY'),
             'is_production' => app()->isProduction(),
-            'direct' => $request->direct
+            'direct' => $request->direct,
         ]);
     }
 
@@ -93,10 +93,10 @@ class DepositController extends Controller
         $deposit->update([
             'image_prove' => $file->hashName('uploads'),
             'account_id' => $request->account_id,
-            'is_valid' => DepositHistory::STATUS_WAIT_APPROVE
+            'is_valid' => DepositHistory::STATUS_WAIT_APPROVE,
         ]);
 
-        session()->flash('message', ['type' => 'success', 'message' => 'Upload berhasil, silahkan tunggu untuk approve']);;
+        session()->flash('message', ['type' => 'success', 'message' => 'Upload berhasil, silahkan tunggu untuk approve']);
     }
 
     public function midtrans_payment(Request $request, DepositHistory $deposit)

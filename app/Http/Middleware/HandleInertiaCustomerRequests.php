@@ -29,6 +29,14 @@ class HandleInertiaCustomerRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $carts = collect(session('carts') ?? []);
+        $cart_count = 0;
+        if ($carts->count() > 0) {
+            foreach ($carts as $cart) {
+                $cart_count += $cart['quantity'];
+            }
+        }
+
         return array_merge(parent::share($request), [
             'app_name' => env('APP_NAME', 'App Name'),
             'auth' => [
@@ -38,7 +46,7 @@ class HandleInertiaCustomerRequests extends Middleware
                 'message' => fn () => $request->session()->get('message') ?? ['type' => null, 'message' => null],
             ],
             'notification_count' => 0,
-            'carts' => []
+            'cart_count' => $cart_count,
         ]);
     }
 }

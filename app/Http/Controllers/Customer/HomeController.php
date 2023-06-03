@@ -17,6 +17,7 @@ class HomeController extends Controller
         $banners = Banner::orderBy('updated_at', 'desc')->get();
         $locations = Location::get();
         $vouchers = Voucher::with(['location'])
+            ->where('is_sold', Voucher::UNSOLD)
             ->groupBy('batch_id')
             ->orderBy('updated_at', 'desc');
 
@@ -28,8 +29,8 @@ class HomeController extends Controller
             'infos' => $infos,
             'banners' => $banners,
             'locations' => $locations,
-            'vouchers' => $vouchers->paginate(10),
-            '_location_id' => $request->location_id ?? ''
+            'vouchers' => tap($vouchers->paginate(10))->setHidden(['username', 'password']),
+            '_location_id' => $request->location_id ?? '',
         ]);
     }
 

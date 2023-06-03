@@ -36,7 +36,7 @@ class DepositController extends Controller
         }
 
         return inertia('DepositHistory/Index', [
-            'query' => $query->paginate()
+            'query' => $query->paginate(),
         ]);
     }
 
@@ -45,15 +45,15 @@ class DepositController extends Controller
         $request->validate([
             'status' => [
                 'required',
-                Rule::in([DepositHistory::STATUS_VALID, DepositHistory::STATUS_REJECT])
-            ]
+                Rule::in([DepositHistory::STATUS_VALID, DepositHistory::STATUS_REJECT]),
+            ],
         ]);
 
         DB::beginTransaction();
         $deposit->update([
             'is_valid' => $request->status,
         ]);
-        if ($request->status === DepositHistory::STATUS_VALID) {
+        if ($request->status == DepositHistory::STATUS_VALID) {
             $deposit->update_customer_balance();
         }
         DB::commit();

@@ -23,7 +23,6 @@ class GeneralController extends Controller
         $file = $request->file('image');
         $file->store('uploads', 'public');
 
-
         return response()->json([
             'id' => Str::ulid(),
             'name' => $file->getClientOriginalName(),

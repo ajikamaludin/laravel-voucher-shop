@@ -12,7 +12,7 @@ class BannerController extends Controller
         $query = Banner::orderBy('updated_at', 'desc')->paginate();
 
         return inertia('Banner/Index', [
-            'query' => $query
+            'query' => $query,
         ]);
     }
 
@@ -45,7 +45,7 @@ class BannerController extends Controller
     public function edit(Banner $banner)
     {
         return inertia('Banner/Form', [
-            'banner' => $banner
+            'banner' => $banner,
         ]);
     }
 

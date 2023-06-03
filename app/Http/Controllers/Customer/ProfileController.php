@@ -26,7 +26,7 @@ class ProfileController extends Controller
             'name' => 'string|required',
             'address' => 'string|required',
             'phone' => 'string|required|numeric',
-            'username' => 'string|required|min:5|alpha_dash|unique:customers,username,' . $customer->id,
+            'username' => 'string|required|min:5|alpha_dash|unique:customers,username,'.$customer->id,
             'password' => 'nullable|string|min:8|confirmed',
             'image' => 'nullable|image',
         ]);
@@ -51,6 +51,6 @@ class ProfileController extends Controller
             'password' => $customer->password,
         ]);
 
-        session()->flash('message', ['type' => 'success', 'message' => 'profile updateded']);
+        session()->flash('message', ['type' => 'success', 'message' => 'profile updated']);
     }
 }

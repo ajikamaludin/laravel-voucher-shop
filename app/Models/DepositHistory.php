@@ -41,7 +41,7 @@ class DepositHistory extends Model
         'format_human_created_at',
         'format_created_at',
         'amount',
-        'image_prove_url'
+        'image_prove_url',
     ];
 
     public function status(): Attribute
@@ -61,14 +61,14 @@ class DepositHistory extends Model
     public function formatHumanCreatedAt(): Attribute
     {
         return Attribute::make(get: function () {
-            return Carbon::parse($this->created_at)->locale('id')->format('d F Y');
+            return Carbon::parse($this->created_at)->locale('id')->translatedFormat('d F Y');
         });
     }
 
     public function formatCreatedAt(): Attribute
     {
         return Attribute::make(get: function () {
-            return Carbon::parse($this->created_at)->locale('id')->format('d M Y H:i:s');
+            return Carbon::parse($this->created_at)->locale('id')->translatedFormat('d F Y H:i:s');
         });
     }
 
@@ -78,6 +78,7 @@ class DepositHistory extends Model
             if ($this->credit == 0) {
                 return 'Rp' . number_format($this->debit, 0, ',', '.');
             }
+
             return '-Rp' . number_format($this->credit, 0, ',', '.');
         });
     }
@@ -102,6 +103,6 @@ class DepositHistory extends Model
     public function update_customer_balance()
     {
         $customer = Customer::find($this->customer_id);
-        $customer->update(['deposit_balance' => $customer->deposit_balance + $this->debit]);
+        $customer->update(['deposit_balance' => $customer->deposit_balance + $this->debit - $this->credit]);
     }
 }
