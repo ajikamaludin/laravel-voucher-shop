@@ -4,6 +4,7 @@ use App\Http\Controllers\AccountController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\CustomerLevelController;
 use App\Http\Controllers\GeneralController;
 use App\Http\Controllers\InfoController;
 use App\Http\Controllers\LocationController;
@@ -76,6 +77,10 @@ Route::middleware(['http_secure_aware', 'inertia.admin'])
             Route::get('/banner/{banner}', [BannerController::class, 'edit'])->name('banner.edit');
             Route::post('/banner/{banner}', [BannerController::class, 'update'])->name('banner.update');
             Route::delete('/banner/{banner}', [BannerController::class, 'destroy'])->name('banner.destroy');
+
+            // customer level
+            Route::get('/customer-levels', [CustomerLevelController::class, 'index'])->name('customer-level.index');
+            Route::put('/customer-levels/{customerLevel}', [CustomerLevelController::class, 'update'])->name('customer-level.update');
 
             // customer
             Route::get('/customers', [CustomerController::class, 'index'])->name('customer.index');

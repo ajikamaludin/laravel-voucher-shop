@@ -38,10 +38,10 @@ class InstallationSeed extends Seeder
     public function customer_levels()
     {
         $levels = [
-            ['name' => 'Basic', 'key' => 'basic'],
-            ['name' => 'Silver', 'key' => 'silver'],
-            ['name' => 'Gold', 'key' => 'gold'],
-            ['name' => 'Platinum', 'key' => 'platinum'],
+            ['name' => 'Basic', 'key' => 'basic', 'description' => '-', 'min_amount' => '100000', 'max_amount' => '500000'],
+            ['name' => 'Silver', 'key' => 'silver', 'description' => '-', 'min_amount' => '100000', 'max_amount' => '1000000'],
+            ['name' => 'Gold', 'key' => 'gold', 'description' => '-', 'min_amount' => '100000', 'max_amount' => '2000000'],
+            ['name' => 'Platinum', 'key' => 'platinum', 'description' => '-', 'min_amount' => '100000', 'max_amount' => '3000000'],
         ];
 
         foreach ($levels as $level) {

@@ -51,10 +51,8 @@ class PermissionSeeder extends Seeder
             ['id' => Str::ulid(), 'label' => 'View Customer', 'name' => 'view-customer'],
             ['id' => Str::ulid(), 'label' => 'Delete Customer', 'name' => 'delete-customer'],
 
-            ['id' => Str::ulid(), 'label' => 'Create Customer Level', 'name' => 'create-customer-level'],
             ['id' => Str::ulid(), 'label' => 'Update Customer Level', 'name' => 'update-customer-level'],
             ['id' => Str::ulid(), 'label' => 'View Customer Level', 'name' => 'view-customer-level'],
-            ['id' => Str::ulid(), 'label' => 'Delete Customer Level', 'name' => 'delete-customer-level'],
 
             ['id' => Str::ulid(), 'label' => 'Create Customer Verification', 'name' => 'create-customer-verification'],
             ['id' => Str::ulid(), 'label' => 'Update Customer Verification', 'name' => 'update-customer-verification'],

@@ -33,6 +33,14 @@ export default [
         permission: 'view-customer',
     },
     {
+        name: 'Customer Level',
+        show: true,
+        icon: HiUserCircle,
+        route: route('customer-level.index'),
+        active: 'customer-level.*',
+        permission: 'view-customer-level',
+    },
+    {
         name: 'Bank Akun',
         show: true,
         icon: HiBanknotes,

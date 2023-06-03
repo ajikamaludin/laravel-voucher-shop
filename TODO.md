@@ -10,7 +10,7 @@
 -   [x] CRUD Voucher
 -   [x] Import Voucher
 -   [x] Setting Web (enable affilate, amount bonus affilate)
--   [ ] Setting Level Customer (view levels, edit name of level,minimal saldo, max amount saldo, max hutang)
+-   [x] Setting Level Customer (view levels, edit name of level,minimal saldo, max amount saldo, max hutang)
 -   [ ] Deposit Menu (view daftar histori deposit)
 -   [ ] Manual Approve Deposit
 -   [ ] Setting Bonus Coin (memasukan amount bonus coin yang didapat dengan level dan harga voucher) - coin rewards
