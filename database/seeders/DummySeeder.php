@@ -79,26 +79,30 @@ class DummySeeder extends Seeder
 
     public function voucher()
     {
-        $batchId = Str::ulid();
+
         $vouchers = GeneralService::script_parser(file_get_contents(public_path('example.md')));
 
-        $location = Location::first();
 
         DB::beginTransaction();
-        foreach ($vouchers as $voucher) {
-            Voucher::create([
-                'location_id' => $location->id,
-                'username' => $voucher['username'],
-                'password' => $voucher['password'],
-                'discount' => 10,
-                'display_price' => 100000,
-                'quota' => $voucher['quota'],
-                'profile' => $voucher['profile'],
-                'comment' => $voucher['comment'],
-                'expired' => 30,
-                'expired_unit' => 'Hari',
-                'batch_id' => $batchId,
-            ]);
+        foreach ([1, 2] as $loop) {
+            $batchId = Str::ulid();
+            $location = Location::get()[$loop];
+
+            foreach ($vouchers as $voucher) {
+                Voucher::create([
+                    'location_id' => $location->id,
+                    'username' => $voucher['username'],
+                    'password' => $voucher['password'],
+                    'discount' => $loop == 1 ? 10 : 0,
+                    'display_price' => $loop == 1 ? 100000 : 99000,
+                    'quota' => $voucher['quota'],
+                    'profile' => $voucher['profile'],
+                    'comment' => $voucher['comment'],
+                    'expired' => 30,
+                    'expired_unit' => 'Hari',
+                    'batch_id' => $batchId,
+                ]);
+            }
         }
         DB::commit();
     }

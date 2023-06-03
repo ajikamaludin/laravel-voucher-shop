@@ -122,7 +122,13 @@ const FormUpload = () => {
         if (processing) {
             return
         }
-        post(route('customer.deposit.update', deposit))
+        post(route('customer.deposit.update', deposit), {
+            onSuccess: () =>
+                setTimeout(
+                    () => router.get(route(route().current(), deposit)),
+                    3000
+                ),
+        })
     }
 
     return (
