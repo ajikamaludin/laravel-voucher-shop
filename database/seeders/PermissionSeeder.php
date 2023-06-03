@@ -61,8 +61,8 @@ class PermissionSeeder extends Seeder
 
             ['id' => Str::ulid(), 'label' => 'View Setting', 'name' => 'view-setting'],
 
-            ['id' => Str::ulid(), 'label' => 'View Deposit', 'name' => 'view-deposite'],
-            ['id' => Str::ulid(), 'label' => 'Update Deposit', 'name' => 'update-deposite'],
+            ['id' => Str::ulid(), 'label' => 'View Deposit', 'name' => 'view-deposit'],
+            ['id' => Str::ulid(), 'label' => 'Update Deposit', 'name' => 'update-deposit'],
 
             ['id' => Str::ulid(), 'label' => 'View Coin', 'name' => 'view-coin'],
             ['id' => Str::ulid(), 'label' => 'Update Coin', 'name' => 'update-coin'],

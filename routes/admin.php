@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\CustomerLevelController;
+use App\Http\Controllers\DepositController;
 use App\Http\Controllers\GeneralController;
 use App\Http\Controllers\InfoController;
 use App\Http\Controllers\LocationController;
@@ -103,5 +104,9 @@ Route::middleware(['http_secure_aware', 'inertia.admin'])
             // setting
             Route::get('/settings', [SettingController::class, 'index'])->name('setting.index');
             Route::post('/settings', [SettingController::class, 'update'])->name('setting.update');
+
+            // deposit
+            Route::get('/deposites', [DepositController::class, 'index'])->name('deposit.index');
+            Route::post('/deposites/{deposit}', [DepositController::class, 'update'])->name('deposit.update');
         });
     });

@@ -5,6 +5,7 @@ import { router, usePage } from '@inertiajs/react'
 import { HiOutlineHome, HiOutlineUserCircle } from 'react-icons/hi'
 import {
     HiArrowPathRoundedSquare,
+    HiBars3,
     HiOutlineShoppingCart,
 } from 'react-icons/hi2'
 
@@ -20,10 +21,10 @@ export default function CustomerLayout({ children }) {
 
     const isActive = (r) => {
         if (route().current(r)) {
-            return 'text-blue-700 h-8 w-8'
+            return 'text-blue-700'
         }
 
-        return 'text-gray-600 h-8 w-8'
+        return 'text-gray-600'
     }
 
     return (
@@ -33,41 +34,44 @@ export default function CustomerLayout({ children }) {
             </div>
             <div className="fixed bottom-0 flex flex-row justify-around w-full bg-gray-50 max-w-md">
                 <div
-                    className="py-2 px-5  hover:bg-blue-200"
+                    className={`pb-1 pt-2 px-5 hover:bg-blue-200 flex flex-col items-center ${isActive(
+                        'home.index'
+                    )}`}
                     onClick={() => handleOnClick('home.index')}
                 >
-                    <HiOutlineHome className={isActive('home.index')} />
+                    <HiOutlineHome className="h-6 w-6" />
+                    <div className="text-xs font-light">Beranda</div>
                 </div>
-                <div className="py-2 px-5  hover:bg-blue-200 flex flex-row">
-                    <HiOutlineShoppingCart className="text-gray-600 h-8 w-8" />
-                    <div>
-                        <div className="bg-blue-300 text-blue-600 rounded-lg px-1 text-xs -ml-2">
-                            1
+                <div className="py-2 px-5 hover:bg-blue-200 flex flex-col items-center text-gray-600">
+                    <div className="flex flex-row">
+                        <HiOutlineShoppingCart className="h-6 w-6" />
+                        <div>
+                            <div className="bg-blue-300 text-blue-600 rounded-lg px-1 text-xs -ml-2">
+                                1
+                            </div>
                         </div>
                     </div>
+                    <div className="text-xs font-light">Keranjang</div>
                 </div>
-                <div className="py-2 px-5  hover:bg-blue-200">
-                    <HiArrowPathRoundedSquare className="text-gray-600 h-8 w-8" />
+                <div className="py-2 px-5 hover:bg-blue-200  flex flex-col items-center text-gray-600">
+                    <HiArrowPathRoundedSquare className="h-6 w-6" />
+                    <div className="text-xs font-light">Transaksi</div>
                 </div>
-                {user !== null ? (
-                    <div
-                        className="py-2 px-5  hover:bg-blue-200"
-                        onClick={() => handleOnClick('customer.profile.index')}
-                    >
-                        <HiOutlineUserCircle
-                            className={isActive('customer.profile.*')}
-                        />
-                    </div>
-                ) : (
-                    <div
-                        className="py-2 px-5 hover:bg-blue-200"
-                        onClick={() => handleOnClick('customer.login')}
-                    >
-                        <HiOutlineUserCircle
-                            className={isActive('customer.login')}
-                        />
-                    </div>
-                )}
+                <div
+                    className={`py-2 px-5 hover:bg-blue-200 flex flex-col items-center ${isActive(
+                        'customer.profile.*'
+                    )}`}
+                    onClick={() =>
+                        handleOnClick(
+                            user !== null
+                                ? 'customer.profile.index'
+                                : 'customer.login'
+                        )
+                    }
+                >
+                    <HiBars3 className="h-6 w-6" />
+                    <div className="text-xs font-light">Menu</div>
+                </div>
             </div>
             <ToastContainer />
         </div>

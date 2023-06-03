@@ -2,7 +2,7 @@ import { formatIDR } from '@/utils'
 
 export default function VoucherCard({ voucher }) {
     return (
-        <div className="px-3 py-1 shadow-md rounded border border-gray-100">
+        <div className="px-3 py-1 shadow-md rounded border border-gray-100 hover:bg-gray-50">
             <div className="text-base font-bold">{voucher.location.name}</div>
             <div className="w-full border border-dashed"></div>
             <div className="flex flex-row justify-between items-center">

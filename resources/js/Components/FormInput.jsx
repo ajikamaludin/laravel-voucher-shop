@@ -31,6 +31,7 @@ export default function FormInput({
                     {leftItem}
                 </div>
                 <Input
+                    id={name}
                     className={formClassName}
                     type={type}
                     name={name}

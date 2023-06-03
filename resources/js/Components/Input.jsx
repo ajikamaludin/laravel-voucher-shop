@@ -1,6 +1,7 @@
 import React from 'react'
 
 export default function Input({
+    id = '',
     type = 'text',
     name,
     onChange,
@@ -17,6 +18,7 @@ export default function Input({
     return (
         <>
             <input
+                id={id}
                 type={type}
                 className={`mb-2 bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700  dark:placeholder-gray-400 dark:text-white  ${
                     error

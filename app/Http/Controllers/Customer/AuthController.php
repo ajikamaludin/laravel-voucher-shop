@@ -44,7 +44,7 @@ class AuthController extends Controller
         }
 
         return redirect()->route('customer.login')
-            ->with('message', ['type' => 'error', 'message' => 'invalid credentials']);
+            ->with('message', ['type' => 'error', 'message' => 'Invalid credentials']);
     }
 
     public function signin_google()

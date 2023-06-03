@@ -76,7 +76,7 @@ export default function Index({
                                 </div>
                                 <div className="flex flex-col items-end">
                                     <div className="font-bold text-lg">
-                                        {formatIDR(history.amount)}
+                                        {history.amount}
                                     </div>
                                     {+history.is_valid !== 0 && (
                                         <div

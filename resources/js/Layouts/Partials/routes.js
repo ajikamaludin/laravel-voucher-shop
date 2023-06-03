@@ -8,6 +8,8 @@ import {
 } from 'react-icons/hi'
 import {
     HiBanknotes,
+    HiCurrencyDollar,
+    HiFaceSmile,
     HiMap,
     HiOutlineGlobeAlt,
     HiQuestionMarkCircle,
@@ -24,7 +26,14 @@ export default [
         active: 'dashboard',
         permission: 'view-dashboard',
     },
-
+    {
+        name: 'Deposit',
+        show: true,
+        icon: HiCurrencyDollar,
+        route: route('deposit.index'),
+        active: 'deposit.*',
+        permission: 'view-deposit',
+    },
     {
         name: 'Lokasi',
         show: true,

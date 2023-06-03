@@ -48,12 +48,12 @@ class DepositHistory extends Model
     {
         return Attribute::make(get: function () {
             return [
-                self::STATUS_VALID => ['text' => 'Success', 'color' => 'bg-green-600'],
-                self::STATUS_WAIT_UPLOAD => ['text' => 'Upload bukti transfer', 'color' => 'bg-red-600'],
-                self::STATUS_WAIT_APPROVE => ['text' => 'Menunggu Approve', 'color' => 'bg-green-600'],
-                self::STATUS_WAIT_PAYMENT => ['text' => 'Menunggu Pembayaran', 'color' => 'bg-green-600'],
-                self::STATUS_INVALID => ['text' => 'Error', 'color' => 'bg-red-600'],
-                self::STATUS_REJECT => ['text' => 'Reject', 'color' => 'bg-red-600'],
+                self::STATUS_VALID => ['text' => 'Success', 'color' => 'bg-green-600', 'text_color' => 'text-green-600'],
+                self::STATUS_WAIT_UPLOAD => ['text' => 'Upload bukti transfer', 'color' => 'bg-red-600', 'text_color' => 'text-red-600'],
+                self::STATUS_WAIT_APPROVE => ['text' => 'Menunggu Approve', 'color' => 'bg-green-600', 'text_color' => 'text-green-600'],
+                self::STATUS_WAIT_PAYMENT => ['text' => 'Menunggu Pembayaran', 'color' => 'bg-green-600', 'text_color' => 'text-green-600'],
+                self::STATUS_INVALID => ['text' => 'Error', 'color' => 'bg-red-600', 'text_color' => 'text-red-600'],
+                self::STATUS_REJECT => ['text' => 'Reject', 'color' => 'bg-red-600', 'text_color' => 'text-red-600'],
             ][$this->is_valid];
         });
     }
@@ -76,9 +76,9 @@ class DepositHistory extends Model
     {
         return Attribute::make(get: function () {
             if ($this->credit == 0) {
-                return $this->debit;
+                return 'Rp' . number_format($this->debit, 0, ',', '.');
             }
-            return $this->credit;
+            return '-Rp' . number_format($this->credit, 0, ',', '.');
         });
     }
 
@@ -92,6 +92,11 @@ class DepositHistory extends Model
     public function customer()
     {
         return $this->belongsTo(Customer::class);
+    }
+
+    public function account()
+    {
+        return $this->belongsTo(Account::class);
     }
 
     public function update_customer_balance()

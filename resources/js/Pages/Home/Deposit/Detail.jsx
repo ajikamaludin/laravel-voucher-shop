@@ -159,7 +159,7 @@ const FormUpload = () => {
                     <option value=""></option>
                     {accounts.map((account) => (
                         <option value={account.id} key={account.id}>
-                            {account.bank_name}
+                            {account.name} - {account.bank_name}
                         </option>
                     ))}
                 </select>
@@ -257,7 +257,7 @@ export default function Detail({ deposit }) {
                             {deposit.description}
                         </div>
                         <div className="font-bold text-3xl">
-                            Rp {formatIDR(deposit.amount)}
+                            {deposit.amount}
                         </div>
                         <div className="text-gray-400">
                             {deposit.format_created_at}
