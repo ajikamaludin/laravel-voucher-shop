@@ -91,7 +91,7 @@ export default function Index(props) {
     return (
         <CustomerLayout>
             <Head title="Home" />
-            <div className="flex flex-col">
+            <div className="flex flex-col min-h-[calc(95dvh)]">
                 {user !== null ? <UserBanner user={user} /> : <GuestBanner />}
 
                 {/* banner */}

@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Models\Setting;
+
 class GeneralService
 {
     public static function script_parser($script)
@@ -49,5 +51,21 @@ class GeneralService
         info('item', [$item]);
 
         return $item;
+    }
+
+    public static function getEnablePayment()
+    {
+        $payment = [
+            ['name' => Setting::PAYMENT_MANUAL, 'logo' => null, 'display_name' => 'Transfer Manual']
+        ];
+
+        $midtrans_enable = Setting::getByKey('MIDTRANS_ENABLED');
+        if ($midtrans_enable == 1) {
+            $payment[] = ['name' => Setting::PAYMENT_MIDTRANS, 'logo' =>  Setting::getByKey('MIDTRANS_LOGO')];
+        }
+
+        // Paylater
+
+        return $payment;
     }
 }

@@ -29,10 +29,10 @@
 -   [x] Login Customer
 -   [x] Login Customer Gmail
 -   [x] Customer Edit Profile
--   [ ] Register Refferal
--   [ ] Customer Deposit Manual
--   [ ] Customer Deposit Payment Gateway
+-   [x] Customer Deposit Manual
+-   [x] Customer Deposit Payment Gateway
 -   [ ] Customer Purchase Voucher
+-   [ ] Register Refferal
 -   [ ] Customer Share Buyed Voucher, via WA dll
 -   [ ] Customer View Coin History
 -   [ ] Verified Akun

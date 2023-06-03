@@ -24,38 +24,7 @@ export default [
         active: 'dashboard',
         permission: 'view-dashboard',
     },
-    {
-        name: 'Customer',
-        show: true,
-        icon: HiUserCircle,
-        route: route('customer.index'),
-        active: 'customer.*',
-        permission: 'view-customer',
-    },
-    {
-        name: 'Customer Level',
-        show: true,
-        icon: HiUserCircle,
-        route: route('customer-level.index'),
-        active: 'customer-level.*',
-        permission: 'view-customer-level',
-    },
-    {
-        name: 'Bank Akun',
-        show: true,
-        icon: HiBanknotes,
-        route: route('account.index'),
-        active: 'account.*',
-        permission: 'view-account',
-    },
-    {
-        name: 'Setting',
-        show: true,
-        icon: HiCog,
-        route: route('setting.index'),
-        active: 'setting.*',
-        permission: 'view-setting',
-    },
+
     {
         name: 'Lokasi',
         show: true,
@@ -95,6 +64,30 @@ export default [
             },
         ],
     },
+
+    {
+        name: 'Customer',
+        show: true,
+        icon: HiUser,
+        items: [
+            {
+                name: 'Customer',
+                show: true,
+                icon: HiUserCircle,
+                route: route('customer.index'),
+                active: 'customer.*',
+                permission: 'view-customer',
+            },
+            {
+                name: 'Level',
+                show: true,
+                icon: HiUserCircle,
+                route: route('customer-level.index'),
+                active: 'customer-level.*',
+                permission: 'view-customer-level',
+            },
+        ],
+    },
     {
         name: 'User',
         show: true,
@@ -117,5 +110,21 @@ export default [
                 permission: 'view-user',
             },
         ],
+    },
+    {
+        name: 'Bank Akun',
+        show: true,
+        icon: HiBanknotes,
+        route: route('account.index'),
+        active: 'account.*',
+        permission: 'view-account',
+    },
+    {
+        name: 'Setting',
+        show: true,
+        icon: HiCog,
+        route: route('setting.index'),
+        active: 'setting.*',
+        permission: 'view-setting',
     },
 ]

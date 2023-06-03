@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Customer\AuthController;
+use App\Http\Controllers\Customer\DepositController;
 use App\Http\Controllers\Customer\HomeController;
 use App\Http\Controllers\Customer\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -28,7 +29,15 @@ Route::middleware(['http_secure_aware', 'guard_should_customer', 'inertia.custom
         Route::post('profile/update', [ProfileController::class, 'update']);
         // logout
         Route::post('logout', [AuthController::class, 'destroy'])->name('customer.logout');
+
+        // deposite
+        Route::get('deposit', [DepositController::class, 'index'])->name('customer.deposit.index');
+        Route::get('deposit/topup', [DepositController::class, 'create'])->name('customer.deposit.topup');
+        Route::post('deposit/topup', [DepositController::class, 'store']);
+        Route::get('deposit/trx/{deposit}', [DepositController::class, 'show'])->name('customer.deposit.show');
+        Route::post('deposit/trx/{deposit}', [DepositController::class, 'update'])->name('customer.deposit.update');
     });
+
 
     Route::middleware('guest:customer')->group(function () {
         // login

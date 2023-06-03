@@ -10,6 +10,7 @@ import {
 import { HiOutlineBell, HiOutlineCash } from 'react-icons/hi'
 import { useModalState } from '@/hooks'
 import ModalConfirm from '@/Components/ModalConfirm'
+import BalanceBanner from '../Index/BalanceBanner'
 
 export default function Index({ auth: { user } }) {
     const confirmModal = useModalState()
@@ -59,41 +60,24 @@ export default function Index({ auth: { user } }) {
                         </div>
                     </div>
                     {/* saldo */}
-                    <div className="flex flex-row px-5 pb-3 text-base bg-blue-600">
-                        <div className="flex flex-row w-full shadow py-2 px-2 rounded bg-white items-center justify-between">
-                            <div className="flex flex-col">
-                                <div className="text-xs flex flex-row items-center space-x-1 text-gray-400">
-                                    <HiOutlineCash />
-                                    <div>Saldo</div>
-                                </div>
-                                <div className="font-bold">
-                                    Rp {user.display_deposit}
-                                </div>
-                                <div className="text-xs flex flex-row items-center space-x-1 text-gray-400">
-                                    <div>Coin {user.display_coin}</div>
-                                </div>
-                            </div>
-                            <div className="flex flex-col border-l-2 pl-5 pr-5">
-                                <div className="text-xs flex flex-row items-center space-x-1 text-gray-400">
-                                    <div>Rewards</div>
-                                </div>
-                                <div className="font-bold">
-                                    {user.level.name} Member
-                                </div>
-                                <div className="text-xs flex flex-row items-center space-x-1 text-gray-400">
-                                    <div>Limit 100.000</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <BalanceBanner user={user} />
                 </div>
                 <div className="p-4 flex flex-col">
                     <div className="flex flex-row justify-between items-center px-2 py-4 w-full border-b border-gray-400 hover:bg-gray-100">
                         <div>Upgrade Member</div>
                         <HiChevronRight className="h-5 w-5" />
                     </div>
-                    <div className="flex flex-row justify-between items-center px-2 py-4 w-full border-b border-gray-400 hover:bg-gray-100">
+                    <div
+                        className="flex flex-row justify-between items-center px-2 py-4 w-full border-b border-gray-400 hover:bg-gray-100"
+                        onClick={() =>
+                            router.get(route('customer.deposit.index'))
+                        }
+                    >
                         <div>Deposit Saldo</div>
+                        <HiChevronRight className="h-5 w-5" />
+                    </div>
+                    <div className="flex flex-row justify-between items-center px-2 py-4 w-full border-b border-gray-400 hover:bg-gray-100">
+                        <div>Coin</div>
                         <HiChevronRight className="h-5 w-5" />
                     </div>
                     <div className="flex flex-row justify-between items-center px-2 py-4 w-full border-b border-gray-400 hover:bg-gray-100">

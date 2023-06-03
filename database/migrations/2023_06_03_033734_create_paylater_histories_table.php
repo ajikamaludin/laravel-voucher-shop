@@ -11,23 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('deposit_histories', function (Blueprint $table) {
+        Schema::create('paylater_histories', function (Blueprint $table) {
             $table->ulid('id')->primary();
 
             $table->decimal('debit', 20, 2)->default(0);
             $table->decimal('credit', 20, 2)->default(0);
             $table->text('description')->nullable();
             $table->ulid('customer_id')->nullable();
-            $table->ulid('account_id')->nullable();
-            $table->string('related_type')->nullable();
-            $table->string('related_id')->nullable();
-            $table->smallInteger('is_valid')->default(0);
-            $table->string('image_prove')->nullable();
-            $table->string('payment_channel')->nullable();
-            $table->string('payment_token')->nullable();
-            $table->string('payment_status')->nullable();
-            $table->string('payment_response')->nullable();
-            $table->string('payment_type')->nullable();
 
             $table->timestamps();
             $table->softDeletes();
@@ -42,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('deposit_histories');
+        Schema::dropIfExists('paylater_histories');
     }
 };

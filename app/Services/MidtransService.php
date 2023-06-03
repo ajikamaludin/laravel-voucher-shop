@@ -2,55 +2,46 @@
 
 namespace App\Services;
 
+use App\Models\DepositHistory;
 use Midtrans\Config;
 use Midtrans\Snap;
 
 class MidtransService
 {
-    protected $order;
+    protected $deposit;
 
-    public function __construct($order, $serverKey)
+    public function __construct(DepositHistory $deposit, $serverKey)
     {
         Config::$serverKey = $serverKey;
         Config::$isProduction = app()->isProduction();
         Config::$isSanitized = true;
         Config::$is3ds = true;
 
-        $this->order = $order;
+        $this->deposit = $deposit;
     }
 
     public function getSnapToken()
     {
-        $items = $this->order->items->map(function ($item) {
-            return [
-                'id' => $item->id,
-                'price' => $item->amount,
-                'quantity' => $item->quantity,
-                'name' => $item->item->order_detail,
-            ];
-        });
-
-        if ($this->order->total_discount > 0) {
-            $items->add([
-                'id' => 'Discount',
-                'price' => -$this->order->total_discount,
-                'quantity' => 1,
-                'name' => 'DISCOUNT',
-            ]);
-        }
-
         $params = [
             'transaction_details' => [
-                'order_id' => $this->order->order_code,
-                'gross_amount' => $this->order->total_amount,
+                'order_id' => $this->deposit->id,
+                'gross_amount' => $this->deposit->debit,
             ],
-            'item_details' => $items->toArray(),
+            'item_details' => [[
+                'id' => $this->deposit->id,
+                'price' => $this->deposit->debit,
+                'quantity' => 1,
+                'name' => $this->deposit->description,
+            ]],
             'customer_details' => [
-                'name' => $this->order->customer->name,
-                'email' => $this->order->customer->email,
-                'phone' => $this->order->customer->phone,
-                'address' => $this->order->customer->address,
+                'name' => $this->deposit->customer->fullname,
+                'email' => $this->deposit->customer->email,
+                'phone' => $this->deposit->customer->phone,
+                'address' => $this->deposit->customer->address,
             ],
+            'callbacks' => [
+                'finish' => route('customer.deposit.show', ['deposit' => $this->deposit->id])
+            ]
         ];
 
         $snapToken = Snap::getSnapToken($params);

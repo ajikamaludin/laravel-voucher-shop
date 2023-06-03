@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\LocationController;
+use App\Http\Controllers\Customer\DepositController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -25,4 +26,5 @@ Route::get('/roles', [RoleController::class, 'index'])->name('api.role.index');
 Route::get('/locations', [LocationController::class, 'index'])->name('api.location.index');
 
 // midtrans
-Route::post('mindtrans/notification', fn () => 'Ok!')->name('api.midtrans.notification');
+Route::post('mindtrans/notification', [DepositController::class, 'mindtrans_notification'])->name('api.midtrans.notification');
+Route::post('mindtrans/{deposit}/payment', [DepositController::class, 'midtrans_payment'])->name('api.midtrans.payment');

@@ -27,6 +27,7 @@ class Customer extends Authenticatable
         'google_id',
         'deposit_balance',
         'coin_balance',
+        'paylater_balance',
         'identity_verified',
         'identity_image',
         'customer_level_id',

@@ -12,6 +12,12 @@ class Setting extends Model
 {
     use HasFactory, SoftDeletes, HasUlids;
 
+    const PAYMENT_MANUAL = 'MANUAL';
+
+    const PAYMENT_MIDTRANS = 'MIDTRANS';
+
+    const PAYMENT_PAYLATER = 'PAYLATER';
+
     protected $fillable = [
         'key',
         'value',
@@ -31,5 +37,10 @@ class Setting extends Model
 
             return '';
         });
+    }
+
+    public static function getByKey($key)
+    {
+        return Setting::where('key', $key)->value('value');
     }
 }
