@@ -12,6 +12,10 @@ import { extractValue } from './utils'
 export default function General(props) {
     const { setting, midtrans_notification_url } = props
     const { data, setData, post, reset, processing, errors } = useForm({
+        VOUCHER_STOCK_NOTIFICATION: extractValue(
+            setting,
+            'VOUCHER_STOCK_NOTIFICATION'
+        ),
         AFFILATE_ENABLED: extractValue(setting, 'AFFILATE_ENABLED'),
         AFFILATE_COIN_AMOUNT: extractValue(setting, 'AFFILATE_COIN_AMOUNT'),
         MIDTRANS_SERVER_KEY: extractValue(setting, 'MIDTRANS_SERVER_KEY'),
@@ -56,10 +60,20 @@ export default function General(props) {
                 <div className="mx-auto sm:px-6 lg:px-8">
                     <div className="overflow-hidden p-4 shadow-sm sm:rounded-lg bg-white dark:bg-gray-800 flex flex-col">
                         <div className="text-xl font-bold mb-4">Setting</div>
-
                         <div className="p-2 border rounded-xl">
-                            <div className="font-bold mb-2">Affilate</div>
+                            <div className="font-bold mb-2">Notification</div>
+                            <FormInput
+                                type={'number'}
+                                name="VOUCHER_STOCK_NOTIFICATION"
+                                value={data.VOUCHER_STOCK_NOTIFICATION}
+                                onChange={handleOnChange}
+                                label="Jumlah Stok"
+                                error={errors.VOUCHER_STOCK_NOTIFICATION}
+                            />
+                        </div>
 
+                        <div className="mt-2 p-2 border rounded-xl">
+                            <div className="font-bold mb-2">Affilate</div>
                             <FormInput
                                 type={'number'}
                                 name="AFFILATE_COIN_AMOUNT"
@@ -75,6 +89,7 @@ export default function General(props) {
                                 name="AFFILATE_ENABLED"
                             />
                         </div>
+
                         <div className="mt-2 p-2 border rounded-xl">
                             <div className="font-bold mb-2">
                                 Midtrans Payment

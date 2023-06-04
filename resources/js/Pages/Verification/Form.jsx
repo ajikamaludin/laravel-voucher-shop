@@ -4,13 +4,14 @@ import { isEmpty } from 'lodash'
 
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import Button from '@/Components/Button'
+import FormInput from '@/Components/FormInput'
 
 export default function Form(props) {
     const { customer, levels } = props
     const { data, setData, post, processing, errors, reset, clearErrors } =
         useForm({
-            level: '',
-            image_prove_url: '',
+            level: customer.level.key,
+            paylater_limit: +customer.paylater_limit,
         })
 
     const handleOnChange = (event) => {
@@ -56,7 +57,22 @@ export default function Form(props) {
                                                 customer
                                             )}
                                         >
-                                            {customer.name}
+                                            {customer.fullname} (
+                                            {customer.username})
+                                        </Link>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td className="font-bold">Whatsapp</td>
+                                    <td>:</td>
+                                    <td className="hover:underline">
+                                        <Link
+                                            href={route(
+                                                'customer.edit',
+                                                customer
+                                            )}
+                                        >
+                                            {customer.phone}
                                         </Link>
                                     </td>
                                 </tr>
@@ -70,7 +86,7 @@ export default function Form(props) {
                             />
                         </div>
 
-                        <div className="my-4">
+                        <div className="mt-4">
                             <div className="mb-1 text-sm">Level Upgrade</div>
                             <select
                                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
@@ -85,6 +101,21 @@ export default function Form(props) {
                                     </option>
                                 ))}
                             </select>
+                            {errors.level && (
+                                <p className="mb-2 text-sm text-red-600 dark:text-red-500">
+                                    {errors.level}
+                                </p>
+                            )}
+                        </div>
+                        <div className="mb-4 mt-2">
+                            <FormInput
+                                type="number"
+                                label="Limit Hutang"
+                                name="paylater_limit"
+                                onChange={handleOnChange}
+                                value={data.paylater_limit}
+                                error={errors.paylater_limit}
+                            />
                         </div>
                         <div className="flex items-center">
                             <Button

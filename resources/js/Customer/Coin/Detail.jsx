@@ -7,7 +7,7 @@ import CustomerLayout from '@/Layouts/CustomerLayout'
 export default function Detail({ coin }) {
     return (
         <CustomerLayout>
-            <Head title="Top Up" />
+            <Head title="Coin" />
             <div className="flex flex-col min-h-[calc(95dvh)]">
                 <div
                     className="w-full px-5 py-5"

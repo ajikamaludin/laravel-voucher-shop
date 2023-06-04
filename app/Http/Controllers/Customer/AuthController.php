@@ -138,9 +138,9 @@ class AuthController extends Controller
 
     public function destroy()
     {
-        Auth::logout();
+        session()->remove('carts');
 
-        session()->flush();
+        Auth::logout();
 
         return redirect()->route('customer.login')
             ->with('message', ['type' => 'success', 'message' => 'you are logged out, see you next time']);

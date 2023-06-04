@@ -55,6 +55,7 @@ class DepositController extends Controller
         ]);
         if ($request->status == DepositHistory::STATUS_VALID) {
             $deposit->update_customer_balance();
+            // TODO: add paylater check
         }
         DB::commit();
 

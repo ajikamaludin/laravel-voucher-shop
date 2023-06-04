@@ -13,12 +13,12 @@
 -   [x] Setting Level Customer (view levels, edit name of level,minimal saldo, max amount saldo, max hutang)
 -   [x] Deposit Menu (view daftar histori deposit)
 -   [x] Manual Approve Deposit
--   [ ] List Customer Verification
--   [ ] Manual Approve Verification -> mendapatkan limit hutang
+-   [x] List Customer Verification
+-   [x] Manual Approve Verification -> mendapatkan limit hutang
 -   [ ] Setting Bonus Coin (memasukan amount bonus coin yang didapat dengan level dan harga voucher) - bonus coin
 -   [ ] Voucher Sales
 -   [ ] Dashboard (gafik hasil penjualan : disorting tanggal, lokasi dan customer)
--   [ ] Notification (manual deposit, stock voucher)
+-   [ ] Notification (manual deposit, deposit success, stock voucher, sale)
 -   [ ] View Customer Coin History
 -   [ ] Voucher - harga per level
 -   [ ] Voucher - harga coin
@@ -42,7 +42,7 @@
 -   [x] Customer Share Buyed Voucher, via WA dll
 -   [x] Register Refferal
 -   [x] Customer View Coin History
--   [ ] Verified Akun
--   [ ] Paylater
+-   [x] Verified Akun
+-   [ ] Paylater: index paylater, payment cart, deposite repay
 -   [ ] Coin Explorer
 -   [ ] Notification (purchase success, deposit success)

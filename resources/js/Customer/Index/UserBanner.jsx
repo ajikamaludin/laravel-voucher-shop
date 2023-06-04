@@ -20,7 +20,7 @@ export default function UserBanner({ user }) {
                     <HiOutlineBell className="text-white w-7 h-7" />
                     <div>
                         <div className="bg-white text-blue-700 rounded-lg px-1 text-xs -ml-2.5">
-                            1
+                            0
                         </div>
                     </div>
                 </div>

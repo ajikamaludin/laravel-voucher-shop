@@ -34,9 +34,25 @@ class VerificationController extends Controller
 
     public function update(Request $request, Customer $customer)
     {
-        // TODO: here 
-        $request->validate([]);
-        // 
-        $customer->update([]);
+        $request->validate([
+            'level' => 'required|exists:customer_levels,key',
+            'paylater_limit' => 'required|numeric',
+        ]);
+
+        $level = CustomerLevel::where('key', $request->level)->first();
+
+        $customer->update([
+            'customer_level_id' => $level->id,
+            'identity_verified' => Customer::VERIFIED
+        ]);
+
+        $customer->paylater()->updateOrCreate([
+            'customer_id' => $customer->id,
+        ], [
+            'limit' => $request->paylater_limit
+        ]);
+
+        return redirect()->route('customer-verification.index')
+            ->with('message', ['type' => 'success', 'message' => 'Item has beed updated']);
     }
 }

@@ -25,7 +25,7 @@ export default function Index({
 
     return (
         <CustomerLayout>
-            <Head title="Top Up" />
+            <Head title="Coin" />
             <div className="flex flex-col w-full min-h-[calc(90dvh)]">
                 <div className="w-full pt-10 px-5">
                     <div className="text-base">{user.fullname}</div>

@@ -28,6 +28,8 @@ class InstallationSeed extends Seeder
             ['key' => 'MIDTRANS_MERCHANT_ID', 'value' => 'G561244367', 'type' => 'text'],
             ['key' => 'MIDTRANS_LOGO', 'value' => 'sample/midtrans_logo.png', 'type' => 'image'],
             ['key' => 'MIDTRANS_ENABLED', 'value' => '0', 'type' => 'text'],
+
+            ['key' => 'VOUCHER_STOCK_NOTIFICATION', 'value' => '10', 'type' => 'text'],
         ];
 
         foreach ($settings as $setting) {

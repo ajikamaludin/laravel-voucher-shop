@@ -29,6 +29,8 @@ class CartController extends Controller
         return inertia('Cart/Index', [
             'carts' => $carts,
             'total' => $total,
+            'allow_process' => '', //TODO: check allow process payment
+            'is_paylater' => '', //check is transaction use paylater
         ]);
     }
 
@@ -138,6 +140,8 @@ class CartController extends Controller
             }
         }
 
+        // TODO: is use paylater track the paylater
+        // TODO: if use paylater credit all deposit if available
         $deposit = $customer->deposites()->create([
             'credit' => $total,
             'description' => 'Pembayaran #' . $sale->code,

@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customer;
+use App\Models\CustomerLevel;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Customer::query()->with(['level']);
+        $query = Customer::query()->with(['level'])->orderBy('updated_at', 'desc');
 
         if ($request->q != '') {
             $query->where('name', 'like', "%$request->q%")
@@ -57,14 +58,15 @@ class CustomerController extends Controller
     public function edit(Customer $customer)
     {
         return inertia('Customer/Form', [
-            'customer' => $customer,
+            'customer' => $customer->load(['level']),
+            'levels' => CustomerLevel::all()
         ]);
     }
 
     public function update(Request $request, Customer $customer)
     {
         $request->validate([
-            'username' => 'required|string|min:5|alpha_dash|unique:customers,username,'.$customer->id,
+            'username' => 'required|string|min:5|alpha_dash|unique:customers,username,' . $customer->id,
             'password' => 'nullable|string|min:8',
             'name' => 'required|string',
             'fullname' => 'required|string',
@@ -103,5 +105,26 @@ class CustomerController extends Controller
 
         return redirect()->route('customer.index')
             ->with('message', ['type' => 'success', 'message' => 'Item has beed deleted']);
+    }
+
+    public function update_level(Request $request, Customer $customer)
+    {
+        $request->validate([
+            'level' => 'required|exists:customer_levels,key',
+            'paylater_limit' => 'required|numeric',
+        ]);
+
+        $level = CustomerLevel::where('key', $request->level)->first();
+
+        $customer->update(['customer_level_id' => $level->id]);
+
+        $customer->paylater()->updateOrCreate([
+            'customer_id' => $customer->id,
+        ], [
+            'limit' => $request->paylater_limit
+        ]);
+
+        return redirect()->route('customer.index')
+            ->with('message', ['type' => 'success', 'message' => 'Item has beed updated']);
     }
 }

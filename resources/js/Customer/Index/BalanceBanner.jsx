@@ -1,3 +1,4 @@
+import { formatIDR } from '@/utils'
 import { router } from '@inertiajs/react'
 import { HiOutlineCash } from 'react-icons/hi'
 
@@ -25,7 +26,7 @@ export default function BalanceBanner({ user }) {
                     </div>
                     <div className="font-bold">{user.level.name} Member</div>
                     <div className="text-xs flex flex-row items-center space-x-1 text-gray-400">
-                        <div>{user.paylater_limit}</div>
+                        <div>{formatIDR(user.paylater_limit)}</div>
                     </div>
                 </div>
             </div>

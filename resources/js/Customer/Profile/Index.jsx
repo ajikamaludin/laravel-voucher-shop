@@ -84,11 +84,12 @@ export default function Index({ auth: { user } }) {
                     </div>
                 </div>
                 <div className="p-4 flex flex-col">
-                    {/* menu hanya muncul untuk member gold atau platinum */}
-                    <div className="flex flex-row justify-between items-center px-2 py-4 w-full border-b border-gray-400 hover:bg-gray-100">
-                        <div>Paylater</div>
-                        <HiChevronRight className="h-5 w-5" />
-                    </div>
+                    {user.is_allow_paylater && (
+                        <div className="flex flex-row justify-between items-center px-2 py-4 w-full border-b border-gray-400 hover:bg-gray-100">
+                            <div>Paylater</div>
+                            <HiChevronRight className="h-5 w-5" />
+                        </div>
+                    )}
                     <div
                         className="flex flex-row justify-between items-center px-2 py-4 w-full border-b border-gray-400 hover:bg-gray-100"
                         onClick={() =>

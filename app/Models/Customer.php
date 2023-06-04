@@ -51,6 +51,7 @@ class Customer extends Authenticatable
         'display_coin',
         'display_phone',
         'paylater_limit',
+        'is_allow_paylater'
     ];
 
     protected static function booted(): void
@@ -145,7 +146,17 @@ class Customer extends Authenticatable
     public function paylaterLimit(): Attribute
     {
         return Attribute::make(get: function () {
-            return $this->paylater?->limit ?? '';
+            if ($this->is_allow_paylater) {
+                return $this->paylater->limit;
+            }
+            return '';
+        });
+    }
+
+    public function isAllowPaylater(): Attribute
+    {
+        return Attribute::make(get: function () {
+            return [CustomerLevel::GOLD => true, CustomerLevel::PLATINUM => true][$this->level->key] ?? false;
         });
     }
 

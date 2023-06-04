@@ -106,6 +106,7 @@ class DepositController extends Controller
         if ($transaction_status == 'settlement' || $transaction_status == 'capture') {
             $is_valid = DepositHistory::STATUS_VALID;
             $deposit->update_customer_balance();
+            // TODO: add paylater check
         } elseif ($transaction_status == 'pending') {
             $is_valid = DepositHistory::STATUS_WAIT_PAYMENT;
         } else {
@@ -136,6 +137,7 @@ class DepositController extends Controller
             if ($request->transaction_status == 'settlement' || $request->transaction_status == 'capture') {
                 $deposit->fill(['payment_status' => DepositHistory::STATUS_VALID]);
                 $deposit->update_customer_balance();
+                // TODO: add paylater check
             } elseif ($request->transaction_status == 'pending') {
                 $deposit->fill(['payment_status' => DepositHistory::STATUS_WAIT_PAYMENT]);
             } else {

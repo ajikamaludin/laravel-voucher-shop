@@ -21,6 +21,7 @@ class SettingController extends Controller
     public function update(Request $request)
     {
         $request->validate([
+            'VOUCHER_STOCK_NOTIFICATION' => 'required|numeric',
             'AFFILATE_ENABLED' => 'required|in:0,1',
             'AFFILATE_COIN_AMOUNT' => 'required|numeric',
             'MIDTRANS_SERVER_KEY' => 'required|string',
