@@ -70,7 +70,7 @@ class AuthController extends Controller
                 'fullname' => $user->name,
                 'name' => $user->nickname,
                 'email' => $user->email,
-                'username' => Str::slug($user->name.'_'.Str::random(5), '_'),
+                'username' => Str::slug($user->name . '_' . Str::random(5), '_'),
                 'google_id' => $user->id,
                 'google_oauth_response' => json_encode($user),
             ]);
@@ -117,6 +117,8 @@ class AuthController extends Controller
     public function destroy()
     {
         Auth::logout();
+
+        session()->flush();
 
         return redirect()->route('customer.login')
             ->with('message', ['type' => 'success', 'message' => 'you are logged out, see you next time']);

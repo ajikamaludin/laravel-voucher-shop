@@ -31,7 +31,7 @@ export default function VoucherCard({ voucher }) {
                         </div>
                     )}
                 </div>
-                <div className="flex flex-col justify-end">
+                <div className="flex flex-col justify-end text-right">
                     <div className="text-3xl font-bold">
                         {voucher.display_quota}
                     </div>

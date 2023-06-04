@@ -14,6 +14,12 @@ class Customer extends Authenticatable
 {
     use HasFactory, HasUlids, UserTrackable, SoftDeletes;
 
+    const NOT_VERIFIED = 0;
+
+    const VERIFIED = 1;
+
+    const IN_VERICATION = 2;
+
     protected $fillable = [
         'username',
         'email',

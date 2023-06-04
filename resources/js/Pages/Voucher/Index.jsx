@@ -134,6 +134,12 @@ export default function Index(props) {
                                             </th>
                                             <th
                                                 scope="col"
+                                                className="py-3 px-6"
+                                            >
+                                                Terjual
+                                            </th>
+                                            <th
+                                                scope="col"
                                                 className="py-3 px-6 w-1/8"
                                             />
                                         </tr>
@@ -185,6 +191,14 @@ export default function Index(props) {
                                                     className="py-4 px-6"
                                                 >
                                                     {voucher.display_quota}
+                                                </td>
+                                                <td
+                                                    scope="row"
+                                                    className="py-4 px-6"
+                                                >
+                                                    {+voucher.is_sold === 1
+                                                        ? 'Ya'
+                                                        : 'Tidak'}
                                                 </td>
                                                 <td className="py-4 px-6 flex justify-end">
                                                     <Dropdown

@@ -8,9 +8,11 @@ import {
 } from 'react-icons/hi'
 import {
     HiBanknotes,
+    HiCheckBadge,
+    HiCreditCard,
     HiCurrencyDollar,
-    HiFaceSmile,
     HiMap,
+    HiOutlineCurrencyDollar,
     HiOutlineGlobeAlt,
     HiQuestionMarkCircle,
     HiTicket,
@@ -27,14 +29,6 @@ export default [
         permission: 'view-dashboard',
     },
     {
-        name: 'Deposit',
-        show: true,
-        icon: HiCurrencyDollar,
-        route: route('deposit.index'),
-        active: 'deposit.*',
-        permission: 'view-deposit',
-    },
-    {
         name: 'Lokasi',
         show: true,
         icon: HiMap,
@@ -46,6 +40,30 @@ export default [
         name: 'Voucher',
         show: true,
         icon: HiTicket,
+        route: route('voucher.index'),
+        active: 'voucher.*',
+        permission: 'view-voucher',
+    },
+    {
+        name: 'Sale', //TODO
+        show: true,
+        icon: HiCreditCard,
+        route: route('deposit.index'),
+        active: 'deposit.*',
+        permission: 'view-deposit',
+    },
+    {
+        name: 'Deposit',
+        show: true,
+        icon: HiCurrencyDollar,
+        route: route('deposit.index'),
+        active: 'deposit.*',
+        permission: 'view-deposit',
+    },
+    {
+        name: 'Coin Rewards', //TODO
+        show: true,
+        icon: HiOutlineCurrencyDollar,
         route: route('voucher.index'),
         active: 'voucher.*',
         permission: 'view-voucher',
@@ -79,6 +97,14 @@ export default [
         show: true,
         icon: HiUser,
         items: [
+            {
+                name: 'Verification', //TODO
+                show: true,
+                icon: HiCheckBadge,
+                route: route('customer.index'),
+                active: 'customer.*',
+                permission: 'view-customer',
+            },
             {
                 name: 'Customer',
                 show: true,

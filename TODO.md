@@ -32,7 +32,7 @@
 -   [x] Customer Deposit Manual
 -   [x] Customer Deposit Payment Gateway
 -   [x] Customer Purchase Voucher
--   [ ] Customer Share Buyed Voucher, via WA dll
+-   [x] Customer Share Buyed Voucher, via WA dll
 -   [ ] Register Refferal
 -   [ ] Customer View Coin History
 -   [ ] Verified Akun

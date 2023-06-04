@@ -1,23 +1,37 @@
 import { formatIDR } from '@/utils'
-import { HiShare } from 'react-icons/hi2'
+import { HiClipboardDocumentList, HiShare } from 'react-icons/hi2'
+import { toast } from 'react-toastify'
 
-export default function VoucherCard({ item: { voucher, quantity } }) {
+export default function VoucherCard(props) {
+    const {
+        item: { voucher, quantity, share_word },
+    } = props
+
+    const handleShare = () => {
+        console.log(share_word)
+        if (navigator.canShare) {
+            navigator.share({
+                title: 'Hai Baru beli voucher baru nih',
+                text: share_word,
+            })
+            return
+        }
+
+        navigator.clipboard.writeText(share_word)
+        toast.info('copied to clipboard')
+        return
+    }
+
+    const handleCopyToClipboard = (text) => {
+        toast.info('copied to clipboard')
+        navigator.clipboard.writeText(text)
+    }
+
     return (
-        <div className="px-3 py-1 shadow-md rounded border border-gray-100">
-            <div className="w-full flex flex-row justify-between py-0.5">
+        <div className="px-2 py-0 shadow-md rounded border border-gray-100">
+            <div className="w-full flex flex-row justify-between items-end my-1">
                 <div className="text-base font-bold">
                     {voucher.location.name}
-                </div>
-                <div
-                    className="text-right"
-                    onClick={() => {
-                        navigator.share({
-                            title: 'Hello World',
-                            text: 'Hai Hai',
-                        })
-                    }}
-                >
-                    <HiShare className="w-6 h-6" />
                 </div>
             </div>
             <div className="w-full border border-dashed"></div>
@@ -40,7 +54,7 @@ export default function VoucherCard({ item: { voucher, quantity } }) {
                         </div>
                     )}
                 </div>
-                <div className="flex flex-col justify-end">
+                <div className="flex flex-col justify-end text-right">
                     <div className="text-3xl font-bold">
                         {voucher.display_quota}
                     </div>
@@ -57,15 +71,40 @@ export default function VoucherCard({ item: { voucher, quantity } }) {
                 <div>{formatIDR(+voucher.price * +quantity)}</div>
             </div>
             <div className="w-full flex flex-row justify-between items-center py-1">
-                <div className="w-full py-1 px-2 bg-blue-50 border border-blue-200 rounded text-blue-700">
-                    <div>
-                        Username :{' '}
-                        <span className="font-bold">{voucher.username}</span>
+                <div className="w-full flex flex-col space-y-2 py-2 px-2 bg-blue-50 border border-blue-200 rounded text-blue-700">
+                    <div className="flex flex-row space-x-2 items-center">
+                        <div>Username : </div>
+                        <div className="font-bold">{voucher.username}</div>
+                        <div
+                            className="pl-2"
+                            onClick={() =>
+                                handleCopyToClipboard(voucher.username)
+                            }
+                        >
+                            <HiClipboardDocumentList className="text-blue-600" />
+                        </div>
                     </div>
-                    <div>
-                        Password :{' '}
-                        <span className="font-bold">{voucher.password}</span>
+                    <div className="flex flex-row space-x-2 items-center">
+                        <div>Password : </div>
+                        <div className="font-bold">{voucher.password}</div>
+                        <div
+                            className="pl-2"
+                            onClick={() =>
+                                handleCopyToClipboard(voucher.password)
+                            }
+                        >
+                            <HiClipboardDocumentList className="text-blue-600" />
+                        </div>
                     </div>
+                </div>
+            </div>
+            <div className="flex flex-row w-full justify-end pb-1">
+                <div
+                    className="text-right flex flex-row items-center space-x-2 font-bold p-1 border rounded hover:bg-gray-100"
+                    onClick={() => handleShare()}
+                >
+                    <HiShare className="w-6 h-6" />
+                    <div>Share</div>
                 </div>
             </div>
         </div>
