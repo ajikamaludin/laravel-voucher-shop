@@ -26,8 +26,7 @@ return new class extends Migration
             $table->string('google_id')->nullable();
             $table->decimal('deposit_balance', 20, 2)->default(0);
             $table->decimal('coin_balance', 20, 2)->default(0);
-            $table->decimal('paylater_balance', 20, 2)->default(0);
-            $table->smallInteger('identity_verified')->nullable();
+            $table->smallInteger('identity_verified')->default(0);
             $table->string('identity_image')->nullable();
             $table->ulid('customer_level_id')->nullable();
             $table->text('google_oauth_response')->nullable();

@@ -30,7 +30,7 @@ export default function Index({ auth: { user }, carts, total }) {
 
     return (
         <CustomerLayout>
-            <Head title="Index" />
+            <Head title="Cart" />
             <div className="flex flex-col min-h-[calc(95dvh)]">
                 <div className="py-5 text-2xl px-5 font-bold">Keranjang</div>
 

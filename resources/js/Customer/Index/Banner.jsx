@@ -6,7 +6,7 @@ import { HiChevronLeft } from 'react-icons/hi2'
 export default function Banner({ banner }) {
     return (
         <CustomerLayout>
-            <Head title="Login" />
+            <Head title="Banner" />
             <div className="flex flex-col min-h-[calc(95dvh)] p-4">
                 <div
                     className="w-full pb-4"

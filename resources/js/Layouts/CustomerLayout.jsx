@@ -6,6 +6,8 @@ import { HiOutlineHome, HiOutlineUserCircle } from 'react-icons/hi'
 import {
     HiArrowPathRoundedSquare,
     HiBars3,
+    HiGift,
+    HiOutlineGift,
     HiOutlineShoppingCart,
 } from 'react-icons/hi2'
 
@@ -51,7 +53,6 @@ export default function CustomerLayout({ children }) {
                     <HiOutlineHome className="h-6 w-6" />
                     <div className="text-xs font-light">Beranda</div>
                 </div>
-
                 <div
                     className={`pb-1 pt-2 px-5 hover:bg-blue-200 flex flex-col items-center ${isActive(
                         'cart.index'
@@ -67,6 +68,17 @@ export default function CustomerLayout({ children }) {
                         </div>
                     </div>
                     <div className="text-xs font-light">Keranjang</div>
+                </div>
+                <div
+                    className={`pb-1 pt-2 px-5 hover:bg-blue-200 flex flex-col items-center ${isActive(
+                        'coin'
+                    )}`}
+                    // onClick={() => handleOnClick('cart.index')}
+                >
+                    <div className="flex flex-row">
+                        <HiOutlineGift className="h-6 w-6" />
+                    </div>
+                    <div className="text-xs font-light">Coin</div>
                 </div>
                 <div
                     className={`pb-1 pt-2 px-5 hover:bg-blue-200 flex flex-col items-center ${isActive(

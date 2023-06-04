@@ -41,10 +41,10 @@ class CoinHistory extends Model
     {
         return Attribute::make(get: function () {
             if ($this->credit == 0) {
-                return 'Rp' . number_format($this->debit, 0, ',', '.');
+                return number_format($this->debit, 0, ',', '.');
             }
 
-            return '-Rp' . number_format($this->credit, 0, ',', '.');
+            return number_format($this->credit, 0, ',', '.');
         });
     }
 

@@ -84,7 +84,7 @@ export default function FormModal(props) {
             toggle={handleClose}
             title={'Deposit'}
         >
-            <table className="relative w-full overflow-x-auto border-collapse border p-2 rounded">
+            <table className="relative w-full overflow-x-auto p-2 rounded">
                 <tbody>
                     <tr>
                         <td className="font-bold">Customer</td>

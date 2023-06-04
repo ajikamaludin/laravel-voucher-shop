@@ -96,25 +96,20 @@ class CartController extends Controller
         DB::beginTransaction();
         $carts = collect(session('carts'));
 
-        // validate voucher is available
-        $vouchers = Voucher::whereIn('id', $carts->pluck('id')->toArray())->get();
-        $carts = $carts->map(function ($item) use ($vouchers) {
-            $voucher = $vouchers->firstWhere('id', $item['id']);
-            if ($voucher->is_sold == Voucher::SOLD) {
-                $voucher = $voucher->shuffle_unsold();
-                // rare happen
-                if ($voucher == null) {
-                    session()->remove('carts');
-                    return redirect()->route('home.index')
-                        ->with('message', ['type' => 'error', 'message' => 'transaksi gagal, voucher sedang tidak tersedia']);
-                }
-            }
+        if ($carts->count() == 0) {
+            return redirect()->route('home.index')
+                ->with('message', ['type' => 'error', 'message' => 'transaksi gagal, keranjang anda kosong']);
+        }
 
-            return [
-                ...$item,
-                'voucher' => $voucher
-            ];
-        });
+        // validate voucher is available
+        foreach ($carts as $item) {
+            $batchCount = $item['voucher']->count_unsold();
+            if ($batchCount < $item['quantity']) {
+                session()->remove('carts');
+                return redirect()->route('home.index')
+                    ->with('message', ['type' => 'error', 'message' => 'transaksi gagal, voucher sedang tidak tersedia']);
+            }
+        };
 
         $total = $carts->sum(function ($item) {
             return $item['quantity'] * $item['voucher']->price;
@@ -129,15 +124,18 @@ class CartController extends Controller
         ]);
 
         foreach ($carts as $item) {
-            $sale->items()->create([
-                'entity_type' => $item['voucher']::class,
-                'entity_id' => $item['voucher']->id,
-                'price' => $item['voucher']->price,
-                'quantity' => $item['quantity'],
-                'additional_info_json' => json_encode($item),
-            ]);
+            foreach (range(1, $item['quantity']) as $q) {
+                $voucher = $item['voucher']->shuffle_unsold();
+                $sale->items()->create([
+                    'entity_type' => $voucher::class,
+                    'entity_id' => $voucher->id,
+                    'price' => $voucher->price,
+                    'quantity' => 1,
+                    'additional_info_json' => json_encode($item),
+                ]);
 
-            $item['voucher']->update(['is_sold' => Voucher::SOLD]);
+                $voucher->update(['is_sold' => Voucher::SOLD]);
+            }
         }
 
         $deposit = $customer->deposites()->create([

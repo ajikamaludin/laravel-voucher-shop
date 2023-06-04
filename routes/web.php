@@ -7,6 +7,7 @@ use App\Http\Controllers\Customer\DepositController;
 use App\Http\Controllers\Customer\HomeController;
 use App\Http\Controllers\Customer\ProfileController;
 use App\Http\Controllers\Customer\TransactionController;
+use App\Http\Controllers\Customer\VerificationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,6 +31,11 @@ Route::middleware(['http_secure_aware', 'guard_should_customer', 'inertia.custom
         Route::get('profile', [ProfileController::class, 'index'])->name('customer.profile.index');
         Route::get('profile/update', [ProfileController::class, 'show'])->name('customer.profile.show');
         Route::post('profile/update', [ProfileController::class, 'update']);
+
+        // verification
+        Route::get('profile/verification', [VerificationController::class, 'index'])->name('customer.verification');
+        Route::post('profile/verification', [VerificationController::class, 'update']);
+
         // logout
         Route::post('logout', [AuthController::class, 'destroy'])->name('customer.logout');
 

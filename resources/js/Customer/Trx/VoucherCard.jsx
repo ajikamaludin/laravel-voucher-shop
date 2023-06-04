@@ -64,12 +64,6 @@ export default function VoucherCard(props) {
                 </div>
             </div>
             <div className="w-full border border-dashed"></div>
-            <div className="w-full flex flex-row justify-between items-center pt-1">
-                <div>{formatIDR(voucher.price)}</div>
-                <div>x</div>
-                <div>{quantity}</div>
-                <div>{formatIDR(+voucher.price * +quantity)}</div>
-            </div>
             <div className="w-full flex flex-row justify-between items-center py-1">
                 <div className="w-full flex flex-col space-y-2 py-2 px-2 bg-blue-50 border border-blue-200 rounded text-blue-700">
                     <div className="flex flex-row space-x-2 items-center">

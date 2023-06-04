@@ -17,6 +17,7 @@ class Voucher extends Model
         'location_id',
         'username',
         'password',
+        'price_coin', // harga voucher untuk ditukarkan dengan coin
         'price', // harga jual
         'discount',
         'display_price', //yang di input user
@@ -84,6 +85,16 @@ class Voucher extends Model
             ['is_sold', '=', self::UNSOLD],
             ['batch_id', '=', $this->batch_id]
         ])->first();
+
+        return $voucher;
+    }
+
+    public function count_unsold()
+    {
+        $voucher = Voucher::where([
+            ['is_sold', '=', self::UNSOLD],
+            ['batch_id', '=', $this->batch_id]
+        ])->count();
 
         return $voucher;
     }

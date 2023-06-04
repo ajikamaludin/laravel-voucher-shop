@@ -2,17 +2,12 @@ import React, { useEffect, useState } from 'react'
 import { router } from '@inertiajs/react'
 import { usePrevious } from 'react-use'
 import { Head } from '@inertiajs/react'
-import { Button, Dropdown } from 'flowbite-react'
-import { HiPencil, HiTrash } from 'react-icons/hi'
-import { useModalState } from '@/hooks'
+import { Dropdown } from 'flowbite-react'
+import { HiEye } from 'react-icons/hi2'
 
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import Pagination from '@/Components/Pagination'
-import ModalConfirm from '@/Components/ModalConfirm'
-import FormModal from './FormModal'
 import SearchInput from '@/Components/SearchInput'
-import { formatIDR, hasPermission } from '@/utils'
-import { HiEye } from 'react-icons/hi2'
 
 export default function Index(props) {
     const {
@@ -22,13 +17,6 @@ export default function Index(props) {
 
     const [search, setSearch] = useState('')
     const preValue = usePrevious(search)
-
-    const formModal = useModalState()
-
-    const toggleFormModal = (deposit = null) => {
-        formModal.setData(deposit)
-        formModal.toggle()
-    }
 
     const params = { q: search }
     useEffect(() => {
@@ -44,17 +32,15 @@ export default function Index(props) {
         }
     }, [search])
 
-    const canUpdate = hasPermission(auth, 'update-deposit')
-
     return (
         <AuthenticatedLayout
             auth={props.auth}
             errors={props.errors}
             flash={props.flash}
-            page={'Deposit'}
+            page={'Verifikasi Customer'}
             action={''}
         >
-            <Head title="Deposit" />
+            <Head title="Verifikasi Customer" />
 
             <div>
                 <div className="mx-auto sm:px-6 lg:px-8 ">
@@ -76,7 +62,13 @@ export default function Index(props) {
                                                 scope="col"
                                                 className="py-3 px-6"
                                             >
-                                                Customer
+                                                Nama
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                className="py-3 px-6"
+                                            >
+                                                Level
                                             </th>
                                             <th
                                                 scope="col"
@@ -88,57 +80,71 @@ export default function Index(props) {
                                                 scope="col"
                                                 className="py-3 px-6"
                                             >
-                                                Deskripsi
+                                                Coin
                                             </th>
                                             <th
                                                 scope="col"
                                                 className="py-3 px-6"
                                             >
-                                                Status
+                                                Referal Code
                                             </th>
                                             <th
                                                 scope="col"
-                                                className="py-3 px-6"
+                                                className="py-3 px-6 w-1/8"
                                             />
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {data.map((deposit) => (
+                                        {data.map((customer) => (
                                             <tr
                                                 className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-                                                key={deposit.id}
+                                                key={customer.id}
                                             >
                                                 <td
                                                     scope="row"
                                                     className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                                 >
-                                                    {deposit.customer.name}
-                                                </td>
-                                                <td className="py-4 px-6">
-                                                    {deposit.amount}
-                                                </td>
-                                                <td className="py-4 px-6">
-                                                    {deposit.description}
+                                                    {customer.name}
                                                 </td>
                                                 <td
-                                                    className={`py-4 px-6 ${deposit.status.text_color}`}
+                                                    scope="row"
+                                                    className="py-4 px-6"
                                                 >
-                                                    {deposit.status.text}
+                                                    {customer.level.name}
+                                                </td>
+                                                <td
+                                                    scope="row"
+                                                    className="py-4 px-6"
+                                                >
+                                                    {customer.display_deposit}
+                                                </td>
+                                                <td
+                                                    scope="row"
+                                                    className="py-4 px-6"
+                                                >
+                                                    {customer.display_coin}
+                                                </td>
+                                                <td
+                                                    scope="row"
+                                                    className="py-4 px-6"
+                                                >
+                                                    {customer.referral_code}
                                                 </td>
                                                 <td className="py-4 px-6 flex justify-center">
-                                                    {canUpdate && (
-                                                        <div
-                                                            className="flex space-x-1 items-center hover:underline"
-                                                            onClick={() =>
-                                                                toggleFormModal(
-                                                                    deposit
+                                                    <div
+                                                        className="flex space-x-1 items-center hover:underline"
+                                                        onClick={() => {
+                                                            router.get(
+                                                                route(
+                                                                    'customer-verification.edit',
+                                                                    customer
                                                                 )
-                                                            }
-                                                        >
-                                                            <HiEye />
-                                                            <div>Lihat</div>
-                                                        </div>
-                                                    )}
+                                                            )
+                                                        }}
+                                                    >
+                                                        <HiEye />
+                                                        <div>Lihat</div>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         ))}
@@ -152,7 +158,6 @@ export default function Index(props) {
                     </div>
                 </div>
             </div>
-            <FormModal modalState={formModal} />
         </AuthenticatedLayout>
     )
 }

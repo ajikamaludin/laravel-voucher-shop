@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\CustomerLevelController;
+use App\Http\Controllers\VerificationController;
 use App\Http\Controllers\DepositController;
 use App\Http\Controllers\GeneralController;
 use App\Http\Controllers\InfoController;
@@ -82,6 +83,11 @@ Route::middleware(['http_secure_aware', 'inertia.admin'])
             // customer level
             Route::get('/customer-levels', [CustomerLevelController::class, 'index'])->name('customer-level.index');
             Route::put('/customer-levels/{customerLevel}', [CustomerLevelController::class, 'update'])->name('customer-level.update');
+
+            // verification
+            Route::get('/customers-verifications', [VerificationController::class, 'index'])->name('customer-verification.index');
+            Route::get('/customers-verifications/{customer}', [VerificationController::class, 'edit'])->name('customer-verification.edit');
+            Route::post('/customers-verifications/{customer}', [VerificationController::class, 'update'])->name('customer-verification.update');
 
             // customer
             Route::get('/customers', [CustomerController::class, 'index'])->name('customer.index');

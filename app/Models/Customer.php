@@ -33,7 +33,6 @@ class Customer extends Authenticatable
         'google_id',
         'deposit_balance',
         'coin_balance',
-        'paylater_balance',
         'identity_verified',
         'identity_image',
         'customer_level_id',
@@ -47,9 +46,11 @@ class Customer extends Authenticatable
 
     protected $appends = [
         'image_url',
+        'identity_image_url',
         'display_deposit',
         'display_coin',
         'display_phone',
+        'paylater_limit',
     ];
 
     protected static function booted(): void
@@ -103,6 +104,19 @@ class Customer extends Authenticatable
         );
     }
 
+    public function identityImageUrl(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                if ($this->identity_image != null) {
+                    return asset($this->identity_image);
+                }
+
+                return asset('sample/ktp_placeholder.png');
+            }
+        );
+    }
+
     public function displayPhone(): Attribute
     {
         return Attribute::make(get: function () {
@@ -128,6 +142,13 @@ class Customer extends Authenticatable
         });
     }
 
+    public function paylaterLimit(): Attribute
+    {
+        return Attribute::make(get: function () {
+            return $this->paylater?->limit ?? '';
+        });
+    }
+
     public function level()
     {
         return $this->belongsTo(CustomerLevel::class, 'customer_level_id');
@@ -146,6 +167,16 @@ class Customer extends Authenticatable
     public function coins()
     {
         return $this->hasMany(CoinHistory::class);
+    }
+
+    public function paylater()
+    {
+        return $this->hasOne(PaylaterCustomer::class);
+    }
+
+    public function paylaterHistories()
+    {
+        return $this->hasMany(PaylaterHistory::class);
     }
 
     public function customerRefferals()

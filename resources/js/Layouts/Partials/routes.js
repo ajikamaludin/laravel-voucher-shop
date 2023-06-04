@@ -61,7 +61,7 @@ export default [
         permission: 'view-deposit',
     },
     {
-        name: 'Coin Rewards', //TODO
+        name: 'Bonus Coin', //TODO
         show: true,
         icon: HiOutlineCurrencyDollar,
         route: route('voucher.index'),
@@ -98,12 +98,12 @@ export default [
         icon: HiUser,
         items: [
             {
-                name: 'Verification', //TODO
+                name: 'Verifikasi',
                 show: true,
                 icon: HiCheckBadge,
-                route: route('customer.index'),
-                active: 'customer.*',
-                permission: 'view-customer',
+                route: route('customer-verification.index'),
+                active: 'customer-verification.*',
+                permission: 'view-customer-verification',
             },
             {
                 name: 'Customer',

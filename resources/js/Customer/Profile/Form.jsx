@@ -149,7 +149,7 @@ export default function Index({ auth: { user }, flash }) {
                                 <img
                                     src={`${data.image_url}`}
                                     className="w-20 h-20 mb-1 rounded-full"
-                                    alt="site logo"
+                                    alt="profile image"
                                 />
                             }
                         />

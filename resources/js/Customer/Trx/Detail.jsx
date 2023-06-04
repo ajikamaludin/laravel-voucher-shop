@@ -20,18 +20,18 @@ export default function Detail({ sale }) {
                 <div className="text-2xl px-5 font-bold">
                     Transaksi #{sale.code}
                 </div>
-                <div className="px-5 pb-4">{sale.format_created_at}</div>
+                <div className="px-5">{sale.format_created_at}</div>
+                <div className="px-5 pb-4 w-full">
+                    <div className="text-xl font-bold text-right flex flex-row justify-between">
+                        <div>TOTAL</div>
+                        <div> {sale.display_amount}</div>
+                    </div>
+                </div>
 
                 <div className="w-full px-5 flex flex-col space-y-2">
                     {sale.items.map((item) => (
                         <VoucherCard key={item.id} item={item} />
                     ))}
-                </div>
-                <div className="fixed bottom-20 right-0 w-full">
-                    <div className="max-w-sm mx-auto text-xl font-bold text-right flex flex-row justify-between">
-                        <div>TOTAL</div>
-                        <div> {sale.display_amount}</div>
-                    </div>
                 </div>
             </div>
         </CustomerLayout>

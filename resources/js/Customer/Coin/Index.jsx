@@ -36,7 +36,7 @@ export default function Index({
                             Coin
                         </div>
                         <div className="font-bold text-3xl">
-                            Rp {user.display_coin}
+                            {user.display_coin}
                         </div>
                     </div>
                 </div>

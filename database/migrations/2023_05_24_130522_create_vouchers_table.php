@@ -19,6 +19,7 @@ return new class extends Migration
             $table->ulid('location_id')->nullable();
             $table->string('username')->nullable();
             $table->string('password')->nullable();
+            $table->decimal('price_coin', 20, 2)->default(0);
             $table->decimal('price', 20, 2)->default(0);
             $table->decimal('discount', 20, 0)->default(0);
             $table->decimal('display_price', 20, 2)->default(0);
