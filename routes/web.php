@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Customer\AuthController;
 use App\Http\Controllers\Customer\CartController;
+use App\Http\Controllers\Customer\CoinController;
 use App\Http\Controllers\Customer\DepositController;
 use App\Http\Controllers\Customer\HomeController;
 use App\Http\Controllers\Customer\ProfileController;
@@ -38,6 +39,10 @@ Route::middleware(['http_secure_aware', 'guard_should_customer', 'inertia.custom
         Route::post('deposit/topup', [DepositController::class, 'store']);
         Route::get('deposit/trx/{deposit}', [DepositController::class, 'show'])->name('customer.deposit.show');
         Route::post('deposit/trx/{deposit}', [DepositController::class, 'update'])->name('customer.deposit.update');
+
+        // coin
+        Route::get('coin', [CoinController::class, 'index'])->name('customer.coin.index');
+        Route::get('coin/{coin}', [CoinController::class, 'show'])->name('customer.coin.show');
 
         // cart
         Route::get('cart', [CartController::class, 'index'])->name('cart.index');

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -96,6 +97,7 @@ class AuthController extends Controller
             'phone' => 'required|numeric',
             'username' => 'required|string|min:5|alpha_dash|unique:customers,username',
             'password' => 'required|string|min:8|confirmed',
+            'referral_code' => 'nullable|exists:customers,referral_code'
         ]);
 
         DB::beginTransaction();
@@ -107,6 +109,26 @@ class AuthController extends Controller
             'username' => $request->username,
             'password' => bcrypt($request->password),
         ]);
+
+        if ($request->referral_code != '') {
+            $refferal = Customer::where('referral_code', $request->referral_code)->first();
+            $refferal->customerRefferals()->create([
+                'refferal_id' => $customer->id,
+                'customer_code' => $refferal->referral_code
+            ]);
+
+            $affilateEnabled = Setting::getByKey('AFFILATE_ENABLED');
+            if ($affilateEnabled == 1) {
+                $bonusCoin = Setting::getByKey('AFFILATE_COIN_AMOUNT');
+                $coin = $refferal->coins()->create([
+                    'debit' => $bonusCoin,
+                    'description' => 'Bonus Refferal #' . Str::random(5),
+                ]);
+
+                $coin->update_customer_balance();
+            }
+        }
+
         DB::commit();
 
         Auth::guard('customer')->loginUsingId($customer->id);

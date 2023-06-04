@@ -18,6 +18,7 @@ export default function Index({ app_name, flash }) {
         name: '',
         address: '',
         phone: '',
+        referral_code: '',
     })
 
     const handleOnChange = (event) => {
@@ -126,6 +127,16 @@ export default function Index({ app_name, flash }) {
                             value={data.password_confirmation}
                             onChange={handleOnChange}
                             error={errors.password_confirmation}
+                            onKeyDownCapture={(e) => handleKeyDown(e)}
+                        />
+                    </div>
+                    <div className="w-full my-4">
+                        <FormInput
+                            placeholder="referral code (optional)"
+                            name="referral_code"
+                            value={data.referral_code}
+                            onChange={handleOnChange}
+                            error={errors.referral_code}
                             onKeyDownCapture={(e) => handleKeyDown(e)}
                         />
                     </div>

@@ -59,7 +59,7 @@ class Customer extends Authenticatable
                 $basic = CustomerLevel::where('key', CustomerLevel::BASIC)->first();
 
                 $customer->customer_level_id = $basic->id;
-                $customer->referral_code = Str::random(6);
+                $customer->referral_code = Str::upper(Str::random(6));
 
                 CustomerLevelHistory::create([
                     'customer_id' => $customer->id,
@@ -141,5 +141,15 @@ class Customer extends Authenticatable
     public function deposites()
     {
         return $this->hasMany(DepositHistory::class);
+    }
+
+    public function coins()
+    {
+        return $this->hasMany(CoinHistory::class);
+    }
+
+    public function customerRefferals()
+    {
+        return $this->hasMany(CustomerRefferal::class);
     }
 }

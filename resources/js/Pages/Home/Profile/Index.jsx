@@ -1,13 +1,14 @@
 import React from 'react'
-import { Head, Link, router } from '@inertiajs/react'
-import CustomerLayout from '@/Layouts/CustomerLayout'
-import UserBanner from '../Index/UserBanner'
+import { Head, router } from '@inertiajs/react'
+import { toast } from 'react-toastify'
+import { HiOutlineBell } from 'react-icons/hi'
 import {
     HiChevronRight,
-    HiOutlineUser,
+    HiClipboardDocumentList,
     HiOutlineUserCircle,
 } from 'react-icons/hi2'
-import { HiOutlineBell, HiOutlineCash } from 'react-icons/hi'
+
+import CustomerLayout from '@/Layouts/CustomerLayout'
 import { useModalState } from '@/hooks'
 import ModalConfirm from '@/Components/ModalConfirm'
 import BalanceBanner from '../Index/BalanceBanner'
@@ -21,6 +22,11 @@ export default function Index({ auth: { user } }) {
 
     const onLogout = () => {
         router.post(route('customer.logout'))
+    }
+
+    const handleCopyToClipboard = (text) => {
+        toast.info('copied to clipboard')
+        navigator.clipboard.writeText(text)
     }
 
     return (
@@ -62,6 +68,21 @@ export default function Index({ auth: { user } }) {
                     {/* saldo */}
                     <BalanceBanner user={user} />
                 </div>
+                <div className="p-4 pb-0">
+                    <div
+                        className="p-4 text-blue-800 rounded-lg bg-blue-50 flex flex-row space-x-2 w-full items-center"
+                        role="alert"
+                        onClick={() =>
+                            handleCopyToClipboard(user.referral_code)
+                        }
+                    >
+                        <div>Referral Code: </div>
+                        <div className="font-bold">{user.referral_code}</div>
+                        <div>
+                            <HiClipboardDocumentList className="text-blue-600" />
+                        </div>
+                    </div>
+                </div>
                 <div className="p-4 flex flex-col">
                     <div className="flex flex-row justify-between items-center px-2 py-4 w-full border-b border-gray-400 hover:bg-gray-100">
                         <div>Upgrade Member</div>
@@ -76,7 +97,10 @@ export default function Index({ auth: { user } }) {
                         <div>Deposit Saldo</div>
                         <HiChevronRight className="h-5 w-5" />
                     </div>
-                    <div className="flex flex-row justify-between items-center px-2 py-4 w-full border-b border-gray-400 hover:bg-gray-100">
+                    <div
+                        className="flex flex-row justify-between items-center px-2 py-4 w-full border-b border-gray-400 hover:bg-gray-100"
+                        onClick={() => router.get(route('customer.coin.index'))}
+                    >
                         <div>Coin</div>
                         <HiChevronRight className="h-5 w-5" />
                     </div>

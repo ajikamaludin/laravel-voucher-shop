@@ -33,7 +33,7 @@
 -   [x] Customer Deposit Payment Gateway
 -   [x] Customer Purchase Voucher
 -   [x] Customer Share Buyed Voucher, via WA dll
--   [ ] Register Refferal
--   [ ] Customer View Coin History
+-   [x] Register Refferal
+-   [x] Customer View Coin History
 -   [ ] Verified Akun
 -   [ ] Notification (purchase success, deposit success)

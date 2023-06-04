@@ -109,6 +109,12 @@ export default function Customer(props) {
                                             </th>
                                             <th
                                                 scope="col"
+                                                className="py-3 px-6"
+                                            >
+                                                Referal Code
+                                            </th>
+                                            <th
+                                                scope="col"
                                                 className="py-3 px-6 w-1/8"
                                             />
                                         </tr>
@@ -142,6 +148,12 @@ export default function Customer(props) {
                                                     className="py-4 px-6"
                                                 >
                                                     {customer.display_coin}
+                                                </td>
+                                                <td
+                                                    scope="row"
+                                                    className="py-4 px-6"
+                                                >
+                                                    {customer.referral_code}
                                                 </td>
                                                 <td className="py-4 px-6 flex justify-end">
                                                     <Dropdown
