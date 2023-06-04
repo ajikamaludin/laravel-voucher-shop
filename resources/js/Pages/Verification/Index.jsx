@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { router } from '@inertiajs/react'
+import { Link, router } from '@inertiajs/react'
 import { usePrevious } from 'react-use'
 import { Head } from '@inertiajs/react'
-import { Dropdown } from 'flowbite-react'
 import { HiEye } from 'react-icons/hi2'
 
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
@@ -12,7 +11,6 @@ import SearchInput from '@/Components/SearchInput'
 export default function Index(props) {
     const {
         query: { links, data },
-        auth,
     } = props
 
     const [search, setSearch] = useState('')
@@ -131,20 +129,16 @@ export default function Index(props) {
                                                     {customer.referral_code}
                                                 </td>
                                                 <td className="py-4 px-6 flex justify-center">
-                                                    <div
+                                                    <Link
+                                                        href={route(
+                                                            'customer-verification.edit',
+                                                            customer
+                                                        )}
                                                         className="flex space-x-1 items-center hover:underline"
-                                                        onClick={() => {
-                                                            router.get(
-                                                                route(
-                                                                    'customer-verification.edit',
-                                                                    customer
-                                                                )
-                                                            )
-                                                        }}
                                                     >
                                                         <HiEye />
                                                         <div>Lihat</div>
-                                                    </div>
+                                                    </Link>
                                                 </td>
                                             </tr>
                                         ))}

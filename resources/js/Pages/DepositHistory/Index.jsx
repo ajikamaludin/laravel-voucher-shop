@@ -2,17 +2,14 @@ import React, { useEffect, useState } from 'react'
 import { router } from '@inertiajs/react'
 import { usePrevious } from 'react-use'
 import { Head } from '@inertiajs/react'
-import { Button, Dropdown } from 'flowbite-react'
-import { HiPencil, HiTrash } from 'react-icons/hi'
-import { useModalState } from '@/hooks'
+import { HiEye } from 'react-icons/hi2'
 
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import Pagination from '@/Components/Pagination'
-import ModalConfirm from '@/Components/ModalConfirm'
 import FormModal from './FormModal'
 import SearchInput from '@/Components/SearchInput'
-import { formatIDR, hasPermission } from '@/utils'
-import { HiEye } from 'react-icons/hi2'
+import { hasPermission } from '@/utils'
+import { useModalState } from '@/hooks'
 
 export default function Index(props) {
     const {

@@ -98,31 +98,20 @@ export default function Info(props) {
                                                         level.max_amount
                                                     )}
                                                 </td>
-                                                <td className="py-4 px-6 flex justify-end">
-                                                    <Dropdown
-                                                        label={'Opsi'}
-                                                        floatingArrow={true}
-                                                        arrowIcon={true}
-                                                        dismissOnClick={true}
-                                                        size={'sm'}
-                                                    >
-                                                        {canUpdate && (
-                                                            <Dropdown.Item
-                                                                onClick={() =>
-                                                                    toggleFormModal(
-                                                                        level
-                                                                    )
-                                                                }
-                                                            >
-                                                                <div className="flex space-x-1 items-center">
-                                                                    <HiPencil />
-                                                                    <div>
-                                                                        Ubah
-                                                                    </div>
-                                                                </div>
-                                                            </Dropdown.Item>
-                                                        )}
-                                                    </Dropdown>
+                                                <td className="py-4 px-6 flex justify-center">
+                                                    {canUpdate && (
+                                                        <div
+                                                            className="flex space-x-1 items-center hover:underline"
+                                                            onClick={() =>
+                                                                toggleFormModal(
+                                                                    level
+                                                                )
+                                                            }
+                                                        >
+                                                            <HiPencil />
+                                                            <div>Ubah</div>
+                                                        </div>
+                                                    )}
                                                 </td>
                                             </tr>
                                         ))}
