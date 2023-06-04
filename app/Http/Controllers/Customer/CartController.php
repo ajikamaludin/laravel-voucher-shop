@@ -26,7 +26,7 @@ class CartController extends Controller
             return $item['quantity'] * $item['voucher']->price;
         });
 
-        return inertia('Home/Cart/Index', [
+        return inertia('Cart/Index', [
             'carts' => $carts,
             'total' => $total,
         ]);

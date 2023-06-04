@@ -9,12 +9,12 @@ class ProfileController extends Controller
 {
     public function index()
     {
-        return inertia('Home/Profile/Index');
+        return inertia('Profile/Index');
     }
 
     public function show()
     {
-        return inertia('Home/Profile/Form');
+        return inertia('Profile/Form');
     }
 
     public function update(Request $request)
@@ -26,7 +26,7 @@ class ProfileController extends Controller
             'name' => 'string|required',
             'address' => 'string|required',
             'phone' => 'string|required|numeric',
-            'username' => 'string|required|min:5|alpha_dash|unique:customers,username,'.$customer->id,
+            'username' => 'string|required|min:5|alpha_dash|unique:customers,username,' . $customer->id,
             'password' => 'nullable|string|min:8|confirmed',
             'image' => 'nullable|image',
         ]);

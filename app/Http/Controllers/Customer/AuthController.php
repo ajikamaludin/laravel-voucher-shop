@@ -27,7 +27,7 @@ class AuthController extends Controller
 
     public function login()
     {
-        return inertia('Home/Auth/Login');
+        return inertia('Auth/Login');
     }
 
     public function update(Request $request)
@@ -85,7 +85,7 @@ class AuthController extends Controller
 
     public function register()
     {
-        return inertia('Home/Auth/Register');
+        return inertia('Auth/Register');
     }
 
     public function store(Request $request)

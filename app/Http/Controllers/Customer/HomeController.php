@@ -25,7 +25,7 @@ class HomeController extends Controller
             $vouchers->where('location_id', $request->location_id);
         }
 
-        return inertia('Home/Index/Index', [
+        return inertia('Index/Index', [
             'infos' => $infos,
             'banners' => $banners,
             'locations' => $locations,
@@ -36,7 +36,7 @@ class HomeController extends Controller
 
     public function banner(Banner $banner)
     {
-        return inertia('Home/Index/Banner', [
+        return inertia('Index/Banner', [
             'banner' => $banner,
         ]);
     }

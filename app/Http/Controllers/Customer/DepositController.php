@@ -21,14 +21,14 @@ class DepositController extends Controller
             ->orderBy('updated_at', 'desc')
             ->orderBy('is_valid', 'desc');
 
-        return inertia('Home/Deposit/Index', [
+        return inertia('Deposit/Index', [
             'histories' => $histories->paginate(20),
         ]);
     }
 
     public function create()
     {
-        return inertia('Home/Deposit/Topup', [
+        return inertia('Deposit/Topup', [
             'payments' => GeneralService::getEnablePayment(),
         ]);
     }
@@ -47,7 +47,7 @@ class DepositController extends Controller
         $deposit = DepositHistory::make([
             'customer_id' => auth()->id(),
             'debit' => $request->amount,
-            'description' => 'Top Up #'.Str::random(5),
+            'description' => 'Top Up #' . Str::random(5),
             'payment_channel' => $request->payment,
         ]);
 
@@ -72,7 +72,7 @@ class DepositController extends Controller
 
     public function show(Request $request, DepositHistory $deposit)
     {
-        return inertia('Home/Deposit/Detail', [
+        return inertia('Deposit/Detail', [
             'deposit' => $deposit,
             'accounts' => Account::get(),
             'midtrans_client_key' => Setting::getByKey('MIDTRANS_CLIENT_KEY'),

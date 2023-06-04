@@ -12,14 +12,14 @@ class TransactionController extends Controller
         $query = Sale::where('customer_id', auth()->id())
             ->orderBy('created_at', 'desc');
 
-        return inertia('Home/Trx/Index', [
+        return inertia('Trx/Index', [
             'query' => $query->paginate(),
         ]);
     }
 
     public function show(Sale $sale)
     {
-        return inertia('Home/Trx/Detail', [
+        return inertia('Trx/Detail', [
             'sale' => $sale->load(['items.voucher.location'])
         ]);
     }

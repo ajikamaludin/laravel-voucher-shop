@@ -13,14 +13,14 @@ class CoinController extends Controller
         $coins = CoinHistory::where('customer_id', auth()->id())
             ->orderBy('updated_at', 'desc');
 
-        return inertia('Home/Coin/Index', [
+        return inertia('Coin/Index', [
             'coins' => $coins->paginate(20),
         ]);
     }
 
     public function show(CoinHistory $coin)
     {
-        return inertia('Home/Coin/Detail', [
+        return inertia('Coin/Detail', [
             'coin' => $coin,
         ]);
     }
