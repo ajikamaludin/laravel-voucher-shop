@@ -11,7 +11,7 @@ export default function VoucherCard(props) {
         console.log(share_word)
         if (navigator.canShare) {
             navigator.share({
-                title: 'Hai Baru beli voucher baru nih',
+                title: share_word,
                 text: share_word,
             })
             return
