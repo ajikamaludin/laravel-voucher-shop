@@ -2,6 +2,17 @@ import React, { useState } from 'react'
 import { Head, router } from '@inertiajs/react'
 import CustomerLayout from '@/Layouts/CustomerLayout'
 
+const EmptyHere = () => {
+    return (
+        <div className="w-full px-5 text-center flex flex-col my-auto">
+            <div className="font-bold text-xl">Transaksi kosong</div>
+            <div className="text-gray-400">
+                Yuk, checkout kerangjang mu sekarang!
+            </div>
+        </div>
+    )
+}
+
 export default function Index({ query: { data, next_page_url } }) {
     const [sales, setSales] = useState(data)
 
@@ -27,6 +38,7 @@ export default function Index({ query: { data, next_page_url } }) {
                 <div className="py-5 text-2xl px-5 font-bold">
                     Transaksi Pembelian
                 </div>
+                {sales.length <= 0 && <EmptyHere />}
                 <div className="w-full">
                     <div className="flex flex-col space-y-5 px-5">
                         {sales.map((sale) => (

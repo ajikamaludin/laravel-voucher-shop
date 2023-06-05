@@ -158,7 +158,7 @@ const Paylater = () => {
     } = usePage()
     const { data, setData, post, processing, errors } = useForm({
         level: customer.level.key,
-        paylater_limit: +customer.paylater_limit,
+        paylater_limit: +customer.paylater?.limit,
     })
 
     const handleOnChange = (event) => {

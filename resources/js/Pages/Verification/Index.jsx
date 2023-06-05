@@ -78,13 +78,7 @@ export default function Index(props) {
                                                 scope="col"
                                                 className="py-3 px-6"
                                             >
-                                                Coin
-                                            </th>
-                                            <th
-                                                scope="col"
-                                                className="py-3 px-6"
-                                            >
-                                                Referal Code
+                                                Status
                                             </th>
                                             <th
                                                 scope="col"
@@ -120,13 +114,9 @@ export default function Index(props) {
                                                     scope="row"
                                                     className="py-4 px-6"
                                                 >
-                                                    {customer.display_coin}
-                                                </td>
-                                                <td
-                                                    scope="row"
-                                                    className="py-4 px-6"
-                                                >
-                                                    {customer.referral_code}
+                                                    {
+                                                        customer.verification_status
+                                                    }
                                                 </td>
                                                 <td className="py-4 px-6 flex justify-center">
                                                     <Link

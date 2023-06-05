@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Customer;
 use App\Models\DepositHistory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -55,7 +56,9 @@ class DepositController extends Controller
         ]);
         if ($request->status == DepositHistory::STATUS_VALID) {
             $deposit->update_customer_balance();
-            // TODO: add paylater check
+
+            $customer = Customer::find($deposit->customer_id);
+            $customer->repayPaylater($deposit);
         }
         DB::commit();
 

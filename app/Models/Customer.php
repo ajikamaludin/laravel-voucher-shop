@@ -51,7 +51,8 @@ class Customer extends Authenticatable
         'display_coin',
         'display_phone',
         'paylater_limit',
-        'is_allow_paylater'
+        'is_allow_paylater',
+        'verification_status',
     ];
 
     protected static function booted(): void
@@ -147,7 +148,7 @@ class Customer extends Authenticatable
     {
         return Attribute::make(get: function () {
             if ($this->is_allow_paylater) {
-                return $this->paylater->limit;
+                return $this->paylater->limit - $this->paylater->usage;
             }
             return '';
         });
@@ -157,6 +158,17 @@ class Customer extends Authenticatable
     {
         return Attribute::make(get: function () {
             return [CustomerLevel::GOLD => true, CustomerLevel::PLATINUM => true][$this->level->key] ?? false;
+        });
+    }
+
+    public function verificationStatus(): Attribute
+    {
+        return Attribute::make(get: function () {
+            return [
+                self::VERIFIED => 'Terverifikasi',
+                self::IN_VERICATION => 'Menunggu Verifikasi',
+                self::NOT_VERIFIED => 'Tidak Terverifikasi'
+            ][$this->identity_verified];
         });
     }
 
@@ -193,5 +205,43 @@ class Customer extends Authenticatable
     public function customerRefferals()
     {
         return $this->hasMany(CustomerRefferal::class);
+    }
+
+    public function allowPay($total): array
+    {
+        $allowProcess = false;
+        $isPaylater = false;
+
+        if ($this->deposit_balance >= $total) {
+            $allowProcess = true;
+        } else {
+            $paylater = $this->is_allow_paylater &&
+                ($this->paylater_limit >= $total || ($this->paylater_limit + $this->deposit_balance) >= $total);
+            if ($paylater) {
+                $allowProcess = true;
+                $isPaylater = true;
+            }
+        }
+
+        return [$allowProcess, $isPaylater];
+    }
+
+    public function repayPaylater(DepositHistory $deposit)
+    {
+        if ($this->paylater != null && $this->paylater->usage > 0) {
+            $cut = $deposit->debit > $this->paylater->usage ? $this->paylater->usage : $deposit->debit;
+
+            $paylater = $this->paylaterHistories()->create([
+                'credit' => $cut,
+                'description' => $deposit->description . " (Pengembalian)",
+            ]);
+            $paylater->update_customer_paylater();
+
+            $deposit = $this->deposites()->create([
+                'credit' => $cut,
+                'description' => 'Pembayaran Paylater'
+            ]);
+            $deposit->update_customer_balance();
+        }
     }
 }

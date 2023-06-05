@@ -1,5 +1,3 @@
-add name="8ga6xmzzkn" password="8ga6xmzzkn" profile="NEW-8GB-Kuota-7726-MB" comment="vc-203-06.17.22-a1" limit-bytes-total="8101298176"
-add name="8gd5874ncu" password="8gd5874ncu" profile="NEW-8GB-Kuota-7726-MB" comment="vc-203-06.17.22-a1" limit-bytes-total="8101298176"
 add name="OjphpKLOku" password="y82IDN08UG" profile="NEW-8GB-Kuota-7726-MB" comment="vc-203-06.17.22-a1" limit-bytes-total="8101298176"
 add name="76QcdtVf2n" password="CFx49P6HqS" profile="NEW-8GB-Kuota-7726-MB" comment="vc-203-06.17.22-a1" limit-bytes-total="8101298176"
 add name="9VVKwtcj92" password="fzIMQtaPqr" profile="NEW-8GB-Kuota-7726-MB" comment="vc-203-06.17.22-a1" limit-bytes-total="8101298176"
@@ -60,6 +58,8 @@ add name="Gwe0uZeQsL" password="OEwu2hAzLD" profile="NEW-8GB-Kuota-7726-MB" comm
 add name="NIP5mcqdbZ" password="OLdE2OxEVi" profile="NEW-8GB-Kuota-7726-MB" comment="vc-203-06.17.22-a1" limit-bytes-total="8101298176"
 add name="fpE3wq9R2E" password="bdR8lacyq9" profile="NEW-8GB-Kuota-7726-MB" comment="vc-203-06.17.22-a1" limit-bytes-total="8101298176"
 add name="6NPANi81Ly" password="2hL28Zr4jr" profile="NEW-8GB-Kuota-7726-MB" comment="vc-203-06.17.22-a1" limit-bytes-total="8101298176"
+add name="8ga6xmzzkn" password="8ga6xmzzkn" profile="NEW-8GB-Kuota-7726-MB" comment="vc-203-06.17.22-a1" limit-bytes-total="8101298176"
+add name="8gd5874ncu" password="8gd5874ncu" profile="NEW-8GB-Kuota-7726-MB" comment="vc-203-06.17.22-a1" limit-bytes-total="8101298176"
 
 foreach(range(1,60) as $r) {
 echo 'add name="'. Str::random(10) .'" password="'. Str::random(10) .'" profile="NEW-8GB-Kuota-7726-MB" comment="vc-203-06.17.22-a1" limit-bytes-total="8101298176"'."\n";

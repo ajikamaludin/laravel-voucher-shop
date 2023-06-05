@@ -17,9 +17,13 @@ const EmptyHere = () => {
     )
 }
 
-export default function Index({ auth: { user }, carts, total }) {
-    const canPay = +user.deposit_balance >= +total
-
+export default function Index({
+    auth: { user },
+    carts,
+    total,
+    allow_process,
+    is_paylater,
+}) {
     const handleSubmit = () => {
         router.post(route('cart.purchase'))
     }
@@ -42,14 +46,32 @@ export default function Index({ auth: { user }, carts, total }) {
                             ))}
                         </div>
                         <div className="fixed bottom-20 right-0 w-full">
-                            <div className="max-w-sm mx-auto text-right text-gray-400">
+                            {is_paylater && (
+                                <div
+                                    className="max-w-sm mx-auto px-4 py-2 mb-4 text-xs text-blue-800 rounded-lg bg-blue-50 flex flex-row space-x-2 w-full items-center"
+                                    role="alert"
+                                >
+                                    <div>
+                                        Saldo tidak cukup, melanjutkan transaksi
+                                        dengan paylatermu
+                                    </div>
+                                </div>
+                            )}
+                            {/* <div className="max-w-sm mx-auto text-right text-gray-400">
                                 Saldo: {formatIDR(user.deposit_balance)}
-                            </div>
+                                {is_paylater && (
+                                    <>
+                                        {' '}
+                                        | Limit:{' '}
+                                        {formatIDR(user.paylater_limit)}
+                                    </>
+                                )}
+                            </div> */}
                             <div className="max-w-sm mx-auto text-xl font-bold text-right flex flex-row justify-between">
                                 <div>TOTAL</div>
                                 <div> {formatIDR(total)}</div>
                             </div>
-                            {canPay ? (
+                            {allow_process ? (
                                 <div
                                     onClick={handleSubmit}
                                     className="mt-3 border bg-blue-700 text-white px-5 py-2 mx-auto rounded-full hover:text-black hover:bg-white max-w-sm"

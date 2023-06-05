@@ -85,7 +85,12 @@ export default function Index({ auth: { user } }) {
                 </div>
                 <div className="p-4 flex flex-col">
                     {user.is_allow_paylater && (
-                        <div className="flex flex-row justify-between items-center px-2 py-4 w-full border-b border-gray-400 hover:bg-gray-100">
+                        <div
+                            className="flex flex-row justify-between items-center px-2 py-4 w-full border-b border-gray-400 hover:bg-gray-100"
+                            onClick={() =>
+                                router.get(route('customer.paylater.index'))
+                            }
+                        >
                             <div>Paylater</div>
                             <HiChevronRight className="h-5 w-5" />
                         </div>

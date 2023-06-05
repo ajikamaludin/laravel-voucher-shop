@@ -5,6 +5,7 @@ use App\Http\Controllers\Customer\CartController;
 use App\Http\Controllers\Customer\CoinController;
 use App\Http\Controllers\Customer\DepositController;
 use App\Http\Controllers\Customer\HomeController;
+use App\Http\Controllers\Customer\PaylaterController;
 use App\Http\Controllers\Customer\ProfileController;
 use App\Http\Controllers\Customer\TransactionController;
 use App\Http\Controllers\Customer\VerificationController;
@@ -38,6 +39,10 @@ Route::middleware(['http_secure_aware', 'guard_should_customer', 'inertia.custom
 
         // logout
         Route::post('logout', [AuthController::class, 'destroy'])->name('customer.logout');
+
+        // paylater 
+        Route::get('paylater', [PaylaterController::class, 'index'])->name('customer.paylater.index');
+        Route::get('paylater/trx/{paylater}', [PaylaterController::class, 'show'])->name('customer.paylater.show');
 
         // deposite
         Route::get('deposit', [DepositController::class, 'index'])->name('customer.deposit.index');

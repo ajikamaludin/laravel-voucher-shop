@@ -26,11 +26,14 @@ class CartController extends Controller
             return $item['quantity'] * $item['voucher']->price;
         });
 
+        $customer = Customer::find(auth()->id());
+        [$allowProcess, $isPaylater] = $customer->allowPay($total);
+
         return inertia('Cart/Index', [
             'carts' => $carts,
             'total' => $total,
-            'allow_process' => '', //TODO: check allow process payment
-            'is_paylater' => '', //check is transaction use paylater
+            'allow_process' => $allowProcess,
+            'is_paylater' => $isPaylater,
         ]);
     }
 
@@ -118,11 +121,25 @@ class CartController extends Controller
         });
 
         $customer = Customer::find(auth()->id());
+
+        // tolak payment jika limit dan deposit kurang dari total
+        $paylater_limit = (int) $customer->paylater_limit;
+        if (($paylater_limit + $customer->deposit_balance) < $total) {
+            session()->remove('carts');
+            return redirect()->route('home.index')
+                ->with('message', ['type' => 'error', 'message' => 'transaksi gagal, pembayaran ditolak']);
+        }
+
+        $payedWith = Sale::PAYED_WITH_DEPOSIT; //default deposit
+        if ($total > $customer->deposit_balance && $customer->deposit_balance == 0) {
+            $payedWith = Sale::PAYED_WITH_PAYLATER; //sale dibayar dengan paylater jika hanya deposit 0
+        }
+
         $sale = $customer->sales()->create([
             'code' => Str::random(5),
             'date_time' => now(),
             'amount' => $total,
-            'payed_with' => Sale::PAYED_WITH_DEPOSIT,
+            'payed_with' => $payedWith,
         ]);
 
         foreach ($carts as $item) {
@@ -140,16 +157,43 @@ class CartController extends Controller
             }
         }
 
-        // TODO: is use paylater track the paylater
-        // TODO: if use paylater credit all deposit if available
-        $deposit = $customer->deposites()->create([
-            'credit' => $total,
-            'description' => 'Pembayaran #' . $sale->code,
-            'related_type' => $sale::class,
-            'related_id' => $sale->id,
-            'is_valid' => DepositHistory::STATUS_VALID,
-        ]);
-        $deposit->update_customer_balance();
+        $description = 'Pembayaran #' . $sale->code;
+
+        // paylater payment
+        if ($customer->deposit_balance < $total) {
+            // allin
+            if ($customer->deposit_balance > 0) {
+                $deposit = $customer->deposites()->create([
+                    'credit' => $customer->deposit_balance,
+                    'description' => $description,
+                    'related_type' => $sale::class,
+                    'related_id' => $sale->id,
+                    'is_valid' => DepositHistory::STATUS_VALID,
+                ]);
+                $deposit->update_customer_balance();
+            }
+
+            // payed with paylater
+            $payedWithPaylater = $total - $customer->deposit_balance;
+            $paylater = $customer->paylaterHistories()->create([
+                'debit' => $payedWithPaylater,
+                'description' => $description
+            ]);
+
+            $paylater->update_customer_paylater();
+        }
+
+        // deposit payment
+        if ($customer->deposit_balance >= $total) {
+            $deposit = $customer->deposites()->create([
+                'credit' => $total,
+                'description' => $description,
+                'related_type' => $sale::class,
+                'related_id' => $sale->id,
+                'is_valid' => DepositHistory::STATUS_VALID,
+            ]);
+            $deposit->update_customer_balance();
+        }
 
         DB::commit();
 

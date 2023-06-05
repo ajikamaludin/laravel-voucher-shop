@@ -47,6 +47,6 @@
 -   [x] Register Refferal
 -   [x] Customer View Coin History
 -   [x] Verified Akun
--   [ ] Paylater: index paylater, payment cart, deposite repay
+-   [x] Paylater: index paylater, payment cart, deposite repay
 -   [ ] Coin Explorer: list voucher, modal voucher to excange
 -   [ ] Notification (purchase success, deposit success)

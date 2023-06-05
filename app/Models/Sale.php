@@ -13,6 +13,8 @@ class Sale extends Model
 
     const PAYED_WITH_DEPOSIT = 'deposit';
 
+    const PAYED_WITH_PAYLATER = 'paylater';
+
     const PAYED_WITH_COIN = 'coin';
 
     protected $fillable = [
