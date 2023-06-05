@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
 use App\Models\Account;
+use App\Models\Customer;
 use App\Models\DepositHistory;
 use App\Models\Setting;
 use App\Services\GeneralService;
@@ -102,21 +103,28 @@ class DepositController extends Controller
     public function midtrans_payment(Request $request, DepositHistory $deposit)
     {
         DB::beginTransaction();
+
         $transaction_status = $request->result['transaction_status'];
         if ($transaction_status == 'settlement' || $transaction_status == 'capture') {
             $is_valid = DepositHistory::STATUS_VALID;
-            $deposit->update_customer_balance();
-            // TODO: add paylater check
         } elseif ($transaction_status == 'pending') {
             $is_valid = DepositHistory::STATUS_WAIT_PAYMENT;
         } else {
             $is_valid = DepositHistory::STATUS_INVALID;
         }
+
         $deposit->update([
             'is_valid' => $is_valid,
             'payment_response' => json_encode($request->result),
             'payment_type' => $request->result['payment_type'],
         ]);
+
+        if ($is_valid == DepositHistory::STATUS_VALID) {
+            $deposit->update_customer_balance();
+
+            $customer = Customer::find($deposit->customer_id);
+            $customer->repayPaylater($deposit);
+        }
 
         DB::commit();
 
@@ -137,7 +145,8 @@ class DepositController extends Controller
             if ($request->transaction_status == 'settlement' || $request->transaction_status == 'capture') {
                 $deposit->fill(['payment_status' => DepositHistory::STATUS_VALID]);
                 $deposit->update_customer_balance();
-                // TODO: add paylater check
+                $customer = Customer::find($deposit->customer_id);
+                $customer->repayPaylater($deposit);
             } elseif ($request->transaction_status == 'pending') {
                 $deposit->fill(['payment_status' => DepositHistory::STATUS_WAIT_PAYMENT]);
             } else {
