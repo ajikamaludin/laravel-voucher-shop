@@ -16,8 +16,12 @@
 -   [x] List Customer Verification
 -   [x] Manual Approve Verification -> mendapatkan limit hutang
 -   [ ] Setting Bonus Coin (memasukan amount bonus coin yang didapat dengan level dan harga voucher) - bonus coin
--   [ ] Voucher Sales
+-   [ ] Voucher Sales (index: customer, total, jumlah voucher, detail: customer, list voucher, payment)
 -   [ ] Dashboard (gafik hasil penjualan : disorting tanggal, lokasi dan customer)
+        [total voucher] [total customer] [total customer verified] [total deposit]
+        [total voucher terjual bulan xxx] [jumlah voucher terjual bulan xxx] [total voucher terjual hari ini ] [jumlah voucher terjual hari ini]
+        [cart penjualan per tanggal, pilih range tanggal (range default 7), bisa filter by lokasi dan customer]
+        [list customer dengan total beli hari ini]
 -   [ ] Notification (manual deposit, deposit success, stock voucher, sale)
 -   [ ] View Customer Coin History
 -   [ ] Voucher - harga per level
@@ -44,5 +48,5 @@
 -   [x] Customer View Coin History
 -   [x] Verified Akun
 -   [ ] Paylater: index paylater, payment cart, deposite repay
--   [ ] Coin Explorer
+-   [ ] Coin Explorer: list voucher, modal voucher to excange
 -   [ ] Notification (purchase success, deposit success)
