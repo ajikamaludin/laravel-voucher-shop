@@ -21,7 +21,7 @@ export default function General(props) {
         MIDTRANS_SERVER_KEY: extractValue(setting, 'MIDTRANS_SERVER_KEY'),
         MIDTRANS_CLIENT_KEY: extractValue(setting, 'MIDTRANS_CLIENT_KEY'),
         MIDTRANS_MERCHANT_ID: extractValue(setting, 'MIDTRANS_MERCHANT_ID'),
-        MIDTRANS_LOGO: extractValue(setting, 'MIDTRANS_LOGO'),
+        MIDTRANS_LOGO_URL: extractValue(setting, 'MIDTRANS_LOGO'),
         MIDTRANS_ENABLED: extractValue(setting, 'MIDTRANS_ENABLED'),
         midtrans_logo_file: null,
     })
@@ -126,7 +126,7 @@ export default function General(props) {
                                 error={errors.midtrans_logo_file}
                                 preview={
                                     <img
-                                        src={`${data.MIDTRANS_LOGO}`}
+                                        src={`${data.MIDTRANS_LOGO_URL}`}
                                         className="w-40 mb-1"
                                         alt="site logo"
                                     />

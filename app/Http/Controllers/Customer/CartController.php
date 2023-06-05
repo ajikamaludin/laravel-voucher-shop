@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
+use App\Models\CoinHistory;
+use App\Models\CoinReward;
 use App\Models\Customer;
 use App\Models\DepositHistory;
 use App\Models\Sale;
@@ -122,7 +124,6 @@ class CartController extends Controller
 
         $customer = Customer::find(auth()->id());
 
-        // tolak payment jika limit dan deposit kurang dari total
         $paylater_limit = (int) $customer->paylater_limit;
         if (($paylater_limit + $customer->deposit_balance) < $total) {
             session()->remove('carts');
@@ -130,9 +131,9 @@ class CartController extends Controller
                 ->with('message', ['type' => 'error', 'message' => 'transaksi gagal, pembayaran ditolak']);
         }
 
-        $payedWith = Sale::PAYED_WITH_DEPOSIT; //default deposit
+        $payedWith = Sale::PAYED_WITH_DEPOSIT;
         if ($total > $customer->deposit_balance && $customer->deposit_balance == 0) {
-            $payedWith = Sale::PAYED_WITH_PAYLATER; //sale dibayar dengan paylater jika hanya deposit 0
+            $payedWith = Sale::PAYED_WITH_PAYLATER;
         }
 
         $sale = $customer->sales()->create([
@@ -157,11 +158,22 @@ class CartController extends Controller
             }
         }
 
+        $bonus = CoinReward::where('customer_level_id', $customer->customer_level_id)
+            ->where('amount_buy', '<=', $total)
+            ->orderBy('bonus_coin', 'desc')->first();
+
+        if ($bonus != null) {
+            $coin = $customer->coins()->create([
+                'debit' => $bonus->bonus_coin,
+                'description' => 'Bonus Pembelian #' . $sale->code,
+            ]);
+
+            $coin->update_customer_balance();
+        }
+
         $description = 'Pembayaran #' . $sale->code;
 
-        // paylater payment
         if ($customer->deposit_balance < $total) {
-            // allin
             if ($customer->deposit_balance > 0) {
                 $deposit = $customer->deposites()->create([
                     'credit' => $customer->deposit_balance,

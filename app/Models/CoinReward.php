@@ -9,4 +9,9 @@ class CoinReward extends Model
         'bonus_coin',
         'customer_level_id',
     ];
+
+    public function level()
+    {
+        return $this->belongsTo(CustomerLevel::class, 'customer_level_id');
+    }
 }

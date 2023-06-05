@@ -226,7 +226,7 @@ class Customer extends Authenticatable
         return [$allowProcess, $isPaylater];
     }
 
-    public function repayPaylater(DepositHistory $deposit)
+    public function repayPaylater(DepositHistory $deposit): void
     {
         if ($this->paylater != null && $this->paylater->usage > 0) {
             $cut = $deposit->debit > $this->paylater->usage ? $this->paylater->usage : $deposit->debit;

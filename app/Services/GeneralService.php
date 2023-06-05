@@ -61,7 +61,7 @@ class GeneralService
 
         $midtrans_enable = Setting::getByKey('MIDTRANS_ENABLED');
         if ($midtrans_enable == 1) {
-            $payment[] = ['name' => Setting::PAYMENT_MIDTRANS, 'logo' => Setting::getByKey('MIDTRANS_LOGO')];
+            $payment[] = ['name' => Setting::PAYMENT_MIDTRANS, 'logo' => asset(Setting::getByKey('MIDTRANS_LOGO'))];
         }
 
         return $payment;

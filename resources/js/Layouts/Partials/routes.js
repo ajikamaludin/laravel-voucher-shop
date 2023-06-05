@@ -61,12 +61,12 @@ export default [
         permission: 'view-deposit',
     },
     {
-        name: 'Bonus Coin', //TODO
+        name: 'Bonus Coin',
         show: true,
         icon: HiOutlineCurrencyDollar,
-        route: route('voucher.index'),
-        active: 'voucher.*',
-        permission: 'view-voucher',
+        route: route('coin-reward.index'),
+        active: 'coin-reward.*',
+        permission: 'view-coin-reward',
     },
     {
         name: 'Front Home',
