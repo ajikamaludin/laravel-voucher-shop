@@ -45,12 +45,12 @@ export default [
         permission: 'view-voucher',
     },
     {
-        name: 'Sale', //TODO
+        name: 'Sale',
         show: true,
         icon: HiCreditCard,
-        route: route('deposit.index'),
-        active: 'deposit.*',
-        permission: 'view-deposit',
+        route: route('sale.index'),
+        active: 'sale.*',
+        permission: 'view-sale',
     },
     {
         name: 'Deposit',

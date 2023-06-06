@@ -42,6 +42,11 @@ class Sale extends Model
         return $this->hasMany(SaleItem::class);
     }
 
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class);
+    }
+
     public function formatHumanCreatedAt(): Attribute
     {
         return Attribute::make(get: function () {

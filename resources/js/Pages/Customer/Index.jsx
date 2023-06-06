@@ -111,7 +111,7 @@ export default function Customer(props) {
                                                 scope="col"
                                                 className="py-3 px-6"
                                             >
-                                                Referal Code
+                                                Referral Code
                                             </th>
                                             <th
                                                 scope="col"

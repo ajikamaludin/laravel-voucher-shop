@@ -13,6 +13,7 @@ use App\Http\Controllers\InfoController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SaleController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VoucherController;
@@ -122,5 +123,9 @@ Route::middleware(['http_secure_aware', 'inertia.admin'])
             Route::post('/bonus-coin', [CoinRewardController::class, 'store'])->name('coin-reward.store');
             Route::put('/bonus-coin/{reward}', [CoinRewardController::class, 'update'])->name('coin-reward.update');
             Route::delete('/bonus-coin/{reward}', [CoinRewardController::class, 'destroy'])->name('coin-reward.destroy');
+
+            // sale
+            Route::get('/sales', [SaleController::class, 'index'])->name('sale.index');
+            Route::get('/sales/{sale}', [SaleController::class, 'show'])->name('sale.show');
         });
     });

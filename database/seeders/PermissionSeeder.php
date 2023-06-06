@@ -64,10 +64,10 @@ class PermissionSeeder extends Seeder
             ['id' => Str::ulid(), 'label' => 'View Coin', 'name' => 'view-coin'],
             ['id' => Str::ulid(), 'label' => 'Update Coin', 'name' => 'update-coin'],
 
-            ['id' => Str::ulid(), 'label' => 'Create Sale', 'name' => 'create-sale'],
-            ['id' => Str::ulid(), 'label' => 'Update Sale', 'name' => 'update-sale'],
+            // ['id' => Str::ulid(), 'label' => 'Create Sale', 'name' => 'create-sale'],
+            // ['id' => Str::ulid(), 'label' => 'Update Sale', 'name' => 'update-sale'],
             ['id' => Str::ulid(), 'label' => 'View Sale', 'name' => 'view-sale'],
-            ['id' => Str::ulid(), 'label' => 'Delete Sale', 'name' => 'delete-sale'],
+            // ['id' => Str::ulid(), 'label' => 'Delete Sale', 'name' => 'delete-sale'],
 
             ['id' => Str::ulid(), 'label' => 'Create Coin Reward', 'name' => 'create-coin-reward'],
             ['id' => Str::ulid(), 'label' => 'Update Coin Reward', 'name' => 'update-coin-reward'],
