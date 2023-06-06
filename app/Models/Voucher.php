@@ -98,4 +98,21 @@ class Voucher extends Model
 
         return $voucher;
     }
+
+    public function check_stock_notification()
+    {
+        $count = Voucher::where([
+            ['is_sold', '=', self::UNSOLD],
+            ['batch_id', '=', $this->batch_id]
+        ])->count();
+
+        $treshold = Setting::getByKey('VOUCHER_STOCK_NOTIFICATION');
+
+        if ($count <= $treshold) {
+            Notification::create([
+                'entity_type' => User::class,
+                'description' => "stok voucher " . $this->location->name . " ( " . $this->profile . " ) " . "tersisa : " . $count,
+            ]);
+        }
+    }
 }

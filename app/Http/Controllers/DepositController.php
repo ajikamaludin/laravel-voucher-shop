@@ -59,6 +59,7 @@ class DepositController extends Controller
 
             $customer = Customer::find($deposit->customer_id);
             $customer->repayPaylater($deposit);
+            $deposit->create_notification_user();
         }
         DB::commit();
 

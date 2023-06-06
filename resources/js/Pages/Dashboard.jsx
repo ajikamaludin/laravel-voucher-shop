@@ -103,7 +103,7 @@ export default function Dashboard(props) {
 
             <div>
                 <div className="mx-auto sm:px-6 lg:px-8 ">
-                    <div className="grid grid-cols-4 gap-2">
+                    <div className="grid grid-cols-2 lg:grid-cols-4  gap-2">
                         <div className="border rounded-md shadow bg-white p-4 flex flex-col">
                             <div className="text-gray-600 text-xl">
                                 Total Voucher
@@ -171,8 +171,8 @@ export default function Dashboard(props) {
                     </div>
                     <div className="w-full flex flex-row mt-4 space-x-2 border rounded-md shadow">
                         <div className="flex-1 overflow-auto bg-white p-4">
-                            <div className="w-full flex flex-row justify-between mb-4">
-                                <div className="tex-gray-500 text-xl pb-4">
+                            <div className="w-full flex flex-col md:flex-row justify-between mb-4">
+                                <div className="text-gray-500 text-xl pb-4">
                                     Penjualan
                                 </div>
 
@@ -205,7 +205,7 @@ export default function Dashboard(props) {
                         </div>
                     </div>
                     <div className="bg-white rounded-md shadow border mt-4 w-full">
-                        <div className="tex-gray-500 text-xl px-3 py-4">
+                        <div className="text-gray-500 text-xl px-3 py-4">
                             Deposit Hari Ini
                         </div>
                         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 mb-4 px-2">

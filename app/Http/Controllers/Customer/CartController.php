@@ -155,8 +155,10 @@ class CartController extends Controller
                 ]);
 
                 $voucher->update(['is_sold' => Voucher::SOLD]);
+                $voucher->check_stock_notification();
             }
         }
+        $sale->create_notification();
 
         $bonus = CoinReward::where('customer_level_id', $customer->customer_level_id)
             ->where('amount_buy', '<=', $total)

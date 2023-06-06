@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -37,6 +38,11 @@ class HandleInertiaCustomerRequests extends Middleware
             }
         }
 
+        $notification_count = 0;
+        if (auth('customer')->check()) {
+            $notification_count = Notification::where('entity_id', auth()->id())->where('is_read', Notification::UNREAD)->count();
+        }
+
         return array_merge(parent::share($request), [
             'app_name' => env('APP_NAME', 'App Name'),
             'auth' => [
@@ -45,7 +51,7 @@ class HandleInertiaCustomerRequests extends Middleware
             'flash' => [
                 'message' => fn () => $request->session()->get('message') ?? ['type' => null, 'message' => null],
             ],
-            'notification_count' => 0,
+            'notification_count' => $notification_count,
             'cart_count' => $cart_count,
         ]);
     }

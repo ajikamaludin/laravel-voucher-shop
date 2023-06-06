@@ -65,6 +65,7 @@ class DepositController extends Controller
 
             $deposit->update(['payment_token' => $token]);
         }
+        $deposit->create_notification();
 
         DB::commit();
 
@@ -96,6 +97,8 @@ class DepositController extends Controller
             'account_id' => $request->account_id,
             'is_valid' => DepositHistory::STATUS_WAIT_APPROVE,
         ]);
+
+        $deposit->create_notification();
 
         session()->flash('message', ['type' => 'success', 'message' => 'Upload berhasil, silahkan tunggu untuk approve']);
     }
@@ -147,6 +150,8 @@ class DepositController extends Controller
                 $deposit->update_customer_balance();
                 $customer = Customer::find($deposit->customer_id);
                 $customer->repayPaylater($deposit);
+                $deposit->create_notification();
+                $deposit->create_notification_user();
             } elseif ($request->transaction_status == 'pending') {
                 $deposit->fill(['payment_status' => DepositHistory::STATUS_WAIT_PAYMENT]);
             } else {

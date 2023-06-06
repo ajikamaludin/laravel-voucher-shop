@@ -13,7 +13,7 @@ import { useModalState } from '@/hooks'
 import ModalConfirm from '@/Components/ModalConfirm'
 import BalanceBanner from '../Index/BalanceBanner'
 
-export default function Index({ auth: { user } }) {
+export default function Index({ auth: { user }, notification_count }) {
     const confirmModal = useModalState()
 
     const handleLogoutClick = () => {
@@ -56,11 +56,16 @@ export default function Index({ auth: { user } }) {
                                 </div>
                             </div>
                         </div>
-                        <div className="flex flex-row">
+                        <div
+                            className="flex flex-row"
+                            onClick={() => {
+                                router.get(route('notification.index'))
+                            }}
+                        >
                             <HiOutlineBell className="text-white w-7 h-7" />
                             <div>
                                 <div className="bg-white text-blue-700 rounded-lg px-1 text-xs -ml-2.5">
-                                    1
+                                    {notification_count}
                                 </div>
                             </div>
                         </div>
@@ -127,7 +132,12 @@ export default function Index({ auth: { user } }) {
                         <div>Transaksi</div>
                         <HiChevronRight className="h-5 w-5" />
                     </div>
-                    <div className="flex flex-row justify-between items-center px-2 py-4 w-full border-b border-gray-400 hover:bg-gray-100">
+                    <div
+                        className="flex flex-row justify-between items-center px-2 py-4 w-full border-b border-gray-400 hover:bg-gray-100"
+                        onClick={() => {
+                            router.get(route('notification.index'))
+                        }}
+                    >
                         <div>Notifikasi</div>
                         <HiChevronRight className="h-5 w-5" />
                     </div>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -38,6 +39,8 @@ class HandleInertiaRequests extends Middleware
             ],
             'app_name' => env('APP_NAME', 'App Name'),
             'csrf_token' => csrf_token(),
+            'notifications' => Notification::where('entity_type', \App\Models\User::class)->orderBy('created_at', 'desc')->limit(10)->get(),
+            'count_unread_notifications' => Notification::where('entity_type', \App\Models\User::class)->where('is_read', Notification::UNREAD)->count(),
         ]);
     }
 }

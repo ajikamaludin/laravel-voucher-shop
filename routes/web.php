@@ -63,6 +63,9 @@ Route::middleware(['http_secure_aware', 'guard_should_customer', 'inertia.custom
         // transaction
         Route::get('sale/trx', [TransactionController::class, 'index'])->name('transactions.index');
         Route::get('sale/trx/{sale}', [TransactionController::class, 'show'])->name('transactions.show');
+
+        // notification
+        Route::get('notifications', [HomeController::class, 'notification'])->name('notification.index');
     });
 
     Route::middleware('guest:customer')->group(function () {

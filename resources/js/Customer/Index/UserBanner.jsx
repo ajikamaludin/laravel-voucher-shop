@@ -1,8 +1,12 @@
 import React from 'react'
 import { HiOutlineCash, HiOutlineBell } from 'react-icons/hi'
 import BalanceBanner from './BalanceBanner'
+import { router, usePage } from '@inertiajs/react'
 
 export default function UserBanner({ user }) {
+    const {
+        props: { notification_count },
+    } = usePage()
     return (
         <div>
             {/* user */}
@@ -16,11 +20,16 @@ export default function UserBanner({ user }) {
                         </div>
                     </div>
                 </div>
-                <div className="flex flex-row">
+                <div
+                    className="flex flex-row"
+                    onClick={() => {
+                        router.get(route('notification.index'))
+                    }}
+                >
                     <HiOutlineBell className="text-white w-7 h-7" />
                     <div>
                         <div className="bg-white text-blue-700 rounded-lg px-1 text-xs -ml-2.5">
-                            0
+                            {notification_count}
                         </div>
                     </div>
                 </div>

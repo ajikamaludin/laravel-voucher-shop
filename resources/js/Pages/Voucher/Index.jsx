@@ -10,6 +10,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import Pagination from '@/Components/Pagination'
 import ModalConfirm from '@/Components/ModalConfirm'
 import SearchInput from '@/Components/SearchInput'
+import LocationSelectionInput from '../Location/SelectionInput'
 import { hasPermission } from '@/utils'
 
 export default function Index(props) {
@@ -18,8 +19,9 @@ export default function Index(props) {
         auth,
     } = props
 
+    const [location, setLocation] = useState(null)
     const [search, setSearch] = useState('')
-    const preValue = usePrevious(search)
+    const preValue = usePrevious(`${search}${location}`)
 
     const confirmModal = useModalState()
 
@@ -34,19 +36,19 @@ export default function Index(props) {
         }
     }
 
-    const params = { q: search }
+    const params = { q: search, location_id: location }
     useEffect(() => {
         if (preValue) {
             router.get(
                 route(route().current()),
-                { q: search },
+                { q: search, location_id: location },
                 {
                     replace: true,
                     preserveState: true,
                 }
             )
         }
-    }, [search])
+    }, [search, location])
 
     const canCreate = hasPermission(auth, 'create-voucher')
     const canUpdate = hasPermission(auth, 'update-voucher')
@@ -78,7 +80,12 @@ export default function Index(props) {
                                     </Link>
                                 </div>
                             )}
-                            <div className="flex items-center">
+                            <div className="flex flex-row space-x-2 items-center">
+                                <LocationSelectionInput
+                                    itemSelected={location}
+                                    onItemSelected={(id) => setLocation(id)}
+                                    placeholder={'filter lokasi'}
+                                />
                                 <SearchInput
                                     onChange={(e) => setSearch(e.target.value)}
                                     value={search}

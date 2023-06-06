@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Banner;
 use App\Models\Info;
 use App\Models\Location;
+use App\Models\Notification;
 use App\Models\Voucher;
 use Illuminate\Http\Request;
 
@@ -38,6 +39,15 @@ class HomeController extends Controller
     {
         return inertia('Index/Banner', [
             'banner' => $banner,
+        ]);
+    }
+
+    public function notification()
+    {
+        Notification::where('entity_id', auth()->id())->where('is_read', Notification::UNREAD)->update(['is_read' => Notification::READ]);
+
+        return inertia('Index/Notification', [
+            'notification' => Notification::where('entity_id', auth()->id())->orderBy('updated_at', 'desc')->paginate()
         ]);
     }
 }

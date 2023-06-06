@@ -105,4 +105,33 @@ class DepositHistory extends Model
         $customer = Customer::find($this->customer_id);
         $customer->update(['deposit_balance' => $customer->deposit_balance + $this->debit - $this->credit]);
     }
+
+    public function create_notification()
+    {
+        if ($this->payment_channel == Setting::PAYMENT_MANUAL) {
+            $status = "";
+            if ($this->is_valid == self::STATUS_WAIT_APPROVE) {
+                $status = " (bukti bayar di upload, membutuhkan konfirmasi)";
+            }
+            Notification::create([
+                'entity_type' => User::class,
+                'description' => $this->customer->fullname . ' melakukan deposit manual sebesar : ' . $this->amount . $status,
+            ]);
+        }
+
+        if ($this->payment_channel == Setting::PAYMENT_MIDTRANS) {
+            Notification::create([
+                'entity_type' => User::class,
+                'description' => $this->customer->fullname . ' melakukan deposit via midtrans sebesar : ' . $this->amount,
+            ]);
+        }
+    }
+
+    public function create_notification_user()
+    {
+        Notification::create([
+            'entity_id' => $this->customer_id,
+            'description' => 'Deposit ' . $this->description . ' sebesar ' . $this->amount . ' sudah sukses diterima',
+        ]);
+    }
 }

@@ -20,6 +20,10 @@ class VoucherController extends Controller
                 ->orWhere('profile', 'like', "%$request->q%");
         }
 
+        if ($request->location_id != '') {
+            $query->where('location_id', $request->location_id);
+        }
+
         return inertia('Voucher/Index', [
             'query' => $query->paginate(),
         ]);

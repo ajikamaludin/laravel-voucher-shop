@@ -67,4 +67,17 @@ class Sale extends Model
             return 'Rp' . number_format($this->amount, 0, ',', '.');
         });
     }
+
+    public function create_notification()
+    {
+        Notification::create([
+            'entity_type' => User::class,
+            'description' => $this->customer->fullname . ' melakukan pembelian ' . $this->items()->count() . ' voucher sebesar ' . $this->display_amount,
+        ]);
+
+        Notification::create([
+            'entity_id' => auth()->id(),
+            'description' => 'Transaksi pembelian anda #' . $this->code . ' sebesar ' . $this->display_amount . ' berhasil',
+        ]);
+    }
 }

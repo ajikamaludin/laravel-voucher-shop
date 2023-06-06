@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\CoinRewardController;
@@ -127,5 +128,8 @@ Route::middleware(['http_secure_aware', 'inertia.admin'])
             // sale
             Route::get('/sales', [SaleController::class, 'index'])->name('sale.index');
             Route::get('/sales/{sale}', [SaleController::class, 'show'])->name('sale.show');
+
+            // notification
+            Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
         });
     });
