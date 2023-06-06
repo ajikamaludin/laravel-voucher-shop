@@ -1,15 +1,34 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Head, router } from '@inertiajs/react'
 import { HiEye } from 'react-icons/hi'
 
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import Pagination from '@/Components/Pagination'
+import SearchInput from '@/Components/SearchInput'
 import { formatIDR } from '@/utils'
+import { usePrevious } from 'react-use'
 
 export default function Info(props) {
     const {
         query: { links, data },
     } = props
+
+    const [search, setSearch] = useState('')
+    const preValue = usePrevious(search)
+
+    const params = { q: search }
+    useEffect(() => {
+        if (preValue) {
+            router.get(
+                route(route().current()),
+                { q: search },
+                {
+                    replace: true,
+                    preserveState: true,
+                }
+            )
+        }
+    }, [search])
 
     return (
         <AuthenticatedLayout
@@ -30,6 +49,12 @@ export default function Info(props) {
                                     <Button size="sm">Tambah</Button>
                                 </Link>
                             )} */}
+                            <div className="flex items-center">
+                                <SearchInput
+                                    onChange={(e) => setSearch(e.target.value)}
+                                    value={search}
+                                />
+                            </div>
                         </div>
                         <div className="overflow-auto">
                             <div>
@@ -118,7 +143,7 @@ export default function Info(props) {
                                 </table>
                             </div>
                             <div className="w-full flex items-center justify-center">
-                                <Pagination links={links} />
+                                <Pagination links={links} params={params} />
                             </div>
                         </div>
                     </div>

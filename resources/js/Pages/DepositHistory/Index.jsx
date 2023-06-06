@@ -85,6 +85,12 @@ export default function Index(props) {
                                                 scope="col"
                                                 className="py-3 px-6"
                                             >
+                                                Tanggal
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                className="py-3 px-6"
+                                            >
                                                 Deskripsi
                                             </th>
                                             <th
@@ -113,6 +119,9 @@ export default function Index(props) {
                                                 </td>
                                                 <td className="py-4 px-6">
                                                     {deposit.amount}
+                                                </td>
+                                                <td className="py-4 px-6">
+                                                    {deposit.format_created_at}
                                                 </td>
                                                 <td className="py-4 px-6">
                                                     {deposit.description}

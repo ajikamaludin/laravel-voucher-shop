@@ -16,8 +16,8 @@
 -   [x] List Customer Verification
 -   [x] Manual Approve Verification -> mendapatkan limit hutang
 -   [x] Setting Bonus Coin (memasukan amount bonus coin yang didapat dengan level dan harga voucher) - bonus coin
--   [ ] Voucher Sales (index: customer, total, jumlah voucher, detail: customer, list voucher, payment)
--   [ ] Dashboard (gafik hasil penjualan : disorting tanggal, lokasi dan customer)
+-   [x] Voucher Sales (index: customer, total, jumlah voucher, detail: customer, list voucher, payment)
+-   [x] Dashboard (gafik hasil penjualan : disorting tanggal, lokasi dan customer)
         [total voucher] [total customer] [total customer verified] [total deposit]
         [total voucher terjual bulan xxx] [jumlah voucher terjual bulan xxx] [total voucher terjual hari ini ] [jumlah voucher terjual hari ini]
         [cart penjualan per tanggal, pilih range tanggal (range default 7), bisa filter by lokasi dan customer]

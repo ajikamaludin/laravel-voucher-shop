@@ -7,10 +7,20 @@ use Illuminate\Http\Request;
 
 class SaleController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $query = Sale::with(['items.voucher', 'customer.level'])
-            ->withCount(['items']);
+            ->withCount(['items'])
+            ->orderBy('updated_at', 'desc');
+
+        if ($request->q != '') {
+            $query->where('code', 'like', "%$request->q%")
+                ->orWhereHas('customer', function ($query) use ($request) {
+                    $query->where('name', 'like', "%$request->q%")
+                        ->orWhere('fullname', 'like', "%$request->q%")
+                        ->orWhere('username', 'like', "%$request->q%");
+                });
+        }
 
         return inertia('Sale/Index', [
             'query' => $query->paginate(),

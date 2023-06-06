@@ -29,6 +29,11 @@ class SaleItem extends Model
         return $this->belongsTo(Voucher::class, 'entity_id');
     }
 
+    public function sale()
+    {
+        return $this->belongsTo(Sale::class, 'sale_id');
+    }
+
     public function shareWord(): Attribute
     {
         return Attribute::make(get: function () {

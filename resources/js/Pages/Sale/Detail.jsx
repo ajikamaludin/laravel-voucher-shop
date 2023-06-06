@@ -6,117 +6,106 @@ import FormInput from '@/Components/FormInput'
 import Button from '@/Components/Button'
 import { Head, useForm } from '@inertiajs/react'
 import FormFile from '@/Components/FormFile'
+import { formatIDR } from '@/utils'
 
-const TinyEditor = React.lazy(() => import('@/Components/TinyMCE'))
-
-export default function Form(props) {
-    const { banner } = props
-
-    const { data, setData, post, processing, errors } = useForm({
-        title: '',
-        description: '',
-        image: '',
-        image_url: '',
-    })
-
-    const handleOnChange = (event) => {
-        setData(
-            event.target.name,
-            event.target.type === 'checkbox'
-                ? event.target.checked
-                    ? 1
-                    : 0
-                : event.target.value
-        )
-    }
-    const handleSubmit = () => {
-        if (isEmpty(banner) === false) {
-            post(route('banner.update', banner))
-            return
-        }
-        post(route('banner.store'))
-    }
-
-    useEffect(() => {
-        if (isEmpty(banner) === false) {
-            setData({
-                title: banner.title,
-                description: banner.description,
-                image_url: banner.image_url,
-            })
-        }
-    }, [banner])
+export default function Detail(props) {
+    const { sale } = props
 
     return (
         <AuthenticatedLayout
             auth={props.auth}
             errors={props.errors}
             flash={props.flash}
-            page={'Banner'}
-            action={'Form'}
+            page={`Sale`}
+            action={`Invoice #${sale.code}`}
         >
-            <Head title="Banner" />
+            <Head title={`Invoice #${sale.code}`} />
 
             <div>
                 <div className="mx-auto sm:px-6 lg:px-8">
                     <div className="overflow-hidden p-4 shadow-sm sm:rounded-lg bg-white dark:bg-gray-800 flex flex-col ">
-                        <div className="text-xl font-bold mb-4">Banner</div>
-                        <FormInput
-                            name="title"
-                            value={data.title}
-                            onChange={handleOnChange}
-                            label="Title"
-                            error={errors.title}
-                        />
-                        <FormFile
-                            label={'Image'}
-                            onChange={(e) =>
-                                setData('image', e.target.files[0])
-                            }
-                            error={errors.image}
-                            preview={
-                                isEmpty(data.image_url) === false && (
-                                    <img
-                                        src={data.image_url}
-                                        className="mb-1 h-24 w-full object-cover"
-                                        alt="preview"
-                                    />
-                                )
-                            }
-                        />
-
-                        <div className="py-4">
-                            <Suspense fallback={<div>Loading...</div>}>
-                                <TinyEditor
-                                    value={data.description}
-                                    init={{
-                                        height: 500,
-                                        // menubar: false,
-                                        menubar:
-                                            'file edit view insert format tools table help',
-                                        plugins:
-                                            'preview importcss searchreplace autolink directionality code visualblocks visualchars fullscreen image link media codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help charmap emoticons',
-                                        toolbar_mode: 'scrolling',
-                                        toolbar:
-                                            'undo redo | insertfile image media link | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | charmap emoticons | fullscreen  preview save print | ltr rtl | anchor codesample',
-                                    }}
-                                    onEditorChange={(newValue, editor) => {
-                                        setData(
-                                            'description',
-                                            editor.getContent()
-                                        )
-                                    }}
-                                />
-                            </Suspense>
-                        </div>
-                        <div className="mt-8">
-                            <Button
-                                onClick={handleSubmit}
-                                processing={processing}
-                            >
-                                Simpan
-                            </Button>
-                        </div>
+                        <table className="relative w-full overflow-x-auto p-2 rounded">
+                            <tbody>
+                                <tr>
+                                    <td className="font-bold">Customer</td>
+                                    <td>:</td>
+                                    <td>{sale.customer.name}</td>
+                                </tr>
+                                <tr>
+                                    <td className="font-bold">
+                                        Metode Pembayaran
+                                    </td>
+                                    <td>:</td>
+                                    <td>{sale.payed_with}</td>
+                                </tr>
+                                <tr>
+                                    <td className="font-bold">Total</td>
+                                    <td>:</td>
+                                    <td>{formatIDR(sale.amount)}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div className="px-1 font-bold my-2">Voucher</div>
+                        <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 mb-4">
+                            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                <tr>
+                                    <th scope="col" className="py-3 px-6">
+                                        No
+                                    </th>
+                                    <th scope="col" className="py-3 px-6">
+                                        Lokasi
+                                    </th>
+                                    <th scope="col" className="py-3 px-6">
+                                        Username
+                                    </th>
+                                    <th scope="col" className="py-3 px-6">
+                                        Password
+                                    </th>
+                                    <th scope="col" className="py-3 px-6">
+                                        Profile
+                                    </th>
+                                    <th scope="col" className="py-3 px-6">
+                                        Comment
+                                    </th>
+                                    <th scope="col" className="py-3 px-6">
+                                        Kuota
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {sale.items.map((item, index) => (
+                                    <tr
+                                        className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                                        key={item.voucher.id}
+                                    >
+                                        <td
+                                            scope="row"
+                                            className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                        >
+                                            {index + 1}
+                                        </td>
+                                        <td scope="row" className="py-4 px-6">
+                                            {item.voucher.location.name}
+                                        </td>
+                                        <td scope="row" className="py-4 px-6">
+                                            {item.voucher.username}
+                                        </td>
+                                        <td scope="row" className="py-4 px-6">
+                                            {item.voucher.password}
+                                        </td>
+                                        <td scope="row" className="py-4 px-6">
+                                            {item.voucher.profile}
+                                        </td>
+                                        <td scope="row" className="py-4 px-6">
+                                            {item.voucher.comment}
+                                        </td>
+                                        <td scope="row" className="py-4 px-6">
+                                            {item.voucher.display_quota}
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

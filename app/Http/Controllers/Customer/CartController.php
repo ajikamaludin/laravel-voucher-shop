@@ -178,7 +178,7 @@ class CartController extends Controller
                 $deposit = $customer->deposites()->create([
                     'credit' => $customer->deposit_balance,
                     'description' => $description,
-                    'related_type' => $sale::class,
+                    'related_type' => Sale::class,
                     'related_id' => $sale->id,
                     'is_valid' => DepositHistory::STATUS_VALID,
                 ]);
@@ -200,7 +200,7 @@ class CartController extends Controller
             $deposit = $customer->deposites()->create([
                 'credit' => $total,
                 'description' => $description,
-                'related_type' => $sale::class,
+                'related_type' => Voucher::class,
                 'related_id' => $sale->id,
                 'is_valid' => DepositHistory::STATUS_VALID,
             ]);
