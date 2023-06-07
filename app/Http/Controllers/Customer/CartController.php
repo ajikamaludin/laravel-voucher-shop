@@ -54,7 +54,7 @@ class CartController extends Controller
             if ($item == null) {
                 $carts->add(['id' => $voucher->id, 'quantity' => 1, 'voucher' => $voucher]);
                 session(['carts' => $carts->toArray()]);
-                session()->flash('message', ['type' => 'success', 'message' => 'voucher added to cart']);
+                session()->flash('message', ['type' => 'success', 'message' => 'voucher ditambahkan ke keranjang']);
             } else {
                 $carts = $carts->map(function ($item) use ($voucher, $operator) {
                     if ($item['id'] == $voucher->id) {
@@ -89,7 +89,7 @@ class CartController extends Controller
         session(['carts' => [
             ['id' => $voucher->id, 'quantity' => 1, 'voucher' => $voucher],
         ]]);
-        session()->flash('message', ['type' => 'success', 'message' => 'voucher added to cart']);
+        session()->flash('message', ['type' => 'success', 'message' => 'voucher ditambahkan ke keranjang']);
     }
 
     /**

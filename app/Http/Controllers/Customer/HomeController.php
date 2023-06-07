@@ -47,7 +47,7 @@ class HomeController extends Controller
         Notification::where('entity_id', auth()->id())->where('is_read', Notification::UNREAD)->update(['is_read' => Notification::READ]);
 
         return inertia('Index/Notification', [
-            'notification' => Notification::where('entity_id', auth()->id())->orderBy('updated_at', 'desc')->paginate()
+            'notification' => Notification::where('entity_id', auth()->id())->orderBy('created_at', 'desc')->paginate()
         ]);
     }
 }

@@ -37,7 +37,7 @@ class GeneralController extends Controller
             ->where('is_valid', DepositHistory::STATUS_VALID)
             ->where('debit', '!=', '0')
             ->groupBy('customer_id')
-            ->orderBy('updated_at', 'desc')
+            ->orderBy('total', 'desc')
             ->with('customer')
             ->limit(20)
             ->selectRaw('sum(debit) as total, is_valid, customer_id')
@@ -47,7 +47,7 @@ class GeneralController extends Controller
             ->join('sales', 'sales.id', '=', 'sale_items.sale_id')
             ->join('customers', 'customers.id', '=', 'sales.customer_id')
             ->groupBy('sales.customer_id')
-            ->orderBy('sale_items.updated_at', 'desc')
+            ->orderBy('total', 'desc')
             ->limit(20)
             ->selectRaw('sum(sale_items.price) as total, sum(quantity) as count, sales.customer_id, customers.name, entity_id')
             ->get();

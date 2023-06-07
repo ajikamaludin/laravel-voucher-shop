@@ -23,7 +23,12 @@ export default function Detail({ sale }) {
                 <div className="px-5">{sale.format_created_at}</div>
                 <div className="px-5 pb-4 w-full">
                     <div className="text-xl font-bold text-right flex flex-row justify-between">
-                        <div>TOTAL</div>
+                        <div className="flex flex-col items-start">
+                            <div>TOTAL</div>
+                            <div className="text-xs font-thin text-gray-400">
+                                pembayaran: {sale.payed_with}
+                            </div>
+                        </div>
                         <div> {sale.display_amount}</div>
                     </div>
                 </div>

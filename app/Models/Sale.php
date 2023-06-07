@@ -64,12 +64,26 @@ class Sale extends Model
     public function displayAmount(): Attribute
     {
         return Attribute::make(get: function () {
-            return 'Rp' . number_format($this->amount, 0, ',', '.');
+            return 'Rp' . number_format($this->amount, is_float($this->amount) ? 2 : 0, ',', '.');
         });
     }
 
     public function create_notification()
     {
+        if ($this->payed_with == self::PAYED_WITH_COIN) {
+            Notification::create([
+                'entity_type' => User::class,
+                'description' => $this->customer->fullname . ' melakukan penukaran ' . $this->items()->count() . ' voucher sebesar ' . $this->items->value('price') . ' coin',
+            ]);
+
+            Notification::create([
+                'entity_id' => auth()->id(),
+                'description' => 'Transaksi ' . $this->code . ' berhasil',
+            ]);
+
+            return;
+        }
+
         Notification::create([
             'entity_type' => User::class,
             'description' => $this->customer->fullname . ' melakukan pembelian ' . $this->items()->count() . ' voucher sebesar ' . $this->display_amount,

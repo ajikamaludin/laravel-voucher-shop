@@ -20,10 +20,10 @@
 -   [x] Dashboard (gafik hasil penjualan : disorting tanggal, lokasi dan customer)
 -   [x] Notification ([x]manual deposit, [x]deposit success, [x]stock voucher, [x]sale)
 -   [x] Voucher - harga per level , fixing detail transaksi
--   [ ] Voucher - harga coin
+-   [x] Voucher - harga coin
 -   [ ] View Customer Coin History
 
-### Adds
+### Add
 
 -   hutang (paylater) adalah limit tiap customer jika deposit kurang dalam pembayaran voucher , setiap limit yang digunakan akan di potong / di lunasi ketika melakukan topup deposit
 -   tukar coin adalah dengan menambahkan harga coin di voucher dan menambahkan 1 fitur di customer untuk explorer voucher yang memiliki harga coin, disimpan menjadi sale biasa dengan cara 1 kali penukaran adalah 1 voucher
@@ -45,4 +45,4 @@
 -   [x] Verified Akun
 -   [x] Paylater: index paylater, payment cart, deposite repay
 -   [x] Notification ([x] purchase success, [x] deposit success)
--   [ ] Coin Explorer: list voucher, modal voucher to excange
+-   [x] Coin Explorer: list voucher, modal voucher to excange

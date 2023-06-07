@@ -71,9 +71,9 @@ export default function CustomerLayout({ children }) {
                 </div>
                 <div
                     className={`pb-1 pt-2 px-5 hover:bg-blue-200 flex flex-col items-center ${isActive(
-                        'coin'
+                        'customer.coin.exchange'
                     )}`}
-                    // onClick={() => handleOnClick('cart.index')}
+                    onClick={() => handleOnClick('customer.coin.exchange')}
                 >
                     <div className="flex flex-row">
                         <HiOutlineGift className="h-6 w-6" />

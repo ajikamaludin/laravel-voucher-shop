@@ -38,6 +38,9 @@ class SaleItem extends Model
     {
         return Attribute::make(get: function () {
             $item = json_decode($this->additional_info_json);
+            if ($item == null) {
+                return '';
+            }
             $string = "Hai, aku baru beli voucher {$item->voucher->location->name} di " . route('home.index');
             $string .= " voucher {$item->voucher->display_quota} buat {$item->voucher->display_expired}
 
@@ -45,7 +48,7 @@ Username : {$item->voucher->username}
 Password : {$item->voucher->password}
 
 ";
-            $string .= "Cuman Rp" . number_format($this->price, '0', ',', '.') . " aja, ";
+            $string .= "Cuman Rp" . number_format($this->price, is_float($this->price) ? 2 : 0, ',', '.') . " aja, ";
 
             if ($item->voucher->discount > 0) {
                 $string .= "lagi ada discount {$item->voucher->discount}% loh.

@@ -18,6 +18,7 @@ export default function Form(props) {
         password: '',
         discount: 0,
         display_price: 0,
+        price_coin: 0,
         quota: '',
         profile: '',
         comment: '',
@@ -95,6 +96,7 @@ export default function Form(props) {
                 password: voucher.password,
                 discount: voucher.discount,
                 display_price: voucher.display_price,
+                price_coin: voucher.price_coin,
                 quota: voucher.quota,
                 profile: voucher.profile,
                 comment: voucher.comment,
@@ -160,6 +162,14 @@ export default function Form(props) {
                             label="Discount"
                             max={100}
                             min={0}
+                        />
+                        <FormInput
+                            type="number"
+                            name="price_coin"
+                            value={data.price_coin}
+                            onChange={handleOnChange}
+                            label="Harga Coin (untuk penukaran)"
+                            error={errors.price_coin}
                         />
                         <FormInput
                             type="number"

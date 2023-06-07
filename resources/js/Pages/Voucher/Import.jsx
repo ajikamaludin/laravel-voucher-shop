@@ -17,6 +17,7 @@ export default function Import(props) {
         script: '',
         discount: 0,
         display_price: 0,
+        price_coin: 0,
         expired: '',
         expired_unit: 'Hari',
         location_id: null,
@@ -108,6 +109,14 @@ export default function Import(props) {
                             label="Discount"
                             max={100}
                             min={0}
+                        />
+                        <FormInput
+                            type="number"
+                            name="price_coin"
+                            value={data.price_coin}
+                            onChange={handleOnChange}
+                            label="Harga Coin (untuk penukaran)"
+                            error={errors.price_coin}
                         />
                         <div>
                             <label className="block text-sm font-medium text-gray-900 dark:text-white">

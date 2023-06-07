@@ -133,14 +133,14 @@ class Customer extends Authenticatable
     public function displayDeposit(): Attribute
     {
         return Attribute::make(get: function () {
-            return number_format($this->deposit_balance, 0, ',', '.');
+            return number_format($this->deposit_balance, is_float($this->deposit_balance) ? 2 : 0, ',', '.');
         });
     }
 
     public function displayCoin(): Attribute
     {
         return Attribute::make(get: function () {
-            return number_format($this->coin_balance, 0, ',', '.');
+            return number_format($this->coin_balance, is_float($this->coin_balance) ? 2 : 0, ',', '.');
         });
     }
 
