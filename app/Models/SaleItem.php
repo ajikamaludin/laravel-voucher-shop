@@ -38,7 +38,6 @@ class SaleItem extends Model
     {
         return Attribute::make(get: function () {
             $item = json_decode($this->additional_info_json);
-            ds($item);
             $string = "Hai, aku baru beli voucher {$item->voucher->location->name} di " . route('home.index');
             $string .= " voucher {$item->voucher->display_quota} buat {$item->voucher->display_expired}
 
