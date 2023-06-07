@@ -79,6 +79,16 @@ class GeneralController extends Controller
             $charts->where('customer_id', $request->customer_id);
         }
 
+        $ca = [];
+        $date = Carbon::parse($startDate);
+        $end = Carbon::parse($endDate);
+        $data = $charts->get();
+        while ($date <= $end) {
+            $da = $data->where('date', $date->format('d/m/Y'))?->value('sale_total') ?? 0;
+            $ca[] = ['sale_total' => $da, 'date' => $date->format('d/m/Y')];
+            $date = $date->addDay();
+        }
+
         return inertia('Dashboard', [
             'total_voucher' => $total_voucher,
             'total_customer' => $total_customer,
@@ -91,9 +101,11 @@ class GeneralController extends Controller
             'month' => $month,
             'deposites' => $deposites,
             'sales' => $sales,
-            'charts' => $charts->get(),
+            'charts' => $ca,
             '_startDate' => $startDate,
             '_endDate' => $endDate,
+            'c' => $charts,
+            'd' => $data,
         ]);
     }
 

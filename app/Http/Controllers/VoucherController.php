@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CustomerLevel;
 use App\Models\Voucher;
 use App\Services\GeneralService;
 use Illuminate\Http\Request;
@@ -31,7 +32,9 @@ class VoucherController extends Controller
 
     public function create()
     {
-        return inertia('Voucher/Form');
+        return inertia('Voucher/Form', [
+            'levels' => CustomerLevel::all()
+        ]);
     }
 
     public function store(Request $request)
@@ -49,9 +52,13 @@ class VoucherController extends Controller
             'comment' => 'required|string',
             'expired' => 'required|numeric',
             'expired_unit' => 'required|string',
+            'prices' => 'nullable|array',
+            'prices.*.customer_level_id' => 'required|exists:customer_levels,id',
+            'prices.*.display_price' => 'required|numeric'
         ]);
 
-        Voucher::create([
+        DB::beginTransaction();
+        $voucher = Voucher::create([
             'name' => $request->name,
             'description' => $request->description,
             'location_id' => $request->location_id,
@@ -66,6 +73,19 @@ class VoucherController extends Controller
             'expired_unit' => $request->expired_unit,
         ]);
 
+        foreach (collect($request->prices) as $price) {
+            $finalPrice = $price['display_price'];
+            if ($voucher->discount > 0) {
+                $finalPrice = $finalPrice - round($finalPrice * ($voucher->discount / 100), 2);
+            }
+            $voucher->prices()->create([
+                'customer_level_id' => $price['customer_level_id'],
+                'price' => $finalPrice,
+                'display_price' => $price['display_price'],
+            ]);
+        }
+        DB::commit();
+
         return redirect()->route('voucher.index')
             ->with('message', ['type' => 'success', 'message' => 'Item has beed saved']);
     }
@@ -73,7 +93,8 @@ class VoucherController extends Controller
     public function edit(Voucher $voucher)
     {
         return inertia('Voucher/Form', [
-            'voucher' => $voucher,
+            'voucher' => $voucher->load(['prices.level']),
+            'levels' => CustomerLevel::all()
         ]);
     }
 
@@ -92,8 +113,12 @@ class VoucherController extends Controller
             'comment' => 'required|string',
             'expired' => 'required|numeric',
             'expired_unit' => 'required|string',
+            'prices' => 'nullable|array',
+            'prices.*.customer_level_id' => 'required|exists:customer_levels,id',
+            'prices.*.display_price' => 'required|numeric'
         ]);
 
+        DB::beginTransaction();
         $voucher->update([
             'name' => $request->name,
             'description' => $request->description,
@@ -107,6 +132,20 @@ class VoucherController extends Controller
             'comment' => $request->comment,
             'expired' => $request->expired,
         ]);
+
+        $voucher->prices()->delete();
+        foreach (collect($request->prices) as $price) {
+            $finalPrice = $price['display_price'];
+            if ($voucher->discount > 0) {
+                $finalPrice = $finalPrice - round($finalPrice * ($voucher->discount / 100), 2);
+            }
+            $voucher->prices()->create([
+                'customer_level_id' => $price['customer_level_id'],
+                'price' => $finalPrice,
+                'display_price' => $price['display_price'],
+            ]);
+        }
+        DB::commit();
 
         return redirect()->route('voucher.index')
             ->with('message', ['type' => 'success', 'message' => 'Item has beed updated']);
@@ -122,7 +161,9 @@ class VoucherController extends Controller
 
     public function form_import()
     {
-        return inertia('Voucher/Import');
+        return inertia('Voucher/Import', [
+            'levels' => CustomerLevel::all()
+        ]);
     }
 
     public function import(Request $request)
@@ -134,6 +175,9 @@ class VoucherController extends Controller
             'display_price' => 'required|numeric',
             'expired' => 'required|numeric',
             'expired_unit' => 'required|string',
+            'prices' => 'nullable|array',
+            'prices.*.customer_level_id' => 'required|exists:customer_levels,id',
+            'prices.*.display_price' => 'required|numeric'
         ]);
 
         $batchId = Str::ulid();
@@ -141,7 +185,7 @@ class VoucherController extends Controller
 
         DB::beginTransaction();
         foreach ($vouchers as $voucher) {
-            Voucher::create([
+            $voucher = Voucher::create([
                 'location_id' => $request->location_id,
                 'username' => $voucher['username'],
                 'password' => $voucher['password'],
@@ -154,6 +198,18 @@ class VoucherController extends Controller
                 'expired_unit' => $request->expired_unit,
                 'batch_id' => $batchId,
             ]);
+
+            foreach (collect($request->prices) as $price) {
+                $finalPrice = $price['display_price'];
+                if ($voucher->discount > 0) {
+                    $finalPrice = $finalPrice - round($finalPrice * ($voucher->discount / 100), 2);
+                }
+                $voucher->prices()->create([
+                    'customer_level_id' => $price['customer_level_id'],
+                    'price' => $finalPrice,
+                    'display_price' => $price['display_price'],
+                ]);
+            }
         }
         DB::commit();
 

@@ -19,9 +19,9 @@
 -   [x] Voucher Sales (index: customer, total, jumlah voucher, detail: customer, list voucher, payment)
 -   [x] Dashboard (gafik hasil penjualan : disorting tanggal, lokasi dan customer)
 -   [x] Notification ([x]manual deposit, [x]deposit success, [x]stock voucher, [x]sale)
--   [ ] View Customer Coin History
--   [ ] Voucher - harga per level
+-   [x] Voucher - harga per level , fixing detail transaksi
 -   [ ] Voucher - harga coin
+-   [ ] View Customer Coin History
 
 ### Adds
 

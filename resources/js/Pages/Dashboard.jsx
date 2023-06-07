@@ -63,7 +63,9 @@ export default function Dashboard(props) {
     }
 
     const data = {
-        labels: charts.map((item) => moment(item.date).format('DD MMM YYYY')),
+        labels: charts.map((item) =>
+            moment(item.date, 'DD/MM/YYYY').format('DD MMM YYYY')
+        ),
         datasets: [
             {
                 label: 'Penjualan',
@@ -78,8 +80,8 @@ export default function Dashboard(props) {
             router.get(
                 route(route().current()),
                 {
-                    startDate: dates.startDate,
-                    endDate: dates.endDate,
+                    start_date: dates.startDate,
+                    end_date: dates.endDate,
                     customer_id,
                     location_id,
                 },

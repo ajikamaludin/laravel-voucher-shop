@@ -16,7 +16,8 @@ return new class extends Migration
 
             $table->ulid('customer_level_id')->nullable();
             $table->ulid('voucher_id')->nullable();
-            $table->decimal('price', 20, 2)->nullable();
+            $table->decimal('price', 20, 2)->default(0);
+            $table->decimal('display_price', 20, 2)->default(0);
 
             $table->timestamps();
             $table->softDeletes();

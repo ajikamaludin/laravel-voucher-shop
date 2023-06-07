@@ -32,7 +32,7 @@ class Voucher extends Model
         'batch_id',
     ];
 
-    protected $appends = ['display_quota', 'display_expired'];
+    protected $appends = ['display_quota', 'display_expired', 'validate_price', 'validate_display_price'];
 
     protected static function booted(): void
     {
@@ -74,9 +74,42 @@ class Voucher extends Model
         });
     }
 
+    public function validatePrice(): Attribute
+    {
+        return Attribute::make(get: function () {
+            if (auth('customer')->check()) {
+                if ($this->prices()->count() > 0) {
+                    $price = $this->prices()->where('customer_level_id', auth()->user()->customer_level_id)->value('price');
+                    return $price;
+                }
+            }
+
+            return $this->price;
+        });
+    }
+
+    public function validateDisplayPrice(): Attribute
+    {
+        return Attribute::make(get: function () {
+            if (auth('customer')->check()) {
+                if ($this->prices()->count() > 0) {
+                    $price = $this->prices()->where('customer_level_id', auth()->user()->customer_level_id)->value('display_price');
+                    return $price;
+                }
+            }
+
+            return $this->display_price;
+        });
+    }
+
     public function location()
     {
         return $this->belongsTo(Location::class)->withTrashed();
+    }
+
+    public function prices()
+    {
+        return $this->hasMany(VoucherPrice::class);
     }
 
     public function shuffle_unsold()

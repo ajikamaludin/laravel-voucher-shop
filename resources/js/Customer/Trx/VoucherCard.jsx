@@ -4,11 +4,13 @@ import { toast } from 'react-toastify'
 
 export default function VoucherCard(props) {
     const {
-        item: { voucher, quantity, share_word },
+        item: { share_word, additional_info_json },
     } = props
 
+    const sale_item = JSON.parse(additional_info_json)
+    const voucher = sale_item?.voucher
+
     const handleShare = () => {
-        console.log(share_word)
         if (navigator.canShare) {
             navigator.share({
                 title: share_word,
@@ -41,7 +43,7 @@ export default function VoucherCard(props) {
                         {voucher.profile}
                     </div>
                     <div className="text-xl font-bold">
-                        IDR {formatIDR(voucher.price)}
+                        IDR {formatIDR(voucher.validate_price)}
                     </div>
                     {+voucher.discount !== 0 && (
                         <div className="flex flex-row space-x-2 items-center text-xs pb-2">
@@ -49,7 +51,7 @@ export default function VoucherCard(props) {
                                 {voucher.discount}%
                             </div>
                             <div className="text-gray-400 line-through">
-                                {formatIDR(voucher.display_price)}
+                                {formatIDR(voucher.validate_display_price)}
                             </div>
                         </div>
                     )}

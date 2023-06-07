@@ -25,7 +25,7 @@ class CartController extends Controller
     {
         $carts = collect(session('carts') ?? []);
         $total = $carts->sum(function ($item) {
-            return $item['quantity'] * $item['voucher']->price;
+            return $item['quantity'] * $item['voucher']->validate_price;
         });
 
         $customer = Customer::find(auth()->id());
@@ -119,7 +119,7 @@ class CartController extends Controller
         };
 
         $total = $carts->sum(function ($item) {
-            return $item['quantity'] * $item['voucher']->price;
+            return $item['quantity'] * $item['voucher']->validate_price;
         });
 
         $customer = Customer::find(auth()->id());
@@ -149,7 +149,7 @@ class CartController extends Controller
                 $sale->items()->create([
                     'entity_type' => $voucher::class,
                     'entity_id' => $voucher->id,
-                    'price' => $voucher->price,
+                    'price' => $voucher->validate_price,
                     'quantity' => 1,
                     'additional_info_json' => json_encode($item),
                 ]);

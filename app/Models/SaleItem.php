@@ -37,17 +37,19 @@ class SaleItem extends Model
     public function shareWord(): Attribute
     {
         return Attribute::make(get: function () {
-            $string = "Hai, aku baru beli voucher {$this->voucher->location->name} di " . route('home.index');
-            $string .= " voucher {$this->voucher->display_quota} buat {$this->voucher->display_expired}
+            $item = json_decode($this->additional_info_json);
+            ds($item);
+            $string = "Hai, aku baru beli voucher {$item->voucher->location->name} di " . route('home.index');
+            $string .= " voucher {$item->voucher->display_quota} buat {$item->voucher->display_expired}
 
-Username : {$this->voucher->username}
-Password : {$this->voucher->password}
+Username : {$item->voucher->username}
+Password : {$item->voucher->password}
 
 ";
             $string .= "Cuman Rp" . number_format($this->price, '0', ',', '.') . " aja, ";
 
-            if ($this->voucher->discount > 0) {
-                $string .= "lagi ada discount {$this->voucher->discount}% loh.
+            if ($item->voucher->discount > 0) {
+                $string .= "lagi ada discount {$item->voucher->discount}% loh.
 ";
             }
 

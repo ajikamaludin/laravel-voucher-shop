@@ -8,5 +8,11 @@ class VoucherPrice extends Model
         'customer_level_id',
         'voucher_id',
         'price',
+        'display_price',
     ];
+
+    public function level()
+    {
+        return $this->belongsTo(CustomerLevel::class, 'customer_level_id');
+    }
 }

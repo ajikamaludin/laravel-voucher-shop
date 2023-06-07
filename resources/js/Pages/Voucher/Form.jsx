@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { isEmpty } from 'lodash'
 
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
@@ -7,10 +7,12 @@ import Button from '@/Components/Button'
 import { Head, useForm } from '@inertiajs/react'
 import FormInputWith from '@/Components/FormInputWith'
 import LocationSelectionInput from '../Location/SelectionInput'
+import Checkbox from '@/Components/Checkbox'
 
 export default function Form(props) {
-    const { voucher } = props
+    const { voucher, levels } = props
 
+    const [use_level, setUseLevel] = useState(false)
     const { data, setData, post, processing, errors } = useForm({
         username: '',
         password: '',
@@ -22,6 +24,7 @@ export default function Form(props) {
         expired: '',
         expired_unit: 'Hari',
         location_id: null,
+        prices: null,
     })
 
     const handleOnChange = (event) => {
@@ -34,6 +37,38 @@ export default function Form(props) {
                 : event.target.value
         )
     }
+
+    const handleUseLevel = () => {
+        setUseLevel(!use_level)
+        if (!use_level === true) {
+            const prices = levels.map((level) => {
+                return {
+                    name: level.name,
+                    customer_level_id: level.id,
+                    display_price: '0',
+                }
+            })
+            setData('prices', prices)
+            return
+        }
+        setData('prices', null)
+    }
+
+    const handleSetLevelPrice = (id, value) => {
+        setData(
+            'prices',
+            data.prices.map((price) => {
+                if (price.customer_level_id === id) {
+                    return {
+                        ...price,
+                        display_price: value,
+                    }
+                }
+                return price
+            })
+        )
+    }
+
     const handleSubmit = () => {
         if (isEmpty(voucher) === false) {
             post(route('voucher.update', voucher))
@@ -44,6 +79,17 @@ export default function Form(props) {
 
     useEffect(() => {
         if (isEmpty(voucher) === false) {
+            let prices = null
+            if (voucher.prices.length > 0) {
+                setUseLevel(true)
+                prices = voucher.prices.map((price) => {
+                    return {
+                        ...price,
+                        name: price.level.name,
+                    }
+                })
+            }
+
             setData({
                 username: voucher.username,
                 password: voucher.password,
@@ -55,6 +101,7 @@ export default function Form(props) {
                 expired: voucher.expired,
                 expired_unit: voucher.expired_unit,
                 location_id: voucher.location_id,
+                prices: prices,
             })
         }
     }, [voucher])
@@ -136,7 +183,7 @@ export default function Form(props) {
                             label="Comment"
                             error={errors.comment}
                         />
-                        <div>
+                        <div className="mb-2">
                             <label className="block text-sm font-medium text-gray-900 dark:text-white">
                                 Masa Aktif
                             </label>
@@ -165,6 +212,36 @@ export default function Form(props) {
                                     </select>
                                 </div>
                             </div>
+                        </div>
+                        <Checkbox
+                            label="Level Harga"
+                            value={use_level}
+                            onChange={(e) => handleUseLevel(e.target.value)}
+                        />
+                        <div
+                            className={`p-2 mt-2 border rounded ${
+                                !use_level && 'invisible'
+                            }`}
+                        >
+                            {data.prices?.map((price) => (
+                                <FormInput
+                                    type="number"
+                                    key={price.customer_level_id}
+                                    value={price.display_price}
+                                    onChange={(e) =>
+                                        handleSetLevelPrice(
+                                            price.customer_level_id,
+                                            e.target.value
+                                        )
+                                    }
+                                    label={price.name}
+                                />
+                            ))}
+                            {errors.prices && (
+                                <p className="mb-2 text-sm text-red-600 dark:text-red-500">
+                                    {errors.prices}
+                                </p>
+                            )}
                         </div>
                         <div className="mt-8">
                             <Button
