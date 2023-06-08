@@ -123,13 +123,16 @@ class VoucherController extends Controller
 
         DB::beginTransaction();
 
+        $voucher->update([
+            'username' => $request->username,
+            'password' => $request->password,
+        ]);
+
         $vouchers = Voucher::where('batch_id', $voucher->batch_id);
         $vouchers->update([
             'name' => $request->name,
             'description' => $request->description,
             'location_id' => $request->location_id,
-            'username' => $request->username,
-            'password' => $request->password,
             'discount' => $request->discount,
             'display_price' => $request->display_price,
             'price_coin' => $request->price_coin,

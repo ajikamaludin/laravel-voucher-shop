@@ -38,4 +38,6 @@ npm run build
 
 ```bash
 rsync -arP -e 'ssh -p 224' --exclude=node_modules --exclude=.git --exclude=.env --exclude=storage --exclude=public/hot . arm@ajikamaludin.id:/home/arm/projects/voucher
+
+rsync -arP -e 'ssh -p 224' --exclude=node_modules --exclude=database/database.sqlite --exclude=.git --exclude=.env --exclude=storage --exclude=public/hot . arm@ajikamaludin.id:/home/arm/projects/voucher
 ```

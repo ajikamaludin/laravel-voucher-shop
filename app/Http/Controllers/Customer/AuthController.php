@@ -27,6 +27,8 @@ class AuthController extends Controller
 
     public function login()
     {
+        session()->remove('carts');
+
         return inertia('Auth/Login');
     }
 
@@ -85,6 +87,8 @@ class AuthController extends Controller
 
     public function register()
     {
+        session()->remove('carts');
+
         return inertia('Auth/Register');
     }
 
@@ -139,7 +143,7 @@ class AuthController extends Controller
     public function destroy()
     {
         session()->remove('carts');
-
+        
         Auth::logout();
 
         return redirect()->route('customer.login')

@@ -7,7 +7,7 @@ const EmptyHere = () => {
         <div className="w-full px-5 text-center flex flex-col my-auto">
             <div className="font-bold text-xl">Transaksi kosong</div>
             <div className="text-gray-400">
-                Yuk, checkout kerangjang mu sekarang!
+                Yuk, checkout keranjang mu sekarang!
             </div>
         </div>
     )
