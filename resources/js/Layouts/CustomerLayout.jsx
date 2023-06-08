@@ -2,11 +2,10 @@ import React, { useEffect } from 'react'
 import { ToastContainer, toast } from 'react-toastify'
 
 import { router, usePage } from '@inertiajs/react'
-import { HiOutlineHome, HiOutlineUserCircle } from 'react-icons/hi'
+import { HiOutlineHome } from 'react-icons/hi'
 import {
     HiArrowPathRoundedSquare,
     HiBars3,
-    HiGift,
     HiOutlineGift,
     HiOutlineShoppingCart,
 } from 'react-icons/hi2'

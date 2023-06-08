@@ -1,7 +1,8 @@
 import React from 'react'
-import { HiOutlineCash, HiOutlineBell } from 'react-icons/hi'
-import BalanceBanner from './BalanceBanner'
 import { router, usePage } from '@inertiajs/react'
+import { HiOutlineBell } from 'react-icons/hi'
+
+import BalanceBanner from './BalanceBanner'
 
 export default function UserBanner({ user }) {
     const {

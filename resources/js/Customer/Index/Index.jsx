@@ -101,7 +101,9 @@ export default function Index(props) {
                             <img
                                 onClick={() => handleBanner(banner)}
                                 key={banner.id}
+                                loading='lazy'
                                 src={banner.image_url}
+                                alt={banner.title}
                                 className={`rounded w-${
                                     banners.length === 1 ? 'full' : '[80%]'
                                 } min-w-[340px] h-28 object-cover`}
