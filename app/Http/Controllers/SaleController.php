@@ -30,7 +30,7 @@ class SaleController extends Controller
     public function show(Sale $sale)
     {
         return inertia('Sale/Detail', [
-            'sale' => $sale->load(['items.voucher', 'customer.level']),
+            'sale' => $sale->load(['items.voucher.location', 'customer.level']),
         ]);
     }
 }
