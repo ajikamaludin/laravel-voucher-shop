@@ -9,10 +9,10 @@ class LocationController extends Controller
 {
     public function index()
     {
-        $query = Location::paginate();
+        $query = Location::orderBy('updated_at', 'desc');
 
         return inertia('Location/Index', [
-            'query' => $query,
+            'query' => $query->paginate(),
         ]);
     }
 

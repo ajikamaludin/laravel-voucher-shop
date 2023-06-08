@@ -16,7 +16,7 @@ class HomeController extends Controller
     {
         $infos = Info::where('is_publish', 1)->orderBy('updated_at', 'desc')->get();
         $banners = Banner::orderBy('updated_at', 'desc')->get();
-        $locations = Location::get();
+        $locations = Location::orderBy('updated_at', 'desc')->get();
         $vouchers = Voucher::with(['location'])
             ->where('is_sold', Voucher::UNSOLD)
             ->groupBy('batch_id')
