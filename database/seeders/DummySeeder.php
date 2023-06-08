@@ -41,8 +41,8 @@ class DummySeeder extends Seeder
         $images = ['1.webp', '2.webp', '3.webp'];
         foreach ($images as $index => $image) {
             Banner::create([
-                'title' => 'Banner ' . $index,
-                'image' => 'sample/' . $image,
+                'title' => 'Banner '.$index,
+                'image' => 'sample/'.$image,
                 'description' => '<h1>Banner </h1>',
             ]);
         }

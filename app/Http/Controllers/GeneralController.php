@@ -66,7 +66,7 @@ class GeneralController extends Controller
             ->orderBy('date_time', 'asc')
             ->groupBy(DB::raw("strftime('%m/%d/%Y', date_time)"));
 
-        // filter lokasi 
+        // filter lokasi
         if ($request->location_id != '') {
             $charts->whereHas('items', function ($q) use ($request) {
                 $q->join('vouchers', 'vouchers.id', '=', 'sale_items.entity_id')

@@ -48,7 +48,7 @@ class DepositController extends Controller
         $deposit = DepositHistory::make([
             'customer_id' => auth()->id(),
             'debit' => $request->amount,
-            'description' => 'Top Up #' . Str::random(5),
+            'description' => 'Top Up #'.Str::random(5),
             'payment_channel' => $request->payment,
         ]);
 

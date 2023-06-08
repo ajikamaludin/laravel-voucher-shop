@@ -15,7 +15,7 @@ class VerificationController extends Controller
             ->orderBy('updated_at', 'desc');
 
         return inertia('Verification/Index', [
-            'query' => $query->paginate()
+            'query' => $query->paginate(),
         ]);
     }
 
@@ -28,7 +28,7 @@ class VerificationController extends Controller
 
         return inertia('Verification/Form', [
             'customer' => $customer->load(['level']),
-            'levels' => $levels
+            'levels' => $levels,
         ]);
     }
 
@@ -43,13 +43,13 @@ class VerificationController extends Controller
 
         $customer->update([
             'customer_level_id' => $level->id,
-            'identity_verified' => Customer::VERIFIED
+            'identity_verified' => Customer::VERIFIED,
         ]);
 
         $customer->paylater()->updateOrCreate([
             'customer_id' => $customer->id,
         ], [
-            'limit' => $request->paylater_limit
+            'limit' => $request->paylater_limit,
         ]);
 
         return redirect()->route('customer-verification.index')

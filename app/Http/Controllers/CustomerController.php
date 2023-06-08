@@ -59,14 +59,14 @@ class CustomerController extends Controller
     {
         return inertia('Customer/Form', [
             'customer' => $customer->load(['level']),
-            'levels' => CustomerLevel::all()
+            'levels' => CustomerLevel::all(),
         ]);
     }
 
     public function update(Request $request, Customer $customer)
     {
         $request->validate([
-            'username' => 'required|string|min:5|alpha_dash|unique:customers,username,' . $customer->id,
+            'username' => 'required|string|min:5|alpha_dash|unique:customers,username,'.$customer->id,
             'password' => 'nullable|string|min:8',
             'name' => 'required|string',
             'fullname' => 'required|string',
@@ -121,7 +121,7 @@ class CustomerController extends Controller
         $customer->paylater()->updateOrCreate([
             'customer_id' => $customer->id,
         ], [
-            'limit' => $request->paylater_limit
+            'limit' => $request->paylater_limit,
         ]);
 
         return redirect()->route('customer.index')

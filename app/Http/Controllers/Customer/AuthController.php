@@ -71,7 +71,7 @@ class AuthController extends Controller
                 'fullname' => $user->name,
                 'name' => $user->nickname,
                 'email' => $user->email,
-                'username' => Str::slug($user->name . '_' . Str::random(5), '_'),
+                'username' => Str::slug($user->name.'_'.Str::random(5), '_'),
                 'google_id' => $user->id,
                 'google_oauth_response' => json_encode($user),
             ]);
@@ -97,7 +97,7 @@ class AuthController extends Controller
             'phone' => 'required|numeric',
             'username' => 'required|string|min:5|alpha_dash|unique:customers,username',
             'password' => 'required|string|min:8|confirmed',
-            'referral_code' => 'nullable|exists:customers,referral_code'
+            'referral_code' => 'nullable|exists:customers,referral_code',
         ]);
 
         DB::beginTransaction();
@@ -114,7 +114,7 @@ class AuthController extends Controller
             $refferal = Customer::where('referral_code', $request->referral_code)->first();
             $refferal->customerRefferals()->create([
                 'refferal_id' => $customer->id,
-                'customer_code' => $refferal->referral_code
+                'customer_code' => $refferal->referral_code,
             ]);
 
             $affilateEnabled = Setting::getByKey('AFFILATE_ENABLED');
@@ -122,7 +122,7 @@ class AuthController extends Controller
                 $bonusCoin = Setting::getByKey('AFFILATE_COIN_AMOUNT');
                 $coin = $refferal->coins()->create([
                     'debit' => $bonusCoin,
-                    'description' => 'Bonus Refferal #' . Str::random(5),
+                    'description' => 'Bonus Refferal #'.Str::random(5),
                 ]);
 
                 $coin->update_customer_balance();

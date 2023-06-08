@@ -41,7 +41,7 @@ Route::middleware(['http_secure_aware', 'guard_should_customer', 'inertia.custom
         // logout
         Route::post('logout', [AuthController::class, 'destroy'])->name('customer.logout');
 
-        // paylater 
+        // paylater
         Route::get('paylater', [PaylaterController::class, 'index'])->name('customer.paylater.index');
         Route::get('paylater/trx/{paylater}', [PaylaterController::class, 'show'])->name('customer.paylater.show');
 
@@ -57,7 +57,6 @@ Route::middleware(['http_secure_aware', 'guard_should_customer', 'inertia.custom
         Route::get('coin/exchanges/{voucher}', [CoinExchangeController::class, 'exchange'])->name('customer.coin.exchange.process');
         Route::get('coin', [CoinController::class, 'index'])->name('customer.coin.index');
         Route::get('coin/{coin}', [CoinController::class, 'show'])->name('customer.coin.show');
-
 
         // cart
         Route::get('cart', [CartController::class, 'index'])->name('cart.index');

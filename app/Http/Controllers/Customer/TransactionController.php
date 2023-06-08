@@ -20,7 +20,7 @@ class TransactionController extends Controller
     public function show(Sale $sale)
     {
         return inertia('Trx/Detail', [
-            'sale' => $sale->load(['items.voucher.location'])
+            'sale' => $sale->load(['items.voucher.location']),
         ]);
     }
 }

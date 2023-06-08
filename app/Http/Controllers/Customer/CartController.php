@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
-use App\Models\CoinHistory;
 use App\Models\CoinReward;
 use App\Models\Customer;
 use App\Models\DepositHistory;
@@ -19,7 +18,6 @@ class CartController extends Controller
      * show list of item in cart
      * has payed button
      * show payment method -> deposit, coin, paylater
-     * 
      */
     public function index()
     {
@@ -41,7 +39,6 @@ class CartController extends Controller
 
     /**
      * handle cart add, remove or sub
-     *
      */
     public function store(Request $request, Voucher $voucher)
     {
@@ -113,10 +110,11 @@ class CartController extends Controller
             $batchCount = $item['voucher']->count_unsold();
             if ($batchCount < $item['quantity']) {
                 session()->remove('carts');
+
                 return redirect()->route('home.index')
                     ->with('message', ['type' => 'error', 'message' => 'transaksi gagal, voucher sedang tidak tersedia']);
             }
-        };
+        }
 
         $total = $carts->sum(function ($item) {
             return $item['quantity'] * $item['voucher']->validate_price;
@@ -127,6 +125,7 @@ class CartController extends Controller
         $paylater_limit = (int) $customer->paylater_limit;
         if (($paylater_limit + $customer->deposit_balance) < $total) {
             session()->remove('carts');
+
             return redirect()->route('home.index')
                 ->with('message', ['type' => 'error', 'message' => 'transaksi gagal, pembayaran ditolak']);
         }
@@ -167,13 +166,13 @@ class CartController extends Controller
         if ($bonus != null) {
             $coin = $customer->coins()->create([
                 'debit' => $bonus->bonus_coin,
-                'description' => 'Bonus Pembelian #' . $sale->code,
+                'description' => 'Bonus Pembelian #'.$sale->code,
             ]);
 
             $coin->update_customer_balance();
         }
 
-        $description = 'Pembayaran #' . $sale->code;
+        $description = 'Pembayaran #'.$sale->code;
 
         if ($customer->deposit_balance < $total) {
             if ($customer->deposit_balance > 0) {
@@ -191,7 +190,7 @@ class CartController extends Controller
             $payedWithPaylater = $total - $customer->deposit_balance;
             $paylater = $customer->paylaterHistories()->create([
                 'debit' => $payedWithPaylater,
-                'description' => $description
+                'description' => $description,
             ]);
 
             $paylater->update_customer_paylater();

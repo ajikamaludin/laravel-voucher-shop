@@ -9,7 +9,6 @@ use App\Models\Sale;
 use App\Models\Voucher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 
 class CoinExchangeController extends Controller
 {
@@ -53,7 +52,7 @@ class CoinExchangeController extends Controller
 
         DB::beginTransaction();
         $sale = $customer->sales()->create([
-            'code' => 'Tukar Coin ' . str()->upper(str()->random(5)),
+            'code' => 'Tukar Coin '.str()->upper(str()->random(5)),
             'date_time' => now(),
             'amount' => 0,
             'payed_with' => Sale::PAYED_WITH_COIN,
@@ -68,7 +67,7 @@ class CoinExchangeController extends Controller
             'additional_info_json' => json_encode([
                 'id' => $voucher->id,
                 'quantity' => 1,
-                'voucher' => $voucher->load(['location'])
+                'voucher' => $voucher->load(['location']),
             ]),
         ]);
 

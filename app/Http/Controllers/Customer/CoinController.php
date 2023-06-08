@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
 use App\Models\CoinHistory;
-use Illuminate\Http\Request;
 
 class CoinController extends Controller
 {

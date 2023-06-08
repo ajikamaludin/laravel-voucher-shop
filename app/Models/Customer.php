@@ -126,7 +126,7 @@ class Customer extends Authenticatable
                 return ' - ';
             }
 
-            return '+62' . $this->phone;
+            return '+62'.$this->phone;
         });
     }
 
@@ -150,6 +150,7 @@ class Customer extends Authenticatable
             if ($this->is_allow_paylater) {
                 return $this->paylater->limit - $this->paylater->usage;
             }
+
             return '';
         });
     }
@@ -167,7 +168,7 @@ class Customer extends Authenticatable
             return [
                 self::VERIFIED => 'Terverifikasi',
                 self::IN_VERICATION => 'Menunggu Verifikasi',
-                self::NOT_VERIFIED => 'Tidak Terverifikasi'
+                self::NOT_VERIFIED => 'Tidak Terverifikasi',
             ][$this->identity_verified];
         });
     }
@@ -233,13 +234,13 @@ class Customer extends Authenticatable
 
             $paylater = $this->paylaterHistories()->create([
                 'credit' => $cut,
-                'description' => $deposit->description . " (Pengembalian)",
+                'description' => $deposit->description.' (Pengembalian)',
             ]);
             $paylater->update_customer_paylater();
 
             $deposit = $this->deposites()->create([
                 'credit' => $cut,
-                'description' => 'Pembayaran Paylater'
+                'description' => 'Pembayaran Paylater',
             ]);
             $deposit->update_customer_balance();
         }

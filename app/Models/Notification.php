@@ -8,6 +8,7 @@ use Illuminate\Support\Carbon;
 class Notification extends Model
 {
     const UNREAD = 0;
+
     const READ = 1;
 
     protected $fillable = [
@@ -18,7 +19,7 @@ class Notification extends Model
     ];
 
     protected $appends = [
-        'format_created_at'
+        'format_created_at',
     ];
 
     public function mark_as_read()

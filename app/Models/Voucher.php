@@ -63,14 +63,14 @@ class Voucher extends Model
     public function displayQuota(): Attribute
     {
         return Attribute::make(get: function () {
-            return round($this->quota / (1024 * 1024 * 1024), 2) . ' GB';
+            return round($this->quota / (1024 * 1024 * 1024), 2).' GB';
         });
     }
 
     public function displayExpired(): Attribute
     {
         return Attribute::make(get: function () {
-            return $this->expired . ' ' . $this->expired_unit;
+            return $this->expired.' '.$this->expired_unit;
         });
     }
 
@@ -80,6 +80,7 @@ class Voucher extends Model
             if (auth('customer')->check()) {
                 if ($this->prices()->count() > 0) {
                     $price = $this->prices()->where('customer_level_id', auth()->user()->customer_level_id)->value('price');
+
                     return $price;
                 }
             }
@@ -94,6 +95,7 @@ class Voucher extends Model
             if (auth('customer')->check()) {
                 if ($this->prices()->count() > 0) {
                     $price = $this->prices()->where('customer_level_id', auth()->user()->customer_level_id)->value('display_price');
+
                     return $price;
                 }
             }
@@ -116,7 +118,7 @@ class Voucher extends Model
     {
         $voucher = Voucher::where([
             ['is_sold', '=', self::UNSOLD],
-            ['batch_id', '=', $this->batch_id]
+            ['batch_id', '=', $this->batch_id],
         ])->first();
 
         return $voucher;
@@ -126,7 +128,7 @@ class Voucher extends Model
     {
         $voucher = Voucher::where([
             ['is_sold', '=', self::UNSOLD],
-            ['batch_id', '=', $this->batch_id]
+            ['batch_id', '=', $this->batch_id],
         ])->count();
 
         return $voucher;
@@ -136,7 +138,7 @@ class Voucher extends Model
     {
         $count = Voucher::where([
             ['is_sold', '=', self::UNSOLD],
-            ['batch_id', '=', $this->batch_id]
+            ['batch_id', '=', $this->batch_id],
         ])->count();
 
         $treshold = Setting::getByKey('VOUCHER_STOCK_NOTIFICATION');
@@ -144,7 +146,7 @@ class Voucher extends Model
         if ($count <= $treshold) {
             Notification::create([
                 'entity_type' => User::class,
-                'description' => "stok voucher " . $this->location->name . " ( " . $this->profile . " ) " . "tersisa : " . $count,
+                'description' => 'stok voucher '.$this->location->name.' ( '.$this->profile.' ) '.'tersisa : '.$count,
             ]);
         }
     }

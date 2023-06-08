@@ -1,22 +1,22 @@
 <?php
 
 use App\Http\Controllers\AccountController;
-use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\CoinRewardController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\CustomerLevelController;
-use App\Http\Controllers\VerificationController;
 use App\Http\Controllers\DepositController;
 use App\Http\Controllers\GeneralController;
 use App\Http\Controllers\InfoController;
 use App\Http\Controllers\LocationController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VerificationController;
 use App\Http\Controllers\VoucherController;
 use Illuminate\Support\Facades\Route;
 

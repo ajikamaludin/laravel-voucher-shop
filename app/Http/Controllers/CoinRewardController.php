@@ -15,7 +15,7 @@ class CoinRewardController extends Controller
 
         return inertia('CoinReward/Index', [
             'query' => $query->paginate(),
-            'levels' => CustomerLevel::all()
+            'levels' => CustomerLevel::all(),
         ]);
     }
 

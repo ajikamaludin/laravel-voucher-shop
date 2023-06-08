@@ -36,7 +36,6 @@ class CoinHistory extends Model
         });
     }
 
-
     public function amount(): Attribute
     {
         return Attribute::make(get: function () {
