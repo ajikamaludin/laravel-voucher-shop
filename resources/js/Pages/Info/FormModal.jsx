@@ -54,7 +54,7 @@ export default function FormModal(props) {
         const info = modalState.data
         if (isEmpty(info) === false) {
             setData({
-                info: info.info,
+                info: info.title,
                 is_publish: info.is_publish,
             })
             return
