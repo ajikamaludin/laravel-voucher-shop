@@ -10,7 +10,12 @@ export default function VoucherCard({ voucher }) {
             className="px-3 py-1 shadow-md rounded border border-gray-100 hover:bg-gray-50"
             onClick={addCart}
         >
-            <div className="text-base font-bold">{voucher.location.name}</div>
+            <div className="w-full flex flex-row justify-between">
+                <div className="text-base font-bold">
+                    {voucher.location.name}
+                </div>
+                <div className="text-sm text-gray-500"></div>
+            </div>
             <div className="w-full border border-dashed"></div>
             <div className="flex flex-row justify-between items-center">
                 <div>

@@ -53,7 +53,7 @@ export default function Index({
                                     router.get(route('customer.deposit.topup'))
                                 }
                             >
-                                Top Up
+                                Bayar Tagihan
                             </div>
                         </div>
                     </div>

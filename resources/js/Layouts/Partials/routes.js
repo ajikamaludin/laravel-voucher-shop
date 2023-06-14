@@ -37,6 +37,14 @@ export default [
         permission: 'view-location',
     },
     {
+        name: 'Profile Lokasi',
+        show: true,
+        icon: HiMap,
+        route: route('location.index'),
+        active: 'location.*',
+        permission: 'view-location',
+    },
+    {
         name: 'Voucher',
         show: true,
         icon: HiTicket,

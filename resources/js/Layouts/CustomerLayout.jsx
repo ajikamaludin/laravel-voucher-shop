@@ -25,10 +25,10 @@ export default function CustomerLayout({ children }) {
 
     const isActive = (r) => {
         if (route().current(r)) {
-            return 'text-blue-700'
+            return 'text-blue-700 font-bold'
         }
 
-        return 'text-gray-600'
+        return 'text-gray-600 font-light'
     }
 
     useEffect(() => {
@@ -42,18 +42,18 @@ export default function CustomerLayout({ children }) {
             <div className="flex flex-col w-full bg-white shadow pb-20 min-h-[calc(90dvh)] max-w-md">
                 <div>{children}</div>
             </div>
-            <div className="fixed bottom-0 flex flex-row justify-between w-full bg-gray-50 max-w-md">
+            <div className="fixed px-2 bottom-0 flex flex-row gap-0 justify-between w-full bg-gray-50 max-w-md">
                 <div
-                    className={`pb-1 pt-2 px-5 hover:bg-blue-200 flex flex-col items-center ${isActive(
+                    className={`pb-1 pt-2 hover:bg-blue-200 flex flex-col items-center w-full ${isActive(
                         'home.index'
                     )}`}
                     onClick={() => handleOnClick('home.index')}
                 >
                     <HiOutlineHome className="h-6 w-6" />
-                    <div className="text-xs font-light">Beranda</div>
+                    <div className="text-xs">Beranda</div>
                 </div>
                 <div
-                    className={`pb-1 pt-2 px-5 hover:bg-blue-200 flex flex-col items-center ${isActive(
+                    className={`pb-1 pt-2 hover:bg-blue-200 flex flex-col items-center w-full ${isActive(
                         'cart.index'
                     )}`}
                     onClick={() => handleOnClick('cart.index')}
@@ -66,10 +66,10 @@ export default function CustomerLayout({ children }) {
                             </div>
                         </div>
                     </div>
-                    <div className="text-xs font-light">Keranjang</div>
+                    <div className="text-xs">Keranjang</div>
                 </div>
                 <div
-                    className={`pb-1 pt-2 px-5 hover:bg-blue-200 flex flex-col items-center ${isActive(
+                    className={`pb-1 pt-2 hover:bg-blue-200 flex flex-col items-center w-full ${isActive(
                         'customer.coin.exchange'
                     )}`}
                     onClick={() => handleOnClick('customer.coin.exchange')}
@@ -77,19 +77,19 @@ export default function CustomerLayout({ children }) {
                     <div className="flex flex-row">
                         <HiOutlineGift className="h-6 w-6" />
                     </div>
-                    <div className="text-xs font-light">Coin</div>
+                    <div className="text-xs">Coin</div>
                 </div>
                 <div
-                    className={`pb-1 pt-2 px-5 hover:bg-blue-200 flex flex-col items-center ${isActive(
+                    className={`pb-1 pt-2 hover:bg-blue-200 flex flex-col items-center w-full ${isActive(
                         'transactions.*'
                     )}`}
                     onClick={() => handleOnClick('transactions.index')}
                 >
                     <HiArrowPathRoundedSquare className="h-6 w-6" />
-                    <div className="text-xs font-light">Transaksi</div>
+                    <div className="text-xs">Transaksi</div>
                 </div>
                 <div
-                    className={`py-2 px-5 hover:bg-blue-200 flex flex-col items-center ${isActive(
+                    className={`py-2 hover:bg-blue-200 flex flex-col items-center w-full ${isActive(
                         'customer.profile.*'
                     )}`}
                     onClick={() =>
@@ -101,7 +101,7 @@ export default function CustomerLayout({ children }) {
                     }
                 >
                     <HiBars3 className="h-6 w-6" />
-                    <div className="text-xs font-light">Menu</div>
+                    <div className="text-xs">Menu</div>
                 </div>
             </div>
             <ToastContainer />

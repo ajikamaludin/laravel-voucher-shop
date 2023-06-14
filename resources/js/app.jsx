@@ -6,7 +6,7 @@ import 'react-toastify/dist/ReactToastify.css'
 
 import React from 'react'
 import { createRoot } from 'react-dom/client'
-import { createInertiaApp } from '@inertiajs/react'
+import { createInertiaApp, router } from '@inertiajs/react'
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers'
 
 const appName =
@@ -24,5 +24,5 @@ createInertiaApp({
 
         root.render(<App {...props} />)
     },
-    progress: { color: '#003bf1', showSpinner: true, includeCSS: true },
+    progress: { color: '#F1A410', showSpinner: true, includeCSS: true },
 })

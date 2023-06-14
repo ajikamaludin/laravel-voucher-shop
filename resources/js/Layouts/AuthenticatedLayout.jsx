@@ -71,7 +71,8 @@ export default function Authenticated({
                                                 }
                                                 key={notif.id}
                                             >
-                                                {notif.description}
+                                                <div>{notif.description}</div>
+                                                <div>{notif.created_at}</div>
                                             </div>
                                         ))}
                                         {notifications.length > 0 && (

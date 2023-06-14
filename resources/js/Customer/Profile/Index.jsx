@@ -48,8 +48,10 @@ export default function Index({ auth: { user }, notification_count }) {
                             )}
                             <div className="flex flex-col text-white">
                                 <div className="font-bold">{user.name}</div>
-                                <div className="flex flex-row items-center space-x-1">
-                                    <div>{user.display_phone}</div>
+                                <div className="flex flex-row items-center space-x-1 -mt-1">
+                                    <div className="text-sm">
+                                        {user.username}
+                                    </div>
                                     <div className="text-xs font-semibold px-2 py-1 bg-white text-black rounded-xl">
                                         {user.level.name}
                                     </div>
@@ -96,7 +98,7 @@ export default function Index({ auth: { user }, notification_count }) {
                                 router.get(route('customer.paylater.index'))
                             }
                         >
-                            <div>Paylater</div>
+                            <div>Mitra WBB</div>
                             <HiChevronRight className="h-5 w-5" />
                         </div>
                     )}

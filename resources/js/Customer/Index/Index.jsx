@@ -93,7 +93,7 @@ export default function Index(props) {
             <Head title="Home" />
             <div className="flex flex-col min-h-[calc(95dvh)]">
                 {user !== null ? <UserBanner user={user} /> : <GuestBanner />}
-
+                <div id="nprogress" style={{ opacity: 1 }}></div>
                 {/* banner */}
                 <div className="w-full">
                     <div className="flex flex-row overflow-y-scroll space-x-2 py-3 px-2">
@@ -101,7 +101,7 @@ export default function Index(props) {
                             <img
                                 onClick={() => handleBanner(banner)}
                                 key={banner.id}
-                                loading='lazy'
+                                loading="lazy"
                                 src={banner.image_url}
                                 alt={banner.title}
                                 className={`rounded w-${
