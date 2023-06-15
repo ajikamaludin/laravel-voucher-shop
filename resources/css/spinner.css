@@ -39,24 +39,39 @@
     height: 100% !important;
     justify-items: center;
     align-items: center;
-    /* background-color: rgb(30 41 59 / 0.5); */
-    background-color: white !important;
+    background-color: rgb(30 41 59 / 0.5);
+    /* background-color: white !important; */
+}
+
+#nprogress .spinner-bg {
+    margin: auto;
+    width: 140px !important;
+    height: 60px !important;
+    padding: 0.5rem;
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    align-items: center;
+    font-weight: bold;
+    font-size: large;
 }
 
 #nprogress .spinner-icon {
-    margin: auto;
-    width: 80px !important;
-    height: 80px !important;
+    /* margin: auto; */
+    width: 40px !important;
+    height: 40px !important;
     box-sizing: border-box;
 
-    border: solid 6px transparent !important;
+    border: solid 3px transparent !important;
     border-top-color: #F1A410 !important;
     border-left-color: #F1A410 !important;
-    border-radius: 50%;
+    border-radius: 50px !important;
 
     -webkit-animation: nprogress-spinner 400ms linear infinite;
     animation: nprogress-spinner 400ms linear infinite;
 }
+
 
 .nprogress-custom-parent {
     display: flex;
