@@ -3,7 +3,7 @@
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\BannerController;
-use App\Http\Controllers\CoinRewardController;
+use App\Http\Controllers\PoinRewardController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\CustomerLevelController;
 use App\Http\Controllers\DepositController;
@@ -119,11 +119,11 @@ Route::middleware(['http_secure_aware', 'inertia.admin'])
             Route::get('/deposites', [DepositController::class, 'index'])->name('deposit.index');
             Route::post('/deposites/{deposit}', [DepositController::class, 'update'])->name('deposit.update');
 
-            // coin rewared
-            Route::get('/bonus-coin', [CoinRewardController::class, 'index'])->name('coin-reward.index');
-            Route::post('/bonus-coin', [CoinRewardController::class, 'store'])->name('coin-reward.store');
-            Route::put('/bonus-coin/{reward}', [CoinRewardController::class, 'update'])->name('coin-reward.update');
-            Route::delete('/bonus-coin/{reward}', [CoinRewardController::class, 'destroy'])->name('coin-reward.destroy');
+            // poin rewared
+            Route::get('/bonus-poin', [PoinRewardController::class, 'index'])->name('poin-reward.index');
+            Route::post('/bonus-poin', [PoinRewardController::class, 'store'])->name('poin-reward.store');
+            Route::put('/bonus-poin/{reward}', [PoinRewardController::class, 'update'])->name('poin-reward.update');
+            Route::delete('/bonus-poin/{reward}', [PoinRewardController::class, 'destroy'])->name('poin-reward.destroy');
 
             // sale
             Route::get('/sales', [SaleController::class, 'index'])->name('sale.index');

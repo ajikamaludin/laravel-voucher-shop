@@ -70,7 +70,7 @@ class GeneralService
     public static function getCartEnablePayment()
     {
         // deposit
-        // coin
+        // poin
         // paylater
     }
 }

@@ -105,7 +105,7 @@ export default function Customer(props) {
                                                 scope="col"
                                                 className="py-3 px-6"
                                             >
-                                                Coin
+                                                poin
                                             </th>
                                             <th
                                                 scope="col"
@@ -147,7 +147,7 @@ export default function Customer(props) {
                                                     scope="row"
                                                     className="py-4 px-6"
                                                 >
-                                                    {customer.display_coin}
+                                                    {customer.display_poin}
                                                 </td>
                                                 <td
                                                     scope="row"

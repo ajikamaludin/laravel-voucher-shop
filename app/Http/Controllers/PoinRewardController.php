@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CoinReward;
+use App\Models\PoinReward;
 use App\Models\CustomerLevel;
 use Illuminate\Http\Request;
 
-class CoinRewardController extends Controller
+class PoinRewardController extends Controller
 {
     public function index()
     {
-        $query = CoinReward::with(['level'])
+        $query = PoinReward::with(['level'])
             ->orderBy('updated_at', 'desc');
 
-        return inertia('CoinReward/Index', [
+        return inertia('PoinReward/Index', [
             'query' => $query->paginate(),
             'levels' => CustomerLevel::all(),
         ]);
@@ -23,37 +23,37 @@ class CoinRewardController extends Controller
     {
         $request->validate([
             'amount_buy' => 'required|numeric',
-            'bonus_coin' => 'required|numeric',
+            'bonus_poin' => 'required|numeric',
             'customer_level_id' => 'required|exists:customer_levels,id',
         ]);
 
-        CoinReward::create([
+        PoinReward::create([
             'amount_buy' => $request->amount_buy,
-            'bonus_coin' => $request->bonus_coin,
+            'bonus_poin' => $request->bonus_poin,
             'customer_level_id' => $request->customer_level_id,
         ]);
 
         session()->flash('message', ['type' => 'success', 'message' => 'Item has beed saved']);
     }
 
-    public function update(Request $request, CoinReward $reward)
+    public function update(Request $request, PoinReward $reward)
     {
         $request->validate([
             'amount_buy' => 'required|numeric',
-            'bonus_coin' => 'required|numeric',
+            'bonus_poin' => 'required|numeric',
             'customer_level_id' => 'required|exists:customer_levels,id',
         ]);
 
         $reward->update([
             'amount_buy' => $request->amount_buy,
-            'bonus_coin' => $request->bonus_coin,
+            'bonus_poin' => $request->bonus_poin,
             'customer_level_id' => $request->customer_level_id,
         ]);
 
         session()->flash('message', ['type' => 'success', 'message' => 'Item has beed updated']);
     }
 
-    public function destroy(CoinReward $reward)
+    public function destroy(PoinReward $reward)
     {
         $reward->delete();
 

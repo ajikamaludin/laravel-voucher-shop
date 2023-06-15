@@ -15,7 +15,7 @@ export default function FormModal(props) {
     const { data, setData, post, put, processing, errors, reset, clearErrors } =
         useForm({
             amount_buy: 0,
-            bonus_coin: 0,
+            bonus_poin: 0,
             customer_level_id: null,
         })
 
@@ -44,12 +44,12 @@ export default function FormModal(props) {
     const handleSubmit = () => {
         const reward = modalState.data
         if (reward !== null) {
-            put(route('coin-reward.update', reward), {
+            put(route('poin-reward.update', reward), {
                 onSuccess: () => handleClose(),
             })
             return
         }
-        post(route('coin-reward.store'), {
+        post(route('poin-reward.store'), {
             onSuccess: () => handleClose(),
         })
     }
@@ -59,7 +59,7 @@ export default function FormModal(props) {
         if (isEmpty(reward) === false) {
             setData({
                 amount_buy: reward.amount_buy,
-                bonus_coin: reward.bonus_coin,
+                bonus_poin: reward.bonus_poin,
                 customer_level_id: reward.customer_level_id,
             })
             return
@@ -70,7 +70,7 @@ export default function FormModal(props) {
         <Modal
             isOpen={modalState.isOpen}
             toggle={handleClose}
-            title={'Bonus Coin'}
+            title={'Bonus Poin'}
         >
             <FormInput
                 type="number"
@@ -103,11 +103,11 @@ export default function FormModal(props) {
             </div>
             <FormInput
                 type="number"
-                name="bonus_coin"
-                value={data.bonus_coin}
+                name="bonus_poin"
+                value={data.bonus_poin}
                 onChange={handleOnChange}
-                label="Bonus Coin"
-                error={errors.bonus_coin}
+                label="Bonus Poin"
+                error={errors.bonus_poin}
             />
             <div className="flex items-center">
                 <Button onClick={handleSubmit} processing={processing}>

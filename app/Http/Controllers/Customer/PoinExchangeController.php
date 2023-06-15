@@ -10,15 +10,15 @@ use App\Models\Voucher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class CoinExchangeController extends Controller
+class PoinExchangeController extends Controller
 {
     public function index(Request $request)
     {
         $locations = Location::get();
         $vouchers = Voucher::with(['location'])
             ->where(function ($q) {
-                $q->where('price_coin', '!=', 0)
-                    ->where('price_coin', '!=', null);
+                $q->where('price_poin', '!=', 0)
+                    ->where('price_poin', '!=', null);
             })
             ->where('is_sold', Voucher::UNSOLD)
             ->groupBy('batch_id')
@@ -28,7 +28,7 @@ class CoinExchangeController extends Controller
             $vouchers->where('location_id', $request->location_id);
         }
 
-        return inertia('Coin/Exchange', [
+        return inertia('Poin/Exchange', [
             'locations' => $locations,
             'vouchers' => tap($vouchers->paginate(10))->setHidden(['username', 'password']),
             '_location_id' => $request->location_id ?? '',
@@ -39,30 +39,30 @@ class CoinExchangeController extends Controller
     {
         $batchCount = $voucher->count_unsold();
         if ($batchCount < 1) {
-            return redirect()->route('customer.coin.exchange')
+            return redirect()->route('customer.poin.exchange')
                 ->with('message', ['type' => 'error', 'message' => 'transaksi gagal, voucher sedang tidak tersedia']);
         }
 
         $customer = Customer::find(auth()->id());
 
-        if ($customer->coin_balance < $voucher->price_coin) {
-            return redirect()->route('customer.coin.exchange')
+        if ($customer->poin_balance < $voucher->price_poin) {
+            return redirect()->route('customer.poin.exchange')
                 ->with('message', ['type' => 'error', 'message' => 'koin kamu tidak cukup untuk ditukar voucher ini']);
         }
 
         DB::beginTransaction();
         $sale = $customer->sales()->create([
-            'code' => 'Tukar Coin '.str()->upper(str()->random(5)),
+            'code' => 'Tukar poin ' . str()->upper(str()->random(5)),
             'date_time' => now(),
             'amount' => 0,
-            'payed_with' => Sale::PAYED_WITH_COIN,
+            'payed_with' => Sale::PAYED_WITH_poin,
         ]);
 
         $voucher = $voucher->shuffle_unsold();
         $sale->items()->create([
             'entity_type' => $voucher::class,
             'entity_id' => $voucher->id,
-            'price' => $voucher->price_coin,
+            'price' => $voucher->price_poin,
             'quantity' => 1,
             'additional_info_json' => json_encode([
                 'id' => $voucher->id,
@@ -76,12 +76,12 @@ class CoinExchangeController extends Controller
 
         $sale->create_notification();
 
-        $coin = $customer->coins()->create([
-            'credit' => $voucher->price_coin,
+        $poin = $customer->poins()->create([
+            'credit' => $voucher->price_poin,
             'description' => $sale->code,
         ]);
 
-        $coin->update_customer_balance();
+        $poin->update_customer_balance();
         DB::commit();
 
         return redirect()->route('transactions.show', $sale)

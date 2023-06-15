@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Models\Notification;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -45,6 +46,7 @@ class HandleInertiaCustomerRequests extends Middleware
 
         return array_merge(parent::share($request), [
             'app_name' => env('APP_NAME', 'App Name'),
+            'setting' => Setting::getSettings(),
             'auth' => [
                 'user' => auth('customer')->user()?->load(['level', 'paylater']),
             ],
@@ -53,6 +55,7 @@ class HandleInertiaCustomerRequests extends Middleware
             ],
             'notification_count' => $notification_count,
             'cart_count' => $cart_count,
+
         ]);
     }
 }

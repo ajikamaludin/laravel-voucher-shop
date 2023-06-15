@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
-class CoinReward extends Model
+class PoinReward extends Model
 {
     protected $fillable = [
         'amount_buy',
-        'bonus_coin',
+        'bonus_poin',
         'customer_level_id',
     ];
 

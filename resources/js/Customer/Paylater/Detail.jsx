@@ -7,7 +7,7 @@ import CustomerLayout from '@/Layouts/CustomerLayout'
 export default function Detail({ paylater }) {
     return (
         <CustomerLayout>
-            <Head title="Coin" />
+            <Head title="poin" />
             <div className="flex flex-col min-h-[calc(95dvh)]">
                 <div
                     className="w-full px-5 py-5"

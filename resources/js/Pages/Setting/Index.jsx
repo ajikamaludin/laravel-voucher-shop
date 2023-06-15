@@ -12,12 +12,13 @@ import { extractValue } from './utils'
 export default function General(props) {
     const { setting, midtrans_notification_url } = props
     const { data, setData, post, reset, processing, errors } = useForm({
+        OPEN_WEBSITE_NAME: extractValue(setting, 'OPEN_WEBSITE_NAME'),
         VOUCHER_STOCK_NOTIFICATION: extractValue(
             setting,
             'VOUCHER_STOCK_NOTIFICATION'
         ),
         AFFILATE_ENABLED: extractValue(setting, 'AFFILATE_ENABLED'),
-        AFFILATE_COIN_AMOUNT: extractValue(setting, 'AFFILATE_COIN_AMOUNT'),
+        AFFILATE_POIN_AMOUNT: extractValue(setting, 'AFFILATE_POIN_AMOUNT'),
         MIDTRANS_SERVER_KEY: extractValue(setting, 'MIDTRANS_SERVER_KEY'),
         MIDTRANS_CLIENT_KEY: extractValue(setting, 'MIDTRANS_CLIENT_KEY'),
         MIDTRANS_MERCHANT_ID: extractValue(setting, 'MIDTRANS_MERCHANT_ID'),
@@ -61,6 +62,16 @@ export default function General(props) {
                     <div className="overflow-hidden p-4 shadow-sm sm:rounded-lg bg-white dark:bg-gray-800 flex flex-col">
                         <div className="text-xl font-bold mb-4">Setting</div>
                         <div className="p-2 border rounded-xl">
+                            <div className="font-bold mb-2">General</div>
+                            <FormInput
+                                name="OPEN_WEBSITE_NAME"
+                                value={data.OPEN_WEBSITE_NAME}
+                                onChange={handleOnChange}
+                                label="Nama Website"
+                                error={errors.OPEN_WEBSITE_NAME}
+                            />
+                        </div>
+                        <div className="p-2 border rounded-xl mt-2">
                             <div className="font-bold mb-2">Notification</div>
                             <FormInput
                                 type={'number'}
@@ -76,11 +87,11 @@ export default function General(props) {
                             <div className="font-bold mb-2">Affilate</div>
                             <FormInput
                                 type={'number'}
-                                name="AFFILATE_COIN_AMOUNT"
-                                value={data.AFFILATE_COIN_AMOUNT}
+                                name="AFFILATE_POIN_AMOUNT"
+                                value={data.AFFILATE_POIN_AMOUNT}
                                 onChange={handleOnChange}
-                                label="Jumlah Bonus Koin"
-                                error={errors.AFFILATE_COIN_AMOUNT}
+                                label="Jumlah Bonus Poin"
+                                error={errors.AFFILATE_POIN_AMOUNT}
                             />
                             <Checkbox
                                 label="Enable"

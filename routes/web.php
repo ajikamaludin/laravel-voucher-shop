@@ -2,8 +2,8 @@
 
 use App\Http\Controllers\Customer\AuthController;
 use App\Http\Controllers\Customer\CartController;
-use App\Http\Controllers\Customer\CoinController;
-use App\Http\Controllers\Customer\CoinExchangeController;
+use App\Http\Controllers\Customer\PoinController;
+use App\Http\Controllers\Customer\PoinExchangeController;
 use App\Http\Controllers\Customer\DepositController;
 use App\Http\Controllers\Customer\HomeController;
 use App\Http\Controllers\Customer\PaylaterController;
@@ -52,11 +52,11 @@ Route::middleware(['http_secure_aware', 'guard_should_customer', 'inertia.custom
         Route::get('deposit/trx/{deposit}', [DepositController::class, 'show'])->name('customer.deposit.show');
         Route::post('deposit/trx/{deposit}', [DepositController::class, 'update'])->name('customer.deposit.update');
 
-        // coin
-        Route::get('coin/exchanges', [CoinExchangeController::class, 'index'])->name('customer.coin.exchange');
-        Route::get('coin/exchanges/{voucher}', [CoinExchangeController::class, 'exchange'])->name('customer.coin.exchange.process');
-        Route::get('coin', [CoinController::class, 'index'])->name('customer.coin.index');
-        Route::get('coin/{coin}', [CoinController::class, 'show'])->name('customer.coin.show');
+        // poin
+        Route::get('poin/exchanges', [PoinExchangeController::class, 'index'])->name('customer.poin.exchange');
+        Route::get('poin/exchanges/{voucher}', [PoinExchangeController::class, 'exchange'])->name('customer.poin.exchange.process');
+        Route::get('poin', [PoinController::class, 'index'])->name('customer.poin.index');
+        Route::get('poin/{poin}', [PoinController::class, 'show'])->name('customer.poin.show');
 
         // cart
         Route::get('cart', [CartController::class, 'index'])->name('cart.index');

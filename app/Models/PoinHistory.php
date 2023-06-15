@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Support\Carbon;
 
-class poinHistory extends Model
+class PoinHistory extends Model
 {
     protected $fillable = [
         'debit',

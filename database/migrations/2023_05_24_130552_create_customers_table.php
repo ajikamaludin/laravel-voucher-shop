@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('referral_code')->nullable();
             $table->string('google_id')->nullable();
             $table->decimal('deposit_balance', 20, 2)->default(0);
-            $table->decimal('coin_balance', 20, 2)->default(0);
+            $table->decimal('poin_balance', 20, 2)->default(0);
             $table->smallInteger('identity_verified')->default(0);
             $table->string('identity_image')->nullable();
             $table->ulid('customer_level_id')->nullable();

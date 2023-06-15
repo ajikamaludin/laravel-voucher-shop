@@ -25,7 +25,7 @@ const ExchangeModal = ({ show, voucher, setShow }) => {
                                     {voucher.profile}
                                 </div>
                                 <div className="text-xl font-bold">
-                                    {formatIDR(voucher.price_coin)} Coin
+                                    {formatIDR(voucher.price_poin)} poin
                                 </div>
                             </div>
                             <div className="flex flex-col justify-end text-right">
@@ -44,7 +44,7 @@ const ExchangeModal = ({ show, voucher, setShow }) => {
                             onClick={() =>
                                 router.get(
                                     route(
-                                        'customer.coin.exchange.process',
+                                        'customer.poin.exchange.process',
                                         voucher
                                     )
                                 )
@@ -80,7 +80,7 @@ export default function VoucherCard({ voucher }) {
                             {voucher.profile}
                         </div>
                         <div className="text-xl font-bold">
-                            {formatIDR(voucher.price_coin)} Coin
+                            {formatIDR(voucher.price_poin)} poin
                         </div>
                     </div>
                     <div className="flex flex-col justify-end text-right">

@@ -8,14 +8,14 @@ import VoucherCard from './VoucherCard'
 
 const GuestBanner = () => {
     const {
-        props: { app_name },
+        props: { setting },
     } = usePage()
     return (
         <div>
             {/* user */}
             <div className="flex flex-row justify-between items-center px-5 py-6 text-lg bg-blue-600">
                 <div className="flex flex-col text-white">
-                    <div className="font-bold">Welcome to {app_name}</div>
+                    <div className="font-bold">{setting.OPEN_WEBSITE_NAME}</div>
                 </div>
                 <div className="flex flex-row">
                     <HiOutlineBell className="text-white w-7 h-7" />
@@ -93,7 +93,6 @@ export default function Index(props) {
             <Head title="Home" />
             <div className="flex flex-col min-h-[calc(95dvh)]">
                 {user !== null ? <UserBanner user={user} /> : <GuestBanner />}
-                <div id="nprogress" style={{ opacity: 1 }}></div>
                 {/* banner */}
                 <div className="w-full">
                     <div className="flex flex-row overflow-y-scroll space-x-2 py-3 px-2">

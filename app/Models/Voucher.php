@@ -17,7 +17,7 @@ class Voucher extends Model
         'location_id',
         'username',
         'password',
-        'price_coin', // harga voucher untuk ditukarkan dengan coin
+        'price_poin', // harga voucher untuk ditukarkan dengan poin
         'price', // harga jual
         'discount',
         'display_price', //yang di input user
@@ -63,14 +63,14 @@ class Voucher extends Model
     public function displayQuota(): Attribute
     {
         return Attribute::make(get: function () {
-            return round($this->quota / (1024 * 1024 * 1024), 2).' GB';
+            return round($this->quota / (1024 * 1024 * 1024), 2) . ' GB';
         });
     }
 
     public function displayExpired(): Attribute
     {
         return Attribute::make(get: function () {
-            return $this->expired.' '.$this->expired_unit;
+            return $this->expired . ' ' . $this->expired_unit;
         });
     }
 
@@ -146,7 +146,7 @@ class Voucher extends Model
         if ($count <= $treshold) {
             Notification::create([
                 'entity_type' => User::class,
-                'description' => 'stok voucher '.$this->location->name.' ( '.$this->profile.' ) '.'tersisa : '.$count,
+                'description' => 'stok voucher ' . $this->location->name . ' ( ' . $this->profile . ' ) ' . 'tersisa : ' . $count,
             ]);
         }
     }

@@ -17,7 +17,7 @@ export default function BalanceBanner({ user }) {
                     </div>
                     <div className="font-bold">Rp {user.display_deposit}</div>
                     <div className="text-xs flex flex-row items-center space-x-1 text-gray-400">
-                        <div>Coin {user.display_coin}</div>
+                        <div>poin {user.display_poin}</div>
                     </div>
                 </div>
                 <div className="flex flex-col border-l-2 pl-5 pr-5">

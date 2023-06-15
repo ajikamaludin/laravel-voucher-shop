@@ -70,14 +70,14 @@ export default function CustomerLayout({ children }) {
                 </div>
                 <div
                     className={`pb-1 pt-2 hover:bg-blue-200 flex flex-col items-center w-full ${isActive(
-                        'customer.coin.exchange'
+                        'customer.poin.exchange'
                     )}`}
-                    onClick={() => handleOnClick('customer.coin.exchange')}
+                    onClick={() => handleOnClick('customer.poin.exchange')}
                 >
                     <div className="flex flex-row">
                         <HiOutlineGift className="h-6 w-6" />
                     </div>
-                    <div className="text-xs">Coin</div>
+                    <div className="text-xs">Poin</div>
                 </div>
                 <div
                     className={`pb-1 pt-2 hover:bg-blue-200 flex flex-col items-center w-full ${isActive(

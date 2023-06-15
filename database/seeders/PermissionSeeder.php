@@ -61,18 +61,18 @@ class PermissionSeeder extends Seeder
             ['id' => Str::ulid(), 'label' => 'View Deposit', 'name' => 'view-deposit'],
             ['id' => Str::ulid(), 'label' => 'Update Deposit', 'name' => 'update-deposit'],
 
-            ['id' => Str::ulid(), 'label' => 'View Coin', 'name' => 'view-coin'],
-            ['id' => Str::ulid(), 'label' => 'Update Coin', 'name' => 'update-coin'],
+            ['id' => Str::ulid(), 'label' => 'View poin', 'name' => 'view-poin'],
+            ['id' => Str::ulid(), 'label' => 'Update poin', 'name' => 'update-poin'],
 
             // ['id' => Str::ulid(), 'label' => 'Create Sale', 'name' => 'create-sale'],
             // ['id' => Str::ulid(), 'label' => 'Update Sale', 'name' => 'update-sale'],
             ['id' => Str::ulid(), 'label' => 'View Sale', 'name' => 'view-sale'],
             // ['id' => Str::ulid(), 'label' => 'Delete Sale', 'name' => 'delete-sale'],
 
-            ['id' => Str::ulid(), 'label' => 'Create Coin Reward', 'name' => 'create-coin-reward'],
-            ['id' => Str::ulid(), 'label' => 'Update Coin Reward', 'name' => 'update-coin-reward'],
-            ['id' => Str::ulid(), 'label' => 'View Coin Reward', 'name' => 'view-coin-reward'],
-            ['id' => Str::ulid(), 'label' => 'Delete Coin Reward', 'name' => 'delete-coin-reward'],
+            ['id' => Str::ulid(), 'label' => 'Create poin Reward', 'name' => 'create-poin-reward'],
+            ['id' => Str::ulid(), 'label' => 'Update poin Reward', 'name' => 'update-poin-reward'],
+            ['id' => Str::ulid(), 'label' => 'View poin Reward', 'name' => 'view-poin-reward'],
+            ['id' => Str::ulid(), 'label' => 'Delete poin Reward', 'name' => 'delete-poin-reward'],
 
             ['id' => Str::ulid(), 'label' => 'Create Bank Account', 'name' => 'create-account'],
             ['id' => Str::ulid(), 'label' => 'Update Bank Account', 'name' => 'update-account'],

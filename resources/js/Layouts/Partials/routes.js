@@ -69,12 +69,12 @@ export default [
         permission: 'view-deposit',
     },
     {
-        name: 'Bonus Coin',
+        name: 'Bonus Poin',
         show: true,
         icon: HiOutlineCurrencyDollar,
-        route: route('coin-reward.index'),
-        active: 'coin-reward.*',
-        permission: 'view-coin-reward',
+        route: route('poin-reward.index'),
+        active: 'poin-reward.*',
+        permission: 'view-poin-reward',
     },
     {
         name: 'Front Home',

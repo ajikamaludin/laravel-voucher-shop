@@ -41,8 +41,8 @@ class DummySeeder extends Seeder
         $images = ['1.webp', '2.webp', '3.webp'];
         foreach ($images as $index => $image) {
             Banner::create([
-                'title' => 'Banner '.$index,
-                'image' => 'sample/'.$image,
+                'title' => 'Banner ' . $index,
+                'image' => 'sample/' . $image,
                 'description' => '<h1>Banner </h1>',
             ]);
         }
@@ -87,7 +87,7 @@ class DummySeeder extends Seeder
             $batchId = Str::ulid();
             $location = Location::get()[$loop];
 
-            $price_coin = $loop == 3 ? 10 : 0;
+            $price_poin = $loop == 3 ? 10 : 0;
 
             foreach ($vouchers as $voucher) {
                 Voucher::create([
@@ -96,7 +96,7 @@ class DummySeeder extends Seeder
                     'password' => $voucher['password'],
                     'discount' => $loop == 1 ? 10 : 0,
                     'display_price' => $loop == 1 ? 100000 : 99000,
-                    'price_coin' => $price_coin,
+                    'price_poin' => $price_poin,
                     'quota' => $voucher['quota'],
                     'profile' => $voucher['profile'],
                     'comment' => $voucher['comment'],

@@ -20,8 +20,10 @@ class InstallationSeed extends Seeder
     public function settings()
     {
         $settings = [
+            ['key' => 'OPEN_WEBSITE_NAME', 'value' => 'Welcome to Voucher App', 'type' => 'text'],
+
             ['key' => 'AFFILATE_ENABLED', 'value' => '0', 'type' => 'checkbox'],
-            ['key' => 'AFFILATE_COIN_AMOUNT', 'value' => '0', 'type' => 'text'],
+            ['key' => 'AFFILATE_POIN_AMOUNT', 'value' => '0', 'type' => 'text'],
 
             ['key' => 'MIDTRANS_SERVER_KEY', 'value' => 'SB-Mid-server-UA0LQbY4aALV0CfLLX1v7xs8', 'type' => 'text'],
             ['key' => 'MIDTRANS_CLIENT_KEY', 'value' => 'SB-Mid-client-xqqkspzoZOM10iUG', 'type' => 'text'],

@@ -9,7 +9,7 @@ const EmptyHere = () => {
         <div className="w-full px-5 text-center flex flex-col my-auto">
             <div className="font-bold text-xl">Voucher segera tersedia</div>
             <div className="text-gray-400">
-                Yuk, share referral kamu untuk tingkatkan coinnya
+                Yuk, share referral kamu untuk tingkatkan poinnya
             </div>
         </div>
     )
@@ -68,11 +68,11 @@ export default function Exhange(props) {
 
     return (
         <CustomerLayout>
-            <Head title="Coin" />
+            <Head title="poin" />
             <div className="flex flex-col min-h-[calc(95dvh)]">
-                <div className="pt-5 text-2xl px-5 font-bold">Tukar Coin</div>
+                <div className="pt-5 text-2xl px-5 font-bold">Tukar poin</div>
                 <div className="px-5 text-gray-400 text-sm">
-                    tukarkan coin anda dengan voucher manarik
+                    tukarkan poin anda dengan voucher manarik
                 </div>
 
                 {v.length <= 0 ? (

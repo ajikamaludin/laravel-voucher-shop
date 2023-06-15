@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Setting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 class SettingController extends Controller
@@ -21,9 +22,10 @@ class SettingController extends Controller
     public function update(Request $request)
     {
         $request->validate([
+            'OPEN_WEBSITE_NAME' => 'required|string',
             'VOUCHER_STOCK_NOTIFICATION' => 'required|numeric',
             'AFFILATE_ENABLED' => 'required|in:0,1',
-            'AFFILATE_COIN_AMOUNT' => 'required|numeric',
+            'AFFILATE_POIN_AMOUNT' => 'required|numeric',
             'MIDTRANS_SERVER_KEY' => 'required|string',
             'MIDTRANS_CLIENT_KEY' => 'required|string',
             'MIDTRANS_MERCHANT_ID' => 'required|string',
@@ -41,6 +43,8 @@ class SettingController extends Controller
             $file->store('uploads', 'public');
             Setting::where('key', 'MIDTRANS_LOGO')->update(['value' => $file->hashName('uploads')]);
         }
+
+        Cache::flush();
 
         DB::commit();
 

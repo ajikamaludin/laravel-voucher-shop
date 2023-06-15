@@ -32,7 +32,7 @@ class Customer extends Authenticatable
         'referral_code',
         'google_id',
         'deposit_balance',
-        'coin_balance',
+        'poin_balance',
         'identity_verified',
         'identity_image',
         'customer_level_id',
@@ -48,7 +48,7 @@ class Customer extends Authenticatable
         'image_url',
         'identity_image_url',
         'display_deposit',
-        'display_coin',
+        'display_poin',
         'display_phone',
         'paylater_limit',
         'is_allow_paylater',
@@ -126,7 +126,7 @@ class Customer extends Authenticatable
                 return ' - ';
             }
 
-            return '+62'.$this->phone;
+            return '+62' . $this->phone;
         });
     }
 
@@ -137,10 +137,10 @@ class Customer extends Authenticatable
         });
     }
 
-    public function displayCoin(): Attribute
+    public function displayPoin(): Attribute
     {
         return Attribute::make(get: function () {
-            return number_format($this->coin_balance, is_float($this->coin_balance) ? 2 : 0, ',', '.');
+            return number_format($this->poin_balance, is_float($this->poin_balance) ? 2 : 0, ',', '.');
         });
     }
 
@@ -188,9 +188,9 @@ class Customer extends Authenticatable
         return $this->hasMany(DepositHistory::class);
     }
 
-    public function coins()
+    public function poins()
     {
-        return $this->hasMany(CoinHistory::class);
+        return $this->hasMany(PoinHistory::class);
     }
 
     public function paylater()
@@ -234,7 +234,7 @@ class Customer extends Authenticatable
 
             $paylater = $this->paylaterHistories()->create([
                 'credit' => $cut,
-                'description' => $deposit->description.' (Pengembalian)',
+                'description' => $deposit->description . ' (Pengembalian)',
             ]);
             $paylater->update_customer_paylater();
 

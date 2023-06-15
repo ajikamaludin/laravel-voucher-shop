@@ -11,12 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('coin_rewards', function (Blueprint $table) {
+        Schema::create('poin_histories', function (Blueprint $table) {
             $table->ulid('id')->primary();
 
-            $table->decimal('amount_buy', 20, 2)->default(0);
-            $table->decimal('bonus_coin', 20, 2)->default(0);
-            $table->ulid('customer_level_id')->nullable();
+            $table->decimal('debit', 20, 2)->default(0);
+            $table->decimal('credit', 20, 2)->default(0);
+            $table->text('description')->nullable();
+            $table->ulid('customer_id')->nullable();
+            $table->string('related_type')->nullable();
+            $table->string('related_id')->nullable();
 
             $table->timestamps();
             $table->softDeletes();
@@ -31,6 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('coin_rewards');
+        Schema::dropIfExists('poin_histories');
     }
 };

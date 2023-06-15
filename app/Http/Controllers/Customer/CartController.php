@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
-use App\Models\CoinReward;
+use App\Models\PoinReward;
 use App\Models\Customer;
 use App\Models\DepositHistory;
 use App\Models\Sale;
@@ -17,7 +17,7 @@ class CartController extends Controller
     /**
      * show list of item in cart
      * has payed button
-     * show payment method -> deposit, coin, paylater
+     * show payment method -> deposit, poin, paylater
      */
     public function index()
     {
@@ -159,20 +159,20 @@ class CartController extends Controller
         }
         $sale->create_notification();
 
-        $bonus = CoinReward::where('customer_level_id', $customer->customer_level_id)
+        $bonus = PoinReward::where('customer_level_id', $customer->customer_level_id)
             ->where('amount_buy', '<=', $total)
-            ->orderBy('bonus_coin', 'desc')->first();
+            ->orderBy('bonus_poin', 'desc')->first();
 
         if ($bonus != null) {
-            $coin = $customer->coins()->create([
-                'debit' => $bonus->bonus_coin,
-                'description' => 'Bonus Pembelian #'.$sale->code,
+            $poin = $customer->poins()->create([
+                'debit' => $bonus->bonus_poin,
+                'description' => 'Bonus Pembelian #' . $sale->code,
             ]);
 
-            $coin->update_customer_balance();
+            $poin->update_customer_balance();
         }
 
-        $description = 'Pembayaran #'.$sale->code;
+        $description = 'Pembayaran #' . $sale->code;
 
         if ($customer->deposit_balance < $total) {
             if ($customer->deposit_balance > 0) {

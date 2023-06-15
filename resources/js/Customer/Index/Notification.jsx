@@ -7,7 +7,7 @@ export default function Index({
     auth: { user },
     notification: { data, next_page_url },
 }) {
-    const [_notification, setCoins] = useState(data)
+    const [_notification, setpoins] = useState(data)
 
     const handleNextPage = () => {
         router.get(
@@ -18,7 +18,7 @@ export default function Index({
                 preserveState: true,
                 only: ['notification'],
                 onSuccess: (res) => {
-                    setCoins(_notification.concat(res.props.notification.data))
+                    setpoins(_notification.concat(res.props.notification.data))
                 },
             }
         )
@@ -26,7 +26,7 @@ export default function Index({
 
     return (
         <CustomerLayout>
-            <Head title="Coin" />
+            <Head title="poin" />
             <div className="flex flex-col w-full min-h-[calc(90dvh)]">
                 <div
                     className="w-full px-5 py-5"

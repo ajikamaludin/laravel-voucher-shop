@@ -122,9 +122,9 @@ export default function Index({ auth: { user }, notification_count }) {
                     </div>
                     <div
                         className="flex flex-row justify-between items-center px-2 py-4 w-full border-b border-gray-400 hover:bg-gray-100"
-                        onClick={() => router.get(route('customer.coin.index'))}
+                        onClick={() => router.get(route('customer.poin.index'))}
                     >
-                        <div>Riwayat Coin</div>
+                        <div>Riwayat poin</div>
                         <HiChevronRight className="h-5 w-5" />
                     </div>
                     <div

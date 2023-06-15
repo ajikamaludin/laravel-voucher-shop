@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Cache;
 
 class Setting extends Model
 {
@@ -42,5 +43,19 @@ class Setting extends Model
     public static function getByKey($key)
     {
         return Setting::where('key', $key)->value('value');
+    }
+
+    public static function getSettings()
+    {
+        $data = Cache::get('settings');
+        if ($data == null) {
+            $settings = Setting::where('key', 'like', 'OPEN%')->get();
+            foreach ($settings as $setting) {
+                $data[$setting->key] = $setting->value;
+            }
+            Cache::put('settings', $data, now()->addDay());
+        }
+
+        return $data;
     }
 }

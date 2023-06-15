@@ -47,6 +47,30 @@ services:
     cpus: 0.5
     networks:
       - voucher
+  mariadb:
+    image: mariadb:latest
+    container_name: voucher-mariadb
+    restart: always
+    ports:
+      - 3306:3306
+    volumes:
+      - mariadb:/var/lib/mysql
+      - ./database:/database
+    environment:
+      MARIADB_DATABASE: voucher
+      MARIADB_USER: aji
+      MARIADB_PASSWORD: eta
+      MARIADB_ROOT_PASSWORD: eta
+    mem_limit: 512m
+    mem_reservation: 128M
+    cpus: 1
+    networks:
+      voucher:
+        ipv4_address: 10.25.10.99
+
+volumes:
+  mariadb: 
+    driver: local
 
 networks:
   voucher:

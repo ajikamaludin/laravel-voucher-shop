@@ -24,9 +24,9 @@ class GeneralController extends Controller
         $month = now()->locale('id')->translatedFormat('F');
         $startOfMonth = now()->startOfMonth()->format('m/d/Y');
         $endOfMonth = now()->endOfMonth()->format('m/d/Y');
-        $total_voucher_sale_this_month = SaleItem::whereBetween(DB::raw("strftime('%m/%d/%Y', created_at)"), [$startOfMonth, $endOfMonth])
+        $total_voucher_sale_this_month = SaleItem::whereBetween("created_at", [$startOfMonth, $endOfMonth])
             ->sum('price');
-        $count_voucher_sale_this_month = SaleItem::whereBetween(DB::raw("strftime('%m/%d/%Y', created_at)"), [$startOfMonth, $endOfMonth])
+        $count_voucher_sale_this_month = SaleItem::whereBetween("created_at", [$startOfMonth, $endOfMonth])
             ->sum('quantity');
         $total_voucher_sale_this_day = SaleItem::whereDate('created_at', now()->format('Y-m-d'))
             ->sum('price');
@@ -61,10 +61,10 @@ class GeneralController extends Controller
         if ($request->end_date != '') {
             $endDate = Carbon::parse($request->end_date)->format('m/d/Y');
         }
-        $charts = Sale::selectRaw("SUM(amount) as sale_total, strftime('%d/%m/%Y', date_time) as date")
-            ->whereBetween(DB::raw("strftime('%m/%d/%Y', date_time)"), [$startDate, $endDate])
+        $charts = Sale::selectRaw('SUM(amount) as sale_total, date_time')
+            ->whereBetween('date_time', [$startDate, $endDate])
             ->orderBy('date_time', 'asc')
-            ->groupBy(DB::raw("strftime('%m/%d/%Y', date_time)"));
+            ->groupBy('date_time');
 
         // filter lokasi
         if ($request->location_id != '') {

@@ -32,23 +32,23 @@ export default function Info(props) {
 
     const onDelete = () => {
         if (confirmModal.data !== null) {
-            router.delete(route('coin-reward.destroy', confirmModal.data.id))
+            router.delete(route('poin-reward.destroy', confirmModal.data.id))
         }
     }
 
-    const canCreate = hasPermission(auth, 'create-coin-reward')
-    const canUpdate = hasPermission(auth, 'update-coin-reward')
-    const canDelete = hasPermission(auth, 'delete-coin-reward')
+    const canCreate = hasPermission(auth, 'create-poin-reward')
+    const canUpdate = hasPermission(auth, 'update-poin-reward')
+    const canDelete = hasPermission(auth, 'delete-poin-reward')
 
     return (
         <AuthenticatedLayout
             auth={props.auth}
             errors={props.errors}
             flash={props.flash}
-            page={'Bonus Coin'}
+            page={'Bonus Poin'}
             action={''}
         >
-            <Head title="Bonus Coin" />
+            <Head title="Bonus Poin" />
 
             <div>
                 <div className="mx-auto sm:px-6 lg:px-8 ">
@@ -84,7 +84,7 @@ export default function Info(props) {
                                                 scope="col"
                                                 className="py-3 px-6"
                                             >
-                                                Coin
+                                                poin
                                             </th>
                                             <th
                                                 scope="col"
@@ -111,7 +111,7 @@ export default function Info(props) {
                                                 </td>
                                                 <td className="py-4 px-6">
                                                     {formatIDR(
-                                                        reward.bonus_coin
+                                                        reward.bonus_poin
                                                     )}
                                                 </td>
                                                 <td className="py-4 px-6 flex justify-end">
