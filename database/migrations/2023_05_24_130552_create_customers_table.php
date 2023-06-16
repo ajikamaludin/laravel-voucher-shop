@@ -30,6 +30,7 @@ return new class extends Migration
             $table->string('identity_image')->nullable();
             $table->ulid('customer_level_id')->nullable();
             $table->text('google_oauth_response')->nullable();
+            $table->timestamp('poin_expired_at')->nullable();
 
             $table->timestamps();
             $table->softDeletes();

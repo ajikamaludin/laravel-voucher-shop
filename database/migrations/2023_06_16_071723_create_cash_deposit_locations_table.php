@@ -11,19 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('vouchers', function (Blueprint $table) {
+        Schema::create('cash_deposit_locations', function (Blueprint $table) {
             $table->ulid('id')->primary();
 
             $table->string('name')->nullable();
-            $table->string('description')->nullable();
-            $table->ulid('location_profile_id')->nullable();
-            $table->string('username')->nullable();
-            $table->string('password')->nullable();
-            $table->string('quota')->nullable();
-            $table->string('profile')->nullable();
-            $table->text('comment')->nullable();
-            $table->smallInteger('is_sold')->default(0);
-            $table->text('additional_json')->nullable();
+            $table->text('address')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('gmap_url', 1000)->nullable();
+            $table->string('image')->nullable();
+            $table->text('description')->nullable();
+            $table->string('open_hour')->nullable();
+            $table->string('close_hour')->nullable();
+            $table->smallInteger('is_active')->nullable();
 
             $table->timestamps();
             $table->softDeletes();
@@ -38,6 +37,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('vouchers');
+        Schema::dropIfExists('cash_deposit_locations');
     }
 };

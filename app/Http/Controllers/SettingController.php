@@ -23,7 +23,6 @@ class SettingController extends Controller
     {
         $request->validate([
             'OPEN_WEBSITE_NAME' => 'required|string',
-            'VOUCHER_STOCK_NOTIFICATION' => 'required|numeric',
             'AFFILATE_ENABLED' => 'required|in:0,1',
             'AFFILATE_POIN_AMOUNT' => 'required|numeric',
             'MIDTRANS_SERVER_KEY' => 'required|string',

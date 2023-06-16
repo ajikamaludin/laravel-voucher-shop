@@ -11,15 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('accounts', function (Blueprint $table) {
+        Schema::create('customer_location_favorites', function (Blueprint $table) {
             $table->ulid('id')->primary();
 
-            $table->string('name')->nullable();
-            $table->string('bank_name')->nullable();
-            $table->string('holder_name')->nullable();
-            $table->string('account_number')->nullable();
-            $table->string('logo')->nullable();
-            $table->decimal('admin_fee', 20, 2)->nullable();
+            $table->ulid('location_id')->nullable();
+            $table->ulid('customer_id')->nullable();
 
             $table->timestamps();
             $table->softDeletes();
@@ -34,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('accounts');
+        Schema::dropIfExists('customer_location_favorites');
     }
 };

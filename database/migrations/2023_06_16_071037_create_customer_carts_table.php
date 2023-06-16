@@ -11,15 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('accounts', function (Blueprint $table) {
+        Schema::create('customer_carts', function (Blueprint $table) {
             $table->ulid('id')->primary();
 
-            $table->string('name')->nullable();
-            $table->string('bank_name')->nullable();
-            $table->string('holder_name')->nullable();
-            $table->string('account_number')->nullable();
-            $table->string('logo')->nullable();
-            $table->decimal('admin_fee', 20, 2)->nullable();
+            $table->ulid('customer_id')->nullable();
+            $table->ulid('sale_id')->nullable();
+            $table->string('entity_type')->nullable();
+            $table->ulid('entity_id')->nullable();
+            $table->decimal('price', 20, 2)->default(0);
+            $table->integer('quantity')->default(0);
+            $table->text('additional_info_json')->nullable();
 
             $table->timestamps();
             $table->softDeletes();
@@ -34,6 +35,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('accounts');
+        Schema::dropIfExists('customer_carts');
     }
 };

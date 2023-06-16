@@ -11,13 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('voucher_prices', function (Blueprint $table) {
+        Schema::create('location_profile_prices', function (Blueprint $table) {
             $table->ulid('id')->primary();
 
+            $table->ulid('location_profile_id')->nullable();
             $table->ulid('customer_level_id')->nullable();
-            $table->ulid('voucher_id')->nullable();
             $table->decimal('price', 20, 2)->default(0);
             $table->decimal('display_price', 20, 2)->default(0);
+            $table->decimal('discount', 20, 0)->default(0);
+            $table->decimal('price_poin', 20, 2)->default(0);
+            $table->decimal('bonus_poin', 20, 2)->default(0);
 
             $table->timestamps();
             $table->softDeletes();
@@ -32,6 +35,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('voucher_prices');
+        Schema::dropIfExists('location_profile_prices');
     }
 };

@@ -5,10 +5,12 @@ import CustomerLayout from '@/Layouts/CustomerLayout'
 import { HiOutlineBell } from 'react-icons/hi2'
 import UserBanner from './UserBanner'
 import VoucherCard from './VoucherCard'
+import FormLocation from '../Components/FormLocation'
+import { HiXCircle } from 'react-icons/hi'
 
 const GuestBanner = () => {
     const {
-        props: { setting },
+        props: { setting, notification_count },
     } = usePage()
     return (
         <div>
@@ -21,7 +23,7 @@ const GuestBanner = () => {
                     <HiOutlineBell className="text-white w-7 h-7" />
                     <div>
                         <div className="bg-white text-blue-700 rounded-lg px-1 text-xs -ml-2.5">
-                            0
+                            {notification_count}
                         </div>
                     </div>
                 </div>
@@ -125,8 +127,29 @@ export default function Index(props) {
                 </div>
 
                 <div className="w-full flex flex-col">
+                    <div className="w-full space-x-2 px-2 mb-2">
+                        <FormLocation placeholder="Cari Lokasi" value={''} />
+                    </div>
                     {/* chips */}
-                    <div className="w-full flex flex-row overflow-y-scroll space-x-2 px-2">
+                    <div className="w-full flex flex-row overflow-y-scroll space-x-2 px-4">
+                        <div
+                            className={`px-2 py-1 rounded-2xl  text-white bg-blue-600 border border-blue-800`}
+                        >
+                            Semua
+                        </div>
+                        <div
+                            className={`px-2 py-1 rounded-2xl bg-blue-100 border border-blue-200`}
+                        >
+                            Favorite
+                        </div>
+                        <div className="flex flex-row items-center gap-1 px-2 py-1 rounded-2xl bg-blue-100 border border-blue-200">
+                            <div>Farid Net</div>
+                            <div>
+                                <HiXCircle className="h-5 w-5 text-red-700" />
+                            </div>
+                        </div>
+                    </div>
+                    {/* <div className="w-full flex flex-row overflow-y-scroll space-x-2 px-2">
                         {locations.map((location) => (
                             <div
                                 onClick={() => handleSelectLoc(location)}
@@ -140,7 +163,7 @@ export default function Index(props) {
                                 {location.name}
                             </div>
                         ))}
-                    </div>
+                    </div> */}
 
                     {/* voucher */}
                     <div className="flex flex-col w-full px-3 mt-3 space-y-2">

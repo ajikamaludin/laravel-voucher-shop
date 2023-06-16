@@ -13,10 +13,6 @@ export default function General(props) {
     const { setting, midtrans_notification_url } = props
     const { data, setData, post, reset, processing, errors } = useForm({
         OPEN_WEBSITE_NAME: extractValue(setting, 'OPEN_WEBSITE_NAME'),
-        VOUCHER_STOCK_NOTIFICATION: extractValue(
-            setting,
-            'VOUCHER_STOCK_NOTIFICATION'
-        ),
         AFFILATE_ENABLED: extractValue(setting, 'AFFILATE_ENABLED'),
         AFFILATE_POIN_AMOUNT: extractValue(setting, 'AFFILATE_POIN_AMOUNT'),
         MIDTRANS_SERVER_KEY: extractValue(setting, 'MIDTRANS_SERVER_KEY'),
@@ -69,17 +65,6 @@ export default function General(props) {
                                 onChange={handleOnChange}
                                 label="Nama Website"
                                 error={errors.OPEN_WEBSITE_NAME}
-                            />
-                        </div>
-                        <div className="p-2 border rounded-xl mt-2">
-                            <div className="font-bold mb-2">Notification</div>
-                            <FormInput
-                                type={'number'}
-                                name="VOUCHER_STOCK_NOTIFICATION"
-                                value={data.VOUCHER_STOCK_NOTIFICATION}
-                                onChange={handleOnChange}
-                                label="Jumlah Stok"
-                                error={errors.VOUCHER_STOCK_NOTIFICATION}
                             />
                         </div>
 

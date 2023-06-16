@@ -24,14 +24,23 @@ class InstallationSeed extends Seeder
 
             ['key' => 'AFFILATE_ENABLED', 'value' => '0', 'type' => 'checkbox'],
             ['key' => 'AFFILATE_POIN_AMOUNT', 'value' => '0', 'type' => 'text'],
+            ['key' => 'AFFILATE_DOWNLINE_POIN_AMOUNT', 'value' => '0', 'type' => 'text'],
 
             ['key' => 'MIDTRANS_SERVER_KEY', 'value' => 'SB-Mid-server-UA0LQbY4aALV0CfLLX1v7xs8', 'type' => 'text'],
             ['key' => 'MIDTRANS_CLIENT_KEY', 'value' => 'SB-Mid-client-xqqkspzoZOM10iUG', 'type' => 'text'],
             ['key' => 'MIDTRANS_MERCHANT_ID', 'value' => 'G561244367', 'type' => 'text'],
             ['key' => 'MIDTRANS_LOGO', 'value' => 'sample/midtrans_logo.png', 'type' => 'image'],
             ['key' => 'MIDTRANS_ENABLED', 'value' => '0', 'type' => 'text'],
+            ['key' => 'MIDTRANS_ADMIN_FEE', 'value' => '2500', 'type' => 'text'],
 
-            ['key' => 'VOUCHER_STOCK_NOTIFICATION', 'value' => '10', 'type' => 'text'],
+            // ['key' => 'VOUCHER_STOCK_NOTIFICATION', 'value' => '10', 'type' => 'text'],
+
+            ['key' => 'ENABLE_CASH_DEPOSIT', 'value' => '0', 'type' => 'text'],
+            ['key' => 'ENABLE_MANUAL_TRANSFER', 'value' => '0', 'type' => 'text'],
+            ['key' => 'MAX_MANUAL_TRANSFER_TIMEOUT', 'value' => '2', 'type' => 'text'], //dalam jam 
+            ['key' => 'MANUAL_TRANSFER_OPEN_HOUR', 'value' => '06:00', 'type' => 'text'],
+            ['key' => 'MANUAL_TRANSFER_CLOSE_HOUR', 'value' => '23:00', 'type' => 'text'],
+            ['key' => 'MAX_POINT_EXPIRED', 'value' => '90', 'type' => 'text'], //dalam hari 
         ];
 
         foreach ($settings as $setting) {
