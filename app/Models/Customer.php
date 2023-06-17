@@ -126,7 +126,7 @@ class Customer extends Authenticatable
                 return ' - ';
             }
 
-            return '+62' . $this->phone;
+            return '+62'.$this->phone;
         });
     }
 
@@ -234,7 +234,7 @@ class Customer extends Authenticatable
 
             $paylater = $this->paylaterHistories()->create([
                 'credit' => $cut,
-                'description' => $deposit->description . ' (Pengembalian)',
+                'description' => $deposit->description.' (Pengembalian)',
             ]);
             $paylater->update_customer_paylater();
 

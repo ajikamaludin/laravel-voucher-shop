@@ -2,11 +2,11 @@
 
 use App\Http\Controllers\Customer\AuthController;
 use App\Http\Controllers\Customer\CartController;
-use App\Http\Controllers\Customer\PoinController;
-use App\Http\Controllers\Customer\PoinExchangeController;
 use App\Http\Controllers\Customer\DepositController;
 use App\Http\Controllers\Customer\HomeController;
 use App\Http\Controllers\Customer\PaylaterController;
+use App\Http\Controllers\Customer\PoinController;
+use App\Http\Controllers\Customer\PoinExchangeController;
 use App\Http\Controllers\Customer\ProfileController;
 use App\Http\Controllers\Customer\TransactionController;
 use App\Http\Controllers\Customer\VerificationController;

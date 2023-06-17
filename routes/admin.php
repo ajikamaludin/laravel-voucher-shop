@@ -3,14 +3,15 @@
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\BannerController;
-use App\Http\Controllers\PoinRewardController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\CustomerLevelController;
 use App\Http\Controllers\DepositController;
 use App\Http\Controllers\GeneralController;
 use App\Http\Controllers\InfoController;
 use App\Http\Controllers\LocationController;
+use App\Http\Controllers\LocationProfileController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\PoinRewardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SaleController;
@@ -65,6 +66,14 @@ Route::middleware(['http_secure_aware', 'inertia.admin'])
             Route::post('/locations', [LocationController::class, 'store'])->name('location.store');
             Route::put('/locations/{location}', [LocationController::class, 'update'])->name('location.update');
             Route::delete('/locations/{location}', [LocationController::class, 'destroy'])->name('location.destroy');
+
+            // Profile Location
+            Route::get('/location-profile', [LocationProfileController::class, 'index'])->name('location-profile.index');
+            Route::get('/location-profile/create', [LocationProfileController::class, 'create'])->name('location-profile.create');
+            Route::post('/location-profile', [LocationProfileController::class, 'store'])->name('location-profile.store');
+            Route::get('/location-profile/{profile}', [LocationProfileController::class, 'edit'])->name('location-profile.edit');
+            Route::post('/location-profile/{profile}', [LocationProfileController::class, 'update'])->name('location-profile.update');
+            Route::delete('/location-profile/{profile}', [LocationProfileController::class, 'destroy'])->name('location-profile.destroy');
 
             // Account
             Route::get('/accounts', [AccountController::class, 'index'])->name('account.index');

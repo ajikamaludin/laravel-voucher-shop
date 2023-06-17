@@ -2,9 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Support\Str;
-
 class Voucher extends Model
 {
     const UNSOLD = 0;
@@ -57,7 +54,7 @@ class Voucher extends Model
         if ($count <= $treshold) {
             Notification::create([
                 'entity_type' => User::class,
-                'description' => 'stok voucher ' . $this->location->name . ' ( ' . $this->profile . ' ) ' . 'tersisa : ' . $count,
+                'description' => 'stok voucher '.$this->location->name.' ( '.$this->profile.' ) '.'tersisa : '.$count,
             ]);
         }
     }

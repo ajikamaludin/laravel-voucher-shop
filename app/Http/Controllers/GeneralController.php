@@ -9,7 +9,6 @@ use App\Models\SaleItem;
 use App\Models\Voucher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class GeneralController extends Controller
@@ -24,9 +23,9 @@ class GeneralController extends Controller
         $month = now()->locale('id')->translatedFormat('F');
         $startOfMonth = now()->startOfMonth()->format('m/d/Y');
         $endOfMonth = now()->endOfMonth()->format('m/d/Y');
-        $total_voucher_sale_this_month = SaleItem::whereBetween("created_at", [$startOfMonth, $endOfMonth])
+        $total_voucher_sale_this_month = SaleItem::whereBetween('created_at', [$startOfMonth, $endOfMonth])
             ->sum('price');
-        $count_voucher_sale_this_month = SaleItem::whereBetween("created_at", [$startOfMonth, $endOfMonth])
+        $count_voucher_sale_this_month = SaleItem::whereBetween('created_at', [$startOfMonth, $endOfMonth])
             ->sum('quantity');
         $total_voucher_sale_this_day = SaleItem::whereDate('created_at', now()->format('Y-m-d'))
             ->sum('price');

@@ -14,6 +14,13 @@ class CustomerLevel extends Model
 
     const MUST_VERIFIED = [self::GOLD, self::PLATINUM];
 
+    const LEVELS = [
+        self::BASIC,
+        self::SILVER,
+        self::GOLD,
+        self::PLATINUM,
+    ];
+
     protected $fillable = [
         'name',
         'description',
@@ -22,4 +29,9 @@ class CustomerLevel extends Model
         'max_amount',
         'max_loan',
     ];
+
+    public static function getByKey($key)
+    {
+        return CustomerLevel::where('key', $key)->first();
+    }
 }

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\PoinReward;
 use App\Models\CustomerLevel;
+use App\Models\PoinReward;
 use Illuminate\Http\Request;
 
 class PoinRewardController extends Controller

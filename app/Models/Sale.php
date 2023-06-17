@@ -63,7 +63,7 @@ class Sale extends Model
     public function displayAmount(): Attribute
     {
         return Attribute::make(get: function () {
-            return 'Rp' . number_format($this->amount, is_float($this->amount) ? 2 : 0, ',', '.');
+            return 'Rp'.number_format($this->amount, is_float($this->amount) ? 2 : 0, ',', '.');
         });
     }
 
@@ -72,12 +72,12 @@ class Sale extends Model
         if ($this->payed_with == self::PAYED_WITH_poin) {
             Notification::create([
                 'entity_type' => User::class,
-                'description' => $this->customer->fullname . ' melakukan penukaran ' . $this->items()->count() . ' voucher sebesar ' . $this->items->value('price') . ' poin',
+                'description' => $this->customer->fullname.' melakukan penukaran '.$this->items()->count().' voucher sebesar '.$this->items->value('price').' poin',
             ]);
 
             Notification::create([
                 'entity_id' => auth()->id(),
-                'description' => 'Transaksi ' . $this->code . ' berhasil',
+                'description' => 'Transaksi '.$this->code.' berhasil',
             ]);
 
             return;
@@ -85,12 +85,12 @@ class Sale extends Model
 
         Notification::create([
             'entity_type' => User::class,
-            'description' => $this->customer->fullname . ' melakukan pembelian ' . $this->items()->count() . ' voucher sebesar ' . $this->display_amount,
+            'description' => $this->customer->fullname.' melakukan pembelian '.$this->items()->count().' voucher sebesar '.$this->display_amount,
         ]);
 
         Notification::create([
             'entity_id' => auth()->id(),
-            'description' => 'Transaksi pembelian anda #' . $this->code . ' sebesar ' . $this->display_amount . ' berhasil',
+            'description' => 'Transaksi pembelian anda #'.$this->code.' sebesar '.$this->display_amount.' berhasil',
         ]);
     }
 }

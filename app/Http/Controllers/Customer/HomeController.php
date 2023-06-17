@@ -19,7 +19,6 @@ class HomeController extends Controller
         $locations = Location::orderBy('updated_at', 'desc')->get();
         $vouchers = Voucher::with(['location'])
             ->where('is_sold', Voucher::UNSOLD)
-            ->groupBy('batch_id')
             ->orderBy('updated_at', 'desc');
 
         if ($request->location_id != '') {

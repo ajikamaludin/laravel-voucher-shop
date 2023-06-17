@@ -7,6 +7,7 @@ import {
     HiCog,
 } from 'react-icons/hi'
 import {
+    HiArchiveBox,
     HiBanknotes,
     HiCheckBadge,
     HiCreditCard,
@@ -39,10 +40,10 @@ export default [
     {
         name: 'Profile Lokasi',
         show: true,
-        icon: HiMap,
-        route: route('location.index'),
-        active: 'location.*',
-        permission: 'view-location',
+        icon: HiArchiveBox,
+        route: route('location-profile.index'),
+        active: 'location-profile.*',
+        permission: 'view-location-profile',
     },
     {
         name: 'Voucher',

@@ -2,10 +2,17 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-
 class CashDepositLocation extends Model
 {
-    use HasFactory;
+    protected $fillable = [
+        'name',
+        'address',
+        'phone',
+        'gmap_url',
+        'image',
+        'description',
+        'open_hour',
+        'close_hour',
+        'is_active',
+    ];
 }

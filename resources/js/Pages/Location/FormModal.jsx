@@ -67,14 +67,14 @@ export default function FormModal(props) {
                 name="name"
                 value={data.name}
                 onChange={handleOnChange}
-                label="name"
+                label="Nama"
                 error={errors.name}
             />
             <FormInput
                 name="description"
                 value={data.description}
                 onChange={handleOnChange}
-                label="description"
+                label="Deskripsi"
                 error={errors.description}
             />
 

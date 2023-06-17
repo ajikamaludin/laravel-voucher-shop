@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('infos', function (Blueprint $table) {
             $table->ulid('id')->primary();
 
-            $table->string('title');
+            $table->text('title');
             $table->string('destination')->nullable();
             $table->string('type')->nullable();
             $table->smallInteger('is_publish')->nullable();

@@ -4,13 +4,14 @@ namespace Database\Seeders;
 
 use App\Models\Account;
 use App\Models\Banner;
+use App\Models\CustomerLevel;
 use App\Models\Info;
 use App\Models\Location;
+use App\Models\LocationProfile;
 use App\Models\Voucher;
 use App\Services\GeneralService;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 
 class DummySeeder extends Seeder
 {
@@ -25,6 +26,7 @@ class DummySeeder extends Seeder
         $this->banner();
         $this->account();
         $this->location();
+        $this->location_profile();
         $this->voucher();
     }
 
@@ -77,6 +79,66 @@ class DummySeeder extends Seeder
         }
     }
 
+    public function location_profile()
+    {
+        $profiles = [
+            LocationProfile::EXPIRED_DAY => '1 GB',
+            LocationProfile::EXPIRED_WEEK => '2 GB',
+            LocationProfile::EXPIRED_MONTH => '99 GB',
+        ];
+
+        $count = 0;
+        $locations = Location::limit(3)->get();
+        foreach ($locations as $location) { //ada 3 lokasi di tiap lokasi ada 3 profile
+            $count += 1;
+            foreach ($profiles as $expired => $quota) {
+                $disply_price = 10000;
+                $discount = $expired == LocationProfile::EXPIRED_DAY ? 0 : 10;
+
+                $price = $disply_price - ($disply_price * ($discount / 100));
+
+                $lp = LocationProfile::create([
+                    'location_id' => $location->id,
+                    'name' => $quota,
+                    'quota' => $quota,
+                    'display_note' => 'bisa semua',
+                    'expired' => rand(1, 3),
+                    'expired_unit' => $expired,
+                    'description' => '',
+                    'min_stock' => 10,
+                    'price' => $price,
+                    'display_price' => $disply_price,
+                    'discount' => $discount,
+                    'price_poin' => $price,
+                    'bonus_poin' => 0,
+                ]);
+
+                if ($count == 3) {
+                    $dp = 100000;
+                    $disc = 0;
+
+                    $bp = 0;
+
+                    foreach (CustomerLevel::LEVELS as $index => $level) {
+                        if ($index != 0) {
+                            $disc += 5;
+                        }
+
+                        $p = $dp - ($dp * ($disc / 100));
+                        $lp->prices()->create([
+                            'customer_level_id' => CustomerLevel::getByKey($level)->id,
+                            'price' => $p,
+                            'display_price' => $dp,
+                            'discount' => $disc,
+                            'price_poin' => $p,
+                            'bonus_poin' => $bp,
+                        ]);
+                    }
+                }
+            }
+        }
+    }
+
     public function voucher()
     {
 
@@ -84,25 +146,15 @@ class DummySeeder extends Seeder
 
         DB::beginTransaction();
         foreach ([1, 2, 3] as $loop) {
-            $batchId = Str::ulid();
-            $location = Location::get()[$loop];
-
-            $price_poin = $loop == 3 ? 10 : 0;
-
+            $profile = LocationProfile::get()[$loop];
             foreach ($vouchers as $voucher) {
                 Voucher::create([
-                    'location_id' => $location->id,
+                    'location_profile_id' => $profile->id,
                     'username' => $voucher['username'],
                     'password' => $voucher['password'],
-                    'discount' => $loop == 1 ? 10 : 0,
-                    'display_price' => $loop == 1 ? 100000 : 99000,
-                    'price_poin' => $price_poin,
                     'quota' => $voucher['quota'],
                     'profile' => $voucher['profile'],
                     'comment' => $voucher['comment'],
-                    'expired' => 30,
-                    'expired_unit' => 'Hari',
-                    'batch_id' => $batchId,
                 ]);
             }
         }

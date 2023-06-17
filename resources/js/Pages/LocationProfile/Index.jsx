@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { router } from '@inertiajs/react'
+import { Link, router } from '@inertiajs/react'
 import { usePrevious } from 'react-use'
 import { Head } from '@inertiajs/react'
 import { Button, Dropdown } from 'flowbite-react'
@@ -9,8 +9,8 @@ import { useModalState } from '@/hooks'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import Pagination from '@/Components/Pagination'
 import ModalConfirm from '@/Components/ModalConfirm'
-import FormModal from './FormModal'
 import SearchInput from '@/Components/SearchInput'
+import LocationSelectionInput from '../Location/SelectionInput'
 import { hasPermission } from '@/utils'
 
 export default function Index(props) {
@@ -19,51 +19,84 @@ export default function Index(props) {
         auth,
     } = props
 
+    const [location, setLocation] = useState(null)
+    const [search, setSearch] = useState('')
+    const preValue = usePrevious(`${search}${location}`)
+
     const confirmModal = useModalState()
-    const formModal = useModalState()
 
-    const toggleFormModal = (location = null) => {
-        formModal.setData(location)
-        formModal.toggle()
-    }
-
-    const handleDeleteClick = (location) => {
-        confirmModal.setData(location)
+    const handleDeleteClick = (profile) => {
+        confirmModal.setData(profile)
         confirmModal.toggle()
     }
 
     const onDelete = () => {
         if (confirmModal.data !== null) {
-            router.delete(route('location.destroy', confirmModal.data.id))
+            router.delete(
+                route('location-profile.destroy', confirmModal.data.id)
+            )
         }
     }
 
-    const canCreate = hasPermission(auth, 'create-location')
-    const canUpdate = hasPermission(auth, 'update-location')
-    const canDelete = hasPermission(auth, 'delete-location')
+    const params = { q: search, location_id: location }
+    useEffect(() => {
+        if (preValue) {
+            router.get(
+                route(route().current()),
+                { q: search, location_id: location },
+                {
+                    replace: true,
+                    preserveState: true,
+                }
+            )
+        }
+    }, [search, location])
+
+    const canCreate = hasPermission(auth, 'create-location-profile')
+    const canUpdate = hasPermission(auth, 'update-location-profile')
+    const canDelete = hasPermission(auth, 'delete-location-profile')
 
     return (
         <AuthenticatedLayout
             auth={props.auth}
             errors={props.errors}
             flash={props.flash}
-            page={'Location'}
+            page={'Profile Lokasi'}
             action={''}
         >
-            <Head title="Location" />
+            <Head title="Profile Lokasi" />
 
             <div>
                 <div className="mx-auto sm:px-6 lg:px-8 ">
                     <div className="p-6 overflow-hidden shadow-sm sm:rounded-lg bg-gray-200 dark:bg-gray-800 space-y-4">
                         <div className="flex justify-between">
                             {canCreate && (
-                                <Button
-                                    size="sm"
-                                    onClick={() => toggleFormModal()}
-                                >
-                                    Tambah
-                                </Button>
+                                <div className="flex flex-row space-x-2">
+                                    <Link
+                                        href={route('location-profile.create')}
+                                    >
+                                        <Button size="sm">Tambah</Button>
+                                    </Link>
+                                    {/* <Link
+                                        href={route('location-profile.import')}
+                                    >
+                                        <Button size="sm" outline>
+                                            Import
+                                        </Button>
+                                    </Link> */}
+                                </div>
                             )}
+                            <div className="flex flex-row space-x-2 items-center">
+                                <LocationSelectionInput
+                                    itemSelected={location}
+                                    onItemSelected={(id) => setLocation(id)}
+                                    placeholder={'filter lokasi'}
+                                />
+                                <SearchInput
+                                    onChange={(e) => setSearch(e.target.value)}
+                                    value={search}
+                                />
+                            </div>
                         </div>
                         <div className="overflow-auto">
                             <div>
@@ -80,28 +113,55 @@ export default function Index(props) {
                                                 scope="col"
                                                 className="py-3 px-6"
                                             >
-                                                Deskripsi
+                                                Lokasi
                                             </th>
                                             <th
                                                 scope="col"
                                                 className="py-3 px-6"
+                                            >
+                                                Kuota
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                className="py-3 px-6"
+                                            >
+                                                Masa Aktif
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                className="py-3 px-6 w-1/8"
                                             />
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {data.map((location) => (
+                                        {data.map((profile, index) => (
                                             <tr
                                                 className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-                                                key={location.id}
+                                                key={profile.id}
                                             >
                                                 <td
                                                     scope="row"
                                                     className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                                 >
-                                                    {location.name}
+                                                    {profile.name}
                                                 </td>
-                                                <td className="py-4 px-6">
-                                                    {location.description}
+                                                <td
+                                                    scope="row"
+                                                    className="py-4 px-6"
+                                                >
+                                                    {profile.location.name}
+                                                </td>
+                                                <td
+                                                    scope="row"
+                                                    className="py-4 px-6"
+                                                >
+                                                    {profile.quota}
+                                                </td>
+                                                <td
+                                                    scope="row"
+                                                    className="py-4 px-6"
+                                                >
+                                                    {profile.diplay_expired}
                                                 </td>
                                                 <td className="py-4 px-6 flex justify-end">
                                                     <Dropdown
@@ -112,26 +172,26 @@ export default function Index(props) {
                                                         size={'sm'}
                                                     >
                                                         {canUpdate && (
-                                                            <Dropdown.Item
-                                                                onClick={() =>
-                                                                    toggleFormModal(
-                                                                        location
-                                                                    )
-                                                                }
-                                                            >
-                                                                <div className="flex space-x-1 items-center">
+                                                            <Dropdown.Item>
+                                                                <Link
+                                                                    href={route(
+                                                                        'location-profile.edit',
+                                                                        profile
+                                                                    )}
+                                                                    className="flex space-x-1 items-center"
+                                                                >
                                                                     <HiPencil />
                                                                     <div>
                                                                         Ubah
                                                                     </div>
-                                                                </div>
+                                                                </Link>
                                                             </Dropdown.Item>
                                                         )}
                                                         {canDelete && (
                                                             <Dropdown.Item
                                                                 onClick={() =>
                                                                     handleDeleteClick(
-                                                                        location
+                                                                        profile
                                                                     )
                                                                 }
                                                             >
@@ -151,14 +211,13 @@ export default function Index(props) {
                                 </table>
                             </div>
                             <div className="w-full flex items-center justify-center">
-                                <Pagination links={links} />
+                                <Pagination links={links} params={params} />
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <ModalConfirm modalState={confirmModal} onConfirm={onDelete} />
-            <FormModal modalState={formModal} />
         </AuthenticatedLayout>
     )
 }

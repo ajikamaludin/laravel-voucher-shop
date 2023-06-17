@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
-use App\Models\PoinReward;
 use App\Models\Customer;
 use App\Models\DepositHistory;
+use App\Models\PoinReward;
 use App\Models\Sale;
 use App\Models\Voucher;
 use Illuminate\Http\Request;
@@ -166,13 +166,13 @@ class CartController extends Controller
         if ($bonus != null) {
             $poin = $customer->poins()->create([
                 'debit' => $bonus->bonus_poin,
-                'description' => 'Bonus Pembelian #' . $sale->code,
+                'description' => 'Bonus Pembelian #'.$sale->code,
             ]);
 
             $poin->update_customer_balance();
         }
 
-        $description = 'Pembayaran #' . $sale->code;
+        $description = 'Pembayaran #'.$sale->code;
 
         if ($customer->deposit_balance < $total) {
             if ($customer->deposit_balance > 0) {

@@ -9,7 +9,7 @@ import {
     ArcElement,
     Legend,
 } from 'chart.js'
-import { Bar, Doughnut } from 'react-chartjs-2'
+import { Bar } from 'react-chartjs-2'
 import { Head, router } from '@inertiajs/react'
 import { usePrevious } from 'react-use'
 import moment from 'moment'
@@ -105,72 +105,6 @@ export default function Dashboard(props) {
 
             <div>
                 <div className="mx-auto sm:px-6 lg:px-8 ">
-                    <div className="grid grid-cols-2 lg:grid-cols-4  gap-2">
-                        <div className="border rounded-md shadow bg-white p-4 flex flex-col">
-                            <div className="text-gray-600 text-xl">
-                                Total Voucher
-                            </div>
-                            <div className="font-bold text-2xl pt-2">
-                                {formatIDR(total_voucher)}
-                            </div>
-                        </div>
-                        <div className="border rounded-md shadow bg-white p-4 flex flex-col">
-                            <div className="text-gray-600 text-xl">
-                                Total Customer
-                            </div>
-                            <div className="font-bold text-2xl pt-2">
-                                {formatIDR(total_customer)}
-                            </div>
-                        </div>
-                        <div className="border rounded-md shadow bg-white p-4 flex flex-col">
-                            <div className="text-gray-600 text-xl">
-                                Total Customer Verified
-                            </div>
-                            <div className="font-bold text-2xl pt-2">
-                                {formatIDR(total_customer_verified)}
-                            </div>
-                        </div>
-                        <div className="border rounded-md shadow bg-white p-4 flex flex-col">
-                            <div className="text-gray-600 text-xl">
-                                Total Deposit
-                            </div>
-                            <div className="font-bold text-2xl pt-2">
-                                {formatIDR(total_deposit)}
-                            </div>
-                        </div>
-                        <div className="border rounded-md shadow bg-white p-4 flex flex-col">
-                            <div className="text-gray-600 text-xl">
-                                Total Voucher terjual bulan {month}
-                            </div>
-                            <div className="font-bold text-2xl pt-2">
-                                {formatIDR(total_voucher_sale_this_month)}
-                            </div>
-                        </div>
-                        <div className="border rounded-md shadow bg-white p-4 flex flex-col">
-                            <div className="text-gray-600 text-xl">
-                                Jumlah Voucher terjual bulan {month}
-                            </div>
-                            <div className="font-bold text-2xl pt-2">
-                                {formatIDR(count_voucher_sale_this_month)}
-                            </div>
-                        </div>
-                        <div className="border rounded-md shadow bg-white p-4 flex flex-col">
-                            <div className="text-gray-600 text-xl">
-                                Total Voucher terjual hari ini
-                            </div>
-                            <div className="font-bold text-2xl pt-2">
-                                {formatIDR(total_voucher_sale_this_day)}
-                            </div>
-                        </div>
-                        <div className="border rounded-md shadow bg-white p-4 flex flex-col">
-                            <div className="text-gray-600 text-xl">
-                                Jumlah Voucher terjual hari ini
-                            </div>
-                            <div className="font-bold text-2xl pt-2">
-                                {formatIDR(count_voucher_sale_this_day)}
-                            </div>
-                        </div>
-                    </div>
                     <div className="w-full flex flex-row mt-4 space-x-2 border rounded-md shadow">
                         <div className="flex-1 overflow-auto bg-white p-4">
                             <div className="w-full flex flex-col md:flex-row justify-between mb-4">

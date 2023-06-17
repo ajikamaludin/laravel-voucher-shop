@@ -2,10 +2,39 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-
 class LocationProfilePrice extends Model
 {
-    use HasFactory;
+    protected $fillable = [
+        'location_profile_id',
+        'customer_level_id',
+        'price',
+        'display_price',
+        'discount',
+        'price_poin',
+        'bonus_poin',
+    ];
+
+    protected static function booted(): void
+    {
+        static::creating(function (LocationProfilePrice $model) {
+            $price = $model->display_price;
+            if ($model->discount > 0) {
+                $price = $price - ($price * ($model->discount / 100));
+            }
+            $model->price = $price;
+        });
+
+        static::updating(function (LocationProfilePrice $model) {
+            $price = $model->display_price;
+            if ($model->discount > 0) {
+                $price = $price - ($price * ($model->discount / 100));
+            }
+            $model->price = $price;
+        });
+    }
+
+    public function level()
+    {
+        return $this->belongsTo(CustomerLevel::class, 'customer_level_id');
+    }
 }

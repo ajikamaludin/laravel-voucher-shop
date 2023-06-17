@@ -51,7 +51,7 @@ export const formatIDDate = (date) => {
 
 export const hasPermission = (auth, permission) => {
     const { user } = auth
-    if (+user.is_superadmin === 1) {
+    if (user.role === null) {
         return true
     }
 
@@ -61,4 +61,8 @@ export const hasPermission = (auth, permission) => {
         return true
     }
     return false
+}
+
+export const toFixed = (num) => {
+    return Number(num).toFixed()
 }

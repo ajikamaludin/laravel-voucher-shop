@@ -37,10 +37,10 @@ class InstallationSeed extends Seeder
 
             ['key' => 'ENABLE_CASH_DEPOSIT', 'value' => '0', 'type' => 'text'],
             ['key' => 'ENABLE_MANUAL_TRANSFER', 'value' => '0', 'type' => 'text'],
-            ['key' => 'MAX_MANUAL_TRANSFER_TIMEOUT', 'value' => '2', 'type' => 'text'], //dalam jam 
+            ['key' => 'MAX_MANUAL_TRANSFER_TIMEOUT', 'value' => '2', 'type' => 'text'], //dalam jam
             ['key' => 'MANUAL_TRANSFER_OPEN_HOUR', 'value' => '06:00', 'type' => 'text'],
             ['key' => 'MANUAL_TRANSFER_CLOSE_HOUR', 'value' => '23:00', 'type' => 'text'],
-            ['key' => 'MAX_POINT_EXPIRED', 'value' => '90', 'type' => 'text'], //dalam hari 
+            ['key' => 'MAX_POINT_EXPIRED', 'value' => '90', 'type' => 'text'], //dalam hari
         ];
 
         foreach ($settings as $setting) {

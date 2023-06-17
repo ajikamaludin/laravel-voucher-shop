@@ -52,7 +52,7 @@ class PoinExchangeController extends Controller
 
         DB::beginTransaction();
         $sale = $customer->sales()->create([
-            'code' => 'Tukar poin ' . str()->upper(str()->random(5)),
+            'code' => 'Tukar poin '.str()->upper(str()->random(5)),
             'date_time' => now(),
             'amount' => 0,
             'payed_with' => Sale::PAYED_WITH_poin,

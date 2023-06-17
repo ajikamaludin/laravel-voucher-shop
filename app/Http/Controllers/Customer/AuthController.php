@@ -73,7 +73,7 @@ class AuthController extends Controller
                 'fullname' => $user->name,
                 'name' => $user->nickname,
                 'email' => $user->email,
-                'username' => Str::slug($user->name . '_' . Str::random(5), '_'),
+                'username' => Str::slug($user->name.'_'.Str::random(5), '_'),
                 'google_id' => $user->id,
                 'google_oauth_response' => json_encode($user),
             ]);
@@ -126,7 +126,7 @@ class AuthController extends Controller
                 $bonuspoin = Setting::getByKey('AFFILATE_poin_AMOUNT');
                 $poin = $refferal->poins()->create([
                     'debit' => $bonuspoin,
-                    'description' => 'Bonus Refferal #' . Str::random(5),
+                    'description' => 'Bonus Refferal #'.Str::random(5),
                 ]);
 
                 $poin->update_customer_balance();
