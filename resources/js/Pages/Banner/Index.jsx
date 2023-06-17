@@ -35,13 +35,7 @@ export default function Info(props) {
     const canDelete = hasPermission(auth, 'delete-banner')
 
     return (
-        <AuthenticatedLayout
-            auth={props.auth}
-            errors={props.errors}
-            flash={props.flash}
-            page={'Banner'}
-            action={''}
-        >
+        <AuthenticatedLayout page={'Banner'} action={''}>
             <Head title="Banner" />
 
             <div>

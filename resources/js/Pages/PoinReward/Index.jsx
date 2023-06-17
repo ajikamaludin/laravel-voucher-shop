@@ -41,13 +41,7 @@ export default function Info(props) {
     const canDelete = hasPermission(auth, 'delete-poin-reward')
 
     return (
-        <AuthenticatedLayout
-            auth={props.auth}
-            errors={props.errors}
-            flash={props.flash}
-            page={'Bonus Poin'}
-            action={''}
-        >
+        <AuthenticatedLayout page={'Bonus Poin'} action={''}>
             <Head title="Bonus Poin" />
 
             <div>

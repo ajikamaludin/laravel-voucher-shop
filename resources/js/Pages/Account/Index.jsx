@@ -42,13 +42,7 @@ export default function Account(props) {
     const canDelete = hasPermission(auth, 'delete-account')
 
     return (
-        <AuthenticatedLayout
-            auth={props.auth}
-            errors={props.errors}
-            flash={props.flash}
-            page={'Bank Akun'}
-            action={''}
-        >
+        <AuthenticatedLayout page={'Bank Akun'} action={''}>
             <Head title="Bank Akun" />
 
             <div>

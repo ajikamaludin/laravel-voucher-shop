@@ -12,13 +12,7 @@ export default function Detail(props) {
     const { sale } = props
 
     return (
-        <AuthenticatedLayout
-            auth={props.auth}
-            errors={props.errors}
-            flash={props.flash}
-            page={`Sale`}
-            action={`Invoice #${sale.code}`}
-        >
+        <AuthenticatedLayout page={`Sale`} action={`Invoice #${sale.code}`}>
             <Head title={`Invoice #${sale.code}`} />
 
             <div>

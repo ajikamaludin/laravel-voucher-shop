@@ -53,13 +53,7 @@ export default function Customer(props) {
     const canDelete = hasPermission(auth, 'delete-customer')
 
     return (
-        <AuthenticatedLayout
-            auth={props.auth}
-            errors={props.errors}
-            flash={props.flash}
-            page={'Customer'}
-            action={''}
-        >
+        <AuthenticatedLayout page={'Customer'} action={''}>
             <Head title="Customer" />
 
             <div>

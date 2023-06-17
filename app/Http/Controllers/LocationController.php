@@ -7,9 +7,13 @@ use Illuminate\Http\Request;
 
 class LocationController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $query = Location::orderBy('updated_at', 'desc');
+
+        if ($request->q != '') {
+            $query->where('name', 'like', "%$request->q%");
+        }
 
         return inertia('Location/Index', [
             'query' => $query->paginate(),

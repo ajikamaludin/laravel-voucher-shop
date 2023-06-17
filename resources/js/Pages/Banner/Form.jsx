@@ -48,13 +48,7 @@ export default function Form(props) {
     }, [banner])
 
     return (
-        <AuthenticatedLayout
-            auth={props.auth}
-            errors={props.errors}
-            flash={props.flash}
-            page={'Banner'}
-            action={'Form'}
-        >
+        <AuthenticatedLayout page={'Banner'} action={'Form'}>
             <Head title="Banner" />
 
             <div>

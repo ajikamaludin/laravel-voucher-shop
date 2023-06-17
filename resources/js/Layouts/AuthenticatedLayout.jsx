@@ -10,14 +10,13 @@ import SidebarNav from './Partials/SidebarNav'
 import { HiOutlineBell } from 'react-icons/hi2'
 
 export default function Authenticated({
-    auth,
     children,
-    flash,
     page = '',
     action = '',
+    parent = null,
 }) {
     const {
-        props: { count_unread_notifications, notifications },
+        props: { count_unread_notifications, notifications, auth, flash },
     } = usePage()
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false)
@@ -162,16 +161,26 @@ export default function Authenticated({
                 </div>
                 <main className="w-full">
                     {page !== '' && (
-                        <Breadcrumb className="bg-gray-200 py-3 px-5 mb-2 dark:bg-gray-700">
-                            <Breadcrumb.Item
-                                onClick={() => router.visit(route('dashboard'))}
-                                icon={HiHome}
-                            >
+                        <Breadcrumb
+                            className="bg-gray-200 py-3 px-5 mb-2 dark:bg-gray-700"
+                            onClick={() =>
+                                parent === null
+                                    ? router.visit(route('dashboard'))
+                                    : router.visit(parent)
+                            }
+                        >
+                            <Breadcrumb.Item icon={HiHome}>
                                 <p className="mt-0.5">{page}</p>
                             </Breadcrumb.Item>
-                            {action !== '' && (
+                            {typeof action === 'string' && (
                                 <Breadcrumb.Item>{action}</Breadcrumb.Item>
                             )}
+                            {typeof action === 'object' &&
+                                action.map((item) => (
+                                    <Breadcrumb.Item key={item}>
+                                        {item}
+                                    </Breadcrumb.Item>
+                                ))}
                         </Breadcrumb>
                     )}
                     <div className="py-4">{children}</div>

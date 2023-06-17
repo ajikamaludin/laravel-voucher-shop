@@ -18,13 +18,7 @@ export default function Index(props) {
         router.get(route(route().current()))
     }
     return (
-        <AuthenticatedLayout
-            auth={props.auth}
-            errors={props.errors}
-            flash={props.flash}
-            page={'Notifikasi'}
-            action={''}
-        >
+        <AuthenticatedLayout page={'Notifikasi'} action={''}>
             <Head title="Notifikasi" />
 
             <div>

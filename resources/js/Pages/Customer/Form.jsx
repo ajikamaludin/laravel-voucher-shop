@@ -220,13 +220,7 @@ const Paylater = () => {
 
 export default function Form(props) {
     return (
-        <AuthenticatedLayout
-            auth={props.auth}
-            errors={props.errors}
-            flash={props.flash}
-            page={'Customer'}
-            action={'Form'}
-        >
+        <AuthenticatedLayout page={'Customer'} action={'Form'}>
             <Head title="Customer" />
 
             <div>

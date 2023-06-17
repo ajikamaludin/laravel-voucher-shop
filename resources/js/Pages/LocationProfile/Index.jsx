@@ -6,12 +6,12 @@ import { Button, Dropdown } from 'flowbite-react'
 import { HiPencil, HiTrash } from 'react-icons/hi'
 import { useModalState } from '@/hooks'
 
+import { hasPermission } from '@/utils'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import Pagination from '@/Components/Pagination'
 import ModalConfirm from '@/Components/ModalConfirm'
 import SearchInput from '@/Components/SearchInput'
 import LocationSelectionInput from '../Location/SelectionInput'
-import { hasPermission } from '@/utils'
 
 export default function Index(props) {
     const {
@@ -57,19 +57,13 @@ export default function Index(props) {
     const canDelete = hasPermission(auth, 'delete-location-profile')
 
     return (
-        <AuthenticatedLayout
-            auth={props.auth}
-            errors={props.errors}
-            flash={props.flash}
-            page={'Profile Lokasi'}
-            action={''}
-        >
+        <AuthenticatedLayout page={'Profile Lokasi'} action={''}>
             <Head title="Profile Lokasi" />
 
             <div>
                 <div className="mx-auto sm:px-6 lg:px-8 ">
                     <div className="p-6 overflow-hidden shadow-sm sm:rounded-lg bg-gray-200 dark:bg-gray-800 space-y-4">
-                        <div className="flex justify-between">
+                        <div className="flex flex-col lg:flex-row gap-1 justify-between">
                             {canCreate && (
                                 <div className="flex flex-row space-x-2">
                                     <Link
@@ -77,25 +71,24 @@ export default function Index(props) {
                                     >
                                         <Button size="sm">Tambah</Button>
                                     </Link>
-                                    {/* <Link
-                                        href={route('location-profile.import')}
-                                    >
-                                        <Button size="sm" outline>
-                                            Import
-                                        </Button>
-                                    </Link> */}
                                 </div>
                             )}
-                            <div className="flex flex-row space-x-2 items-center">
-                                <LocationSelectionInput
-                                    itemSelected={location}
-                                    onItemSelected={(id) => setLocation(id)}
-                                    placeholder={'filter lokasi'}
-                                />
-                                <SearchInput
-                                    onChange={(e) => setSearch(e.target.value)}
-                                    value={search}
-                                />
+                            <div className="flex flex-col md:flex-row gap-1 items-center">
+                                <div className="w-full max-w-md">
+                                    <LocationSelectionInput
+                                        itemSelected={location}
+                                        onItemSelected={(id) => setLocation(id)}
+                                        placeholder={'filter lokasi'}
+                                    />
+                                </div>
+                                <div className="w-full max-w-md">
+                                    <SearchInput
+                                        onChange={(e) =>
+                                            setSearch(e.target.value)
+                                        }
+                                        value={search}
+                                    />
+                                </div>
                             </div>
                         </div>
                         <div className="overflow-auto">
@@ -210,7 +203,7 @@ export default function Index(props) {
                                     </tbody>
                                 </table>
                             </div>
-                            <div className="w-full flex items-center justify-center">
+                            <div className="w-full md:flex md:flex-row justify-center">
                                 <Pagination links={links} params={params} />
                             </div>
                         </div>

@@ -9,5 +9,7 @@ class Account extends Model
         'bank_name',
         'holder_name',
         'account_number',
+        'logo',
+        'admin_fee',
     ];
 }

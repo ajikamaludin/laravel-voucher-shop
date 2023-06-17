@@ -25,13 +25,7 @@ export default function Info(props) {
     const canUpdate = hasPermission(auth, 'update-customer-level')
 
     return (
-        <AuthenticatedLayout
-            auth={props.auth}
-            errors={props.errors}
-            flash={props.flash}
-            page={'Customer Level'}
-            action={''}
-        >
+        <AuthenticatedLayout page={'Customer Level'} action={''}>
             <Head title="Customer Level" />
 
             <div>

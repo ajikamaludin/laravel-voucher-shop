@@ -31,13 +31,7 @@ export default function Info(props) {
     }, [search])
 
     return (
-        <AuthenticatedLayout
-            auth={props.auth}
-            errors={props.errors}
-            flash={props.flash}
-            page={'Sale'}
-            action={''}
-        >
+        <AuthenticatedLayout page={'Sale'} action={''}>
             <Head title="Sale" />
 
             <div>

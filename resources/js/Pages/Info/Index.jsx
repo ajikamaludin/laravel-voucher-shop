@@ -43,13 +43,7 @@ export default function Info(props) {
     const canDelete = hasPermission(auth, 'delete-info')
 
     return (
-        <AuthenticatedLayout
-            auth={props.auth}
-            errors={props.errors}
-            flash={props.flash}
-            page={'Info'}
-            action={''}
-        >
+        <AuthenticatedLayout page={'Info'} action={''}>
             <Head title="Info" />
 
             <div>

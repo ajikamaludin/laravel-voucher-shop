@@ -12,6 +12,7 @@ use App\Models\Voucher;
 use App\Services\GeneralService;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class DummySeeder extends Seeder
 {
@@ -43,8 +44,8 @@ class DummySeeder extends Seeder
         $images = ['1.webp', '2.webp', '3.webp'];
         foreach ($images as $index => $image) {
             Banner::create([
-                'title' => 'Banner ' . $index,
-                'image' => 'sample/' . $image,
+                'title' => 'Banner '.$index,
+                'image' => 'sample/'.$image,
                 'description' => '<h1>Banner </h1>',
             ]);
         }
@@ -69,11 +70,13 @@ class DummySeeder extends Seeder
 
     public function location()
     {
-        $locations = ['Jarbriel.id', 'Shaff.net', 'Weslycamp.net', 'Glory.net', 'Salgo.id', 'Terna.id', 'Kanza.id'];
+        $locations = [
+            'jabriel.id', 'shaff.net', 'weslycamp.net', 'glory.net', 'agelos.net', 'brigton.ne', 'tairon.net', 'jeconia.net', 'metsawifi.net', 'donata.net', 'hoptar.id', 'salgo.id', 'feivel.id', 'carenet.id', 'ivena.id', 'dishan.id', 'imago.id', 'netif.id', 'gavi.id', 'terna.id', 'kanza.id', 'benaya.id', 'rega.id', 'ponix.id', 'drago.id', 'lexsa.id', 'kilia.id', 'gramanta.id', 'vermil.id', 'nohea.id', 'ducan.id', 'letra.id', 'lejau.id', 'jelivan', 'takahiro.id', 'katsu', 'zergan', 'satoshi',
+        ];
 
         foreach ($locations as $location) {
             Location::create([
-                'name' => $location,
+                'name' => Str::ucfirst($location),
                 'description' => '-',
             ]);
         }
@@ -99,7 +102,7 @@ class DummySeeder extends Seeder
 
                 $lp = LocationProfile::create([
                     'location_id' => $location->id,
-                    'name' => $quota,
+                    'name' => 'Profile '.$quota,
                     'quota' => $quota,
                     'display_note' => 'bisa semua',
                     'expired' => rand(1, 3),
@@ -145,8 +148,7 @@ class DummySeeder extends Seeder
         $vouchers = GeneralService::script_parser(file_get_contents(public_path('example.md')));
 
         DB::beginTransaction();
-        foreach ([1, 2, 3] as $loop) {
-            $profile = LocationProfile::get()[$loop];
+        foreach (LocationProfile::limit(9)->get() as $profile) {
             foreach ($vouchers as $voucher) {
                 Voucher::create([
                     'location_profile_id' => $profile->id,

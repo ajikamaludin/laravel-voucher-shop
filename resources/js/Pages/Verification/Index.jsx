@@ -31,13 +31,7 @@ export default function Index(props) {
     }, [search])
 
     return (
-        <AuthenticatedLayout
-            auth={props.auth}
-            errors={props.errors}
-            flash={props.flash}
-            page={'Verifikasi Customer'}
-            action={''}
-        >
+        <AuthenticatedLayout page={'Verifikasi Customer'} action={''}>
             <Head title="Verifikasi Customer" />
 
             <div>

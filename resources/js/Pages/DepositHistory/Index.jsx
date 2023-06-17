@@ -44,13 +44,7 @@ export default function Index(props) {
     const canUpdate = hasPermission(auth, 'update-deposit')
 
     return (
-        <AuthenticatedLayout
-            auth={props.auth}
-            errors={props.errors}
-            flash={props.flash}
-            page={'Deposit'}
-            action={''}
-        >
+        <AuthenticatedLayout page={'Deposit'} action={''}>
             <Head title="Deposit" />
 
             <div>

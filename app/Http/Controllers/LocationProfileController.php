@@ -97,7 +97,7 @@ class LocationProfileController extends Controller
         return inertia('LocationProfile/Form', [
             'expireds' => LocationProfile::EXPIRED_UNIT,
             'levels' => CustomerLevel::all(),
-            'profile' => $profile->load(['location', 'prices.level'])
+            'profile' => $profile->load(['location', 'prices.level']),
         ]);
     }
 

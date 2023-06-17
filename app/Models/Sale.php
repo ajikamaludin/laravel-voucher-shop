@@ -15,7 +15,7 @@ class Sale extends Model
 
     const PAYED_WITH_PAYLATER = 'paylater';
 
-    const PAYED_WITH_poin = 'poin';
+    const PAYED_WITH_POIN = 'poin';
 
     protected $fillable = [
         'code',
@@ -69,7 +69,7 @@ class Sale extends Model
 
     public function create_notification()
     {
-        if ($this->payed_with == self::PAYED_WITH_poin) {
+        if ($this->payed_with == self::PAYED_WITH_POIN) {
             Notification::create([
                 'entity_type' => User::class,
                 'description' => $this->customer->fullname.' melakukan penukaran '.$this->items()->count().' voucher sebesar '.$this->items->value('price').' poin',

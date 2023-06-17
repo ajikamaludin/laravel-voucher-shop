@@ -114,13 +114,7 @@ export default function Form(props) {
     }, [profile])
 
     return (
-        <AuthenticatedLayout
-            auth={props.auth}
-            errors={props.errors}
-            flash={props.flash}
-            page={'Profile Lokasi'}
-            action={'Form'}
-        >
+        <AuthenticatedLayout page={'Profile Lokasi'} action={'Form'}>
             <Head title="Profile Lokasi" />
 
             <div>

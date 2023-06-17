@@ -16,6 +16,7 @@ import {
     HiOutlineCurrencyDollar,
     HiOutlineGlobeAlt,
     HiQuestionMarkCircle,
+    HiShoppingCart,
     HiTicket,
     HiUserCircle,
 } from 'react-icons/hi2'
@@ -49,14 +50,14 @@ export default [
         name: 'Voucher',
         show: true,
         icon: HiTicket,
-        route: route('voucher.index'),
+        route: route('voucher.location'),
         active: 'voucher.*',
         permission: 'view-voucher',
     },
     {
         name: 'Sale',
         show: true,
-        icon: HiCreditCard,
+        icon: HiShoppingCart,
         route: route('sale.index'),
         active: 'sale.*',
         permission: 'view-sale',
@@ -133,12 +134,12 @@ export default [
         ],
     },
     {
-        name: 'User',
+        name: 'Admin',
         show: true,
         icon: HiUser,
         items: [
             {
-                name: 'Roles',
+                name: 'Rule Admin',
                 show: true,
                 icon: HiUserGroup,
                 route: route('roles.index'),
@@ -146,7 +147,7 @@ export default [
                 permission: 'view-role',
             },
             {
-                name: 'Users',
+                name: 'List Admin',
                 show: true,
                 icon: HiUsers,
                 route: route('user.index'),

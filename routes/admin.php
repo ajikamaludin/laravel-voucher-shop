@@ -113,12 +113,14 @@ Route::middleware(['http_secure_aware', 'inertia.admin'])
             // voucher
             Route::get('/vouchers/import', [VoucherController::class, 'form_import'])->name('voucher.form_import');
             Route::post('/vouchers/import', [VoucherController::class, 'import'])->name('voucher.import');
-            Route::get('/vouchers', [VoucherController::class, 'index'])->name('voucher.index');
             Route::get('/vouchers/create', [VoucherController::class, 'create'])->name('voucher.create');
             Route::post('/vouchers', [VoucherController::class, 'store'])->name('voucher.store');
-            Route::get('/vouchers/{voucher}', [VoucherController::class, 'edit'])->name('voucher.edit');
-            Route::post('/vouchers/{voucher}', [VoucherController::class, 'update'])->name('voucher.update');
+            Route::get('/vouchers/{voucher}/edit', [VoucherController::class, 'edit'])->name('voucher.edit');
+            Route::post('/vouchers/{voucher}/edit', [VoucherController::class, 'update'])->name('voucher.update');
             Route::delete('/vouchers/{voucher}', [VoucherController::class, 'destroy'])->name('voucher.destroy');
+            Route::get('/vouchers', [VoucherController::class, 'location'])->name('voucher.location');
+            Route::get('/vouchers/{location}', [VoucherController::class, 'profile'])->name('voucher.profile');
+            Route::get('/vouchers/{location}/{profile}', [VoucherController::class, 'index'])->name('voucher.index');
 
             // setting
             Route::get('/settings', [SettingController::class, 'index'])->name('setting.index');

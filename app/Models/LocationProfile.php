@@ -70,10 +70,27 @@ class LocationProfile extends Model
         return $this->belongsTo(Location::class);
     }
 
+    public function vouchers()
+    {
+        return $this->hasMany(Voucher::class);
+    }
+
     public function diplayExpired(): Attribute
     {
         return Attribute::make(get: function () {
-            return $this->expired . ' ' . $this->expired_unit;
+            return $this->expired.' '.$this->expired_unit;
+        });
+    }
+
+    public function countVouchers(): Attribute
+    {
+        return Attribute::make(get: function () {
+            $unsoldCount = $this->vouchers()->where('is_sold', Voucher::UNSOLD)->count();
+
+            return [
+                'color' => $unsoldCount <= $this->min_stock ? 'bg-red-200 border-red-500' : 'bg-green-200 border-green-500',
+                'unsold_count' => $unsoldCount,
+            ];
         });
     }
 }

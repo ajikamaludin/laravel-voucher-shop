@@ -3,7 +3,9 @@ import { HiOutlineChevronLeft, HiOutlineChevronRight } from 'react-icons/hi'
 import qs from 'qs'
 
 const PageLink = ({ active, label, url, params }) => {
-    const className = active ? 'z-10 px-3 py-2 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white' : 'px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
+    const className = active
+        ? 'z-10 px-3 py-2 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white'
+        : 'px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
 
     const onClick = () => {
         router.get(
@@ -24,7 +26,7 @@ const PageLink = ({ active, label, url, params }) => {
                     className="block py-2 px-1 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                     aria-label="Previous"
                 >
-                    <HiOutlineChevronLeft className='w-5 h-5'/>
+                    <HiOutlineChevronLeft className="w-5 h-5" />
                 </button>
             </li>
         )
@@ -34,8 +36,9 @@ const PageLink = ({ active, label, url, params }) => {
             <li>
                 <button
                     onClick={onClick}
-                    className="block py-2 px-1 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                    <HiOutlineChevronRight className='w-5 h-5'/>
+                    className="block py-2 px-1 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                >
+                    <HiOutlineChevronRight className="w-5 h-5" />
                 </button>
             </li>
         )
@@ -44,7 +47,7 @@ const PageLink = ({ active, label, url, params }) => {
     return (
         <li>
             <button className={className} onClick={onClick}>
-                { label }
+                {label}
             </button>
         </li>
     )
@@ -62,7 +65,7 @@ const PageInactive = ({ label }) => {
                     disabled={true}
                     aria-label="Previous"
                 >
-                    <HiOutlineChevronLeft className='w-5 h-5 dark:text-gray-700 text-gray-300'/>
+                    <HiOutlineChevronLeft className="w-5 h-5 dark:text-gray-700 text-gray-300" />
                 </button>
             </li>
         )
@@ -71,11 +74,11 @@ const PageInactive = ({ label }) => {
         return (
             <li>
                 <button
-                    className="block py-2 px-1 leading-tight text-gray-500 bg-white border  rounded-r-lg dark:bg-gray-800 border-gray-100 dark:text-gray-400 dark:border-gray-700" 
+                    className="block py-2 px-1 leading-tight text-gray-500 bg-white border  rounded-r-lg dark:bg-gray-800 border-gray-100 dark:text-gray-400 dark:border-gray-700"
                     disabled={true}
                     aria-label="Next"
                 >
-                    <HiOutlineChevronRight className='w-5 h-5 dark:text-gray-700 text-gray-300'/>
+                    <HiOutlineChevronRight className="w-5 h-5 dark:text-gray-700 text-gray-300" />
                 </button>
             </li>
         )

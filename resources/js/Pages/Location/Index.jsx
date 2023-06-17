@@ -19,6 +19,9 @@ export default function Index(props) {
         auth,
     } = props
 
+    const [search, setSearch] = useState('')
+    const preValue = usePrevious(`${search}`)
+
     const confirmModal = useModalState()
     const formModal = useModalState()
 
@@ -38,24 +41,32 @@ export default function Index(props) {
         }
     }
 
+    const params = { q: search }
+    useEffect(() => {
+        if (preValue) {
+            router.get(
+                route(route().current()),
+                { q: search },
+                {
+                    replace: true,
+                    preserveState: true,
+                }
+            )
+        }
+    }, [search])
+
     const canCreate = hasPermission(auth, 'create-location')
     const canUpdate = hasPermission(auth, 'update-location')
     const canDelete = hasPermission(auth, 'delete-location')
 
     return (
-        <AuthenticatedLayout
-            auth={props.auth}
-            errors={props.errors}
-            flash={props.flash}
-            page={'Location'}
-            action={''}
-        >
+        <AuthenticatedLayout page={'Location'} action={''}>
             <Head title="Location" />
 
             <div>
                 <div className="mx-auto sm:px-6 lg:px-8 ">
                     <div className="p-6 overflow-hidden shadow-sm sm:rounded-lg bg-gray-200 dark:bg-gray-800 space-y-4">
-                        <div className="flex justify-between">
+                        <div className="flex flex-col lg:flex-row gap-1 justify-between">
                             {canCreate && (
                                 <Button
                                     size="sm"
@@ -64,6 +75,16 @@ export default function Index(props) {
                                     Tambah
                                 </Button>
                             )}
+                            <div className="flex flex-col md:flex-row gap-1 items-center">
+                                <div className="w-full max-w-md">
+                                    <SearchInput
+                                        onChange={(e) =>
+                                            setSearch(e.target.value)
+                                        }
+                                        value={search}
+                                    />
+                                </div>
+                            </div>
                         </div>
                         <div className="overflow-auto">
                             <div>
@@ -151,7 +172,7 @@ export default function Index(props) {
                                 </table>
                             </div>
                             <div className="w-full flex items-center justify-center">
-                                <Pagination links={links} />
+                                <Pagination links={links} params={params} />
                             </div>
                         </div>
                     </div>

@@ -6,22 +6,23 @@ import { Button, Dropdown } from 'flowbite-react'
 import { HiPencil, HiTrash } from 'react-icons/hi'
 import { useModalState } from '@/hooks'
 
+import { hasPermission, formatIDR } from '@/utils'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import Pagination from '@/Components/Pagination'
 import ModalConfirm from '@/Components/ModalConfirm'
 import SearchInput from '@/Components/SearchInput'
-import LocationSelectionInput from '../Location/SelectionInput'
-import { hasPermission } from '@/utils'
 
 export default function Index(props) {
     const {
         query: { links, data },
         auth,
+        location,
+        profile,
+        stats,
     } = props
 
-    const [location, setLocation] = useState(null)
     const [search, setSearch] = useState('')
-    const preValue = usePrevious(`${search}${location}`)
+    const preValue = usePrevious(`${search}`)
 
     const confirmModal = useModalState()
 
@@ -36,19 +37,19 @@ export default function Index(props) {
         }
     }
 
-    const params = { q: search, location_id: location }
+    const params = { q: search }
     useEffect(() => {
         if (preValue) {
             router.get(
                 route(route().current()),
-                { q: search, location_id: location },
+                { q: search },
                 {
                     replace: true,
                     preserveState: true,
                 }
             )
         }
-    }, [search, location])
+    }, [search])
 
     const canCreate = hasPermission(auth, 'create-voucher')
     const canUpdate = hasPermission(auth, 'update-voucher')
@@ -56,16 +57,64 @@ export default function Index(props) {
 
     return (
         <AuthenticatedLayout
-            auth={props.auth}
-            errors={props.errors}
-            flash={props.flash}
             page={'Voucher'}
-            action={''}
+            action={[location.name, profile.name]}
+            parent={route('voucher.profile', location)}
         >
             <Head title="Voucher" />
 
             <div>
                 <div className="mx-auto sm:px-6 lg:px-8 ">
+                    <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 mb-2">
+                        <div className="border rounded-md shadow bg-white px-4 py-2 flex flex-col">
+                            <div className="text-gray-600 text-lg">
+                                Total Voucher
+                            </div>
+                            <div className="font-bold text-xl pt-2">
+                                {formatIDR(stats.count_voucher_total)} PCS
+                            </div>
+                        </div>
+                        <div className="border rounded-md shadow bg-white px-4 py-2 flex flex-col">
+                            <div className="text-gray-600 text-lg">
+                                Total Voucher
+                            </div>
+                            <div className="font-bold text-xl pt-2">
+                                Rp. {formatIDR(stats.sum_voucher_total)}
+                            </div>
+                        </div>
+                        <div className="border rounded-md shadow bg-white px-4 py-2 flex flex-col">
+                            <div className="text-gray-600 text-lg">
+                                Total Voucher sudah terjual
+                            </div>
+                            <div className="font-bold text-xl pt-2">
+                                {formatIDR(stats.count_voucher_sold)} PCS
+                            </div>
+                        </div>
+                        <div className="border rounded-md shadow bg-white px-4 py-2 flex flex-col">
+                            <div className="text-gray-600 text-lg">
+                                Jumlah Voucher sudah terjual
+                            </div>
+                            <div className="font-bold text-xl pt-2">
+                                Rp. {formatIDR(stats.sum_voucher_sold)}
+                            </div>
+                        </div>
+                        <div className="border rounded-md shadow bg-white px-4 py-2 flex flex-col">
+                            <div className="text-gray-600 text-lg">
+                                Total Voucher belum terjual
+                            </div>
+                            <div className="font-bold text-xl pt-2">
+                                {formatIDR(stats.count_voucher_unsold)} PCS
+                            </div>
+                        </div>
+                        <div className="border rounded-md shadow bg-white px-4 py-2 flex flex-col">
+                            <div className="text-gray-600 text-lg">
+                                Jumlah Voucher belum terjual
+                            </div>
+                            <div className="font-bold text-xl pt-2">
+                                Rp. {formatIDR(stats.sum_voucher_unsold)}
+                            </div>
+                        </div>
+                    </div>
                     <div className="p-6 overflow-hidden shadow-sm sm:rounded-lg bg-gray-200 dark:bg-gray-800 space-y-4">
                         <div className="flex justify-between">
                             {canCreate && (
@@ -81,11 +130,6 @@ export default function Index(props) {
                                 </div>
                             )}
                             <div className="flex flex-row space-x-2 items-center">
-                                <LocationSelectionInput
-                                    itemSelected={location}
-                                    onItemSelected={(id) => setLocation(id)}
-                                    placeholder={'filter lokasi'}
-                                />
                                 <SearchInput
                                     onChange={(e) => setSearch(e.target.value)}
                                     value={search}
@@ -113,13 +157,7 @@ export default function Index(props) {
                                                 scope="col"
                                                 className="py-3 px-6"
                                             >
-                                                Username
-                                            </th>
-                                            <th
-                                                scope="col"
-                                                className="py-3 px-6"
-                                            >
-                                                Password
+                                                Kode
                                             </th>
                                             <th
                                                 scope="col"
@@ -131,13 +169,19 @@ export default function Index(props) {
                                                 scope="col"
                                                 className="py-3 px-6"
                                             >
+                                                Kuota
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                className="py-3 px-6"
+                                            >
                                                 Comment
                                             </th>
                                             <th
                                                 scope="col"
                                                 className="py-3 px-6"
                                             >
-                                                Kuota
+                                                Created At
                                             </th>
                                             <th
                                                 scope="col"
@@ -145,6 +189,7 @@ export default function Index(props) {
                                             >
                                                 Terjual
                                             </th>
+
                                             <th
                                                 scope="col"
                                                 className="py-3 px-6 w-1/8"
@@ -167,8 +212,12 @@ export default function Index(props) {
                                                     scope="row"
                                                     className="py-4 px-6"
                                                 >
-                                                    {voucher.location.name}
+                                                    {
+                                                        voucher.profile.location
+                                                            .name
+                                                    }
                                                 </td>
+
                                                 <td
                                                     scope="row"
                                                     className="py-4 px-6"
@@ -179,13 +228,13 @@ export default function Index(props) {
                                                     scope="row"
                                                     className="py-4 px-6"
                                                 >
-                                                    {voucher.password}
+                                                    {voucher.profile.name}
                                                 </td>
                                                 <td
                                                     scope="row"
                                                     className="py-4 px-6"
                                                 >
-                                                    {voucher.profile}
+                                                    {voucher.profile.quota}
                                                 </td>
                                                 <td
                                                     scope="row"
@@ -197,16 +246,21 @@ export default function Index(props) {
                                                     scope="row"
                                                     className="py-4 px-6"
                                                 >
-                                                    {voucher.display_quota}
+                                                    {
+                                                        voucher.created_at_formated
+                                                    }
                                                 </td>
                                                 <td
                                                     scope="row"
                                                     className="py-4 px-6"
                                                 >
-                                                    {+voucher.is_sold === 1
-                                                        ? 'Ya'
-                                                        : 'Tidak'}
+                                                    <div
+                                                        className={`p-2 border font-bold ${voucher.status.color}`}
+                                                    >
+                                                        {voucher.status.text}
+                                                    </div>
                                                 </td>
+
                                                 <td className="py-4 px-6 flex justify-end">
                                                     <Dropdown
                                                         label={'Opsi'}

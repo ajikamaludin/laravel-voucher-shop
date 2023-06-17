@@ -60,14 +60,8 @@ export default function User(props) {
     const canDelete = hasPermission(auth, 'delete-user')
 
     return (
-        <AuthenticatedLayout
-            auth={props.auth}
-            errors={props.errors}
-            flash={props.flash}
-            page={'System'}
-            action={'User'}
-        >
-            <Head title="User" />
+        <AuthenticatedLayout page={'Admin'} action={'List'}>
+            <Head title="Admin" />
 
             <div>
                 <div className="mx-auto sm:px-6 lg:px-8 ">

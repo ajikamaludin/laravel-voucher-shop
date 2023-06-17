@@ -18,6 +18,6 @@ class CustomerController extends Controller
                 ->orWhere('username', 'like', "%$request->q%");
         }
 
-        return $query->get();
+        return $query->limit(100)->get();
     }
 }

@@ -109,13 +109,7 @@ export default function Form(props) {
     }, [voucher])
 
     return (
-        <AuthenticatedLayout
-            auth={props.auth}
-            errors={props.errors}
-            flash={props.flash}
-            page={'Voucher'}
-            action={'Form'}
-        >
+        <AuthenticatedLayout page={'Voucher'} action={'Form'}>
             <Head title="Voucher" />
 
             <div>

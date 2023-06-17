@@ -44,9 +44,6 @@ export default function General(props) {
 
     return (
         <AuthenticatedLayout
-            auth={props.auth}
-            errors={props.errors}
-            flash={props.flash}
             page={'Setting'}
             action={''}
             parent={route(route().current())}

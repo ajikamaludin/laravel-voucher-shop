@@ -16,6 +16,6 @@ class LocationController extends Controller
             $query->where('name', 'like', "%$request->q%");
         }
 
-        return $query->get();
+        return $query->limit(100)->get();
     }
 }

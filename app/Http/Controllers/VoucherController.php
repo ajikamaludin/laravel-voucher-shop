@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\CustomerLevel;
+use App\Models\Location;
+use App\Models\LocationProfile;
 use App\Models\Voucher;
 use App\Services\GeneralService;
 use Illuminate\Http\Request;
@@ -11,9 +13,45 @@ use Illuminate\Support\Str;
 
 class VoucherController extends Controller
 {
-    public function index(Request $request)
+    public function location(Request $request)
     {
-        $query = Voucher::with(['location'])->orderBy('updated_at', 'desc');
+        $query = Location::orderBy('updated_at', 'desc');
+
+        if ($request->q != '') {
+            $query->where('name', 'like', "%$request->q%");
+        }
+
+        return inertia('Voucher/Location', [
+            'query' => tap($query->paginate(20))->append(['count_vouchers']),
+        ]);
+    }
+
+    public function profile(Request $request, Location $location)
+    {
+        $query = LocationProfile::where('location_id', $location->id)
+            ->orderBy('updated_at', 'desc');
+
+        if ($request->location_id != '') {
+            $query->where('location_id', $request->location_id);
+        }
+
+        if ($request->q != '') {
+            $query->where('name', 'like', "%$request->q%")
+                ->orWhere('display_note', 'like', "%$request->q%");
+        }
+
+        return inertia('Voucher/Profile', [
+            'query' => tap($query->paginate(20))->append(['count_vouchers']),
+            'location' => $location,
+            'stats' => Voucher::stats($location),
+        ]);
+    }
+
+    public function index(Request $request, Location $location, LocationProfile $profile)
+    {
+        $query = Voucher::with(['profile.location'])
+            ->where('location_profile_id', $profile->id)
+            ->orderBy('updated_at', 'desc');
 
         if ($request->q != '') {
             $query->where('username', 'like', "%$request->q%")
@@ -21,12 +59,11 @@ class VoucherController extends Controller
                 ->orWhere('profile', 'like', "%$request->q%");
         }
 
-        if ($request->location_id != '') {
-            $query->where('location_id', $request->location_id);
-        }
-
         return inertia('Voucher/Index', [
             'query' => $query->paginate(),
+            'location' => $location,
+            'profile' => $profile,
+            'stats' => Voucher::stats($location),
         ]);
     }
 
@@ -40,55 +77,22 @@ class VoucherController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'nullable|string',
-            'description' => 'nullable|string',
-            'location_id' => 'required|exists:locations,id',
+            'location_profile_id' => 'required|exists:location_profiles,id',
             'username' => 'required|string',
-            'password' => 'required|string',
-            'discount' => 'required|numeric',
-            'display_price' => 'required|numeric',
-            'price_poin' => 'nullable|numeric',
-            'quota' => 'required|string',
-            'profile' => 'required|string',
-            'comment' => 'required|string',
-            'expired' => 'required|numeric',
-            'expired_unit' => 'required|string',
-            'prices' => 'nullable|array',
-            'prices.*.customer_level_id' => 'required|exists:customer_levels,id',
-            'prices.*.display_price' => 'required|numeric',
         ]);
 
-        DB::beginTransaction();
-        $voucher = Voucher::create([
-            'name' => $request->name,
-            'description' => $request->description,
-            'location_id' => $request->location_id,
+        Voucher::create([
+            'location_profile_id' => $request->location_profile_id,
             'username' => $request->username,
-            'password' => $request->password,
-            'discount' => $request->discount,
-            'display_price' => $request->display_price,
-            'price_poin' => $request->price_poin,
-            'quota' => $request->quota,
-            'profile' => $request->profile,
-            'comment' => $request->comment,
-            'expired' => $request->expired,
-            'expired_unit' => $request->expired_unit,
+            'password' => $request->username,
         ]);
 
-        foreach (collect($request->prices) as $price) {
-            $finalPrice = $price['display_price'];
-            if ($voucher->discount > 0) {
-                $finalPrice = $finalPrice - round($finalPrice * ($voucher->discount / 100), 2);
-            }
-            $voucher->prices()->create([
-                'customer_level_id' => $price['customer_level_id'],
-                'price' => $finalPrice,
-                'display_price' => $price['display_price'],
-            ]);
-        }
-        DB::commit();
+        $profile = LocationProfile::find($request->location_profile_id);
 
-        return redirect()->route('voucher.index')
+        return redirect()->route('voucher.index', [
+            'location' => $profile->location_id,
+            'profile' => $profile->id
+        ])
             ->with('message', ['type' => 'success', 'message' => 'Item has beed saved']);
     }
 
@@ -103,62 +107,22 @@ class VoucherController extends Controller
     public function update(Request $request, Voucher $voucher)
     {
         $request->validate([
-            'name' => 'nullable|string',
-            'description' => 'nullable|string',
-            'location_id' => 'required|exists:locations,id',
+            'location_profile_id' => 'required|exists:location_profiles,id',
             'username' => 'required|string',
-            'password' => 'required|string',
-            'discount' => 'required|numeric',
-            'display_price' => 'required|numeric',
-            'price_poin' => 'nullable|numeric',
-            'quota' => 'required|string',
-            'profile' => 'required|string',
-            'comment' => 'required|string',
-            'expired' => 'required|numeric',
-            'expired_unit' => 'required|string',
-            'prices' => 'nullable|array',
-            'prices.*.customer_level_id' => 'required|exists:customer_levels,id',
-            'prices.*.display_price' => 'required|numeric',
         ]);
-
-        DB::beginTransaction();
 
         $voucher->update([
+            'location_profile_id' => $request->location_profile_id,
             'username' => $request->username,
-            'password' => $request->password,
+            'password' => $request->username,
         ]);
 
-        $vouchers = Voucher::where('batch_id', $voucher->batch_id);
-        $vouchers->update([
-            'name' => $request->name,
-            'description' => $request->description,
-            'location_id' => $request->location_id,
-            'discount' => $request->discount,
-            'display_price' => $request->display_price,
-            'price_poin' => $request->price_poin,
-            'quota' => $request->quota,
-            'profile' => $request->profile,
-            'comment' => $request->comment,
-            'expired' => $request->expired,
-        ]);
+        $profile = LocationProfile::find($request->location_profile_id);
 
-        foreach ($vouchers->get() as $voucher) {
-            $voucher->prices()->delete();
-            foreach (collect($request->prices) as $price) {
-                $finalPrice = $price['display_price'];
-                if ($voucher->discount > 0) {
-                    $finalPrice = $finalPrice - round($finalPrice * ($voucher->discount / 100), 2);
-                }
-                $voucher->prices()->create([
-                    'customer_level_id' => $price['customer_level_id'],
-                    'price' => $finalPrice,
-                    'display_price' => $price['display_price'],
-                ]);
-            }
-        }
-        DB::commit();
-
-        return redirect()->route('voucher.index')
+        return redirect()->route('voucher.index', [
+            'location' => $profile->location_id,
+            'profile' => $profile->id
+        ])
             ->with('message', ['type' => 'success', 'message' => 'Item has beed updated']);
     }
 
@@ -166,67 +130,55 @@ class VoucherController extends Controller
     {
         $voucher->delete();
 
-        return redirect()->route('voucher.index')
+        return redirect()->route('voucher.index', [
+            'location' => $voucher->profile->location_id,
+            'profile' => $voucher->profile->id
+        ])
             ->with('message', ['type' => 'success', 'message' => 'Item has beed deleted']);
     }
 
     public function form_import()
     {
-        return inertia('Voucher/Import', [
-            'levels' => CustomerLevel::all(),
-        ]);
+        return inertia('Voucher/Import');
     }
 
     public function import(Request $request)
     {
         $request->validate([
             'script' => 'required|string',
-            'location_id' => 'required|exists:locations,id',
-            'discount' => 'required|numeric',
-            'display_price' => 'required|numeric',
-            'price_poin' => 'nullable|numeric',
-            'expired' => 'required|numeric',
-            'expired_unit' => 'required|string',
-            'prices' => 'nullable|array',
-            'prices.*.customer_level_id' => 'required|exists:customer_levels,id',
-            'prices.*.display_price' => 'required|numeric',
-        ]);
+            'location_profile_id' => 'required|exists:location_profiles,id',
 
-        $batchId = Str::ulid();
+        ]);
+        $profile = LocationProfile::find($request->location_profile_id);
+
         $vouchers = GeneralService::script_parser($request->script);
+
+        if (count($vouchers) <= 0) {
+            return redirect()->route('voucher.index', [
+                'location' => $profile->location_id,
+                'profile' => $profile->id
+            ])
+                ->with('message', ['type' => 'error', 'message' => 'Nothing to import']);
+        }
 
         DB::beginTransaction();
         foreach ($vouchers as $voucher) {
             $voucher = Voucher::create([
-                'location_id' => $request->location_id,
+                'location_profile_id' => $request->location_profile_id,
                 'username' => $voucher['username'],
                 'password' => $voucher['password'],
-                'discount' => $request->discount,
-                'display_price' => $request->display_price,
-                'price_poin' => $request->price_poin,
                 'quota' => $voucher['quota'],
                 'profile' => $voucher['profile'],
                 'comment' => $voucher['comment'],
-                'expired' => $request->expired,
-                'expired_unit' => $request->expired_unit,
-                'batch_id' => $batchId,
             ]);
-
-            foreach (collect($request->prices) as $price) {
-                $finalPrice = $price['display_price'];
-                if ($voucher->discount > 0) {
-                    $finalPrice = $finalPrice - round($finalPrice * ($voucher->discount / 100), 2);
-                }
-                $voucher->prices()->create([
-                    'customer_level_id' => $price['customer_level_id'],
-                    'price' => $finalPrice,
-                    'display_price' => $price['display_price'],
-                ]);
-            }
         }
         DB::commit();
 
-        return redirect()->route('voucher.index')
+
+        return redirect()->route('voucher.index', [
+            'location' => $profile->location_id,
+            'profile' => $profile->id
+        ])
             ->with('message', ['type' => 'success', 'message' => 'Items has beed saved']);
     }
 }

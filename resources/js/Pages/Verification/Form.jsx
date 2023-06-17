@@ -30,13 +30,7 @@ export default function Form(props) {
     }
 
     return (
-        <AuthenticatedLayout
-            auth={props.auth}
-            errors={props.errors}
-            flash={props.flash}
-            page={'Verifikasi Customer'}
-            action={'Form'}
-        >
+        <AuthenticatedLayout page={'Verifikasi Customer'} action={'Form'}>
             <Head title="Verifikasi Customer" />
 
             <div>

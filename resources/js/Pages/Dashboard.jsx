@@ -94,13 +94,7 @@ export default function Dashboard(props) {
     }, [dates, customer_id, location_id])
 
     return (
-        <AuthenticatedLayout
-            auth={props.auth}
-            errors={props.errors}
-            flash={props.flash}
-            page={'Dashboard'}
-            action={''}
-        >
+        <AuthenticatedLayout page={'Dashboard'} action={''}>
             <Head title="Dashboard" />
 
             <div>
