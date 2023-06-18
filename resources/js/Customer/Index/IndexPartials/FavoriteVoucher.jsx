@@ -7,9 +7,9 @@ import VoucherCard from '../Partials/VoucherCard'
 const EmptyFavorite = () => {
     return (
         <div className="w-full px-5 text-center flex flex-col my-auto">
-            <div className="font-bold text-xl">Favorite kosong</div>
+            <div className="font-bold text-xl">Belum ada favorite</div>
             <div className="text-gray-400">
-                pilih lokasi favorite mu ya, cek bintangnya
+                pilih lokasi favorite di daftar semua lokasi
             </div>
         </div>
     )
@@ -102,7 +102,7 @@ export default function FavoriteVoucher() {
                     </div>
                 )}
             </div>
-            {items.length <= 0 && <EmptyVoucher />}
+            {items.length <= 0 && _flocations.length > 0 && <EmptyVoucher />}
         </>
     )
 }

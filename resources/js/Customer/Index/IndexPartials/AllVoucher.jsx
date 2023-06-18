@@ -12,7 +12,7 @@ const EmptyLocation = () => {
         <div className="w-full px-5 text-center flex flex-col my-auto">
             <div className="font-bold text-xl">Pilih lokasi</div>
             <div className="text-gray-400">
-                pilih lokasi untuk dapat menampilkan voucher tersedia
+                pilih lokasi untuk dapat menampilkan voucher yang tersedia
             </div>
         </div>
     )
