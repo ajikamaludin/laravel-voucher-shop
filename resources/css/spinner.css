@@ -1,5 +1,11 @@
 #nprogress {
-    pointer-events: none;
+    pointer-events: auto !important;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 100 !important;
 }
 
 #nprogress .bar {
@@ -32,7 +38,7 @@
 #nprogress .spinner {
     display: flex !important;
     position: fixed;
-    z-index: 1031;
+    z-index: 1031 !important;
     top: 0px !important;
     right: 0px !important;
     width: 100% !important;
@@ -48,6 +54,7 @@
     width: 140px !important;
     height: 60px !important;
     padding: 0.5rem;
+    z-index: 1031 !important;
     background-color: white;
     display: flex;
     flex-direction: row;

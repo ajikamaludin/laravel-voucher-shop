@@ -60,6 +60,9 @@ export default function Index(props) {
 
     return (
         <CustomerLayout>
+            {/* for test */}
+            {/* <div id="nprogress"></div> */}
+
             <Head title="Home" />
             <div className="flex flex-col min-h-[calc(95dvh)]">
                 {/* guest or user banner */}

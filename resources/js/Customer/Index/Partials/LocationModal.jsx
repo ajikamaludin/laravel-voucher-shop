@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { router, usePage } from '@inertiajs/react'
+import { router, useForm, usePage } from '@inertiajs/react'
 import { HiArrowLeft, HiOutlineStar } from 'react-icons/hi2'
 
 import { useAutoFocus } from '@/hooks'
@@ -14,6 +14,8 @@ export default function LocationModal(props) {
         },
     } = usePage()
     const { state, locations, onItemSelected } = props
+
+    const { post, processing } = useForm({})
 
     const [search, setSearch] = useState('')
     const locationFocus = useAutoFocus()
@@ -40,7 +42,10 @@ export default function LocationModal(props) {
     }
 
     const handleFavorite = (location) => {
-        router.post(route('customer.location.favorite', location))
+        if (processing) {
+            return
+        }
+        post(route('customer.location.favorite', location))
     }
 
     useEffect(() => {
@@ -67,7 +72,7 @@ export default function LocationModal(props) {
             <div className="flex flex-col overflow-y-auto max-h-[80vh] bg-white">
                 {filter_locations.map((location) => (
                     <div
-                        className="flex flex-row justify-between items-center"
+                        className="flex flex-row justify-between items-center hover:bg-gray-200"
                         key={location.id}
                     >
                         <div

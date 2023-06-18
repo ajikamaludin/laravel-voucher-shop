@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { router, usePage } from '@inertiajs/react'
+import { router, usePage, useForm } from '@inertiajs/react'
 import { HiOutlineStar } from 'react-icons/hi2'
 
 import VoucherCard from '../Partials/VoucherCard'
@@ -33,20 +33,20 @@ export default function FavoriteVoucher() {
             _flocations,
         },
     } = usePage()
+    const { post, processing } = useForm({})
 
     const nextPageUrl = next_page_url === undefined ? null : next_page_url
     const [items, setItems] = useState(data === undefined ? [] : data)
 
     const handleRemoveLocation = (location) => {
-        router.post(
-            route('customer.location.favorite', location),
-            {},
-            {
-                onSuccess: () => {
-                    router.visit(route(route().current()))
-                },
-            }
-        )
+        if (processing) {
+            return
+        }
+        post(route('customer.location.favorite', location), {
+            onSuccess: () => {
+                router.visit(route(route().current()))
+            },
+        })
     }
 
     const handleNextPage = () => {
@@ -75,7 +75,7 @@ export default function FavoriteVoucher() {
             <div className="w-full flex flex-row overflow-y-scroll space-x-2 px-4 mt-2">
                 {_flocations.map((location) => (
                     <div
-                        className="flex flex-row items-center gap-1 px-2 py-1 rounded-2xl bg-blue-100 border border-blue-200"
+                        className="flex flex-row items-center gap-1 px-2 py-1 rounded-2xl bg-blue-100 border border-blue-200 hover:bg-blue-500"
                         key={location.id}
                         onClick={() => handleRemoveLocation(location)}
                     >

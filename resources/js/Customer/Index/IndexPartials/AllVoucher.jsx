@@ -109,7 +109,7 @@ export default function AllVoucher() {
             <div className="w-full flex flex-row overflow-y-scroll space-x-2 px-4 mt-2">
                 {sLocations.map((location, index) => (
                     <div
-                        className="flex flex-row items-center gap-1 px-2 py-1 rounded-2xl bg-blue-100 border border-blue-200"
+                        className="flex flex-row items-center gap-1 px-2 py-1 rounded-2xl bg-blue-100 border border-blue-200 hover:bg-blue-500"
                         key={location.id}
                         onClick={() => handleRemoveLocation(index)}
                     >
