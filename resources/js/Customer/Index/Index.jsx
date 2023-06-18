@@ -1,4 +1,4 @@
-import React from 'react'
+import Reactm, { useState, useEffect } from 'react'
 import { Head, router, usePage } from '@inertiajs/react'
 import { HiOutlineBell } from 'react-icons/hi2'
 
@@ -40,6 +40,8 @@ export default function Index(props) {
         _status,
     } = props
 
+    const [bannerIndex, setBannerIndex] = useState(0)
+
     const isStatus = (s) => {
         if (s === _status) {
             return 'px-2 py-1 rounded-2xl text-white bg-blue-600 border border-blue-800'
@@ -58,6 +60,18 @@ export default function Index(props) {
         router.visit(route('home.index'))
     }
 
+    useEffect(() => {
+        let tm = setTimeout(
+            () =>
+                setBannerIndex((prevIndex) =>
+                    prevIndex === banners.length - 1 ? 0 : prevIndex + 1
+                ),
+            3000
+        )
+
+        return () => clearTimeout(tm)
+    }, [bannerIndex])
+
     return (
         <CustomerLayout>
             {/* for test */}
@@ -70,7 +84,7 @@ export default function Index(props) {
                 {/* banner */}
                 <div className="w-full">
                     <div className="flex flex-row overflow-y-scroll space-x-2 py-3 px-2">
-                        {banners.map((banner) => (
+                        {banners.map((banner, index) => (
                             <img
                                 onClick={() => handleBanner(banner)}
                                 key={banner.id}
@@ -78,8 +92,17 @@ export default function Index(props) {
                                 src={banner.image_url}
                                 alt={banner.title}
                                 className={`rounded w-${
-                                    banners.length === 1 ? 'full' : '[80%]'
-                                } min-w-[340px] h-28 object-cover`}
+                                    banners.length === 1 ||
+                                    banners.length - 1 === index
+                                        ? 'full'
+                                        : '[80%]'
+                                } min-w-[340px] h-28 object-fill`}
+                                style={{
+                                    transform: `translate3d(${
+                                        -bannerIndex * 100
+                                    }%, 0, 0)`,
+                                    transition: 'ease 1000ms',
+                                }}
                             />
                         ))}
                     </div>
