@@ -20,7 +20,7 @@ export default function CustomerLayout({ children }) {
     } = usePage()
 
     const handleOnClick = (r) => {
-        router.get(route(r))
+        router.get(route(r, { direct: 1 }))
     }
 
     const isActive = (r) => {

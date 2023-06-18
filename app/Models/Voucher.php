@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Support\Facades\Auth;
 
 class Voucher extends Model
 {
@@ -25,9 +26,23 @@ class Voucher extends Model
     protected $appends = [
         'validate_price',
         'validate_display_price',
+        'discount',
         'status',
         'created_at_formated'
     ];
+
+    private static $instance = [];
+
+    private static function getInstance()
+    {
+        if (count(self::$instance) == 0) {
+            self::$instance = [
+                'customer' => Customer::find(auth()->id())
+            ];
+        }
+
+        return self::$instance;
+    }
 
     public function locationProfile()
     {
@@ -37,14 +52,48 @@ class Voucher extends Model
     public function validatePrice(): Attribute
     {
         return Attribute::make(get: function () {
-            return '';
+            if ($this->locationProfile->prices->count() > 0) {
+                $price = $this->locationProfile->prices;
+                if (auth()->guard('customer')->check()) {
+                    $customer = self::getInstance()['customer'];
+                    return $price->where('customer_level_id', $customer->customer_level_id)
+                        ->value('price');
+                }
+                return $price->max('price');
+            }
+            return $this->locationProfile->price;
         });
     }
 
     public function validateDisplayPrice(): Attribute
     {
         return Attribute::make(get: function () {
-            return '';
+            if ($this->locationProfile->prices->count() > 0) {
+                $price = $this->locationProfile->prices;
+                if (auth()->guard('customer')->check()) {
+                    $customer = self::getInstance()['customer'];
+                    return $price->where('customer_level_id', $customer->customer_level_id)
+                        ->value('display_price');
+                }
+                return $price->max('display_price');
+            }
+            return $this->locationProfile->display_price;
+        });
+    }
+
+    public function discount(): Attribute
+    {
+        return Attribute::make(get: function () {
+            if ($this->locationProfile->prices->count() > 0) {
+                $price = $this->locationProfile->prices;
+                if (auth()->guard('customer')->check()) {
+                    $customer = self::getInstance()['customer'];
+                    return $price->where('customer_level_id', $customer->customer_level_id)
+                        ->value('discount');
+                }
+                return $price->min('discount');
+            }
+            return $this->locationProfile->discount;
         });
     }
 

@@ -48,7 +48,7 @@ class HandleInertiaCustomerRequests extends Middleware
             'app_name' => env('APP_NAME', 'App Name'),
             'setting' => Setting::getSettings(),
             'auth' => [
-                'user' => auth('customer')->user()?->load(['level', 'paylater']),
+                'user' => auth('customer')->user()?->load(['level', 'paylater', 'locationFavorites']),
             ],
             'flash' => [
                 'message' => fn () => $request->session()->get('message') ?? ['type' => null, 'message' => null],

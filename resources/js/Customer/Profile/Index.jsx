@@ -11,7 +11,7 @@ import {
 import CustomerLayout from '@/Layouts/CustomerLayout'
 import { useModalState } from '@/hooks'
 import ModalConfirm from '@/Components/ModalConfirm'
-import BalanceBanner from '../Index/BalanceBanner'
+import BalanceBanner from '../Index/Partials/BalanceBanner'
 
 export default function Index({ auth: { user }, notification_count }) {
     const confirmModal = useModalState()

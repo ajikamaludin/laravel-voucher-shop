@@ -1,12 +1,12 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Head, router, usePage } from '@inertiajs/react'
-
-import CustomerLayout from '@/Layouts/CustomerLayout'
 import { HiOutlineBell } from 'react-icons/hi2'
-import UserBanner from './UserBanner'
-import VoucherCard from './VoucherCard'
-import FormLocation from '../Components/FormLocation'
-import { HiXCircle } from 'react-icons/hi'
+
+import { handleBanner, ALL, FAVORITE } from './utils'
+import CustomerLayout from '@/Layouts/CustomerLayout'
+import UserBanner from './Partials/UserBanner'
+import AllVoucher from './IndexPartials/AllVoucher'
+import FavoriteVoucher from './IndexPartials/FavoriteVoucher'
 
 const GuestBanner = () => {
     const {
@@ -37,63 +37,32 @@ export default function Index(props) {
         auth: { user },
         infos,
         banners,
-        locations,
-        vouchers: { data, next_page_url },
-        _location_id,
+        _status,
     } = props
 
-    const [locId, setLocId] = useState(_location_id)
-    const [v, setV] = useState(data)
-
-    const handleBanner = (banner) => {
-        router.get(route('home.banner', banner))
-    }
-
-    const handleSelectLoc = (loc) => {
-        if (loc.id === locId) {
-            setLocId('')
-            fetch('')
-            return
+    const isStatus = (s) => {
+        if (s === _status) {
+            return 'px-2 py-1 rounded-2xl text-white bg-blue-600 border border-blue-800'
         }
-        setLocId(loc.id)
-        fetch(loc.id)
+        return 'px-2 py-1 rounded-2xl bg-blue-100 border border-blue-200'
     }
 
-    const handleNextPage = () => {
-        router.get(
-            next_page_url,
-            {
-                location_id: locId,
-            },
-            {
-                replace: true,
-                preserveState: true,
-                only: ['vouchers'],
-                onSuccess: (res) => {
-                    setV(v.concat(res.props.vouchers.data))
-                },
-            }
-        )
+    const handleFavorite = () => {
+        if (user === null) {
+            router.visit(route('customer.login'))
+        }
+        router.visit(route('customer.home.favorite'))
     }
 
-    const fetch = (locId) => {
-        router.get(
-            route(route().current()),
-            { location_id: locId },
-            {
-                replace: true,
-                preserveState: true,
-                onSuccess: (res) => {
-                    setV(res.props.vouchers.data)
-                },
-            }
-        )
+    const handleAll = () => {
+        router.visit(route('home.index'))
     }
 
     return (
         <CustomerLayout>
             <Head title="Home" />
             <div className="flex flex-col min-h-[calc(95dvh)]">
+                {/* guest or user banner */}
                 {user !== null ? <UserBanner user={user} /> : <GuestBanner />}
                 {/* banner */}
                 <div className="w-full">
@@ -127,59 +96,21 @@ export default function Index(props) {
                 </div>
 
                 <div className="w-full flex flex-col">
-                    <div className="w-full space-x-2 px-2 mb-2">
-                        <FormLocation placeholder="Cari Lokasi" value={''} />
-                    </div>
                     {/* chips */}
                     <div className="w-full flex flex-row overflow-y-scroll space-x-2 px-4">
-                        <div
-                            className={`px-2 py-1 rounded-2xl  text-white bg-blue-600 border border-blue-800`}
-                        >
+                        <div className={isStatus(ALL)} onClick={handleAll}>
                             Semua
                         </div>
                         <div
-                            className={`px-2 py-1 rounded-2xl bg-blue-100 border border-blue-200`}
+                            className={isStatus(FAVORITE)}
+                            onClick={handleFavorite}
                         >
-                            Favorite
+                            Favorit
                         </div>
-                        <div className="flex flex-row items-center gap-1 px-2 py-1 rounded-2xl bg-blue-100 border border-blue-200">
-                            <div>Farid Net</div>
-                            <div>
-                                <HiXCircle className="h-5 w-5 text-red-700" />
-                            </div>
-                        </div>
-                    </div>
-                    {/* <div className="w-full flex flex-row overflow-y-scroll space-x-2 px-2">
-                        {locations.map((location) => (
-                            <div
-                                onClick={() => handleSelectLoc(location)}
-                                key={location.id}
-                                className={`px-2 py-1 rounded-2xl ${
-                                    location.id === locId
-                                        ? 'text-white bg-blue-600 border border-blue-800'
-                                        : 'bg-blue-100 border border-blue-200'
-                                }`}
-                            >
-                                {location.name}
-                            </div>
-                        ))}
-                    </div> */}
-
-                    {/* voucher */}
-                    <div className="flex flex-col w-full px-3 mt-3 space-y-2">
-                        {v.map((voucher) => (
-                            <VoucherCard key={voucher.id} voucher={voucher} />
-                        ))}
-                        {next_page_url !== null && (
-                            <div
-                                onClick={handleNextPage}
-                                className="w-full text-center px-2 py-1 border mt-5 hover:bg-blue-600 hover:text-white"
-                            >
-                                Load more
-                            </div>
-                        )}
                     </div>
                 </div>
+                {_status === ALL && <AllVoucher />}
+                {_status === FAVORITE && <FavoriteVoucher />}
             </div>
         </CustomerLayout>
     )

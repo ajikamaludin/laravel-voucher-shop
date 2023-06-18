@@ -12,7 +12,7 @@ export default function VoucherCard({ voucher }) {
         >
             <div className="w-full flex flex-row justify-between">
                 <div className="text-base font-bold">
-                    {voucher.location.name}
+                    {voucher.location_profile.location.name}
                 </div>
                 <div className="text-sm text-gray-500"></div>
             </div>
@@ -20,7 +20,7 @@ export default function VoucherCard({ voucher }) {
             <div className="flex flex-row justify-between items-center">
                 <div>
                     <div className="text-xs text-gray-400 py-1">
-                        {voucher.profile}
+                        {voucher.location_profile.display_note}
                     </div>
                     <div className="text-xl font-bold">
                         IDR {formatIDR(voucher.validate_price)}
@@ -38,10 +38,10 @@ export default function VoucherCard({ voucher }) {
                 </div>
                 <div className="flex flex-col justify-end text-right">
                     <div className="text-3xl font-bold">
-                        {voucher.display_quota}
+                        {voucher.location_profile.quota}
                     </div>
                     <div className="text-gray-400 ">
-                        {voucher.display_expired}
+                        {voucher.location_profile.diplay_expired}
                     </div>
                 </div>
             </div>

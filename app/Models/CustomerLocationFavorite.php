@@ -2,10 +2,8 @@
 
 namespace App\Models;
 
-class CustomerLocationFavorite extends Model
+use Illuminate\Database\Eloquent\Relations\Pivot;
+
+class CustomerLocationFavorite extends Pivot
 {
-    protected $fillable = [
-        'customer_id',
-        'location_id',
-    ];
 }

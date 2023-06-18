@@ -6,6 +6,7 @@ use App\Models\Traits\UserTrackable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Str;
@@ -126,7 +127,7 @@ class Customer extends Authenticatable
                 return ' - ';
             }
 
-            return '+62'.$this->phone;
+            return '+62' . $this->phone;
         });
     }
 
@@ -234,7 +235,7 @@ class Customer extends Authenticatable
 
             $paylater = $this->paylaterHistories()->create([
                 'credit' => $cut,
-                'description' => $deposit->description.' (Pengembalian)',
+                'description' => $deposit->description . ' (Pengembalian)',
             ]);
             $paylater->update_customer_paylater();
 
@@ -244,5 +245,10 @@ class Customer extends Authenticatable
             ]);
             $deposit->update_customer_balance();
         }
+    }
+
+    public function locationFavorites()
+    {
+        return $this->belongsToMany(Location::class, CustomerLocationFavorite::class);
     }
 }

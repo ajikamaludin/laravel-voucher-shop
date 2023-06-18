@@ -78,7 +78,7 @@ class LocationProfile extends Model
     public function diplayExpired(): Attribute
     {
         return Attribute::make(get: function () {
-            return $this->expired.' '.$this->expired_unit;
+            return $this->expired . ' ' . $this->expired_unit;
         });
     }
 

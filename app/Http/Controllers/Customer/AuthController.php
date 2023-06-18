@@ -62,6 +62,7 @@ class AuthController extends Controller
                 ->setConfig($this->config)
                 ->user();
         } catch (\Exception $e) {
+            info('auth google error', ['exception' => $e]);
             return redirect()->route('customer.login')
                 ->with('message', ['type' => 'error', 'message' => 'Google authentication fail, please try again']);
         }
@@ -73,11 +74,13 @@ class AuthController extends Controller
                 'fullname' => $user->name,
                 'name' => $user->nickname,
                 'email' => $user->email,
-                'username' => Str::slug($user->name.'_'.Str::random(5), '_'),
+                'username' => Str::slug($user->name . '_' . Str::random(5), '_'),
                 'google_id' => $user->id,
                 'google_oauth_response' => json_encode($user),
             ]);
             DB::commit();
+        } else {
+            $customer->update(['google_oauth_response' => json_encode($user)]);
         }
 
         Auth::guard('customer')->loginUsingId($customer->id);
@@ -98,7 +101,7 @@ class AuthController extends Controller
             'fullname' => 'required|string',
             'name' => 'required|string',
             'address' => 'required|string',
-            'phone' => 'required|numeric|regex:/^([0-9\s\-\+\(\)]*)$/|min:9|max:16',
+            'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:9|max:16',
             'username' => 'required|string|min:5|alpha_dash|unique:customers,username',
             'password' => 'required|string|min:8|confirmed',
             'referral_code' => 'nullable|exists:customers,referral_code',
@@ -126,7 +129,7 @@ class AuthController extends Controller
                 $bonuspoin = Setting::getByKey('AFFILATE_poin_AMOUNT');
                 $poin = $refferal->poins()->create([
                     'debit' => $bonuspoin,
-                    'description' => 'Bonus Refferal #'.Str::random(5),
+                    'description' => 'Bonus Refferal #' . Str::random(5),
                 ]);
 
                 $poin->update_customer_balance();
