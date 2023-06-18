@@ -4,10 +4,10 @@ import { usePrevious } from 'react-use'
 import { Head } from '@inertiajs/react'
 import { Button } from 'flowbite-react'
 
+import { formatIDR, hasPermission } from '@/utils'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import Pagination from '@/Components/Pagination'
 import SearchInput from '@/Components/SearchInput'
-import { formatIDR, hasPermission } from '@/utils'
 
 export default function Index(props) {
     const {
@@ -24,7 +24,7 @@ export default function Index(props) {
     useEffect(() => {
         if (preValue) {
             router.get(
-                route(route().current()),
+                route(route().current(), location),
                 { q: search },
                 {
                     replace: true,

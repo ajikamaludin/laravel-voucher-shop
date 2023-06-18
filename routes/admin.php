@@ -114,6 +114,7 @@ Route::middleware(['http_secure_aware', 'inertia.admin'])
             Route::get('/vouchers/import', [VoucherController::class, 'form_import'])->name('voucher.form_import');
             Route::post('/vouchers/import', [VoucherController::class, 'import'])->name('voucher.import');
             Route::get('/vouchers/create', [VoucherController::class, 'create'])->name('voucher.create');
+            Route::post('/vouchers/bulk-delete', [VoucherController::class, 'bulkDelete'])->name('voucher.bulk-destroy');
             Route::post('/vouchers', [VoucherController::class, 'store'])->name('voucher.store');
             Route::get('/vouchers/{voucher}/edit', [VoucherController::class, 'edit'])->name('voucher.edit');
             Route::post('/vouchers/{voucher}/edit', [VoucherController::class, 'update'])->name('voucher.update');

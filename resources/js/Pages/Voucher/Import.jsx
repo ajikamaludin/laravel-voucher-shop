@@ -1,14 +1,10 @@
-import React, { useState } from 'react'
-import { isEmpty } from 'lodash'
+import React from 'react'
+import { Head, useForm } from '@inertiajs/react'
 
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
-import FormInput from '@/Components/FormInput'
-import Button from '@/Components/Button'
-import { Head, useForm } from '@inertiajs/react'
-import FormInputWith from '@/Components/FormInputWith'
 import LocationProfileSelectionInput from '../LocationProfile/SelectionInput'
 import TextArea from '@/Components/TextArea'
-import Checkbox from '@/Components/Checkbox'
+import Button from '@/Components/Button'
 
 export default function Import(props) {
     const { data, setData, post, processing, errors } = useForm({
@@ -32,7 +28,11 @@ export default function Import(props) {
     }
 
     return (
-        <AuthenticatedLayout page={'Voucher'} action={'Import'}>
+        <AuthenticatedLayout
+            page={'Voucher'}
+            action={'Import'}
+            parent={route('voucher.location')}
+        >
             <Head title="Voucher" />
 
             <div>

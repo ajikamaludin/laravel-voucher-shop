@@ -29,7 +29,7 @@ class Voucher extends Model
         'created_at_formated'
     ];
 
-    public function profile()
+    public function locationProfile()
     {
         return $this->belongsTo(LocationProfile::class, 'location_profile_id');
     }
@@ -104,24 +104,25 @@ class Voucher extends Model
 
     public static function stats(Location $location)
     {
-
-        $profileIds = LocationProfile::where('location_id', $location->id)->pluck('id')->toArray();
-
-        $count_voucher_total = Voucher::whereIn('location_profile_id', $profileIds)->count();
-        $sum_voucher_total = Voucher::whereIn('location_profile_id', $profileIds)
+        $locationCallback = fn ($q) => $q->where('location_id', $location->id);
+        $count_voucher_total = Voucher::whereHas('locationProfile',  $locationCallback)->count();
+        $sum_voucher_total = Voucher::whereHas('locationProfile',  $locationCallback)
             ->join('location_profiles', 'location_profiles.id', '=', 'vouchers.location_profile_id')
             ->selectRaw('(count(vouchers.id) * location_profiles.price) as total')
             ->value('total');
-        $count_voucher_sold = Voucher::whereIn('location_profile_id', $profileIds)->where('is_sold', Voucher::SOLD)->count();
-        $count_voucher_unsold = Voucher::whereIn('location_profile_id', $profileIds)->where('is_sold', Voucher::UNSOLD)->count();
-        $sum_voucher_unsold = Voucher::whereIn('location_profile_id', $profileIds)
+        $count_voucher_sold = Voucher::whereHas('locationProfile',  $locationCallback)
+            ->where('is_sold', Voucher::SOLD)->count();
+        $count_voucher_unsold = Voucher::whereHas('locationProfile',  $locationCallback)
+            ->where('is_sold', Voucher::UNSOLD)->count();
+        $sum_voucher_unsold = Voucher::whereHas('locationProfile',  $locationCallback)
             ->where('is_sold', Voucher::UNSOLD)
             ->join('location_profiles', 'location_profiles.id', '=', 'vouchers.location_profile_id')
             ->selectRaw('(count(vouchers.id) * location_profiles.price) as total')
             ->value('total');
 
-        $voucherIds = Voucher::whereIn('location_profile_id', $profileIds)->pluck('id')->toArray();
-        $sum_voucher_sold = SaleItem::whereIn('entity_id', $voucherIds)
+        $sum_voucher_sold = SaleItem::whereHas('voucher', function ($q) use ($locationCallback) {
+            return $q->whereHas('locationProfile', $locationCallback);
+        })
             ->whereHas('sale', function ($q) {
                 $q->where('payed_with', Sale::PAYED_WITH_DEPOSIT)
                     ->orWhere('payed_with', Sale::PAYED_WITH_PAYLATER);

@@ -8,6 +8,7 @@ use App\Models\LocationProfile;
 use App\Models\Voucher;
 use App\Services\GeneralService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
@@ -49,9 +50,8 @@ class VoucherController extends Controller
 
     public function index(Request $request, Location $location, LocationProfile $profile)
     {
-        $query = Voucher::with(['profile.location'])
-            ->where('location_profile_id', $profile->id)
-            ->orderBy('updated_at', 'desc');
+        $query = Voucher::with(['locationProfile.location'])
+            ->where('location_profile_id', $profile->id);
 
         if ($request->q != '') {
             $query->where('username', 'like', "%$request->q%")
@@ -59,11 +59,20 @@ class VoucherController extends Controller
                 ->orWhere('profile', 'like', "%$request->q%");
         }
 
+        if ($request->sortBy != '' && $request->sortRule != '') {
+            $query->orderBy($request->sortBy, $request->sortRule);
+        } else {
+            $query->orderBy('updated_at', 'desc');
+        }
+
         return inertia('Voucher/Index', [
-            'query' => $query->paginate(),
+            'query' => $query->paginate(20),
             'location' => $location,
             'profile' => $profile,
             'stats' => Voucher::stats($location),
+            '_search' => $request->q,
+            '_sortBy' => $request->sortBy,
+            '_sortRule' => $request->sortRule,
         ]);
     }
 
@@ -128,11 +137,14 @@ class VoucherController extends Controller
 
     public function destroy(Voucher $voucher)
     {
+        $location_id = $voucher->locationProfile->location_id;
+        $profile_id = $voucher->locationProfile->id;
+
         $voucher->delete();
 
         return redirect()->route('voucher.index', [
-            'location' => $voucher->profile->location_id,
-            'profile' => $voucher->profile->id
+            'location' => $location_id,
+            'profile' => $profile_id,
         ])
             ->with('message', ['type' => 'success', 'message' => 'Item has beed deleted']);
     }
@@ -180,5 +192,41 @@ class VoucherController extends Controller
             'profile' => $profile->id
         ])
             ->with('message', ['type' => 'success', 'message' => 'Items has beed saved']);
+    }
+
+    public function bulkDelete(Request $request)
+    {
+        $query = Voucher::query();
+        if ($request->rule == 1) {
+            $query->where('deleted_at', null)->delete();
+
+            return redirect()->route('voucher.location')
+                ->with('message', ['type' => 'success', 'message' => 'All Item has beed deleted']);
+        }
+
+        if ($request->location_profile_id != '') {
+            $query->where('location_profile_id', $request->location_profile_id);
+        }
+
+        if ($request->comment != '') {
+            $query->where('comment', $request->comment);
+        }
+
+        if ($request->import_date != '') {
+            $query->whereDate('created_at', Carbon::parse($request->import_date));
+        }
+
+        $cond = [$request->location_profile_id == '', $request->comment == '', $request->import_date == ''];
+        if (in_array(false, $cond)) {
+            $count = $query->count();
+            $query->delete();
+
+            return redirect()->route('voucher.location')
+                ->with('message', ['type' => 'success', 'message' => "$count Item has beed deleted"]);
+        }
+
+
+        return redirect()->route('voucher.location')
+            ->with('message', ['type' => 'error', 'message' => "Items not found to delete"]);
     }
 }

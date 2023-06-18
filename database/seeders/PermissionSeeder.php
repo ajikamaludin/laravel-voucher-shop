@@ -45,6 +45,7 @@ class PermissionSeeder extends Seeder
             ['id' => Str::ulid(), 'label' => 'Update Voucher', 'name' => 'update-voucher'],
             ['id' => Str::ulid(), 'label' => 'View Voucher', 'name' => 'view-voucher'],
             ['id' => Str::ulid(), 'label' => 'Delete Voucher', 'name' => 'delete-voucher'],
+            ['id' => Str::ulid(), 'label' => 'Bulk Delete Voucher', 'name' => 'bulk-delete-voucher'],
 
             ['id' => Str::ulid(), 'label' => 'Create Customer', 'name' => 'create-customer'],
             ['id' => Str::ulid(), 'label' => 'Update Customer', 'name' => 'update-customer'],

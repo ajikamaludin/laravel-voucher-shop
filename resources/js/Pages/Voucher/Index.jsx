@@ -3,7 +3,7 @@ import { Link, router } from '@inertiajs/react'
 import { usePrevious } from 'react-use'
 import { Head } from '@inertiajs/react'
 import { Button, Dropdown } from 'flowbite-react'
-import { HiPencil, HiTrash } from 'react-icons/hi'
+import { HiFilter, HiPencil, HiTrash } from 'react-icons/hi'
 import { useModalState } from '@/hooks'
 
 import { hasPermission, formatIDR } from '@/utils'
@@ -11,6 +11,9 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import Pagination from '@/Components/Pagination'
 import ModalConfirm from '@/Components/ModalConfirm'
 import SearchInput from '@/Components/SearchInput'
+import ThSort from './ThSortComponent'
+import ModalFilter from './ModalFilter'
+import ModalDelete from './ModalDelete'
 
 export default function Index(props) {
     const {
@@ -19,12 +22,21 @@ export default function Index(props) {
         location,
         profile,
         stats,
+        _search,
+        _sortBy,
+        _sortOrder,
     } = props
 
-    const [search, setSearch] = useState('')
-    const preValue = usePrevious(`${search}`)
+    const [search, setSearch] = useState({
+        q: _search,
+        sortBy: _sortBy,
+        sortOrder: _sortOrder,
+    })
+    const preValue = usePrevious(search)
 
     const confirmModal = useModalState()
+    const bulkDeleteModal = useModalState()
+    const filterModal = useModalState()
 
     const handleDeleteClick = (voucher) => {
         confirmModal.setData(voucher)
@@ -37,23 +49,42 @@ export default function Index(props) {
         }
     }
 
-    const params = { q: search }
+    const handleSearchChange = (e) => {
+        setSearch({
+            ...search,
+            q: e.target.value,
+        })
+    }
+
+    const sort = (key, sort = null) => {
+        if (sort !== null) {
+            setSearch({
+                ...search,
+                sortBy: key,
+                sortRule: sort,
+            })
+            return
+        }
+        setSearch({
+            ...search,
+            sortBy: key,
+            sortRule: search.sortRule == 'asc' ? 'desc' : 'asc',
+        })
+    }
+
     useEffect(() => {
         if (preValue) {
-            router.get(
-                route(route().current()),
-                { q: search },
-                {
-                    replace: true,
-                    preserveState: true,
-                }
-            )
+            router.get(route(route().current(), [location, profile]), search, {
+                replace: true,
+                preserveState: true,
+            })
         }
     }, [search])
 
     const canCreate = hasPermission(auth, 'create-voucher')
     const canUpdate = hasPermission(auth, 'update-voucher')
     const canDelete = hasPermission(auth, 'delete-voucher')
+    const canBulkDelete = hasPermission(auth, 'bulk-delete-voucher')
 
     return (
         <AuthenticatedLayout
@@ -129,11 +160,31 @@ export default function Index(props) {
                                     </Link>
                                 </div>
                             )}
-                            <div className="flex flex-row space-x-2 items-center">
-                                <SearchInput
-                                    onChange={(e) => setSearch(e.target.value)}
-                                    value={search}
-                                />
+                            <div className="flex flex-col md:flex-row space-x-2 items-center">
+                                {canBulkDelete && (
+                                    <div>
+                                        <div
+                                            className="px-3 py-2 rounded-md border bg-red-600 border-red-700 hover:bg-red-500"
+                                            onClick={bulkDeleteModal.toggle}
+                                        >
+                                            <HiTrash className="w-5 h-5 text-white" />
+                                        </div>
+                                    </div>
+                                )}
+                                <div>
+                                    <div
+                                        className="px-3 py-2 rounded-md border bg-gray-600 border-gray-700 hover:bg-gray-500"
+                                        onClick={filterModal.toggle}
+                                    >
+                                        <HiFilter className="w-5 h-5 text-white" />
+                                    </div>
+                                </div>
+                                <div>
+                                    <SearchInput
+                                        onChange={handleSearchChange}
+                                        value={search.q}
+                                    />
+                                </div>
                             </div>
                         </div>
                         <div className="overflow-auto">
@@ -153,43 +204,48 @@ export default function Index(props) {
                                             >
                                                 Lokasi
                                             </th>
-                                            <th
-                                                scope="col"
-                                                className="py-3 px-6"
+                                            <ThSort
+                                                sort={sort}
+                                                label={'username'}
+                                                search={search}
                                             >
                                                 Kode
-                                            </th>
-                                            <th
-                                                scope="col"
-                                                className="py-3 px-6"
+                                            </ThSort>
+                                            <ThSort
+                                                sort={sort}
+                                                label={'location_profile_id'}
+                                                search={search}
                                             >
                                                 Profile
-                                            </th>
-                                            <th
-                                                scope="col"
-                                                className="py-3 px-6"
+                                            </ThSort>
+                                            <ThSort
+                                                sort={sort}
+                                                label={'quota'}
+                                                search={search}
                                             >
                                                 Kuota
-                                            </th>
-                                            <th
-                                                scope="col"
-                                                className="py-3 px-6"
+                                            </ThSort>
+                                            <ThSort
+                                                sort={sort}
+                                                label={'comment'}
+                                                search={search}
                                             >
                                                 Comment
-                                            </th>
-                                            <th
-                                                scope="col"
-                                                className="py-3 px-6"
+                                            </ThSort>
+                                            <ThSort
+                                                sort={sort}
+                                                label={'created_at'}
+                                                search={search}
                                             >
                                                 Created At
-                                            </th>
-                                            <th
-                                                scope="col"
-                                                className="py-3 px-6"
+                                            </ThSort>
+                                            <ThSort
+                                                sort={sort}
+                                                label={'is_sold'}
+                                                search={search}
                                             >
                                                 Terjual
-                                            </th>
-
+                                            </ThSort>
                                             <th
                                                 scope="col"
                                                 className="py-3 px-6 w-1/8"
@@ -213,8 +269,8 @@ export default function Index(props) {
                                                     className="py-4 px-6"
                                                 >
                                                     {
-                                                        voucher.profile.location
-                                                            .name
+                                                        voucher.location_profile
+                                                            .location.name
                                                     }
                                                 </td>
 
@@ -228,13 +284,19 @@ export default function Index(props) {
                                                     scope="row"
                                                     className="py-4 px-6"
                                                 >
-                                                    {voucher.profile.name}
+                                                    {
+                                                        voucher.location_profile
+                                                            .name
+                                                    }
                                                 </td>
                                                 <td
                                                     scope="row"
                                                     className="py-4 px-6"
                                                 >
-                                                    {voucher.profile.quota}
+                                                    {
+                                                        voucher.location_profile
+                                                            .quota
+                                                    }
                                                 </td>
                                                 <td
                                                     scope="row"
@@ -255,7 +317,7 @@ export default function Index(props) {
                                                     className="py-4 px-6"
                                                 >
                                                     <div
-                                                        className={`p-2 border font-bold ${voucher.status.color}`}
+                                                        className={`p-2 border font-bold ${voucher.status.color} rounded-full`}
                                                     >
                                                         {voucher.status.text}
                                                     </div>
@@ -309,13 +371,15 @@ export default function Index(props) {
                                 </table>
                             </div>
                             <div className="w-full flex items-center justify-center">
-                                <Pagination links={links} params={params} />
+                                <Pagination links={links} params={search} />
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <ModalConfirm modalState={confirmModal} onConfirm={onDelete} />
+            <ModalFilter modalState={filterModal} sort={sort} />
+            <ModalDelete modalState={bulkDeleteModal} />
         </AuthenticatedLayout>
     )
 }

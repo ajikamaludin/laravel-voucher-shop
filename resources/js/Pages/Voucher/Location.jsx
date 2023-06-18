@@ -74,7 +74,7 @@ export default function Index(props) {
                                             'voucher.profile',
                                             location
                                         )}
-                                        className="px-4 py-6 bg-white flex flex-col md:flex-row justify-between items-center rounded-md shadow border hover:underline hover:bg-gray-100"
+                                        className="px-4 py-6 bg-white flex flex-col md:flex-row justify-between items-center rounded-md shadow border hover:bg-gray-100"
                                     >
                                         <div className="text-xl font-bold hover:underline">
                                             {location.name}
