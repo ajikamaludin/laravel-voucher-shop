@@ -44,16 +44,16 @@ export default function Index(props) {
 
     const isStatus = (s) => {
         if (s === _status) {
-            return 'px-2 py-1 rounded-2xl text-white bg-blue-600 border border-blue-800'
+            return 'px-2 py-1 rounded-2xl hover:bg-blue-800 text-white bg-blue-600 border border-blue-800'
         }
-        return 'px-2 py-1 rounded-2xl bg-blue-100 border border-blue-200'
+        return 'px-2 py-1 rounded-2xl hover:bg-blue-800 hover:text-white bg-blue-100 border border-blue-200'
     }
 
     const handleFavorite = () => {
         if (user === null) {
             router.visit(route('customer.login'))
         }
-        router.visit(route('customer.home.favorite'))
+        router.visit(route('home.favorite'))
     }
 
     const handleAll = () => {

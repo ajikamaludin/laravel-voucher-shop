@@ -14,14 +14,14 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    const LIMIT = 2;
+    const LIMIT = 10;
 
     public function index(Request $request)
     {
-        if ($request->direct != '') {
+        if ($request->direct != '' && auth()->guard('customer')->check()) {
             $customer = Customer::find(auth()->id());
             if ($request->location_ids == '' && $customer->locationFavorites()->count() > 0) {
-                return redirect()->route('customer.home.favorite');
+                return redirect()->route('home.favorite');
             }
         }
 
@@ -46,7 +46,7 @@ class HomeController extends Controller
             $vouchers = tap($vouchers->paginate(self::LIMIT))->setHidden(['username', 'password']);
         }
 
-        if (auth()->guard('customer')->guest() && $request->location_ids != '') {
+        if (auth()->guard('customer')->guest() && $request->location_ids == '') {
             $vouchers = tap($vouchers->paginate(self::LIMIT))->setHidden(['username', 'password']);
         }
 

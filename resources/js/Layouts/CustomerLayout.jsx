@@ -45,7 +45,7 @@ export default function CustomerLayout({ children }) {
             <div className="fixed px-2 bottom-0 flex flex-row gap-0 justify-between w-full bg-gray-50 max-w-md">
                 <div
                     className={`pb-1 pt-2 hover:bg-blue-200 flex flex-col items-center w-full ${isActive(
-                        'home.index'
+                        'home.*'
                     )}`}
                     onClick={() => handleOnClick('home.index')}
                 >

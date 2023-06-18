@@ -31,7 +31,7 @@ Route::middleware(['http_secure_aware', 'guard_should_customer', 'inertia.custom
     Route::middleware('auth:customer')->group(function () {
         // location to favorite
         Route::post('/locations/{location}/add-favorite', [HomeController::class, 'addFavorite'])->name('customer.location.favorite');
-        Route::get('/favorites', [HomeController::class, 'favorite'])->name('customer.home.favorite');
+        Route::get('/favorites', [HomeController::class, 'favorite'])->name('home.favorite');
 
         // profile
         Route::get('profile', [ProfileController::class, 'index'])->name('customer.profile.index');
