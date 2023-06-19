@@ -27,6 +27,7 @@
         "is": "^3.3.0",
         "moment": "^2.29.4",
         "nprogress": "^0.2.0",
+        "nuka-carousel": "^6.0.3",
         "qs": "^6.11.0",
         "react-chartjs-2": "^5.2.0",
         "react-datepicker": "^4.8.0",

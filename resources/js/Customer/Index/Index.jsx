@@ -1,6 +1,7 @@
 import Reactm, { useState, useEffect } from 'react'
 import { Head, router, usePage } from '@inertiajs/react'
 import { HiOutlineBell } from 'react-icons/hi2'
+import Carousel from 'nuka-carousel'
 
 import { handleBanner, ALL, FAVORITE } from './utils'
 import CustomerLayout from '@/Layouts/CustomerLayout'
@@ -82,8 +83,14 @@ export default function Index(props) {
                 {/* guest or user banner */}
                 {user !== null ? <UserBanner user={user} /> : <GuestBanner />}
                 {/* banner */}
-                <div className="w-full">
-                    <div className="flex flex-row overflow-y-scroll space-x-2 py-3 px-2">
+                <div className="w-full px-2 py-3">
+                    <Carousel
+                        autoplay={true}
+                        autoplayInterval={3000}
+                        withoutControls={true}
+                        wrapAround={true}
+                        cellSpacing={10}
+                    >
                         {banners.map((banner, index) => (
                             <img
                                 onClick={() => handleBanner(banner)}
@@ -91,21 +98,10 @@ export default function Index(props) {
                                 loading="lazy"
                                 src={banner.image_url}
                                 alt={banner.title}
-                                className={`rounded w-${
-                                    banners.length === 1 ||
-                                    banners.length - 1 === index
-                                        ? 'full'
-                                        : '[80%]'
-                                } min-w-[340px] h-28 object-fill`}
-                                style={{
-                                    transform: `translate3d(${
-                                        -bannerIndex * 100
-                                    }%, 0, 0)`,
-                                    transition: 'ease 1000ms',
-                                }}
+                                className={`rounded min-w-[340px] h-28 object-fill`}
                             />
                         ))}
-                    </div>
+                    </Carousel>
                 </div>
 
                 {/* info */}
