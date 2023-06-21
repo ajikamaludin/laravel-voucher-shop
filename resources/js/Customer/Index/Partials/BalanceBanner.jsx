@@ -6,7 +6,7 @@ import { HiOutlineCash } from 'react-icons/hi'
 export default function BalanceBanner({ user }) {
     return (
         <div
-            className="flex flex-row px-5 pb-3 text-base bg-blue-600"
+            className="flex flex-row px-5 pb-3 text-base bg-primary-900"
             onClick={() => router.get(route('customer.deposit.index'))}
         >
             <div className="flex flex-row w-full shadow py-2 px-2 rounded bg-white items-center justify-between">

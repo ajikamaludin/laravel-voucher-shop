@@ -15,13 +15,13 @@ class PoinExchangeController extends Controller
     public function index(Request $request)
     {
         $locations = Location::get();
-        $vouchers = Voucher::with(['location'])
-            ->where(function ($q) {
+        $vouchers = Voucher::with(['locationProfile'])
+            ->whereHas('locationProfile', function ($q) {
                 $q->where('price_poin', '!=', 0)
                     ->where('price_poin', '!=', null);
             })
             ->where('is_sold', Voucher::UNSOLD)
-            ->groupBy('batch_id')
+            ->groupBy('location_profile_id')
             ->orderBy('updated_at', 'desc');
 
         if ($request->location_id != '') {
@@ -52,10 +52,10 @@ class PoinExchangeController extends Controller
 
         DB::beginTransaction();
         $sale = $customer->sales()->create([
-            'code' => 'Tukar poin '.str()->upper(str()->random(5)),
+            'code' => 'Tukar poin ' . str()->upper(str()->random(5)),
             'date_time' => now(),
             'amount' => 0,
-            'payed_with' => Sale::PAYED_WITH_poin,
+            'payed_with' => Sale::PAYED_WITH_POIN,
         ]);
 
         $voucher = $voucher->shuffle_unsold();

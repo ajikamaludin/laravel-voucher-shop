@@ -11,7 +11,7 @@ export default function UserBanner({ user }) {
     return (
         <div>
             {/* user */}
-            <div className="flex flex-row justify-between items-center px-5 py-6 text-lg bg-blue-600">
+            <div className="flex flex-row justify-between items-center px-5 py-6 text-lg bg-primary-900">
                 <div className="flex flex-col text-white">
                     <div className="font-bold">{user.name}</div>
                     <div className="flex flex-row items-center space-x-1 -mt-1">

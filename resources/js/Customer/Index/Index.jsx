@@ -1,6 +1,5 @@
 import Reactm, { useState, useEffect } from 'react'
-import { Head, router, usePage } from '@inertiajs/react'
-import { HiOutlineBell } from 'react-icons/hi2'
+import { Head, router } from '@inertiajs/react'
 import Carousel from 'nuka-carousel'
 
 import { handleBanner, ALL, FAVORITE } from './utils'
@@ -8,30 +7,7 @@ import CustomerLayout from '@/Layouts/CustomerLayout'
 import UserBanner from './Partials/UserBanner'
 import AllVoucher from './IndexPartials/AllVoucher'
 import FavoriteVoucher from './IndexPartials/FavoriteVoucher'
-
-const GuestBanner = () => {
-    const {
-        props: { setting, notification_count },
-    } = usePage()
-    return (
-        <div>
-            {/* user */}
-            <div className="flex flex-row justify-between items-center px-5 py-6 text-lg bg-blue-600">
-                <div className="flex flex-col text-white">
-                    <div className="font-bold">{setting.OPEN_WEBSITE_NAME}</div>
-                </div>
-                <div className="flex flex-row">
-                    <HiOutlineBell className="text-white w-7 h-7" />
-                    <div>
-                        <div className="bg-white text-blue-700 rounded-lg px-1 text-xs -ml-2.5">
-                            {notification_count}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    )
-}
+import GuestBanner from './Partials/GuestBanner'
 
 export default function Index(props) {
     const {

@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import { ToastContainer, toast } from 'react-toastify'
+import React, { useEffect, useState } from 'react'
+import toast, { Toaster } from 'react-hot-toast'
 
 import { router, usePage } from '@inertiajs/react'
 import { HiOutlineHome } from 'react-icons/hi'
@@ -19,22 +19,40 @@ export default function CustomerLayout({ children }) {
         },
     } = usePage()
 
+    const [bounce, setBouce] = useState(false)
+
     const handleOnClick = (r) => {
         router.get(route(r, { direct: 1 }))
     }
 
     const isActive = (r) => {
         if (route().current(r)) {
-            return 'text-blue-700 font-bold'
+            return 'text-primary-900 font-bold'
         }
 
         return 'text-gray-600 font-light'
     }
 
+    const clearAnimate = () => {
+        setBouce(false)
+    }
+
     useEffect(() => {
-        if (flash.message !== null) {
-            toast(flash.message.message, { type: flash.message.type })
+        let se
+        if (flash.message !== null && flash.message.type !== null) {
+            toast.success((t) => {
+                return (
+                    <div onClick={() => toast.dismiss(t.id)}>
+                        {flash.message.message}
+                    </div>
+                )
+            })
+            if (+flash.message.cart === 1) {
+                setBouce(true)
+                se = setTimeout(clearAnimate, 3000)
+            }
         }
+        return () => clearTimeout(se)
     }, [flash])
 
     return (
@@ -58,7 +76,11 @@ export default function CustomerLayout({ children }) {
                     )}`}
                     onClick={() => handleOnClick('cart.index')}
                 >
-                    <div className="flex flex-row">
+                    <div
+                        className={`flex flex-row ${
+                            bounce && 'motion-safe:animate-bounce'
+                        }`}
+                    >
                         <HiOutlineShoppingCart className="h-6 w-6" />
                         <div>
                             <div className="bg-blue-300 text-blue-600 rounded-lg px-1 text-xs -ml-2">
@@ -104,7 +126,17 @@ export default function CustomerLayout({ children }) {
                     <div className="text-xs">Menu</div>
                 </div>
             </div>
-            <ToastContainer />
+            <Toaster
+                position="bottom-center"
+                containerStyle={{ bottom: 70 }}
+                toastOptions={{
+                    duration: 2000,
+                    style: {
+                        background: 'rgba(0, 0, 0, 0.7)',
+                        color: 'white',
+                    },
+                }}
+            />
         </div>
     )
 }

@@ -2,7 +2,6 @@ import './bootstrap'
 import '../css/app.css'
 import '../css/spinner.css'
 import 'flowbite'
-import 'react-toastify/dist/ReactToastify.css'
 
 import React from 'react'
 import NProgress from 'nprogress'

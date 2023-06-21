@@ -17,12 +17,14 @@ export default function VoucherCard({ item: { voucher, quantity } }) {
 
     return (
         <div className="px-3 py-1 shadow-md rounded border border-gray-100">
-            <div className="text-base font-bold">{voucher.location.name}</div>
+            <div className="text-base font-bold">
+                {voucher.location_profile.location.name}
+            </div>
             <div className="w-full border border-dashed"></div>
             <div className="flex flex-row justify-between items-center">
                 <div>
                     <div className="text-xs text-gray-400 py-1">
-                        {voucher.profile}
+                        {voucher.location_profile.display_note}
                     </div>
                     <div className="text-xl font-bold">
                         IDR {formatIDR(voucher.validate_price)}
@@ -40,10 +42,10 @@ export default function VoucherCard({ item: { voucher, quantity } }) {
                 </div>
                 <div className="flex flex-col justify-end text-right">
                     <div className="text-3xl font-bold">
-                        {voucher.display_quota}
+                        {voucher.location_profile.quota}
                     </div>
                     <div className="text-gray-400">
-                        {voucher.display_expired}
+                        {voucher.location_profile.diplay_expired}
                     </div>
                 </div>
             </div>
@@ -59,14 +61,14 @@ export default function VoucherCard({ item: { voucher, quantity } }) {
                     className="text-red-700 w-6 h-6 rounded-full border mr-4 hover:bg-red-700"
                     onClick={handleDelete}
                 />
-                <HiPlusCircle
-                    className="text-gray-400 w-6 h-6 rounded-full border hover:bg-gray-400"
-                    onClick={handleAdd}
-                />
-                <div>{quantity}</div>
                 <HiMinusCircle
                     className="text-gray-400 w-6 h-6 rounded-full border hover:bg-gray-400"
                     onClick={handleSub}
+                />
+                <div>{quantity}</div>
+                <HiPlusCircle
+                    className="text-gray-400 w-6 h-6 rounded-full border hover:bg-gray-400"
+                    onClick={handleAdd}
                 />
             </div>
         </div>

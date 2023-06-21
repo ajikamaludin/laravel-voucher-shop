@@ -19,11 +19,12 @@ class CartController extends Controller
      * has payed button
      * show payment method -> deposit, poin, paylater
      */
-    public function index()
+    public function index(Request $request)
     {
-        $carts = collect(session('carts') ?? []);
+        $customer = $request->user('customer');
+        $carts = $customer->carts->load(['voucher.locationProfile.location']);
         $total = $carts->sum(function ($item) {
-            return $item['quantity'] * $item['voucher']->validate_price;
+            return $item->quantity * $item->voucher->validate_price;
         });
 
         $customer = Customer::find(auth()->id());
@@ -42,51 +43,40 @@ class CartController extends Controller
      */
     public function store(Request $request, Voucher $voucher)
     {
-        $operator = $request->param ?? 'add';
-        $voucher->load(['location']);
+        $operator = $request->param ?? 'add'; //delete, sub, add
+        $customer = $request->user('customer');
 
-        $carts = collect(session('carts') ?? []);
-        if ($carts->count() > 0) {
-            $item = $carts->firstWhere('id', $voucher->id);
-            if ($item == null) {
-                $carts->add(['id' => $voucher->id, 'quantity' => 1, 'voucher' => $voucher]);
-                session(['carts' => $carts->toArray()]);
-                session()->flash('message', ['type' => 'success', 'message' => 'voucher ditambahkan ke keranjang']);
-            } else {
-                $carts = $carts->map(function ($item) use ($voucher, $operator) {
-                    if ($item['id'] == $voucher->id) {
-                        if ($operator == 'delete') {
-                            return ['id' => null];
-                        }
-                        if ($operator == 'add') {
-                            $quantity = $item['quantity'] + 1;
-                        }
-                        if ($operator == 'sub') {
-                            $quantity = $item['quantity'] - 1;
-                            if ($quantity <= 0) {
-                                $quantity = 1;
-                            }
-                        }
-
-                        return [
-                            ...$item,
-                            'quantity' => $quantity,
-                        ];
-                    }
-
-                    return $item;
-                });
-                $carts = $carts->whereNotNull('id')->toArray();
-                session(['carts' => $carts]);
+        $item = $customer->carts()->where(['entity_id' => $voucher->id])->first();
+        if ($item !== null) {
+            if ($operator == 'delete') {
+                $item->delete();
+                session()->flash('message', ['type' => 'success', 'message' => 'voucher dihapus dari keranjang', 'cart' => 1]);
             }
+            if ($operator == 'add') {
+                // bisa tambah filter stock vouchernya
+                $item->update([
+                    'quantity' => $item->quantity + 1
+                ]);
+            }
+            if ($operator == 'sub') {
+                if ($item->quantity - 1 != 0) {
+                    $item->update([
+                        'quantity' => $item->quantity - 1
+                    ]);
+                }
+            }
+        } else {
+            $customer->carts()->create([
+                'entity_id' => $voucher->id,
+                'quantity' => 1
+            ]);
 
-            return;
+            session()->flash('message', ['type' => 'success', 'message' => 'voucher ditambahkan ke keranjang', 'cart' => 1]);
         }
 
-        session(['carts' => [
-            ['id' => $voucher->id, 'quantity' => 1, 'voucher' => $voucher],
-        ]]);
-        session()->flash('message', ['type' => 'success', 'message' => 'voucher ditambahkan ke keranjang']);
+        if ($request->direct != '') {
+            return redirect()->route('cart.index');
+        }
     }
 
     /**
@@ -166,13 +156,13 @@ class CartController extends Controller
         if ($bonus != null) {
             $poin = $customer->poins()->create([
                 'debit' => $bonus->bonus_poin,
-                'description' => 'Bonus Pembelian #'.$sale->code,
+                'description' => 'Bonus Pembelian #' . $sale->code,
             ]);
 
             $poin->update_customer_balance();
         }
 
-        $description = 'Pembayaran #'.$sale->code;
+        $description = 'Pembayaran #' . $sale->code;
 
         if ($customer->deposit_balance < $total) {
             if ($customer->deposit_balance > 0) {

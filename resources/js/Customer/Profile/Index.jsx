@@ -35,7 +35,7 @@ export default function Index({ auth: { user }, notification_count }) {
             <div className="flex flex-col min-h-[calc(95dvh)]">
                 <div>
                     {/* user */}
-                    <div className="flex flex-row justify-between items-center px-5 py-6 text-lg bg-blue-600">
+                    <div className="flex flex-row justify-between items-center px-5 py-6 text-lg bg-primary-900">
                         <div className="flex flex-row items-center space-x-2">
                             {user.image_url !== null ? (
                                 <img

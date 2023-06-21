@@ -31,17 +31,12 @@ class HandleInertiaCustomerRequests extends Middleware
      */
     public function share(Request $request): array
     {
-        $carts = collect(session('carts') ?? []);
         $cart_count = 0;
-        if ($carts->count() > 0) {
-            foreach ($carts as $cart) {
-                $cart_count += $cart['quantity'];
-            }
-        }
-
         $notification_count = 0;
+
         if (auth('customer')->check()) {
             $notification_count = Notification::where('entity_id', auth()->id())->where('is_read', Notification::UNREAD)->count();
+            $cart_count = auth('customer')->user()->carts()->sum('quantity');
         }
 
         return array_merge(parent::share($request), [

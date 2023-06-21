@@ -1,64 +1,57 @@
 import { formatIDR } from '@/utils'
 import { router } from '@inertiajs/react'
 import { useState } from 'react'
+import BottomSheet from '../Components/BottomSheet'
 
 const ExchangeModal = ({ show, voucher, setShow }) => {
     return (
-        <div
-            className={`fixed z-10 top-0 left-0 h-full w-full -mt-4 ${
-                show ? '' : 'invisible'
-            } `}
-        >
-            <div
-                className="max-w-md mx-auto h-full bg-gray-500 bg-opacity-70 -mt-2"
-                onClick={() => setShow(false)}
-            >
-                <div className="flex flex-col h-full my-auto justify-center px-4">
-                    <div className="px-3 py-1 shadow-md rounded border bg-white border-gray-100 hover:bg-gray-50">
-                        <div className="text-base font-bold">
-                            {voucher.location.name}
-                        </div>
-                        <div className="w-full border border-dashed"></div>
-                        <div className="flex flex-row justify-between items-center">
-                            <div>
-                                <div className="text-xs text-gray-400 py-1">
-                                    {voucher.profile}
-                                </div>
-                                <div className="text-xl font-bold">
-                                    {formatIDR(voucher.price_poin)} poin
-                                </div>
-                            </div>
-                            <div className="flex flex-col justify-end text-right">
-                                <div className="text-3xl font-bold">
-                                    {voucher.display_quota}
-                                </div>
-                                <div className="text-gray-400 ">
-                                    {voucher.display_expired}
-                                </div>
-                            </div>
-                        </div>
+        <BottomSheet isOpen={show} toggle={() => setShow(false)}>
+            <div className="flex flex-col h-full my-auto justify-center px-2 mt-2">
+                <div className="px-3 py-1 shadow-md rounded border bg-white border-gray-100 hover:bg-gray-50">
+                    <div className="text-base font-bold">
+                        {voucher.location_profile.name}
                     </div>
-                    <div className="flex flex-row space-x-3">
-                        <div
-                            className="w-full mt-2 px-3 py-1 shadow-md rounded border-blue-700 bg-blue-600 text-white hover:bg-white hover:text-black"
-                            onClick={() =>
-                                router.get(
-                                    route(
-                                        'customer.poin.exchange.process',
-                                        voucher
-                                    )
-                                )
-                            }
-                        >
-                            Tukarkan
+                    <div className="w-full border border-dashed"></div>
+                    <div className="flex flex-row justify-between items-center">
+                        <div>
+                            <div className="text-xs text-gray-400 py-1">
+                                {voucher.location_profile.display_note}
+                            </div>
+                            <div className="text-xl font-bold">
+                                {formatIDR(voucher.location_profile.price_poin)}{' '}
+                                poin{' '}
+                            </div>
                         </div>
-                        <div className="w-full mt-2 px-3 py-1 shadow-md rounded border-white bg-white hover:bg-gray-200">
-                            Batal
+                        <div className="flex flex-col justify-end text-right">
+                            <div className="text-3xl font-bold">
+                                {voucher.location_profile.quota}
+                            </div>
+                            <div className="text-gray-400 ">
+                                {voucher.location_profile.display_expired}
+                            </div>
                         </div>
                     </div>
                 </div>
+                <div className="flex flex-row space-x-3 mt-2">
+                    <div
+                        className="w-full text-center px-3 py-2 rounded-lg bg-blue-700 border border-blue-900 text-white hover:bg-blue-900"
+                        onClick={() =>
+                            router.get(
+                                route('customer.poin.exchange.process', voucher)
+                            )
+                        }
+                    >
+                        Tukarkan
+                    </div>
+                    <div
+                        className="w-full text-center px-3 py-2 rounded-lg bg-white border border-blue-700 text-blue-700 hover:bg-blue-100"
+                        onClick={() => setShow(false)}
+                    >
+                        Batal
+                    </div>
+                </div>
             </div>
-        </div>
+        </BottomSheet>
     )
 }
 
@@ -71,24 +64,25 @@ export default function VoucherCard({ voucher }) {
                 onClick={() => setShow(true)}
             >
                 <div className="text-base font-bold">
-                    {voucher.location.name}
+                    {voucher.location_profile.name}
                 </div>
                 <div className="w-full border border-dashed"></div>
                 <div className="flex flex-row justify-between items-center">
                     <div>
                         <div className="text-xs text-gray-400 py-1">
-                            {voucher.profile}
+                            {voucher.location_profile.display_note}
                         </div>
                         <div className="text-xl font-bold">
-                            {formatIDR(voucher.price_poin)} poin
+                            {formatIDR(voucher.location_profile.price_poin)}{' '}
+                            poin
                         </div>
                     </div>
                     <div className="flex flex-col justify-end text-right">
                         <div className="text-3xl font-bold">
-                            {voucher.display_quota}
+                            {voucher.location_profile.quota}
                         </div>
                         <div className="text-gray-400 ">
-                            {voucher.display_expired}
+                            {voucher.location_profile.display_expired}
                         </div>
                     </div>
                 </div>

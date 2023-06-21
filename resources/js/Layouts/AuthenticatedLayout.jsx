@@ -61,17 +61,23 @@ export default function Authenticated({
                                     <Dropdown.Content width="64">
                                         {notifications.map((notif) => (
                                             <div
-                                                className={`${
-                                                    +notif.is_read === 0 &&
-                                                    'font-bold'
-                                                } px-4 py-2 hover:bg-gray-100 border-b`}
+                                                className={`px-4 py-2 hover:bg-gray-100 border-b`}
                                                 onClick={() =>
                                                     handleNotification(notif)
                                                 }
                                                 key={notif.id}
                                             >
-                                                <div>{notif.description}</div>
-                                                <div>{notif.created_at}</div>
+                                                <div
+                                                    className={`${
+                                                        +notif.is_read === 0 &&
+                                                        'font-bold'
+                                                    }`}
+                                                >
+                                                    {notif.description}
+                                                </div>
+                                                <div className="text-xs">
+                                                    {notif.format_created_at}
+                                                </div>
                                             </div>
                                         ))}
                                         {notifications.length > 0 && (

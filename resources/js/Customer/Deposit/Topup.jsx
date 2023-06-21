@@ -6,6 +6,7 @@ import CustomerLayout from '@/Layouts/CustomerLayout'
 import FormInput from '@/Components/FormInput'
 import Alert from '@/Components/Alert'
 import { formatIDR } from '@/utils'
+import FormInputNumeric from '@/Components/FormInputNumeric'
 
 export default function Topup({ payments }) {
     const { data, setData, post, processing, errors, reset, clearErrors } =
@@ -71,7 +72,7 @@ export default function Topup({ payments }) {
                     <div className="border-b flex-1"></div>
                 </div>
                 <div className="w-full px-5">
-                    <FormInput
+                    <FormInputNumeric
                         placeholder="masukan nominal, minimal 10.000"
                         value={data.amount}
                         onChange={(e) => setData('amount', e.target.value)}

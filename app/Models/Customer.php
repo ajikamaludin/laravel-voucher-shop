@@ -209,6 +209,11 @@ class Customer extends Authenticatable
         return $this->hasMany(CustomerRefferal::class);
     }
 
+    public function carts()
+    {
+        return $this->hasMany(CustomerCart::class);
+    }
+
     public function allowPay($total): array
     {
         $allowProcess = false;

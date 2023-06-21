@@ -27,7 +27,7 @@
     width: 100px;
     height: 100%;
     box-shadow: 0 0 10px #003bf1, 0 0 5px #003bf1;
-    opacity: 1.0;
+    opacity: 1;
 
     -webkit-transform: rotate(3deg) translate(0px, -4px);
     -ms-transform: rotate(3deg) translate(0px, -4px);
@@ -71,14 +71,13 @@
     box-sizing: border-box;
 
     border: solid 3px transparent !important;
-    border-top-color: #F1A410 !important;
-    border-left-color: #F1A410 !important;
+    border-top-color: #f1a410 !important;
+    border-left-color: #f1a410 !important;
     border-radius: 50px !important;
 
     -webkit-animation: nprogress-spinner 400ms linear infinite;
     animation: nprogress-spinner 400ms linear infinite;
 }
-
 
 .nprogress-custom-parent {
     display: flex;

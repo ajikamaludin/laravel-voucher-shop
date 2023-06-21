@@ -13,4 +13,9 @@ class CustomerCart extends Model
         'quantity',
         'additional_info_json',
     ];
+
+    public function voucher()
+    {
+        return $this->belongsTo(Voucher::class, 'entity_id');
+    }
 }

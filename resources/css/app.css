@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 /* Make clicks pass-through */
 #nprogress {
     pointer-events: none;
@@ -25,11 +26,11 @@
     width: 100px;
     height: 100%;
     box-shadow: 0 0 10px #003bf1, 0 0 5px #003bf1;
-    opacity: 1.0;
+    opacity: 1;
 
     -webkit-transform: rotate(3deg) translate(0px, -4px);
-        -ms-transform: rotate(3deg) translate(0px, -4px);
-            transform: rotate(3deg) translate(0px, -4px);
+    -ms-transform: rotate(3deg) translate(0px, -4px);
+    transform: rotate(3deg) translate(0px, -4px);
 }
 
 /* Remove these to get rid of the spinner */
@@ -52,7 +53,7 @@
     border-radius: 50%;
 
     -webkit-animation: nprogress-spinner 400ms linear infinite;
-            animation: nprogress-spinner 400ms linear infinite;
+    animation: nprogress-spinner 400ms linear infinite;
 }
 
 .nprogress-custom-parent {
@@ -72,37 +73,48 @@
 }
 
 @-webkit-keyframes nprogress-spinner {
-    0%   { -webkit-transform: rotate(0deg); }
-    100% { -webkit-transform: rotate(360deg); }
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
 }
+
 @keyframes nprogress-spinner {
-    0%   { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 /* width */
 ::-webkit-scrollbar {
-	width: 5px;
-	height: 70%;
+    width: 5px;
+    height: 70%;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-	background: rgb(136 136 136 / 28%);
+    background: rgb(136 136 136 / 28%);
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-	background: #888; 
+    background: #888;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-	background: rgb(241 241 241 / 12%);
+    background: rgb(241 241 241 / 12%);
 }
 
 .react-datepicker__input-container input {
-    @apply block w-full text-base md:text-sm bg-white border dark:bg-gray-700 shadow-sm ;
+    @apply block w-full text-base md:text-sm bg-white border dark:bg-gray-700 shadow-sm;
 }
 
 .react-datepicker-popper {
@@ -141,36 +153,47 @@
 .react-datepicker__month-0 {
     @apply w-1/3;
 }
+
 .react-datepicker__month-1 {
     @apply w-1/3;
 }
+
 .react-datepicker__month-2 {
     @apply w-1/3;
 }
+
 .react-datepicker__month-3 {
     @apply w-1/3;
 }
+
 .react-datepicker__month-4 {
     @apply w-1/3;
 }
+
 .react-datepicker__month-5 {
     @apply w-1/3;
 }
+
 .react-datepicker__month-6 {
     @apply w-1/3;
 }
+
 .react-datepicker__month-7 {
     @apply w-1/3;
 }
+
 .react-datepicker__month-8 {
     @apply w-1/3;
 }
+
 .react-datepicker__month-9 {
     @apply w-1/3;
 }
+
 .react-datepicker__month-10 {
     @apply w-1/3;
 }
+
 .react-datepicker__month-11 {
     @apply w-1/3;
 }
@@ -246,15 +269,17 @@
 .react-datepicker__month-text {
     @apply mb-1 p-1 flex items-center justify-center text-sm leading-loose transition text-gray-700 dark:text-gray-100 rounded hover:bg-blue-500 hover:text-white dark:hover:text-white;
 }
+
 .react-datepicker__month--selected {
     @apply bg-blue-500 text-white;
 }
+
 .react-datepicker-year-header {
     @apply ml-2.5 mb-2 text-lg font-semibold text-gray-800 dark:text-gray-100;
 }
 
 .react-datepicker__aria-live {
-    @apply hidden
+    @apply hidden;
 }
 
 .min-h-100 {
