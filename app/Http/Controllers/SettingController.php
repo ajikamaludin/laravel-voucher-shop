@@ -68,6 +68,7 @@ class SettingController extends Controller
             'MIDTRANS_SERVER_KEY' => 'required|string',
             'MIDTRANS_CLIENT_KEY' => 'required|string',
             'MIDTRANS_MERCHANT_ID' => 'required|string',
+            'MIDTRANS_ADMIN_FEE' => 'required|numeric',
             'MIDTRANS_ENABLED' => 'required|in:0,1',
             'midtrans_logo_file' => 'nullable|image',
         ]);

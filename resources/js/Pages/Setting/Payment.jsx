@@ -8,6 +8,7 @@ import TextArea from '@/Components/TextArea'
 import FormFile from '@/Components/FormFile'
 import Checkbox from '@/Components/Checkbox'
 import { extractValue } from './utils'
+import FormInputNumeric from '@/Components/FormInputNumeric'
 
 export default function General(props) {
     const { setting, midtrans_notification_url } = props
@@ -15,6 +16,7 @@ export default function General(props) {
         MIDTRANS_SERVER_KEY: extractValue(setting, 'MIDTRANS_SERVER_KEY'),
         MIDTRANS_CLIENT_KEY: extractValue(setting, 'MIDTRANS_CLIENT_KEY'),
         MIDTRANS_MERCHANT_ID: extractValue(setting, 'MIDTRANS_MERCHANT_ID'),
+        MIDTRANS_ADMIN_FEE: extractValue(setting, 'MIDTRANS_ADMIN_FEE'),
         MIDTRANS_LOGO_URL: extractValue(setting, 'MIDTRANS_LOGO'),
         MIDTRANS_ENABLED: extractValue(setting, 'MIDTRANS_ENABLED'),
         midtrans_logo_file: null,
@@ -32,11 +34,7 @@ export default function General(props) {
     }
 
     const handleSubmit = () => {
-        post(route('setting.payment'), {
-            onSuccess: () => {
-                setTimeout(() => router.get(route(route().current())), 3000)
-            },
-        })
+        post(route('setting.payment'))
     }
 
     return (
@@ -74,6 +72,13 @@ export default function General(props) {
                                 onChange={handleOnChange}
                                 label="Client Key"
                                 error={errors.MIDTRANS_CLIENT_KEY}
+                            />
+                            <FormInputNumeric
+                                name="MIDTRANS_ADMIN_FEE"
+                                value={data.MIDTRANS_ADMIN_FEE}
+                                onChange={handleOnChange}
+                                label="ADMIN FEE"
+                                error={errors.MIDTRANS_ADMIN_FEE}
                             />
                             <FormFile
                                 label={'Logo'}
