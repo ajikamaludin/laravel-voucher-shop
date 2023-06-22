@@ -8,6 +8,7 @@ class Info extends Model
 
     protected $fillable = [
         'title',
+        'description',
         'destination',
         'type',
         'is_publish',

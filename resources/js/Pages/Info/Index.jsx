@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { router } from '@inertiajs/react'
+import { Link, router } from '@inertiajs/react'
 import { usePrevious } from 'react-use'
 import { Head } from '@inertiajs/react'
 import { Button, Dropdown } from 'flowbite-react'
@@ -20,12 +20,6 @@ export default function Info(props) {
     } = props
 
     const confirmModal = useModalState()
-    const formModal = useModalState()
-
-    const toggleFormModal = (info = null) => {
-        formModal.setData(info)
-        formModal.toggle()
-    }
 
     const handleDeleteClick = (info) => {
         confirmModal.setData(info)
@@ -51,12 +45,9 @@ export default function Info(props) {
                     <div className="p-6 overflow-hidden shadow-sm sm:rounded-lg bg-gray-200 dark:bg-gray-800 space-y-4">
                         <div className="flex justify-between">
                             {canCreate && (
-                                <Button
-                                    size="sm"
-                                    onClick={() => toggleFormModal()}
-                                >
-                                    Tambah
-                                </Button>
+                                <Link href={route('info.create')}>
+                                    <Button size="sm">Tambah</Button>
+                                </Link>
                             )}
                         </div>
                         <div className="overflow-auto">
@@ -108,19 +99,13 @@ export default function Info(props) {
                                                         size={'sm'}
                                                     >
                                                         {canUpdate && (
-                                                            <Dropdown.Item
-                                                                onClick={() =>
-                                                                    toggleFormModal(
-                                                                        info
-                                                                    )
-                                                                }
-                                                            >
-                                                                <div className="flex space-x-1 items-center">
+                                                            <Dropdown.Item>
+                                                                 <Link href={route('info.edit', info)} className="flex space-x-1 items-center">
                                                                     <HiPencil />
                                                                     <div>
                                                                         Ubah
                                                                     </div>
-                                                                </div>
+                                                                </Link>
                                                             </Dropdown.Item>
                                                         )}
                                                         {canDelete && (
@@ -154,7 +139,6 @@ export default function Info(props) {
                 </div>
             </div>
             <ModalConfirm modalState={confirmModal} onConfirm={onDelete} />
-            <FormModal modalState={formModal} />
         </AuthenticatedLayout>
     )
 }

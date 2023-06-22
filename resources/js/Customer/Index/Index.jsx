@@ -84,12 +84,9 @@ export default function Index(props) {
                 <div className="w-full px-3">
                     {infos.map((info) => (
                         <div
-                            className="p-4 mb-4 text-sm text-blue-800 rounded-lg bg-blue-50"
-                            role="alert"
+                            dangerouslySetInnerHTML={{__html: info.description}}
                             key={info.id}
-                        >
-                            {info.title}
-                        </div>
+                        />
                     ))}
                 </div>
 

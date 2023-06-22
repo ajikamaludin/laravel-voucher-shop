@@ -57,7 +57,9 @@ Route::middleware(['http_secure_aware', 'inertia.admin'])
 
             // Info
             Route::get('/infos', [InfoController::class, 'index'])->name('info.index');
+            Route::get('/infos/create', [InfoController::class, 'create'])->name('info.create');
             Route::post('/infos', [InfoController::class, 'store'])->name('info.store');
+            Route::get('/infos/{info}', [InfoController::class, 'edit'])->name('info.edit');
             Route::put('/infos/{info}', [InfoController::class, 'update'])->name('info.update');
             Route::delete('/infos/{info}', [InfoController::class, 'destroy'])->name('info.destroy');
 

@@ -35,6 +35,14 @@ class DummySeeder extends Seeder
     {
         Info::create([
             'title' => 'Welcome to our new site',
+            'description' => '
+                <div
+                    class="p-4 mb-4 text-sm text-blue-800 rounded-lg bg-blue-50"
+                    role="alert"
+                >
+                    Info: Welcome to new WBB site 
+                </div>
+            ',
             'is_publish' => 1,
         ]);
     }
@@ -44,8 +52,8 @@ class DummySeeder extends Seeder
         $images = ['1.webp', '2.webp', '3.webp'];
         foreach ($images as $index => $image) {
             Banner::create([
-                'title' => 'Banner '.$index,
-                'image' => 'sample/'.$image,
+                'title' => 'Banner ' . $index,
+                'image' => 'sample/' . $image,
                 'description' => '<h1>Banner </h1>',
             ]);
         }
@@ -102,7 +110,7 @@ class DummySeeder extends Seeder
 
                 $lp = LocationProfile::create([
                     'location_id' => $location->id,
-                    'name' => 'Profile '.$quota,
+                    'name' => 'Profile ' . $quota,
                     'quota' => $quota,
                     'display_note' => 'bisa semua',
                     'expired' => rand(1, 3),

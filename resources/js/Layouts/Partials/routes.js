@@ -96,7 +96,7 @@ export default [
                 show: true,
                 icon: HiQuestionMarkCircle,
                 route: route('info.index'),
-                active: 'info.index',
+                active: 'info.*',
                 permission: 'view-info',
             },
         ],
