@@ -3,11 +3,15 @@
 namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
+use App\Mail\CustomerVerification;
 use App\Models\Customer;
 use App\Models\Setting;
+use App\Services\AsyncService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
 use SocialiteProviders\Manager\Config;
@@ -39,7 +43,27 @@ class AuthController extends Controller
             'password' => 'required|string',
         ]);
 
-        $isAuth = Auth::guard('customer')->attempt(['username' => $request->username, 'password' => $request->password]);
+        $user = Customer::where([
+            'username' => $request->username,
+        ])->first();
+
+        $password = Hash::check($request->password, $user->password);
+        if (!$password) {
+            return redirect()->route('customer.login')
+                ->with('message', ['type' => 'error', 'message' => 'Invalid credentials']);
+        }
+
+        if ($user->status == Customer::STATUS_INACTIVE) {
+            return redirect()->route('customer.login')
+                ->with('message', ['type' => 'error', 'message' => 'Akun belum aktif, Silahkan klik link verifikasi di email anda']);
+        }
+
+        if ($user->status == Customer::STATUS_SUSPEND) {
+            return redirect()->route('customer.login')
+                ->with('message', ['type' => 'error', 'message' => 'Akun anda telah disuspend, silahkan hubungi penyedia layanan']);
+        }
+
+        $isAuth = Auth::guard('customer')->login($user);
         if ($isAuth) {
             return redirect()->route('home.index');
         }
@@ -67,7 +91,10 @@ class AuthController extends Controller
                 ->with('message', ['type' => 'error', 'message' => 'Google authentication fail, please try again']);
         }
 
-        $customer = Customer::where('google_id', $user->id)->first();
+        $customer = Customer::where('email', $user->email)->first();
+        if ($customer == null) {
+            $customer = Customer::where('google_id', $user->id)->first();
+        }
         if ($customer == null) {
             DB::beginTransaction();
             $customer = Customer::create([
@@ -77,10 +104,16 @@ class AuthController extends Controller
                 'username' => Str::slug($user->name . '_' . Str::random(5), '_'),
                 'google_id' => $user->id,
                 'google_oauth_response' => json_encode($user),
+                'status' => Customer::STATUS_ACTIVE,
             ]);
             DB::commit();
         } else {
             $customer->update(['google_oauth_response' => json_encode($user)]);
+        }
+
+        if ($customer->status == Customer::STATUS_SUSPEND) {
+            return redirect()->route('customer.login')
+                ->with('message', ['type' => 'error', 'message' => 'Akun anda telah disuspend, silahkan hubungi penyedia layanan']);
         }
 
         Auth::guard('customer')->loginUsingId($customer->id);
@@ -99,6 +132,7 @@ class AuthController extends Controller
     {
         $request->validate([
             'fullname' => 'required|string',
+            'email' => 'required|email|unique:users,email',
             'name' => 'required|string',
             'address' => 'required|string',
             'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:9|max:16',
@@ -115,7 +149,12 @@ class AuthController extends Controller
             'phone' => $request->phone,
             'username' => $request->username,
             'password' => bcrypt($request->password),
+            'email' => $request->email,
+            'status' => Customer::STATUS_INACTIVE,
         ]);
+
+        // send confirmation email
+        AsyncService::async(fn () => Mail::to($request->email)->send(new CustomerVerification($customer)));
 
         if ($request->referral_code != '') {
             $refferal = Customer::where('referral_code', $request->referral_code)->first();
@@ -138,9 +177,8 @@ class AuthController extends Controller
 
         DB::commit();
 
-        Auth::guard('customer')->loginUsingId($customer->id);
-
-        return redirect()->route('home.index');
+        return redirect()->route('customer.login')
+            ->with('message', ['type' => 'success', 'message' => 'Silahkan  verifikasi dengan klik link verifikasi di email anda']);
     }
 
     public function destroy()
@@ -150,6 +188,21 @@ class AuthController extends Controller
         Auth::logout();
 
         return redirect()->route('customer.login')
-            ->with('message', ['type' => 'success', 'message' => 'you are logged out, see you next time']);
+            ->with('message', ['type' => 'success', 'message' => 'anda telah keluar, sampai jumpa kembali']);
+    }
+
+    public function active(Customer $customer)
+    {
+        if ($customer->email_varified_at != null) {
+            return redirect()->route('customer.login');
+        }
+
+        $customer->update([
+            'status' => Customer::STATUS_ACTIVE,
+            'email_varified_at' => now(),
+        ]);
+
+        return redirect()->route('customer.login')
+            ->with('message', ['type' => 'success', 'message' => 'Akun anda berhasil diaktifkan, silahkan login']);
     }
 }

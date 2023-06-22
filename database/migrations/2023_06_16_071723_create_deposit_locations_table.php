@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('cash_deposit_locations', function (Blueprint $table) {
+        Schema::create('deposit_locations', function (Blueprint $table) {
             $table->ulid('id')->primary();
 
             $table->string('name')->nullable();
@@ -37,6 +37,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('cash_deposit_locations');
+        Schema::dropIfExists('deposit_locations');
     }
 };

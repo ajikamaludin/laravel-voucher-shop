@@ -36,14 +36,10 @@ export default function Form(props) {
     }
     const handleSubmit = () => {
         if (isEmpty(user) === false) {
-            post(route('user.update', user), {
-                onSuccess: () => handleClose(),
-            })
+            post(route('user.update', user))
             return
         }
-        post(route('user.store'), {
-            onSuccess: () => handleClose(),
-        })
+        post(route('user.store'))
     }
 
     useEffect(() => {

@@ -21,15 +21,15 @@ class PermissionSeeder extends Seeder
         $permissions = [
             ['id' => Str::ulid(), 'label' => 'View Dashboard', 'name' => 'view-dashboard'],
 
-            ['id' => Str::ulid(), 'label' => 'Create User', 'name' => 'create-user'],
-            ['id' => Str::ulid(), 'label' => 'Update User', 'name' => 'update-user'],
-            ['id' => Str::ulid(), 'label' => 'View User', 'name' => 'view-user'],
-            ['id' => Str::ulid(), 'label' => 'Delete User', 'name' => 'delete-user'],
+            ['id' => Str::ulid(), 'label' => 'Create Admin', 'name' => 'create-user'],
+            ['id' => Str::ulid(), 'label' => 'Update Admin', 'name' => 'update-user'],
+            ['id' => Str::ulid(), 'label' => 'View Admin', 'name' => 'view-user'],
+            ['id' => Str::ulid(), 'label' => 'Delete Admin', 'name' => 'delete-user'],
 
-            ['id' => Str::ulid(), 'label' => 'Create Role', 'name' => 'create-role'],
-            ['id' => Str::ulid(), 'label' => 'Update Role', 'name' => 'update-role'],
-            ['id' => Str::ulid(), 'label' => 'View Role', 'name' => 'view-role'],
-            ['id' => Str::ulid(), 'label' => 'Delete Role', 'name' => 'delete-role'],
+            ['id' => Str::ulid(), 'label' => 'Create Rule', 'name' => 'create-role'],
+            ['id' => Str::ulid(), 'label' => 'Update Rule', 'name' => 'update-role'],
+            ['id' => Str::ulid(), 'label' => 'View Rule', 'name' => 'view-role'],
+            ['id' => Str::ulid(), 'label' => 'Delete Rule', 'name' => 'delete-role'],
 
             ['id' => Str::ulid(), 'label' => 'Create Banner', 'name' => 'create-banner'],
             ['id' => Str::ulid(), 'label' => 'Update Banner', 'name' => 'update-banner'],
@@ -62,18 +62,12 @@ class PermissionSeeder extends Seeder
             ['id' => Str::ulid(), 'label' => 'View Deposit', 'name' => 'view-deposit'],
             ['id' => Str::ulid(), 'label' => 'Update Deposit', 'name' => 'update-deposit'],
 
-            ['id' => Str::ulid(), 'label' => 'View poin', 'name' => 'view-poin'],
-            ['id' => Str::ulid(), 'label' => 'Update poin', 'name' => 'update-poin'],
-
-            // ['id' => Str::ulid(), 'label' => 'Create Sale', 'name' => 'create-sale'],
-            // ['id' => Str::ulid(), 'label' => 'Update Sale', 'name' => 'update-sale'],
             ['id' => Str::ulid(), 'label' => 'View Sale', 'name' => 'view-sale'],
-            // ['id' => Str::ulid(), 'label' => 'Delete Sale', 'name' => 'delete-sale'],
 
-            ['id' => Str::ulid(), 'label' => 'Create poin Reward', 'name' => 'create-poin-reward'],
-            ['id' => Str::ulid(), 'label' => 'Update poin Reward', 'name' => 'update-poin-reward'],
-            ['id' => Str::ulid(), 'label' => 'View poin Reward', 'name' => 'view-poin-reward'],
-            ['id' => Str::ulid(), 'label' => 'Delete poin Reward', 'name' => 'delete-poin-reward'],
+            ['id' => Str::ulid(), 'label' => 'Create Poin Reward', 'name' => 'create-poin-reward'],
+            ['id' => Str::ulid(), 'label' => 'Update Poin Reward', 'name' => 'update-poin-reward'],
+            ['id' => Str::ulid(), 'label' => 'View Poin Reward', 'name' => 'view-poin-reward'],
+            ['id' => Str::ulid(), 'label' => 'Delete Poin Reward', 'name' => 'delete-poin-reward'],
 
             ['id' => Str::ulid(), 'label' => 'Create Bank Account', 'name' => 'create-account'],
             ['id' => Str::ulid(), 'label' => 'Update Bank Account', 'name' => 'update-account'],
@@ -89,6 +83,11 @@ class PermissionSeeder extends Seeder
             ['id' => Str::ulid(), 'label' => 'Update Profile Lokasi', 'name' => 'update-location-profile'],
             ['id' => Str::ulid(), 'label' => 'View Profile Lokasi', 'name' => 'view-location-profile'],
             ['id' => Str::ulid(), 'label' => 'Delete Profile Lokasi', 'name' => 'delete-location-profile'],
+
+            ['id' => Str::ulid(), 'label' => 'Create Deposit Lokasi', 'name' => 'create-deposit-location'],
+            ['id' => Str::ulid(), 'label' => 'Update Deposit Lokasi', 'name' => 'update-deposit-location'],
+            ['id' => Str::ulid(), 'label' => 'View Deposit Lokasi', 'name' => 'view-deposit-location'],
+            ['id' => Str::ulid(), 'label' => 'Delete Deposit Lokasi', 'name' => 'delete-deposit-location'],
         ];
 
         foreach ($permissions as $permission) {

@@ -184,9 +184,9 @@ export default [
                 name: 'Cash / Setor Tunai',
                 show: true,
                 icon: HiCash,
-                route: route('account.index'),
-                active: 'account.st',
-                permission: 'view-account', //need new permission
+                route: route('deposit-location.index'),
+                active: 'deposit-location.*',
+                permission: 'view-deposit-location',
             },
         ],
     },

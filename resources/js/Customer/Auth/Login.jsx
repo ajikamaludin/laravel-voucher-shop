@@ -43,7 +43,7 @@ export default function Index({ app_name, flash }) {
             <Head title="Login" />
             <div className="flex flex-col justify-center min-h-[calc(90dvh)]">
                 <div className="m-4 border shadow-md p-6 pt-4">
-                    <div className="text-2xl font-bold mb-4">Sign in</div>
+                    <div className="text-2xl font-bold mb-4">Masuk</div>
                     <Alert type={flash.message.type}>
                         <span className="font-semibold">
                             {flash.message.message}
@@ -89,12 +89,12 @@ export default function Index({ app_name, flash }) {
                             onClick={handleLoginWithGoogle}
                         >
                             <FcGoogle className="h-6 w-6" />
-                            <div>Sign in with Google</div>
+                            <div>Masuk dengan Google</div>
                         </div>
                     </div>
                     <div className="mt-10 w-full text-center text-blue-600 underline">
                         <Link href={route('customer.register')}>
-                            dont have an account ? register
+                            belum punya akun ? segera daftar
                         </Link>
                     </div>
                 </div>

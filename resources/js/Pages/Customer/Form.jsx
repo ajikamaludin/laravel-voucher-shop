@@ -11,7 +11,7 @@ import TextArea from '@/Components/TextArea'
 
 const Profile = () => {
     const {
-        props: { customer },
+        props: { customer, statuses },
     } = usePage()
 
     const { data, setData, post, processing, errors } = useForm({
@@ -23,6 +23,7 @@ const Profile = () => {
         phone: '',
         image: '',
         image_url: '',
+        status: 0,
     })
 
     const handleOnChange = (event) => {
@@ -52,8 +53,8 @@ const Profile = () => {
                 fullname: customer.fullname,
                 address: customer.address,
                 phone: customer.phone,
-                image: customer.image,
                 image_url: customer.image_url,
+                status: customer.status,
             })
         }
     }, [customer])
@@ -107,6 +108,22 @@ const Profile = () => {
                 label="password"
                 error={errors.password}
             />
+            <div className="mt-2">
+                <div className="mb-1 text-sm">Status</div>
+                <select
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                    onChange={handleOnChange}
+                    value={data.status}
+                    name="status"
+                >
+                    <option value=""></option>
+                    {statuses.map((status, index) => (
+                        <option value={index} key={status}>
+                            {status}
+                        </option>
+                    ))}
+                </select>
+            </div>
             <FormFile
                 label={'Image'}
                 onChange={(e) => setData('image', e.target.files[0])}
@@ -136,7 +153,7 @@ const Identity = () => {
         props: { customer },
     } = usePage()
 
-    if (isEmpty(customer.identity_image)) {
+    if (isEmpty(customer?.identity_image)) {
         return
     }
 
@@ -145,7 +162,7 @@ const Identity = () => {
             <div className="pb-4 font-bold">KTP</div>
             <img
                 alt="identity"
-                src={customer.identity_image_url}
+                src={customer?.identity_image_url}
                 className="w-full object-fill h-96"
             />
         </div>
@@ -157,8 +174,8 @@ const Paylater = () => {
         props: { customer, levels },
     } = usePage()
     const { data, setData, post, processing, errors } = useForm({
-        level: customer.level.key,
-        paylater_limit: +customer.paylater?.limit,
+        level: customer?.level.key,
+        paylater_limit: +customer?.paylater?.limit,
     })
 
     const handleOnChange = (event) => {
@@ -174,6 +191,10 @@ const Paylater = () => {
 
     const handleSubmit = () => {
         post(route('customer.update_level', customer))
+    }
+
+    if (isEmpty(customer)) {
+        return
     }
 
     return (
@@ -219,6 +240,7 @@ const Paylater = () => {
 }
 
 export default function Form(props) {
+    const { customer } = props
     return (
         <AuthenticatedLayout page={'Customer'} action={'Form'}>
             <Head title="Customer" />
@@ -228,8 +250,12 @@ export default function Form(props) {
                     <div className="overflow-hidden p-4 shadow-sm sm:rounded-lg bg-white dark:bg-gray-800 flex flex-col ">
                         <div className="text-xl font-bold mb-4">Customer</div>
                         <Profile />
-                        <Identity />
-                        <Paylater />
+                        {customer !== null && (
+                            <>
+                                <Identity />
+                                <Paylater />
+                            </>
+                        )}
                     </div>
                 </div>
             </div>

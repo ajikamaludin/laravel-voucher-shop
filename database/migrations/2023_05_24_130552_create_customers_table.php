@@ -31,6 +31,7 @@ return new class extends Migration
             $table->ulid('customer_level_id')->nullable();
             $table->text('google_oauth_response')->nullable();
             $table->timestamp('poin_expired_at')->nullable();
+            $table->smallInteger('status')->default(0);
 
             $table->timestamps();
             $table->softDeletes();

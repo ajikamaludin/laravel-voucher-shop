@@ -36,12 +36,7 @@ class DummySeeder extends Seeder
         Info::create([
             'title' => 'Welcome to our new site',
             'description' => '
-                <div
-                    class="p-4 mb-4 text-sm text-blue-800 rounded-lg bg-blue-50"
-                    role="alert"
-                >
-                    Info: Welcome to new WBB site 
-                </div>
+                <div class="p-4 mb-4 text-sm text-blue-800 rounded-lg bg-blue-50" role="alert">Info: Welcome to new WBB site, <span style="text-decoration: underline;"><a href="http://google.com" target="_blank" rel="noopener">klik disini</a></span></div>
             ',
             'is_publish' => 1,
         ]);

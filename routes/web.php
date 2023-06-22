@@ -85,6 +85,9 @@ Route::middleware(['http_secure_aware', 'guard_should_customer', 'inertia.custom
         // register
         Route::get('/register', [AuthController::class, 'register'])->name('customer.register');
         Route::post('/register', [AuthController::class, 'store']);
+
+        // 
+        Route::get('/customer/{customer:id}/active', [AuthController::class, 'active'])->name('customer.active');
     });
 });
 

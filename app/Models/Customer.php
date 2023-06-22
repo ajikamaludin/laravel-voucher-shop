@@ -21,6 +21,18 @@ class Customer extends Authenticatable
 
     const IN_VERICATION = 2;
 
+    const STATUS_INACTIVE = 0;
+
+    const STATUS_ACTIVE = 1;
+
+    const STATUS_SUSPEND = 2;
+
+    const STATUS = [
+        self::STATUS_INACTIVE => 'Belum Aktif',
+        self::STATUS_ACTIVE => 'Aktif',
+        self::STATUS_SUSPEND => 'Suspend/Block'
+    ];
+
     protected $fillable = [
         'username',
         'email',
@@ -38,6 +50,8 @@ class Customer extends Authenticatable
         'identity_image',
         'customer_level_id',
         'google_oauth_response',
+        'poin_expired_at',
+        'status',
     ];
 
     protected $hidden = [
@@ -54,6 +68,7 @@ class Customer extends Authenticatable
         'paylater_limit',
         'is_allow_paylater',
         'verification_status',
+        'status_text',
     ];
 
     protected static function booted(): void
@@ -171,6 +186,13 @@ class Customer extends Authenticatable
                 self::IN_VERICATION => 'Menunggu Verifikasi',
                 self::NOT_VERIFIED => 'Tidak Terverifikasi',
             ][$this->identity_verified];
+        });
+    }
+
+    public function statusText(): Attribute
+    {
+        return Attribute::make(get: function () {
+            return self::STATUS[$this->status];
         });
     }
 

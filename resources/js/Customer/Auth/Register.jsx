@@ -18,6 +18,7 @@ export default function Index({ app_name, flash }) {
         name: '',
         address: '',
         phone: '',
+        email: '',
         referral_code: '',
     })
 
@@ -51,7 +52,7 @@ export default function Index({ app_name, flash }) {
             <Head title="Register" />
             <div className="flex flex-col justify-center min-h-[calc(90dvh)]">
                 <div className="m-4 border shadow-md p-6 pt-4">
-                    <div className="text-2xl font-bold mb-4">Register</div>
+                    <div className="text-2xl font-bold mb-4">Daftar</div>
                     <Alert type={flash.message.type}>
                         <span className="font-semibold">
                             {flash.message.message}
@@ -74,6 +75,16 @@ export default function Index({ app_name, flash }) {
                             value={data.name}
                             onChange={handleOnChange}
                             error={errors.name}
+                            onKeyDownCapture={(e) => handleKeyDown(e)}
+                        />
+                    </div>
+                    <div className="w-full">
+                        <FormInput
+                            placeholder="email"
+                            name="email"
+                            value={data.email}
+                            onChange={handleOnChange}
+                            error={errors.email}
                             onKeyDownCapture={(e) => handleKeyDown(e)}
                         />
                     </div>
@@ -159,12 +170,12 @@ export default function Index({ app_name, flash }) {
                             onClick={handleLoginWithGoogle}
                         >
                             <FcGoogle className="h-6 w-6" />
-                            <div>Register with Google</div>
+                            <div>Daftar dengan Google</div>
                         </div>
                     </div>
                     <div className="mt-10 w-full text-center text-blue-600 underline">
                         <Link href={route('customer.login')}>
-                            already have account ? login
+                            sudah punya akun ? login
                         </Link>
                     </div>
                 </div>

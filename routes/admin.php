@@ -6,6 +6,7 @@ use App\Http\Controllers\BannerController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\CustomerLevelController;
 use App\Http\Controllers\DepositController;
+use App\Http\Controllers\DepositLocationController;
 use App\Http\Controllers\GeneralController;
 use App\Http\Controllers\InfoController;
 use App\Http\Controllers\LocationController;
@@ -151,5 +152,13 @@ Route::middleware(['http_secure_aware', 'inertia.admin'])
 
             // notification
             Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+
+            // deposit location 
+            Route::get('/deposit-location', [DepositLocationController::class, 'index'])->name('deposit-location.index');
+            Route::get('/deposit-location/create', [DepositLocationController::class, 'create'])->name('deposit-location.create');
+            Route::post('/deposit-location', [DepositLocationController::class, 'store'])->name('deposit-location.store');
+            Route::get('/deposit-location/{location}', [DepositLocationController::class, 'edit'])->name('deposit-location.edit');
+            Route::post('/deposit-location/{location}', [DepositLocationController::class, 'update'])->name('deposit-location.update');
+            Route::delete('/deposit-location/{location}', [DepositLocationController::class, 'destroy'])->name('deposit-location.destroy');
         });
     });

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Customer;
 use App\Models\CustomerLevel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class CustomerController extends Controller
 {
@@ -26,7 +27,10 @@ class CustomerController extends Controller
 
     public function create()
     {
-        return inertia('Customer/Form');
+        return inertia('Customer/Form', [
+            'levels' => CustomerLevel::all(),
+            'statuses' => Customer::STATUS
+        ]);
     }
 
     public function store(Request $request)
@@ -38,18 +42,27 @@ class CustomerController extends Controller
             'fullname' => 'required|string',
             'address' => 'required|string',
             'phone' => 'required|string',
-            'image' => 'nullable|string',
+            'image' => 'nullable|image',
+            'status' => 'required|numeric',
         ]);
 
-        Customer::create([
+        $customer = Customer::make([
             'username' => $request->username,
             'password' => bcrypt($request->password),
             'name' => $request->name,
             'fullname' => $request->fullname,
             'address' => $request->address,
             'phone' => $request->phone,
-            'image' => $request->image,
+            'status' => $request->status,
         ]);
+
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $file->store('uploads', 'public');
+            $customer->image = $file->hashName('uploads');
+        }
+
+        $customer->save();
 
         return redirect()->route('customer.index')
             ->with('message', ['type' => 'success', 'message' => 'Item has beed saved']);
@@ -60,23 +73,25 @@ class CustomerController extends Controller
         return inertia('Customer/Form', [
             'customer' => $customer->load(['level']),
             'levels' => CustomerLevel::all(),
+            'statuses' => Customer::STATUS
         ]);
     }
 
     public function update(Request $request, Customer $customer)
     {
         $request->validate([
-            'username' => 'required|string|min:5|alpha_dash|unique:customers,username,'.$customer->id,
+            'username' => 'required|string|min:5|alpha_dash|unique:customers,username,' . $customer->id,
             'password' => 'nullable|string|min:8',
             'name' => 'required|string',
             'fullname' => 'required|string',
             'address' => 'required|string',
             'phone' => 'required|string',
             'image' => 'nullable|image',
+            'status' => 'required|numeric'
         ]);
 
         if ($request->password != '') {
-            $customer->password = bcrypt($request->password);
+            $customer->password = Hash::make($request->password);
         }
 
         if ($request->hasFile('image')) {
@@ -93,6 +108,7 @@ class CustomerController extends Controller
             'address' => $request->address,
             'phone' => $request->phone,
             'image' => $customer->image,
+            'status' => $request->status
         ]);
 
         return redirect()->route('customer.index')
