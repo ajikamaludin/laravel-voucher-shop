@@ -5,6 +5,9 @@ import {
     HiUserGroup,
     HiInformationCircle,
     HiCog,
+    HiOutlineCash,
+    HiOutlineTable,
+    HiCash,
 } from 'react-icons/hi'
 import {
     HiArchiveBox,
@@ -157,12 +160,35 @@ export default [
         ],
     },
     {
-        name: 'Bank Akun',
+        name: 'Akun Pembayaran',
         show: true,
-        icon: HiBanknotes,
-        route: route('account.index'),
-        active: 'account.*',
-        permission: 'view-account',
+        icon: HiOutlineCash,
+        items: [
+            {
+                name: 'Bank Akun',
+                show: true,
+                icon: HiBanknotes,
+                route: route('account.index'),
+                active: 'account.*',
+                permission: 'view-account',
+            },
+            {
+                name: 'Payment Gateway',
+                show: true,
+                icon: HiOutlineTable,
+                route: route('account.index'),
+                active: 'account.pg',
+                permission: 'view-account',
+            },
+            {
+                name: 'Cash / Setor Tunai',
+                show: true,
+                icon: HiCash,
+                route: route('account.index'),
+                active: 'account.st',
+                permission: 'view-account',
+            },
+        ],
     },
     {
         name: 'Setting',

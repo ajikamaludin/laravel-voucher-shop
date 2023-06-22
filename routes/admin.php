@@ -79,8 +79,10 @@ Route::middleware(['http_secure_aware', 'inertia.admin'])
 
             // Account
             Route::get('/accounts', [AccountController::class, 'index'])->name('account.index');
+            Route::get('/accounts/create', [AccountController::class, 'create'])->name('account.create');
             Route::post('/accounts', [AccountController::class, 'store'])->name('account.store');
-            Route::put('/accounts/{account}', [AccountController::class, 'update'])->name('account.update');
+            Route::get('/accounts/{account}', [AccountController::class, 'edit'])->name('account.edit');
+            Route::post('/accounts/{account}', [AccountController::class, 'update'])->name('account.update');
             Route::delete('/accounts/{account}', [AccountController::class, 'destroy'])->name('account.destroy');
 
             // upload

@@ -62,8 +62,8 @@ class DummySeeder extends Seeder
     public function account()
     {
         $banks = [
-            ['name' => 'BRI', 'bank_name' => 'Bank Rakyat Indonesia', 'holder_name' => 'Aji Kamaludin', 'account_number' => '187391738129'],
-            ['name' => 'Jago', 'bank_name' => 'Bank Jago', 'holder_name' => 'Aji Kamaludin', 'account_number' => '718297389172'],
+            ['name' => 'BTPN', 'bank_name' => 'BTPN', 'holder_name' => 'Aji Kamaludin', 'account_number' => '187391738129', 'logo' => 'sample/logo-jenius.png'],
+            ['name' => 'Jago', 'bank_name' => 'Bank Jago', 'holder_name' => 'Aji Kamaludin', 'account_number' => '718297389172', 'logo' => 'sample/logo-jago.png'],
         ];
 
         foreach ($banks as $bank) {
@@ -72,6 +72,7 @@ class DummySeeder extends Seeder
                 'bank_name' => $bank['bank_name'],
                 'holder_name' => $bank['holder_name'],
                 'account_number' => $bank['account_number'],
+                'logo' => $bank['logo']
             ]);
         }
     }

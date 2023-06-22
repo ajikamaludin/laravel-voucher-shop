@@ -16,7 +16,7 @@
 # Back Office
 
 -   [ ] tambah biaya admin di deposit manual transfer
--   [ ] info di ubah jadi html
+-   [x] info di ubah jadi html
 -   [ ] tambahan detail customer untuk detail mitra wbb
 -   [ ] detail customer level untuk tampilan screen level customer di depan
 -   [ ] rombak fitur affiliasi

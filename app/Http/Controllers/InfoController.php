@@ -68,7 +68,6 @@ class InfoController extends Controller
     {
         $info->delete();
 
-        return redirect()->route('info.index')
-            ->with('message', ['type' => 'success', 'message' => 'Item has beed deleted']);
+        session()->flash('message', ['type' => 'success', 'message' => 'Item has beed deleted']);
     }
 }

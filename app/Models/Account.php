@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
+
 class Account extends Model
 {
     protected $fillable = [
@@ -12,4 +14,15 @@ class Account extends Model
         'logo',
         'admin_fee',
     ];
+
+    protected $appends = [
+        'logo_url',
+    ];
+
+    protected function logoUrl(): Attribute
+    {
+        return Attribute::make(get: function () {
+                return asset($this->logo);
+        });
+    }
 }

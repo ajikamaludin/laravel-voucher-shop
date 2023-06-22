@@ -16,6 +16,11 @@ class AccountController extends Controller
         ]);
     }
 
+    public function create()
+    {
+        return inertia('Account/Form');
+    }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -23,16 +28,29 @@ class AccountController extends Controller
             'bank_name' => 'required|string',
             'holder_name' => 'required|string',
             'account_number' => 'required|string',
+            'logo' => 'required|image',
         ]);
 
+        $file = $request->file('logo');
+        $file->store('uploads', 'public');
+        
         Account::create([
             'name' => $request->name,
             'bank_name' => $request->bank_name,
             'holder_name' => $request->holder_name,
             'account_number' => $request->account_number,
+            'logo' => $file->hashName('uploads'),
         ]);
 
-        session()->flash('message', ['type' => 'success', 'message' => 'Item has been saved']);
+        return redirect()->route('account.index')
+            ->with('message', ['type' => 'success', 'message' => 'Item has been saved']);
+    }
+
+    public function edit(Account $account)
+    {
+        return inertia('Account/Form', [
+            'account' => $account
+        ]);
     }
 
     public function update(Request $request, Account $account)
@@ -42,7 +60,15 @@ class AccountController extends Controller
             'bank_name' => 'required|string',
             'holder_name' => 'required|string',
             'account_number' => 'required|string',
+            'logo' => 'nullable|image',
         ]);
+
+
+        if ($request->hasFile('logo')) {
+            $file = $request->file('logo');
+            $file->store('uploads', 'public');
+            $account->fill(['logo' => $file->hashName('uploads')]);
+        }
 
         $account->update([
             'name' => $request->name,
@@ -51,7 +77,8 @@ class AccountController extends Controller
             'account_number' => $request->account_number,
         ]);
 
-        session()->flash('message', ['type' => 'success', 'message' => 'Item has been updated']);
+        return redirect()->route('account.index')
+            ->with('message', ['type' => 'success', 'message' => 'Item has been updated']);
     }
 
     public function destroy(Account $account)
