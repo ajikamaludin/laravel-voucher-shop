@@ -115,6 +115,11 @@ export default function Authenticated({
                                                 type="button"
                                                 className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150 dark:bg-gray-700 dark:hover:text-gray-50 dark:text-gray-200 gap-2"
                                             >
+                                                <img
+                                                    src={auth.user.photo_url}
+                                                    alt="user profile image"
+                                                    className="h-10 rounded-full border border-gray-100"
+                                                />
                                                 {auth.user.name}
                                                 <HiChevronDown />
                                             </button>
@@ -124,7 +129,7 @@ export default function Authenticated({
                                     <Dropdown.Content>
                                         <a
                                             href={route('home.index')}
-                                            target='_blank'
+                                            target="_blank"
                                             className="block w-full px-4 py-2 text-left text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none transition duration-150 ease-in-out dark:text-white hover:dark:bg-gray-500"
                                         >
                                             Visit Site

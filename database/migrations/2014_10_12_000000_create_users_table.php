@@ -21,8 +21,16 @@ return new class extends Migration
             $table->string('password');
             $table->string('reset_token')->nullable();
             $table->ulid('role_id')->nullable();
+
+            $table->string('phone_wa')->nullable();
+            $table->string('photo')->nullable();
+            $table->string('username')->nullable();
+
             $table->rememberToken();
             $table->timestamps();
+            $table->ulid('created_by')->nullable();
+            $table->ulid('updated_by')->nullable();
+            $table->ulid('deleted_by')->nullable();
         });
     }
 

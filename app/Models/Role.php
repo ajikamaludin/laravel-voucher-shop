@@ -26,4 +26,9 @@ class Role extends Model
             'permission_id',
         );
     }
+
+    public function users() 
+    {
+        return $this->hasMany(User::class);
+    }
 }

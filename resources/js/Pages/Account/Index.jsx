@@ -7,7 +7,6 @@ import { useModalState } from '@/hooks'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import Pagination from '@/Components/Pagination'
 import ModalConfirm from '@/Components/ModalConfirm'
-import FormModal from './FormModal'
 import { hasPermission } from '@/utils'
 
 export default function Account(props) {
@@ -17,12 +16,6 @@ export default function Account(props) {
     } = props
 
     const confirmModal = useModalState()
-    const formModal = useModalState()
-
-    const toggleFormModal = (account = null) => {
-        formModal.setData(account)
-        formModal.toggle()
-    }
 
     const handleDeleteClick = (account) => {
         confirmModal.setData(account)
@@ -107,7 +100,11 @@ export default function Account(props) {
                                                     {account.account_number}
                                                 </td>
                                                 <td className="py-4 px-6">
-                                                    <img src={account.logo_url} alt='bank logo alt' className='h-5'/>
+                                                    <img
+                                                        src={account.logo_url}
+                                                        alt="bank logo alt"
+                                                        className="h-5"
+                                                    />
                                                 </td>
                                                 <td className="py-4 px-6 flex justify-end">
                                                     <Dropdown
@@ -119,7 +116,13 @@ export default function Account(props) {
                                                     >
                                                         {canUpdate && (
                                                             <Dropdown.Item>
-                                                                <Link href={route('account.edit', account)} className="flex space-x-1 items-center">
+                                                                <Link
+                                                                    href={route(
+                                                                        'account.edit',
+                                                                        account
+                                                                    )}
+                                                                    className="flex space-x-1 items-center"
+                                                                >
                                                                     <HiPencil />
                                                                     <div>
                                                                         Ubah
@@ -158,7 +161,6 @@ export default function Account(props) {
                 </div>
             </div>
             <ModalConfirm modalState={confirmModal} onConfirm={onDelete} />
-            <FormModal modalState={formModal} />
         </AuthenticatedLayout>
     )
 }

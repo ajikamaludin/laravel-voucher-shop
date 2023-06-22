@@ -106,13 +106,19 @@ class PermissionSeeder extends Seeder
             'name' => 'Super Administrator',
             'email' => 'root@admin.com',
             'password' => bcrypt('password'),
+            'photo' => 'sample/logo-jago.png',
+            'username' => 'root',
+            'phone_wa' => '81325307692',
         ]);
 
-        $admin = User::create([
+        User::create([
             'name' => 'Administator',
             'email' => 'admin@admin.com',
             'password' => bcrypt('password'),
             'role_id' => $role->id,
+            'photo' => 'sample/logo-jago.png',
+            'username' => 'admin',
+            'phone_wa' => '81325307692',
         ]);
 
         $setting = [];

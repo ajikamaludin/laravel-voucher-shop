@@ -154,7 +154,7 @@ export default [
                 show: true,
                 icon: HiUsers,
                 route: route('user.index'),
-                active: 'user.index',
+                active: 'user.*',
                 permission: 'view-user',
             },
         ],

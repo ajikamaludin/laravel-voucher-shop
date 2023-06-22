@@ -15,8 +15,8 @@ export default function Form(props) {
         bank_name: '',
         holder_name: '',
         account_number: '',
-        logo: null, 
-        logo_url: ''
+        logo: null,
+        logo_url: '',
     })
 
     const handleOnChange = (event) => {
@@ -44,13 +44,17 @@ export default function Form(props) {
                 bank_name: account.bank_name,
                 holder_name: account.holder_name,
                 account_number: account.account_number,
-                logo_url: account.logo_url
+                logo_url: account.logo_url,
             })
         }
     }, [account])
 
     return (
-        <AuthenticatedLayout page={'Bank Akun'} action={'Form'}>
+        <AuthenticatedLayout
+            page={'Bank Akun'}
+            action={'Form'}
+            parent={route('account.index')}
+        >
             <Head title="Bank Akun" />
 
             <div>

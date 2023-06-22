@@ -16,7 +16,7 @@ class RoleController extends Controller
     {
         $request->user()->allow('view-role', true);
 
-        $query = Role::query();
+        $query = Role::query()->with(['users']);
 
         if ($request->q) {
             $query->where('name', 'like', "%{$request->q}%");

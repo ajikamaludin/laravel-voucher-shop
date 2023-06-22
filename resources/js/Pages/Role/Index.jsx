@@ -87,6 +87,12 @@ export default function Product(props) {
                                             <th
                                                 scope="col"
                                                 className="py-3 px-6"
+                                            >
+                                                Admin
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                className="py-3 px-6"
                                             />
                                         </tr>
                                     </thead>
@@ -101,6 +107,30 @@ export default function Product(props) {
                                                     className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                                 >
                                                     {role.name}
+                                                </td>
+                                                <td className="py-4 px-6">
+                                                    <div className="flex flex-row gap-1">
+                                                        {role.users.map(
+                                                            (user) => (
+                                                                <div
+                                                                    key={
+                                                                        user.id
+                                                                    }
+                                                                    className="px-2 py-1 bg-blue-600 text-white border rounded-full border-b-blue-900"
+                                                                    onClick={() =>
+                                                                        router.visit(
+                                                                            route(
+                                                                                'user.edit',
+                                                                                user
+                                                                            )
+                                                                        )
+                                                                    }
+                                                                >
+                                                                    {user.name}
+                                                                </div>
+                                                            )
+                                                        )}
+                                                    </div>
                                                 </td>
                                                 <td className="py-4 px-6 flex justify-end">
                                                     <Dropdown

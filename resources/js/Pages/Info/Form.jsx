@@ -46,7 +46,11 @@ export default function Form(props) {
     }, [info])
 
     return (
-        <AuthenticatedLayout page={'Info'} action={'Form'}>
+        <AuthenticatedLayout
+            page={'Info'}
+            action={'Form'}
+            parent={route('info.index')}
+        >
             <Head title="Info" />
 
             <div>

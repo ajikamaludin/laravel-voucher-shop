@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { router } from '@inertiajs/react'
 import { usePrevious } from 'react-use'
-import { Head } from '@inertiajs/react'
+import { Head, Link, router } from '@inertiajs/react'
 import { Button, Dropdown } from 'flowbite-react'
 import { HiPencil, HiTrash } from 'react-icons/hi'
 import { useModalState } from '@/hooks'
@@ -9,7 +8,6 @@ import { useModalState } from '@/hooks'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import Pagination from '@/Components/Pagination'
 import ModalConfirm from '@/Components/ModalConfirm'
-import FormModal from './FormModal'
 import SearchInput from '@/Components/SearchInput'
 import { hasPermission } from '@/utils'
 
@@ -23,12 +21,6 @@ export default function User(props) {
     const preValue = usePrevious(search)
 
     const confirmModal = useModalState()
-    const formModal = useModalState()
-
-    const toggleFormModal = (user = null) => {
-        formModal.setData(user)
-        formModal.toggle()
-    }
 
     const handleDeleteClick = (user) => {
         confirmModal.setData(user)
@@ -68,12 +60,9 @@ export default function User(props) {
                     <div className="p-6 overflow-hidden shadow-sm sm:rounded-lg bg-gray-200 dark:bg-gray-800 space-y-4">
                         <div className="flex justify-between">
                             {canCreate && (
-                                <Button
-                                    size="sm"
-                                    onClick={() => toggleFormModal()}
-                                >
-                                    Tambah
-                                </Button>
+                                <Link href={route('user.create')}>
+                                    <Button size="sm">Tambah</Button>
+                                </Link>
                             )}
                             <div className="flex items-center">
                                 <SearchInput
@@ -89,15 +78,39 @@ export default function User(props) {
                                         <tr>
                                             <th
                                                 scope="col"
-                                                className="py-3 px-6"
+                                                className="py-3 px-6 w-24"
                                             >
-                                                Name
+                                                Photo
                                             </th>
                                             <th
                                                 scope="col"
                                                 className="py-3 px-6"
                                             >
-                                                Role
+                                                Nama
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                className="py-3 px-6"
+                                            >
+                                                Email
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                className="py-3 px-6"
+                                            >
+                                                Username
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                className="py-3 px-6"
+                                            >
+                                                Rule
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                className="py-3 px-6"
+                                            >
+                                                Whatsapp
                                             </th>
                                             <th
                                                 scope="col"
@@ -113,14 +126,36 @@ export default function User(props) {
                                             >
                                                 <td
                                                     scope="row"
-                                                    className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                                    className="px-2 py-1 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                                 >
+                                                    <img
+                                                        src={user.photo_url}
+                                                        alt="photo profile"
+                                                        className="w-20 h-20 rounded-full"
+                                                    />
+                                                </td>
+                                                <td className="py-4 px-6">
                                                     {user.name}
+                                                </td>
+                                                <td className="py-4 px-6">
+                                                    {user.email}
+                                                </td>
+                                                <td className="py-4 px-6">
+                                                    {user.username}
                                                 </td>
                                                 <td className="py-4 px-6">
                                                     {user.role === null
                                                         ? 'System'
                                                         : user.role?.name}
+                                                </td>
+                                                <td className="py-4 px-6">
+                                                    <a
+                                                        href={`https://wa.me/+62${user.phone_wa}`}
+                                                        target="_blank"
+                                                        className="underline"
+                                                    >
+                                                        +62{user.phone_wa}
+                                                    </a>
                                                 </td>
                                                 <td className="py-4 px-6 flex justify-end">
                                                     <Dropdown
@@ -133,8 +168,11 @@ export default function User(props) {
                                                         {canUpdate && (
                                                             <Dropdown.Item
                                                                 onClick={() =>
-                                                                    toggleFormModal(
-                                                                        user
+                                                                    router.visit(
+                                                                        route(
+                                                                            'user.edit',
+                                                                            user
+                                                                        )
                                                                     )
                                                                 }
                                                             >
@@ -177,7 +215,6 @@ export default function User(props) {
                 </div>
             </div>
             <ModalConfirm modalState={confirmModal} onConfirm={onDelete} />
-            <FormModal modalState={formModal} />
         </AuthenticatedLayout>
     )
 }
