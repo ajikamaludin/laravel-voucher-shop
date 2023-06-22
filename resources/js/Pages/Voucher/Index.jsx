@@ -11,7 +11,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import Pagination from '@/Components/Pagination'
 import ModalConfirm from '@/Components/ModalConfirm'
 import SearchInput from '@/Components/SearchInput'
-import ThSort from './ThSortComponent'
+import ThSort from '@/Components/ThSortComponent'
 import ModalFilter from './ModalFilter'
 import ModalDelete from './ModalDelete'
 

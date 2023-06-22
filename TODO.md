@@ -15,13 +15,13 @@
 
 # Back Office
 
--   [ ] tambah biaya admin di deposit manual transfer
+-   [x] tambah biaya admin di deposit manual transfer
 -   [x] info di ubah jadi html
 -   [ ] tambahan detail customer untuk detail mitra wbb
 -   [ ] detail customer level untuk tampilan screen level customer di depan
 -   [ ] rombak fitur affiliasi
--   [ ] tambah detail di user admin
--   [ ] tambah logo bank
--   [ ] tambah setor tunai
+-   [x] tambah detail di user admin
+-   [x] tambah logo bank
+-   [x] tambah setor tunai
 -   [ ] pengaturan share dapat menggunakan html
 -   [ ] menu mitrawbb

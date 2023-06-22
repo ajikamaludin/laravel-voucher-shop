@@ -10,7 +10,7 @@ export default function BalanceBanner({ user }) {
             onClick={() => router.get(route('customer.deposit.index'))}
         >
             <div className="flex flex-row w-full shadow py-2 px-2 rounded bg-white items-center justify-between">
-                <div className="flex flex-col">
+                <div className="flex flex-col w-full">
                     <div className="text-xs flex flex-row items-center space-x-1 text-gray-400">
                         <HiOutlineCash />
                         <div>Saldo</div>

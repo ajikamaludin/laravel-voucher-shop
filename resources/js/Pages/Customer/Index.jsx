@@ -6,20 +6,33 @@ import { Button, Dropdown } from 'flowbite-react'
 import { HiPencil, HiTrash } from 'react-icons/hi'
 import { useModalState } from '@/hooks'
 
+import { formatIDR, hasPermission } from '@/utils'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import Pagination from '@/Components/Pagination'
 import ModalConfirm from '@/Components/ModalConfirm'
 import SearchInput from '@/Components/SearchInput'
-import { hasPermission } from '@/utils'
+import LocationSelectionInput from '../Location/SelectionInput'
+import LevelSelectionInput from '../CustomerLevel/SelectionInput'
+import ThSort from '@/Components/ThSortComponent'
 
 export default function Customer(props) {
     const {
         query: { links, data },
+        stats,
         auth,
+        _search,
+        _sortBy,
+        _sortOrder,
     } = props
 
-    const [search, setSearch] = useState('')
-    const preValue = usePrevious(search)
+    const [location, setLocation] = useState(null)
+    const [level, setLevel] = useState(null)
+    const [search, setSearch] = useState({
+        q: _search,
+        sortBy: _sortBy,
+        sortOrder: _sortOrder,
+    })
+    const preValue = usePrevious(`${search}${location}${level}`)
 
     const confirmModal = useModalState()
 
@@ -34,19 +47,42 @@ export default function Customer(props) {
         }
     }
 
-    const params = { q: search }
+    const handleSearchChange = (e) => {
+        setSearch({
+            ...search,
+            q: e.target.value,
+        })
+    }
+
+    const sort = (key, sort = null) => {
+        if (sort !== null) {
+            setSearch({
+                ...search,
+                sortBy: key,
+                sortRule: sort,
+            })
+            return
+        }
+        setSearch({
+            ...search,
+            sortBy: key,
+            sortRule: search.sortRule == 'asc' ? 'desc' : 'asc',
+        })
+    }
+
+    const params = { q: search, location_id: location, level_id: level }
     useEffect(() => {
         if (preValue) {
             router.get(
                 route(route().current()),
-                { q: search },
+                { ...search, location_id: location, level_id: level },
                 {
                     replace: true,
                     preserveState: true,
                 }
             )
         }
-    }, [search])
+    }, [search, location, level])
 
     const canCreate = hasPermission(auth, 'create-customer')
     const canUpdate = hasPermission(auth, 'update-customer')
@@ -56,8 +92,36 @@ export default function Customer(props) {
         <AuthenticatedLayout page={'Customer'} action={''}>
             <Head title="Customer" />
 
-            <div>
-                <div className="mx-auto sm:px-6 lg:px-8 ">
+            <div className="w-full lg:max-w-[1100px] 2xl:max-w-full">
+                <div className="mx-auto sm:px-6 lg:px-8">
+                    <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 mb-2">
+                        <div className="border rounded-md shadow bg-white px-4 py-2 flex flex-col">
+                            <div className="text-gray-600 text-lg">Basic</div>
+                            <div className="font-bold text-xl pt-2">
+                                {formatIDR(stats.basic_count)} Orang
+                            </div>
+                        </div>
+                        <div className="border rounded-md shadow bg-white px-4 py-2 flex flex-col">
+                            <div className="text-gray-600 text-lg">Silver</div>
+                            <div className="font-bold text-xl pt-2">
+                                {formatIDR(stats.silver_count)} Orang
+                            </div>
+                        </div>
+                        <div className="border rounded-md shadow bg-white px-4 py-2 flex flex-col">
+                            <div className="text-gray-600 text-lg">Gold</div>
+                            <div className="font-bold text-xl pt-2">
+                                {formatIDR(stats.gold_count)} Orang
+                            </div>
+                        </div>
+                        <div className="border rounded-md shadow bg-white px-4 py-2 flex flex-col">
+                            <div className="text-gray-600 text-lg">
+                                Platinum
+                            </div>
+                            <div className="font-bold text-xl pt-2">
+                                {formatIDR(stats.platinum_count)} Orang
+                            </div>
+                        </div>
+                    </div>
                     <div className="p-6 overflow-hidden shadow-sm sm:rounded-lg bg-gray-200 dark:bg-gray-800 space-y-4">
                         <div className="flex justify-between">
                             {canCreate && (
@@ -65,14 +129,36 @@ export default function Customer(props) {
                                     <Button size="sm">Tambah</Button>
                                 </Link>
                             )}
-                            <div className="flex items-center">
-                                <SearchInput
-                                    onChange={(e) => setSearch(e.target.value)}
-                                    value={search}
-                                />
+                            <div className="flex flex-col gap-1 items-end">
+                                <div className="max-w-md">
+                                    <SearchInput
+                                        onChange={handleSearchChange}
+                                        value={search.q}
+                                    />
+                                </div>
+                                <div className="flex flex-row gap-1">
+                                    <div className="w-full max-w-md">
+                                        <LevelSelectionInput
+                                            itemSelected={level}
+                                            onItemSelected={(id) =>
+                                                setLevel(id)
+                                            }
+                                            placeholder={'filter level'}
+                                        />
+                                    </div>
+                                    <div className="w-full max-w-md">
+                                        <LocationSelectionInput
+                                            itemSelected={location}
+                                            onItemSelected={(id) =>
+                                                setLocation(id)
+                                            }
+                                            placeholder={'filter lokasi'}
+                                        />
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div className="overflow-auto">
+                        <div className="w-full overflow-auto">
                             <div>
                                 <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 mb-4">
                                     <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -89,23 +175,49 @@ export default function Customer(props) {
                                             >
                                                 Level
                                             </th>
+                                            <ThSort
+                                                sort={sort}
+                                                label={'deposit_balance'}
+                                                search={search}
+                                            >
+                                                Deposit
+                                            </ThSort>
+                                            <ThSort
+                                                sort={sort}
+                                                label={'poin_balance'}
+                                                search={search}
+                                            >
+                                                Poin
+                                            </ThSort>
                                             <th
                                                 scope="col"
                                                 className="py-3 px-6"
                                             >
-                                                Deposit
+                                                Sisa Saldo Hutang
                                             </th>
                                             <th
                                                 scope="col"
                                                 className="py-3 px-6"
                                             >
-                                                poin
+                                                Limit Hutang
                                             </th>
                                             <th
                                                 scope="col"
                                                 className="py-3 px-6"
                                             >
                                                 Referral Code
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                className="py-3 px-6"
+                                            >
+                                                Lokasi
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                className="py-3 px-6"
+                                            >
+                                                Whatsapp
                                             </th>
                                             <th
                                                 scope="col"
@@ -127,9 +239,16 @@ export default function Customer(props) {
                                             >
                                                 <td
                                                     scope="row"
-                                                    className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                                    className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white hover:underline"
                                                 >
-                                                    {customer.name}
+                                                    <Link
+                                                        href={route(
+                                                            'customer.edit',
+                                                            customer
+                                                        )}
+                                                    >
+                                                        {customer.name}
+                                                    </Link>
                                                 </td>
                                                 <td
                                                     scope="row"
@@ -153,7 +272,54 @@ export default function Customer(props) {
                                                     scope="row"
                                                     className="py-4 px-6"
                                                 >
+                                                    {formatIDR(
+                                                        customer.paylater_remain
+                                                    )}
+                                                </td>
+                                                <td
+                                                    scope="row"
+                                                    className="py-4 px-6"
+                                                >
+                                                    {formatIDR(
+                                                        customer.paylater_limit
+                                                    )}
+                                                </td>
+                                                <td
+                                                    scope="row"
+                                                    className="py-4 px-6"
+                                                >
                                                     {customer.referral_code}
+                                                </td>
+                                                <td
+                                                    scope="row"
+                                                    className="py-4 px-6"
+                                                >
+                                                    {customer.location_favorites.map(
+                                                        (location) => (
+                                                            <div
+                                                                key={
+                                                                    location.id
+                                                                }
+                                                            >
+                                                                {location.name}
+                                                            </div>
+                                                        )
+                                                    )}
+                                                </td>
+                                                <td
+                                                    scope="row"
+                                                    className="py-4 px-6"
+                                                >
+                                                    {customer.phone !==
+                                                        null && (
+                                                        <a
+                                                            href={`https://wa.me/+62${customer.phone}`}
+                                                            target="_blank"
+                                                            className="underline"
+                                                        >
+                                                            +62{customer.phone}
+                                                        </a>
+                                                    )}
                                                 </td>
                                                 <td
                                                     scope="row"

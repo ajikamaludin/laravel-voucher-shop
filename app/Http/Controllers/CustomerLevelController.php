@@ -16,6 +16,13 @@ class CustomerLevelController extends Controller
         ]);
     }
 
+    public function edit(CustomerLevel $customerLevel)
+    {
+        return inertia('CustomerLevel/Form', [
+            'customer_level' => $customerLevel
+        ]);
+    }
+
     public function update(Request $request, CustomerLevel $customerLevel)
     {
         $request->validate([
@@ -23,15 +30,24 @@ class CustomerLevelController extends Controller
             'description' => 'nullable|string',
             'min_amount' => 'required|numeric|min:0',
             'max_amount' => 'required|numeric|min:0',
+            'logo' => 'nullable|image',
         ]);
+
+        if ($request->hasFile('logo')) {
+            $file = $request->file('logo');
+            $file->store('uploads', 'public');
+            $customerLevel->logo = $file->hashName('uploads');
+        }
 
         $customerLevel->update([
             'name' => $request->name,
             'description' => $request->description,
             'min_amount' => $request->min_amount,
             'max_amount' => $request->max_amount,
+            'logo' => $customerLevel->logo,
         ]);
 
-        session()->flash('message', ['type' => 'success', 'message' => 'Item has beed updated']);
+        return redirect()->route('customer-level.index')
+            ->with('message', ['type' => 'success', 'message' => 'Item has beed updated']);
     }
 }

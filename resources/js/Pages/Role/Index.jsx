@@ -116,7 +116,7 @@ export default function Product(props) {
                                                                     key={
                                                                         user.id
                                                                     }
-                                                                    className="px-2 py-1 bg-blue-600 text-white border rounded-full border-b-blue-900"
+                                                                    className="px-2 py-1 bg-blue-600 text-white border rounded-full border-blue-900"
                                                                     onClick={() =>
                                                                         router.visit(
                                                                             route(

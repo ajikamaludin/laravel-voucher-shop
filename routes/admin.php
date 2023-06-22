@@ -101,7 +101,8 @@ Route::middleware(['http_secure_aware', 'inertia.admin'])
 
             // customer level
             Route::get('/customer-levels', [CustomerLevelController::class, 'index'])->name('customer-level.index');
-            Route::put('/customer-levels/{customerLevel}', [CustomerLevelController::class, 'update'])->name('customer-level.update');
+            Route::get('/customer-levels/{customerLevel}', [CustomerLevelController::class, 'edit'])->name('customer-level.edit');
+            Route::post('/customer-levels/{customerLevel}', [CustomerLevelController::class, 'update'])->name('customer-level.update');
 
             // verification
             Route::get('/customers-verifications', [VerificationController::class, 'index'])->name('customer-verification.index');
@@ -133,6 +134,8 @@ Route::middleware(['http_secure_aware', 'inertia.admin'])
             // setting
             Route::get('/payment-gateway', [SettingController::class, 'payment'])->name('setting.payment');
             Route::post('/payment-gateway', [SettingController::class, 'updatePayment']);
+            Route::get('/affilate', [SettingController::class, 'affilate'])->name('setting.affilate');
+            Route::post('/affilate', [SettingController::class, 'updateAffilate']);
             Route::get('/settings', [SettingController::class, 'index'])->name('setting.index');
             Route::post('/settings', [SettingController::class, 'update'])->name('setting.update');
 

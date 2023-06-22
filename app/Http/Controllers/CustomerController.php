@@ -11,17 +11,41 @@ class CustomerController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Customer::query()->with(['level'])->orderBy('updated_at', 'desc');
+        $stats = [
+            'basic_count' => Customer::whereHas('level', fn ($q) => $q->where('key', CustomerLevel::BASIC))->count(),
+            'silver_count' => Customer::whereHas('level', fn ($q) => $q->where('key', CustomerLevel::SILVER))->count(),
+            'gold_count' => Customer::whereHas('level', fn ($q) => $q->where('key', CustomerLevel::GOLD))->count(),
+            'platinum_count' => Customer::whereHas('level', fn ($q) => $q->where('key', CustomerLevel::PLATINUM))->count(),
+        ];
+
+        $query = Customer::query()->with(['level', 'paylater', 'locationFavorites']);
 
         if ($request->q != '') {
-            $query->where('name', 'like', "%$request->q%")
-                ->orWhere('fullname', 'like', "%$request->q%")
-                ->orWhere('email', 'like', "%$request->q%")
-                ->orWhere('phone', 'like', "%$request->q%");
+            $query->where(function ($query) use ($request) {
+                $query->where('name', 'like', "%$request->q%")
+                    ->orWhere('fullname', 'like', "%$request->q%")
+                    ->orWhere('email', 'like', "%$request->q%")
+                    ->orWhere('phone', 'like', "%$request->q%");
+            });
+        }
+
+        if ($request->location_id != '') {
+            $query->whereHas('locationFavorites', fn ($q) => $q->where('id', $request->location_id));
+        }
+
+        if ($request->level_id != '') {
+            $query->where('customer_level_id', $request->level_id);
+        }
+
+        if ($request->sortBy != '' && $request->sortRule != '') {
+            $query->orderBy($request->sortBy, $request->sortRule);
+        } else {
+            $query->orderBy('updated_at', 'desc');
         }
 
         return inertia('Customer/Index', [
             'query' => $query->paginate(),
+            'stats' => $stats,
         ]);
     }
 

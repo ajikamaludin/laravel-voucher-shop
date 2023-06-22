@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
+
 class CustomerLevel extends Model
 {
     const BASIC = 'basic';
@@ -25,11 +27,22 @@ class CustomerLevel extends Model
         'name',
         'description',
         'key',
+        'logo',
         'min_amount',
         'max_amount',
         'max_loan',
     ];
 
+    protected $appends = [
+        'logo_url',
+    ];
+
+    protected function logoUrl(): Attribute
+    {
+        return Attribute::make(get: function () {
+            return asset($this->logo);
+        });
+    }
     public static function getByKey($key)
     {
         return CustomerLevel::where('key', $key)->first();

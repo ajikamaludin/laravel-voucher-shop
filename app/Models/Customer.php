@@ -65,6 +65,7 @@ class Customer extends Authenticatable
         'display_deposit',
         'display_poin',
         'display_phone',
+        'paylater_remain',
         'paylater_limit',
         'is_allow_paylater',
         'verification_status',
@@ -160,11 +161,22 @@ class Customer extends Authenticatable
         });
     }
 
-    public function paylaterLimit(): Attribute
+    public function paylaterRemain(): Attribute
     {
         return Attribute::make(get: function () {
             if ($this->is_allow_paylater) {
                 return $this->paylater->limit - $this->paylater->usage;
+            }
+
+            return '';
+        });
+    }
+
+    public function paylaterLimit(): Attribute
+    {
+        return Attribute::make(get: function () {
+            if ($this->is_allow_paylater) {
+                return $this->paylater->limit;
             }
 
             return '';

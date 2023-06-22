@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\CustomerController;
+use App\Http\Controllers\Api\CustomerLevelController;
 use App\Http\Controllers\Api\LocationController;
 use App\Http\Controllers\Api\LocationProfileController;
 use App\Http\Controllers\Api\NotificationController;
@@ -29,6 +30,7 @@ Route::get('/roles', [RoleController::class, 'index'])->name('api.role.index');
 Route::get('/locations', [LocationController::class, 'index'])->name('api.location.index');
 Route::get('/location-profiles', [LocationProfileController::class, 'index'])->name('api.location-profile.index');
 Route::get('/customers', [CustomerController::class, 'index'])->name('api.customer.index');
+Route::get('/customer-levels', [CustomerLevelController::class, 'index'])->name('api.customer-level.index');
 Route::get('/notifications/{notif?}', [NotificationController::class, 'update'])->name('api.notification.update');
 
 // midtrans

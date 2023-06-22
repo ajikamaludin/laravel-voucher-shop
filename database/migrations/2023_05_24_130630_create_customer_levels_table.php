@@ -15,7 +15,8 @@ return new class extends Migration
             $table->ulid('id')->primary();
 
             $table->string('name')->nullable();
-            $table->string('description')->nullable();
+            $table->string('logo')->nullable();
+            $table->text('description')->nullable();
             $table->string('key')->nullable();
             $table->decimal('min_amount', 20, 2)->default(0);
             $table->decimal('max_amount', 20, 2)->default(0);

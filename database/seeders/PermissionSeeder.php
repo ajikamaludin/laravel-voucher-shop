@@ -58,6 +58,8 @@ class PermissionSeeder extends Seeder
             ['id' => Str::ulid(), 'label' => 'View Customer Verification', 'name' => 'view-customer-verification'],
 
             ['id' => Str::ulid(), 'label' => 'View Setting', 'name' => 'view-setting'],
+            ['id' => Str::ulid(), 'label' => 'View Setting Payment Gatewat', 'name' => 'view-setting-payment-gateway'],
+            ['id' => Str::ulid(), 'label' => 'View Setting Affilate', 'name' => 'view-setting-affilate'],
 
             ['id' => Str::ulid(), 'label' => 'View Deposit', 'name' => 'view-deposit'],
             ['id' => Str::ulid(), 'label' => 'Update Deposit', 'name' => 'update-deposit'],

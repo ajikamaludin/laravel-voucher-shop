@@ -1,13 +1,11 @@
 import React from 'react'
-import { Head } from '@inertiajs/react'
-import { Dropdown } from 'flowbite-react'
+import { Head, Link } from '@inertiajs/react'
 import { HiPencil } from 'react-icons/hi'
 import { useModalState } from '@/hooks'
 
+import { formatIDR, hasPermission } from '@/utils'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import Pagination from '@/Components/Pagination'
-import FormModal from './FormModal'
-import { formatIDR, hasPermission } from '@/utils'
 
 export default function Info(props) {
     const {
@@ -16,11 +14,6 @@ export default function Info(props) {
     } = props
 
     const formModal = useModalState()
-
-    const toggleFormModal = (customerlevel = null) => {
-        formModal.setData(customerlevel)
-        formModal.toggle()
-    }
 
     const canUpdate = hasPermission(auth, 'update-customer-level')
 
@@ -41,25 +34,13 @@ export default function Info(props) {
                                                 scope="col"
                                                 className="py-3 px-6"
                                             >
+                                                Logo
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                className="py-3 px-6"
+                                            >
                                                 Name
-                                            </th>
-                                            <th
-                                                scope="col"
-                                                className="py-3 px-6"
-                                            >
-                                                Description
-                                            </th>
-                                            <th
-                                                scope="col"
-                                                className="py-3 px-6"
-                                            >
-                                                Minimal Deposit
-                                            </th>
-                                            <th
-                                                scope="col"
-                                                className="py-3 px-6"
-                                            >
-                                                Maximal Deposit
                                             </th>
                                             <th
                                                 scope="col"
@@ -77,34 +58,27 @@ export default function Info(props) {
                                                     scope="row"
                                                     className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                                 >
+                                                    <img
+                                                        src={level.logo_url}
+                                                        className="h-20"
+                                                        alt="logo alt"
+                                                    />
+                                                </td>
+                                                <td className="py-4 px-6">
                                                     {level.name}
                                                 </td>
-                                                <td className="py-4 px-6">
-                                                    {level.description}
-                                                </td>
-                                                <td className="py-4 px-6">
-                                                    {formatIDR(
-                                                        level.min_amount
-                                                    )}
-                                                </td>
-                                                <td className="py-4 px-6">
-                                                    {formatIDR(
-                                                        level.max_amount
-                                                    )}
-                                                </td>
-                                                <td className="py-4 px-6 flex justify-center">
+                                                <td className="py-4 px-6 flex flex-row justify-end items-center">
                                                     {canUpdate && (
-                                                        <div
+                                                        <Link
                                                             className="flex space-x-1 items-center hover:underline"
-                                                            onClick={() =>
-                                                                toggleFormModal(
-                                                                    level
-                                                                )
-                                                            }
+                                                            href={route(
+                                                                'customer-level.edit',
+                                                                level.id
+                                                            )}
                                                         >
                                                             <HiPencil />
                                                             <div>Ubah</div>
-                                                        </div>
+                                                        </Link>
                                                     )}
                                                 </td>
                                             </tr>
@@ -119,7 +93,6 @@ export default function Info(props) {
                     </div>
                 </div>
             </div>
-            <FormModal modalState={formModal} />
         </AuthenticatedLayout>
     )
 }

@@ -58,10 +58,11 @@ class AuthController extends Controller
                 ->with('message', ['type' => 'error', 'message' => 'Akun belum aktif, Silahkan klik link verifikasi di email anda']);
         }
 
-        if ($user->status == Customer::STATUS_SUSPEND) {
-            return redirect()->route('customer.login')
-                ->with('message', ['type' => 'error', 'message' => 'Akun anda telah disuspend, silahkan hubungi penyedia layanan']);
-        }
+        // Akun Suspend
+        // if ($user->status == Customer::STATUS_SUSPEND) {
+        //     return redirect()->route('customer.login')
+        //         ->with('message', ['type' => 'error', 'message' => 'Akun anda telah disuspend, silahkan hubungi penyedia layanan']);
+        // }
 
         $isAuth = Auth::guard('customer')->login($user);
         if ($isAuth) {
@@ -111,10 +112,11 @@ class AuthController extends Controller
             $customer->update(['google_oauth_response' => json_encode($user)]);
         }
 
-        if ($customer->status == Customer::STATUS_SUSPEND) {
-            return redirect()->route('customer.login')
-                ->with('message', ['type' => 'error', 'message' => 'Akun anda telah disuspend, silahkan hubungi penyedia layanan']);
-        }
+        // Akun Suspend
+        // if ($customer->status == Customer::STATUS_SUSPEND) {
+        //     return redirect()->route('customer.login')
+        //         ->with('message', ['type' => 'error', 'message' => 'Akun anda telah disuspend, silahkan hubungi penyedia layanan']);
+        // }
 
         Auth::guard('customer')->loginUsingId($customer->id);
 
