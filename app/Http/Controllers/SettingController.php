@@ -49,4 +49,44 @@ class SettingController extends Controller
 
         session()->flash('message', ['type' => 'success', 'message' => 'Setting has beed saved']);
     }
+
+    public function payment()
+    {
+        $setting = Setting::all();
+
+        return inertia('Setting/Payment', [
+            'setting' => $setting,
+            'midtrans_notification_url' => route('api.midtrans.notification'),
+
+        ]);
+    }
+
+
+    public function updatePayment(Request $request)
+    {
+        $request->validate([
+            'MIDTRANS_SERVER_KEY' => 'required|string',
+            'MIDTRANS_CLIENT_KEY' => 'required|string',
+            'MIDTRANS_MERCHANT_ID' => 'required|string',
+            'MIDTRANS_ENABLED' => 'required|in:0,1',
+            'midtrans_logo_file' => 'nullable|image',
+        ]);
+
+        DB::beginTransaction();
+        foreach ($request->except(['midtrans_logo_file']) as $key => $value) {
+            Setting::where('key', $key)->update(['value' => $value]);
+        }
+
+        if ($request->hasFile('midtrans_logo_file')) {
+            $file = $request->file('midtrans_logo_file');
+            $file->store('uploads', 'public');
+            Setting::where('key', 'MIDTRANS_LOGO')->update(['value' => $file->hashName('uploads')]);
+        }
+
+        Cache::flush();
+
+        DB::commit();
+
+        session()->flash('message', ['type' => 'success', 'message' => 'Setting has beed saved']);
+    }
 }

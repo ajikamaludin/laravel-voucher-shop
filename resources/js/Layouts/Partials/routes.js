@@ -176,9 +176,9 @@ export default [
                 name: 'Payment Gateway',
                 show: true,
                 icon: HiOutlineTable,
-                route: route('account.index'),
-                active: 'account.pg',
-                permission: 'view-account',
+                route: route('setting.payment'),
+                active: 'setting.payment',
+                permission: 'view-setting',
             },
             {
                 name: 'Cash / Setor Tunai',
@@ -186,7 +186,7 @@ export default [
                 icon: HiCash,
                 route: route('account.index'),
                 active: 'account.st',
-                permission: 'view-account',
+                permission: 'view-account', //need new permission
             },
         ],
     },
@@ -195,7 +195,7 @@ export default [
         show: true,
         icon: HiCog,
         route: route('setting.index'),
-        active: 'setting.*',
+        active: 'setting.index',
         permission: 'view-setting',
     },
 ]

@@ -130,6 +130,8 @@ Route::middleware(['http_secure_aware', 'inertia.admin'])
             Route::get('/vouchers/{location}/{profile}', [VoucherController::class, 'index'])->name('voucher.index');
 
             // setting
+            Route::get('/payment-gateway', [SettingController::class, 'payment'])->name('setting.payment');
+            Route::post('/payment-gateway', [SettingController::class, 'updatePayment']);
             Route::get('/settings', [SettingController::class, 'index'])->name('setting.index');
             Route::post('/settings', [SettingController::class, 'update'])->name('setting.update');
 
