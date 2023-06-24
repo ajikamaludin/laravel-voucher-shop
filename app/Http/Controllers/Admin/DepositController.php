@@ -13,7 +13,7 @@ class DepositController extends Controller
 {
     public function index(Request $request)
     {
-        $query = DepositHistory::with(['customer', 'account', 'editor'])
+        $query = DepositHistory::with(['customer', 'account', 'depositLocation', 'editor'])
             ->where('credit', 0)
             ->orderBy('is_valid', 'desc')
             ->orderBy('updated_at', 'desc');

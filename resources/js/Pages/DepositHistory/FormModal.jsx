@@ -21,6 +21,7 @@ export default function FormModal(props) {
                 holder_name: '',
                 account_number: '',
             },
+            deposit_location: null,
             payment_channel: '',
             is_valid: 0,
             status_text: '',
@@ -76,6 +77,7 @@ export default function FormModal(props) {
                 } )`,
                 description: deposit.description,
                 reject_reason: deposit.note,
+                deposit_location: deposit.deposit_location,
             })
             return
         }
@@ -111,6 +113,15 @@ export default function FormModal(props) {
                             <td>
                                 {data.account.name} ({data.account.bank_name})
                             </td>
+                        </tr>
+                    )}
+                    {data.deposit_location !== null && (
+                        <tr>
+                            <td className="font-bold">
+                                Lokasi Cash / Setor Tunai
+                            </td>
+                            <td>:</td>
+                            <td>{data.deposit_location.name}</td>
                         </tr>
                     )}
                     <tr>
