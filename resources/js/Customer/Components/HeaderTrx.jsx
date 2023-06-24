@@ -31,9 +31,7 @@ export default function HeaderTrx({ enable = 'deposit' }) {
             <div className="px-5 pb-5 border-b">
                 <div className="flex flex-row items-center text-gray-600 text-sm">
                     <div>{user.display_poin} poin</div>
-                    <div className="pl-1 text-xs">
-                        ( kadaluarsa pada 20 juni 2023 )
-                    </div>
+                    <div className="pl-1 text-xs">{user.poin_expired_text}</div>
                 </div>
             </div>
             <div className="w-full">

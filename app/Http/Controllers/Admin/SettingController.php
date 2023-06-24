@@ -27,6 +27,7 @@ class SettingController extends Controller
             'OPEN_WEBSITE_NAME' => 'required|string',
             'SHARE_TEXT' => 'required|string',
             'ENABLE_CASH_DEPOSIT' => 'required|in:0,1',
+            'TEXT_CASH_DEPOSIT' => 'required|string',
             'ENABLE_MANUAL_TRANSFER' => 'required|in:0,1',
             'MAX_MANUAL_TRANSFER_TIMEOUT' => 'required|numeric',
             'MANUAL_TRANSFER_OPEN_HOUR' => 'required|string',

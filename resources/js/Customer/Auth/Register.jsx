@@ -9,7 +9,7 @@ import Alert from '@/Components/Alert'
 import FormInputWith from '@/Components/FormInputWith'
 import TextArea from '@/Components/TextArea'
 
-export default function Index({ app_name, flash }) {
+export default function Index({ referral_code, flash }) {
     const { data, setData, post, processing, errors } = useForm({
         username: '',
         password: '',
@@ -19,7 +19,7 @@ export default function Index({ app_name, flash }) {
         address: '',
         phone: '',
         email: '',
-        referral_code: '',
+        referral_code: referral_code,
     })
 
     const handleOnChange = (event) => {

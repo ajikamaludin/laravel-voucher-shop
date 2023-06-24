@@ -29,8 +29,6 @@ export default function Affilate(props) {
         ),
     })
 
-    console.log(data)
-
     const handleCheckLevel = (e, level) => {
         if (e.target.checked) {
             const isExists = data.AFFILATE_ALLOWED_LEVELS.find(

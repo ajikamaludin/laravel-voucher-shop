@@ -145,7 +145,7 @@ export default function Topup({ payments }) {
                                         )}
                                         className="flex flex-row items-center w-full text-sm text-gray-400 py-2 gap-1"
                                     >
-                                        <div>Daftar lokasi setor tunai</div>
+                                        <div>Daftar lokasi pembayaran</div>
                                         <div className="text-blue-400">
                                             ada disini
                                         </div>

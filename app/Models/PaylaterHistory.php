@@ -30,14 +30,14 @@ class PaylaterHistory extends Model
     public function formatHumanCreatedAt(): Attribute
     {
         return Attribute::make(get: function () {
-            return Carbon::parse($this->created_at)->locale('id')->translatedFormat('d F Y');
+            return Carbon::parse($this->created_at)->translatedFormat('d F Y');
         });
     }
 
     public function formatCreatedAt(): Attribute
     {
         return Attribute::make(get: function () {
-            return Carbon::parse($this->created_at)->locale('id')->translatedFormat('d F Y H:i:s');
+            return Carbon::parse($this->created_at)->translatedFormat('d F Y H:i:s');
         });
     }
 
@@ -45,10 +45,10 @@ class PaylaterHistory extends Model
     {
         return Attribute::make(get: function () {
             if ($this->credit == 0) {
-                return 'Rp'.number_format($this->debit, is_float($this->debit) ? 2 : 0, ',', '.');
+                return 'Rp' . number_format($this->debit, is_float($this->debit) ? 2 : 0, ',', '.');
             }
 
-            return '-Rp'.number_format($this->credit, is_float($this->credit) ? 2 : 0, ',', '.');
+            return '-Rp' . number_format($this->credit, is_float($this->credit) ? 2 : 0, ',', '.');
         });
     }
 }

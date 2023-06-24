@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 
 class Customer extends Authenticatable
@@ -70,6 +71,7 @@ class Customer extends Authenticatable
         'is_allow_paylater',
         'verification_status',
         'status_text',
+        'poin_expired_text',
     ];
 
     protected static function booted(): void
@@ -205,6 +207,17 @@ class Customer extends Authenticatable
     {
         return Attribute::make(get: function () {
             return self::STATUS[$this->status];
+        });
+    }
+
+    public function poinExpiredText(): Attribute
+    {
+        return Attribute::make(get: function () {
+            if ($this->poin_expired_at != null) {
+                $date = Carbon::parse($this->poin_expired_at)->translatedFormat('d F Y');
+                return "( kadaluarsa pada $date )";
+            }
+            return '';
         });
     }
 

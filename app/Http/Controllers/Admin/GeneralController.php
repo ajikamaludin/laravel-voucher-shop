@@ -21,7 +21,7 @@ class GeneralController extends Controller
         $total_customer_verified = Customer::where('identity_verified', Customer::VERIFIED)->count();
         $total_deposit = DepositHistory::where('is_valid', DepositHistory::STATUS_VALID)->sum('debit');
 
-        $month = now()->locale('id')->translatedFormat('F');
+        $month = now()->translatedFormat('F');
         $startOfMonth = now()->startOfMonth()->format('m/d/Y');
         $endOfMonth = now()->endOfMonth()->format('m/d/Y');
         $total_voucher_sale_this_month = SaleItem::whereBetween('created_at', [$startOfMonth, $endOfMonth])

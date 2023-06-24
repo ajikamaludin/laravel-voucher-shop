@@ -107,6 +107,7 @@ class AuthController extends Controller
                 'google_oauth_response' => json_encode($user),
                 'status' => Customer::STATUS_ACTIVE,
             ]);
+            $this->process_referral($customer, session('referral_code', ''));
             DB::commit();
         } else {
             $customer->update(['google_oauth_response' => json_encode($user)]);
@@ -123,11 +124,21 @@ class AuthController extends Controller
         return redirect()->route('home.index');
     }
 
-    public function register()
+    public function register(Request $request)
     {
         session()->remove('carts');
 
-        return inertia('Auth/Register');
+        $code = '';
+        if ($request->referral_code != '') {
+            session()->put('referral_code', $request->referral_code);
+            $code = $request->referral_code;
+        } else {
+            $code = session('referral_code', ' ');
+        }
+
+        return inertia('Auth/Register', [
+            'referral_code' => $code,
+        ]);
     }
 
     public function store(Request $request)
@@ -158,25 +169,7 @@ class AuthController extends Controller
         // send confirmation email
         AsyncService::async(fn () => Mail::to($request->email)->send(new CustomerVerification($customer)));
 
-        if ($request->referral_code != '') {
-            $refferal = Customer::where('referral_code', $request->referral_code)->first();
-            $refferal->customerRefferals()->create([
-                'refferal_id' => $customer->id,
-                'customer_code' => $refferal->referral_code,
-            ]);
-
-            $affilateEnabled = Setting::getByKey('AFFILATE_ENABLED');
-            if ($affilateEnabled == 1) {
-                $bonuspoin = Setting::getByKey('AFFILATE_poin_AMOUNT');
-                $poin = $refferal->poins()->create([
-                    'debit' => $bonuspoin,
-                    'description' => 'Bonus Refferal #' . Str::random(5),
-                ]);
-
-                $poin->update_customer_balance();
-            }
-        }
-
+        $this->process_referral($customer, $request->referral_code);
         DB::commit();
 
         return redirect()->route('customer.login')
@@ -206,5 +199,31 @@ class AuthController extends Controller
 
         return redirect()->route('customer.login')
             ->with('message', ['type' => 'success', 'message' => 'Akun anda berhasil diaktifkan, silahkan login']);
+    }
+
+    private function process_referral(Customer $customer, $code)
+    {
+        if ($code != '') {
+            $refferal = Customer::where('referral_code', $code)->first();
+            if ($refferal == null) {
+                session()->forget('referral_code');
+                return;
+            }
+            $refferal->customerRefferals()->create([
+                'refferal_id' => $customer->id,
+                'customer_code' => $refferal->referral_code,
+            ]);
+
+            $affilateEnabled = Setting::getByKey('AFFILATE_ENABLED');
+            if ($affilateEnabled == 1) {
+                $bonuspoin = Setting::getByKey('AFFILATE_poin_AMOUNT');
+                $poin = $refferal->poins()->create([
+                    'debit' => $bonuspoin,
+                    'description' => 'Bonus Refferal #' . Str::random(5),
+                ]);
+
+                $poin->update_customer_balance();
+            }
+        }
     }
 }

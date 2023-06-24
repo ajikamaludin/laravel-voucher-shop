@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -10,7 +11,10 @@ class ProfileController extends Controller
 {
     public function index()
     {
-        return inertia('Profile/Index');
+        $shareText = Setting::getByKey('AFFILATE_SHARE_REFFERAL_CODE');
+        return inertia('Profile/Index', [
+            'share_text' => $shareText
+        ]);
     }
 
     public function show()

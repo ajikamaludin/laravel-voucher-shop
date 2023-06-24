@@ -20,6 +20,7 @@ return new class extends Migration
             $table->text('note')->nullable();
             $table->ulid('customer_id')->nullable();
             $table->ulid('account_id')->nullable();
+            $table->ulid('deposit_location_id')->nullable();
             $table->string('related_type')->nullable();
             $table->string('related_id')->nullable();
             $table->smallInteger('is_valid')->default(0);

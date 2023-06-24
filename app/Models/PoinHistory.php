@@ -25,14 +25,14 @@ class PoinHistory extends Model
     public function formatHumanCreatedAt(): Attribute
     {
         return Attribute::make(get: function () {
-            return Carbon::parse($this->created_at)->locale('id')->translatedFormat('d F Y');
+            return Carbon::parse($this->created_at)->translatedFormat('d F Y');
         });
     }
 
     public function formatCreatedAt(): Attribute
     {
         return Attribute::make(get: function () {
-            return Carbon::parse($this->created_at)->locale('id')->translatedFormat('d F Y H:i:s');
+            return Carbon::parse($this->created_at)->translatedFormat('d F Y H:i:s');
         });
     }
 

@@ -17,6 +17,7 @@ export default function General(props) {
         OPEN_WEBSITE_NAME: extractValue(setting, 'OPEN_WEBSITE_NAME'),
         SHARE_TEXT: extractValue(setting, 'SHARE_TEXT'),
         ENABLE_CASH_DEPOSIT: extractValue(setting, 'ENABLE_CASH_DEPOSIT'),
+        TEXT_CASH_DEPOSIT: extractValue(setting, 'TEXT_CASH_DEPOSIT'),
         ENABLE_MANUAL_TRANSFER: extractValue(setting, 'ENABLE_MANUAL_TRANSFER'),
         MAX_MANUAL_TRANSFER_TIMEOUT: extractValue(
             setting,
@@ -100,10 +101,17 @@ export default function General(props) {
                         </div>
                         <div className="p-2 border rounded-xl mt-2">
                             <Checkbox
-                                label="Aktifkan Setor Tunai"
+                                label="Aktifkan Cash / Setor Tunai"
                                 value={+data.ENABLE_CASH_DEPOSIT === 1}
                                 onChange={handleOnChange}
                                 name="ENABLE_CASH_DEPOSIT"
+                            />
+                            <FormInput
+                                name="TEXT_CASH_DEPOSIT"
+                                value={data.TEXT_CASH_DEPOSIT}
+                                onChange={handleOnChange}
+                                label="Nama Pilihan Pembayaran Cash / Setor Tunai"
+                                error={errors.TEXT_CASH_DEPOSIT}
                             />
                             <Checkbox
                                 label="Aktifkan Transfer Manual"
@@ -115,7 +123,7 @@ export default function General(props) {
                                 name="MAX_MANUAL_TRANSFER_TIMEOUT"
                                 value={data.MAX_MANUAL_TRANSFER_TIMEOUT}
                                 onChange={handleOnChange}
-                                label="Waktu Maksimal Transfer (Jam)"
+                                label="Waktu Maksimal Transfer ( Jam )"
                                 error={errors.MAX_MANUAL_TRANSFER_TIMEOUT}
                             />
                             <div className="my-2 flex flex-row gap-2 items-center">

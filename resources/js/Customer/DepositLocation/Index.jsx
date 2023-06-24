@@ -24,7 +24,7 @@ export default function Index({ locations: { data, next_page_url } }) {
     }
     return (
         <CustomerLayout>
-            <Head title="Lokasi Setor Tunai" />
+            <Head title="Lokasi Pembayaran" />
             <div className="flex flex-col min-h-[calc(90dvh)]">
                 <div
                     className="w-full px-5 py-5 flex flex-row items-center"
@@ -36,7 +36,7 @@ export default function Index({ locations: { data, next_page_url } }) {
                         <HiChevronLeft className="font-bold h-5 w-5" />
                     </div>
                     <div className="pl-4 text-xl font-bold">
-                        Lokasi Setor Tunai
+                        Lokasi Pembayaran
                     </div>
                 </div>
                 <div className="w-full px-2 flex flex-col gap-1">

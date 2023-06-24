@@ -35,6 +35,7 @@ class DepositHistory extends Model
         'is_valid',
         'image_prove',
         'account_id',
+        'deposit_location_id',
         'payment_token',
         'payment_status',
         'payment_response',
@@ -67,7 +68,7 @@ class DepositHistory extends Model
         return Attribute::make(get: function () {
             return [
                 self::STATUS_VALID => ['text' => 'Success', 'color' => 'bg-green-600', 'text_color' => 'text-green-600'],
-                self::STATUS_WAIT_UPLOAD => ['text' => 'Upload bukti transfer', 'color' => 'bg-red-600', 'text_color' => 'text-red-600'],
+                self::STATUS_WAIT_UPLOAD => ['text' => 'Upload bukti bayar', 'color' => 'bg-red-600', 'text_color' => 'text-red-600'],
                 self::STATUS_WAIT_APPROVE => ['text' => 'Menunggu Approve', 'color' => 'bg-green-600', 'text_color' => 'text-green-600'],
                 self::STATUS_WAIT_PAYMENT => ['text' => 'Menunggu Pembayaran', 'color' => 'bg-green-600', 'text_color' => 'text-green-600'],
                 self::STATUS_INVALID => ['text' => 'Error', 'color' => 'bg-red-600', 'text_color' => 'text-red-600'],
@@ -79,14 +80,14 @@ class DepositHistory extends Model
     public function formatHumanCreatedAt(): Attribute
     {
         return Attribute::make(get: function () {
-            return Carbon::parse($this->created_at)->locale('id')->translatedFormat('d F Y');
+            return Carbon::parse($this->created_at)->translatedFormat('d F Y');
         });
     }
 
     public function formatCreatedAt(): Attribute
     {
         return Attribute::make(get: function () {
-            return Carbon::parse($this->created_at)->locale('id')->translatedFormat('d F Y H:i:s');
+            return Carbon::parse($this->created_at)->translatedFormat('d F Y H:i:s');
         });
     }
 
@@ -116,6 +117,11 @@ class DepositHistory extends Model
     public function account()
     {
         return $this->belongsTo(Account::class);
+    }
+
+    public function depositLocation()
+    {
+        return $this->belongsTo(DepositLocation::class, 'deposit_location_id');
     }
 
     public function update_customer_balance()

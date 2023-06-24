@@ -100,7 +100,7 @@ class GeneralService
                 $payment[] = [
                     'name' => Setting::PAYMENT_CASH_DEPOSIT,
                     'logo' => null,
-                    'display_name' => 'Setor Tunai di Kantor WBB',
+                    'display_name' => Setting::getByKey('TEXT_CASH_DEPOSIT'),
                     'admin_fee' => 0
                 ];
             }

@@ -13,7 +13,11 @@ import CustomerLayout from '@/Layouts/CustomerLayout'
 import ModalConfirm from '@/Components/ModalConfirm'
 import BalanceBanner from '../Index/Partials/BalanceBanner'
 
-export default function Index({ auth: { user }, notification_count }) {
+export default function Index({
+    auth: { user },
+    notification_count,
+    share_text,
+}) {
     const confirmModal = useModalState()
 
     const handleLogoutClick = () => {
@@ -24,8 +28,12 @@ export default function Index({ auth: { user }, notification_count }) {
         router.post(route('customer.logout'))
     }
 
-    const handleCopyToClipboard = (text) => {
+    const handleReferalCopyToClipboard = (code) => {
         toastSuccess('copied to clipboard')
+        const text =
+            share_text +
+            '\n' +
+            route('customer.register', { referral_code: code })
         navigator.clipboard.writeText(text)
     }
 
@@ -80,7 +88,7 @@ export default function Index({ auth: { user }, notification_count }) {
                         className="p-4 text-blue-800 rounded-lg bg-blue-50 flex flex-row space-x-2 w-full items-center"
                         role="alert"
                         onClick={() =>
-                            handleCopyToClipboard(user.referral_code)
+                            handleReferalCopyToClipboard(user.referral_code)
                         }
                     >
                         <div>Referral Code: </div>

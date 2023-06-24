@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Account;
 use App\Models\Customer;
 use App\Models\DepositHistory;
+use App\Models\DepositLocation;
 use App\Models\Setting;
 use App\Services\GeneralService;
 use App\Services\MidtransService;
@@ -77,8 +78,9 @@ class DepositController extends Controller
     public function show(Request $request, DepositHistory $deposit)
     {
         return inertia('Deposit/Detail', [
-            'deposit' => $deposit->load(['account']),
+            'deposit' => $deposit->load(['account', 'depositLocation']),
             'accounts' => Account::get(),
+            'deposit_locations' => DepositLocation::get(),
             'midtrans_client_key' => Setting::getByKey('MIDTRANS_CLIENT_KEY'),
             'is_production' => app()->isProduction(),
             'direct' => $request->direct,
@@ -88,15 +90,24 @@ class DepositController extends Controller
     public function update(Request $request, DepositHistory $deposit)
     {
         $request->validate([
-            'account_id' => 'required|exists:accounts,id',
             'image' => 'required|image',
         ]);
 
+        if ($deposit->payment_channel == Setting::PAYMENT_CASH_DEPOSIT) {
+            $request->validate(['deposit_location_id' => 'required|exists:deposit_locations,id']);
+        }
+
+        if ($deposit->payment_channel == Setting::PAYMENT_MANUAL) {
+            $request->validate(['account_id' => 'required|exists:accounts,id']);
+        }
+
         $file = $request->file('image');
         $file->store('uploads', 'public');
+
         $deposit->update([
             'image_prove' => $file->hashName('uploads'),
             'account_id' => $request->account_id,
+            'deposit_location_id' => $request->deposit_location_id,
             'is_valid' => DepositHistory::STATUS_WAIT_APPROVE,
         ]);
 
