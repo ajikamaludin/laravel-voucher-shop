@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\GeneralService;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Support\Carbon;
 
@@ -19,10 +20,15 @@ class DepositHistory extends Model
 
     const STATUS_REJECT = 5;
 
+    const TYPE_DEPOSIT = 0;
+
+    const TYPE_REPAYMENT = 1;
+
     protected $fillable = [
         'debit',
         'credit',
         'description',
+        'note',
         'customer_id',
         'related_type',
         'related_id',
@@ -34,6 +40,7 @@ class DepositHistory extends Model
         'payment_response',
         'payment_channel',
         'payment_type',
+        'type',
     ];
 
     protected $appends = [
@@ -43,6 +50,17 @@ class DepositHistory extends Model
         'amount',
         'image_prove_url',
     ];
+
+    protected static function booted(): void
+    {
+        static::creating(function (DepositHistory $model) {
+            if ($model->description == null) {
+                if ($model->type == DepositHistory::TYPE_DEPOSIT) {
+                    $model->description = GeneralService::generateDepositCode();
+                }
+            }
+        });
+    }
 
     public function status(): Attribute
     {
@@ -109,6 +127,17 @@ class DepositHistory extends Model
     public function create_notification()
     {
         if ($this->payment_channel == Setting::PAYMENT_MANUAL) {
+            $status = '';
+            if ($this->is_valid == self::STATUS_WAIT_APPROVE) {
+                $status = ' (bukti bayar di upload, membutuhkan konfirmasi)';
+            }
+            Notification::create([
+                'entity_type' => User::class,
+                'description' => $this->customer->fullname . ' melakukan deposit transfer manual sebesar : ' . $this->amount . $status,
+            ]);
+        }
+
+        if ($this->payment_channel == Setting::PAYMENT_CASH_DEPOSIT) {
             $status = '';
             if ($this->is_valid == self::STATUS_WAIT_APPROVE) {
                 $status = ' (bukti bayar di upload, membutuhkan konfirmasi)';

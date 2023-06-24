@@ -12,7 +12,7 @@ export default function Detail({ sale }) {
                 <div
                     className="w-full px-5 py-5"
                     onClick={() => {
-                        router.get(route('transactions.index'))
+                        router.get(route('transactions.sale.index'))
                     }}
                 >
                     <HiChevronLeft className="font-bold h-5 w-5" />

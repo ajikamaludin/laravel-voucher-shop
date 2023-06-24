@@ -16,12 +16,14 @@ return new class extends Migration
 
             $table->decimal('debit', 20, 2)->default(0);
             $table->decimal('credit', 20, 2)->default(0);
-            $table->text('description')->nullable();
+            $table->string('description')->nullable();
+            $table->text('note')->nullable();
             $table->ulid('customer_id')->nullable();
             $table->ulid('account_id')->nullable();
             $table->string('related_type')->nullable();
             $table->string('related_id')->nullable();
             $table->smallInteger('is_valid')->default(0);
+            $table->smallInteger('type')->default(0);
             $table->string('image_prove')->nullable();
             $table->string('payment_channel')->nullable();
             $table->string('payment_token')->nullable();

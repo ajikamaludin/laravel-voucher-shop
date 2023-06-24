@@ -5,3 +5,5 @@ export const toastSuccess = (message) => {
         return <div onClick={() => toast.dismiss(t.id)}>{message}</div>
     })
 }
+
+export const CASH_DEPOSIT = 'CASH_DEPOSIT'

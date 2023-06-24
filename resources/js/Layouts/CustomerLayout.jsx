@@ -105,7 +105,7 @@ export default function CustomerLayout({ children }) {
                     className={`pb-1 pt-2 hover:bg-blue-200 flex flex-col items-center w-full ${isActive(
                         'transactions.*'
                     )}`}
-                    onClick={() => handleOnClick('transactions.index')}
+                    onClick={() => handleOnClick('transactions.deposit.index')}
                 >
                     <HiArrowPathRoundedSquare className="h-6 w-6" />
                     <div className="text-xs">Transaksi</div>

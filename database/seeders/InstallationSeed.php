@@ -22,8 +22,7 @@ class InstallationSeed extends Seeder
         $settings = [
             // general
             ['key' => 'OPEN_WEBSITE_NAME', 'value' => 'Welcome to Voucher App', 'type' => 'text'],
-            ['key' => 'SHARE_TEXT', 'value' => '', 'type' => 'text'],
-
+            ['key' => 'SHARE_TEXT', 'value' => '<p>Baru Beli Voucher nih</p>', 'type' => 'text'],
 
             // affilate
             ['key' => 'AFFILATE_ENABLED', 'value' => '0', 'type' => 'checkbox'],
@@ -41,9 +40,9 @@ class InstallationSeed extends Seeder
             ['key' => 'MIDTRANS_ADMIN_FEE', 'value' => '2500', 'type' => 'text'],
 
             // deposit
-            ['key' => 'ENABLE_CASH_DEPOSIT', 'value' => '0', 'type' => 'text'],
-            ['key' => 'ENABLE_MANUAL_TRANSFER', 'value' => '0', 'type' => 'text'],
-            ['key' => 'MAX_MANUAL_TRANSFER_TIMEOUT', 'value' => '2', 'type' => 'text'], //dalam jam
+            ['key' => 'ENABLE_CASH_DEPOSIT', 'value' => '0', 'type' => 'text'], // deposit by location (on/off)
+            ['key' => 'ENABLE_MANUAL_TRANSFER', 'value' => '0', 'type' => 'text'], // transfer manual (on/off)
+            ['key' => 'MAX_MANUAL_TRANSFER_TIMEOUT', 'value' => '2', 'type' => 'text'], // dalam jam
             ['key' => 'MANUAL_TRANSFER_OPEN_HOUR', 'value' => '06:00', 'type' => 'text'],
             ['key' => 'MANUAL_TRANSFER_CLOSE_HOUR', 'value' => '23:00', 'type' => 'text'],
             ['key' => 'MAX_POINT_EXPIRED', 'value' => '90', 'type' => 'text'], //dalam hari

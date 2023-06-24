@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Account;
 use Illuminate\Http\Request;
 
@@ -34,7 +35,7 @@ class AccountController extends Controller
 
         $file = $request->file('logo');
         $file->store('uploads', 'public');
-        
+
         Account::create([
             'name' => $request->name,
             'bank_name' => $request->bank_name,

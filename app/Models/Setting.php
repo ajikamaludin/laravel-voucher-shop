@@ -19,6 +19,8 @@ class Setting extends Model
 
     const PAYMENT_PAYLATER = 'PAYLATER';
 
+    const PAYMENT_CASH_DEPOSIT = 'CASH_DEPOSIT';
+
     protected $fillable = [
         'key',
         'value',

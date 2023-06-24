@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use App\Models\DepositHistory;
 use Illuminate\Http\Request;
@@ -12,7 +13,7 @@ class DepositController extends Controller
 {
     public function index(Request $request)
     {
-        $query = DepositHistory::with(['customer', 'account'])
+        $query = DepositHistory::with(['customer', 'account', 'editor'])
             ->where('credit', 0)
             ->orderBy('is_valid', 'desc')
             ->orderBy('updated_at', 'desc');
@@ -50,9 +51,14 @@ class DepositController extends Controller
             ],
         ]);
 
+        if ($request->status == DepositHistory::STATUS_REJECT) {
+            $request->validate(['reject_reason' => 'required|string']);
+        }
+
         DB::beginTransaction();
         $deposit->update([
             'is_valid' => $request->status,
+            'note' => $request->reject_reason
         ]);
         if ($request->status == DepositHistory::STATUS_VALID) {
             $deposit->update_customer_balance();

@@ -202,7 +202,7 @@ class CartController extends Controller
 
         session()->remove('carts');
 
-        return redirect()->route('transactions.show', $sale)
+        return redirect()->route('transactions.sale.show', $sale)
             ->with('message', ['type' => 'success', 'message' => 'pembelian berhasil']);
     }
 }

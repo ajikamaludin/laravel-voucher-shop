@@ -1,25 +1,25 @@
 <?php
 
-use App\Http\Controllers\AccountController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
-use App\Http\Controllers\BannerController;
-use App\Http\Controllers\CustomerController;
-use App\Http\Controllers\CustomerLevelController;
-use App\Http\Controllers\DepositController;
-use App\Http\Controllers\DepositLocationController;
-use App\Http\Controllers\GeneralController;
-use App\Http\Controllers\InfoController;
-use App\Http\Controllers\LocationController;
-use App\Http\Controllers\LocationProfileController;
-use App\Http\Controllers\NotificationController;
-use App\Http\Controllers\PoinRewardController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\RoleController;
-use App\Http\Controllers\SaleController;
-use App\Http\Controllers\SettingController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\VerificationController;
-use App\Http\Controllers\VoucherController;
+use App\Http\Controllers\Admin\AccountController;
+use App\Http\Controllers\Admin\BannerController;
+use App\Http\Controllers\Admin\CustomerController;
+use App\Http\Controllers\Admin\CustomerLevelController;
+use App\Http\Controllers\Admin\DepositController;
+use App\Http\Controllers\Admin\DepositLocationController;
+use App\Http\Controllers\Admin\GeneralController;
+use App\Http\Controllers\Admin\InfoController;
+use App\Http\Controllers\Admin\LocationController;
+use App\Http\Controllers\Admin\LocationProfileController;
+use App\Http\Controllers\Admin\NotificationController;
+use App\Http\Controllers\Admin\PoinRewardController;
+use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\SaleController;
+use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\VerificationController;
+use App\Http\Controllers\Admin\VoucherController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['http_secure_aware', 'inertia.admin'])

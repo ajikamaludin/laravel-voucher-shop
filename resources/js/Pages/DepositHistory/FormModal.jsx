@@ -6,6 +6,7 @@ import FormInput from '@/Components/FormInput'
 import RoleSelectionInput from '../Role/SelectionInput'
 
 import { isEmpty } from 'lodash'
+import { STATUS_APPROVE, STATUS_REJECT } from '@/constant'
 
 export default function FormModal(props) {
     const { modalState } = props
@@ -27,6 +28,7 @@ export default function FormModal(props) {
             customer_name: '',
             customer_phone: '',
             description: '',
+            reject_reason: '',
         })
 
     const handleOnChange = (event) => {
@@ -73,6 +75,7 @@ export default function FormModal(props) {
                     deposit.customer.phone ?? deposit.customer.email
                 } )`,
                 description: deposit.description,
+                reject_reason: deposit.note,
             })
             return
         }
@@ -120,6 +123,13 @@ export default function FormModal(props) {
                         <td>:</td>
                         <td className={data.text_color}>{data.status_text}</td>
                     </tr>
+                    {+data.is_valid === STATUS_REJECT && (
+                        <tr>
+                            <td className="font-bold">Alasan Penolakan</td>
+                            <td>:</td>
+                            <td>{data.reject_reason}</td>
+                        </tr>
+                    )}
                 </tbody>
             </table>
 
@@ -131,31 +141,49 @@ export default function FormModal(props) {
                     />
                 </div>
             )}
-            {+data.is_valid !== 0 && (
-                <>
-                    <div className="my-4">
-                        <div className="mb-1 text-sm">Status </div>
-                        <select
-                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                            onChange={handleOnChange}
-                            value={+data.status}
-                            name="status"
-                        >
-                            <option value=""></option>
-                            <option value={0}>Approve</option>
-                            <option value={5}>Reject</option>
-                        </select>
-                    </div>
-                    <div className="flex items-center">
-                        <Button onClick={handleSubmit} processing={processing}>
-                            Simpan
-                        </Button>
-                        <Button onClick={handleClose} type="secondary">
-                            Batal
-                        </Button>
-                    </div>
-                </>
-            )}
+            {+data.is_valid !== STATUS_APPROVE &&
+                +data.is_valid !== STATUS_REJECT && (
+                    <>
+                        <div className="my-4">
+                            <div className="mb-1 text-sm">Status </div>
+                            <select
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                onChange={handleOnChange}
+                                value={+data.status}
+                                name="status"
+                            >
+                                <option value=""> -- pilih status -- </option>
+                                <option value={STATUS_APPROVE}>Approve</option>
+                                <option value={STATUS_REJECT}>Reject</option>
+                            </select>
+                            {errors.status && (
+                                <div className="text-sm text-red-500">
+                                    {errors.status}
+                                </div>
+                            )}
+                        </div>
+                        {+data.status === STATUS_REJECT && (
+                            <FormInput
+                                label="Alasan penolakan"
+                                name="reject_reason"
+                                value={data.reject_reason}
+                                onChange={handleOnChange}
+                                error={errors.reject_reason}
+                            />
+                        )}
+                        <div className="flex items-center">
+                            <Button
+                                onClick={handleSubmit}
+                                processing={processing}
+                            >
+                                Simpan
+                            </Button>
+                            <Button onClick={handleClose} type="secondary">
+                                Batal
+                            </Button>
+                        </div>
+                    </>
+                )}
         </Modal>
     )
 }

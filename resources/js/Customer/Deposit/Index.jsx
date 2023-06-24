@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { Head, router } from '@inertiajs/react'
 import CustomerLayout from '@/Layouts/CustomerLayout'
-import { formatIDR } from '@/utils'
+import { HiOutlineQuestionMarkCircle } from 'react-icons/hi2'
+import HeaderTrx from '../Components/HeaderTrx'
 
 export default function Index({
     auth: { user },
@@ -28,31 +29,9 @@ export default function Index({
         <CustomerLayout>
             <Head title="Top Up" />
             <div className="flex flex-col w-full min-h-[calc(90dvh)]">
-                <div className="w-full pt-10 px-5">
-                    <div className="text-base">{user.fullname}</div>
-                </div>
-                <div className="flex flex-row justify-between items-center pb-10 border-b px-5">
-                    <div>
-                        <div className="font-semibold text-xl text-gray-400">
-                            Saldo
-                        </div>
-                        <div className="font-bold text-3xl">
-                            Rp {user.display_deposit}
-                        </div>
-                    </div>
-                    <div>
-                        <div
-                            className="px-3 py-2 border rounded-full bg-blue-700 text-white hover:bg-transparent hover:text-black"
-                            onClick={() =>
-                                router.get(route('customer.deposit.topup'))
-                            }
-                        >
-                            Top Up
-                        </div>
-                    </div>
-                </div>
+                <HeaderTrx />
                 <div className="w-full">
-                    <div className="flex flex-col py-10 space-y-5 px-5">
+                    <div className="flex flex-col space-y-5 px-5">
                         {deposites.map((history) => (
                             <div
                                 key={history.id}
@@ -60,7 +39,7 @@ export default function Index({
                                 onClick={() =>
                                     router.get(
                                         route(
-                                            'customer.deposit.show',
+                                            'transactions.deposit.show',
                                             history.id
                                         )
                                     )
@@ -80,7 +59,7 @@ export default function Index({
                                     </div>
                                     {+history.is_valid !== 0 && (
                                         <div
-                                            className={`text-xs px-2 py-1 rounded-full border ${history.status.color} text-white`}
+                                            className={`text-xs px-2 py-1 rounded-full border text-white ${history.status.color}`}
                                         >
                                             {history.status.text}
                                         </div>

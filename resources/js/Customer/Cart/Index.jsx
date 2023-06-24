@@ -29,7 +29,7 @@ export default function Index({
     }
 
     const handleTopUp = () => {
-        router.get(route('customer.deposit.topup'))
+        router.get(route('transactions.deposit.topup'))
     }
 
     return (

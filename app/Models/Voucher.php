@@ -37,7 +37,7 @@ class Voucher extends Model
     {
         if (count(self::$instance) == 0) {
             self::$instance = [
-                'customer' => Customer::find(auth()->id())
+                'customer' => Customer::find(auth()->guard('customer')->id())
             ];
         }
 

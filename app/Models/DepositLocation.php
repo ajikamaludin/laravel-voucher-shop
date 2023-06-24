@@ -33,22 +33,7 @@ class DepositLocation extends Model
     protected function operationalHour(): Attribute
     {
         return Attribute::make(get: function () {
-            return $this->parser($this->open_hour) . ' - ' . $this->parser($this->close_hour);
+            return $this->open_hour . ' - ' . $this->close_hour;
         });
-    }
-
-    private function parser($time)
-    {
-        $r = '';
-        $time = explode(':', $time);
-        foreach ($time as $t) {
-            if ($t == 0) {
-                $r .= '00:';
-            } else {
-                $r .= $t . ':';
-            }
-        }
-
-        return substr($r, 0, -1);
     }
 }

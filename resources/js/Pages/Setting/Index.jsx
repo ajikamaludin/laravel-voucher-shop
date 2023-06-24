@@ -3,6 +3,9 @@ import { Head, router, useForm } from '@inertiajs/react'
 
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import FormInput from '@/Components/FormInput'
+import Checkbox from '@/Components/Checkbox'
+import FormInputNumeric from '@/Components/FormInputNumeric'
+import FormInputTime from '@/Components/FormInputTime'
 import Button from '@/Components/Button'
 import { extractValue } from './utils'
 
@@ -13,6 +16,21 @@ export default function General(props) {
     const { data, setData, post, reset, processing, errors } = useForm({
         OPEN_WEBSITE_NAME: extractValue(setting, 'OPEN_WEBSITE_NAME'),
         SHARE_TEXT: extractValue(setting, 'SHARE_TEXT'),
+        ENABLE_CASH_DEPOSIT: extractValue(setting, 'ENABLE_CASH_DEPOSIT'),
+        ENABLE_MANUAL_TRANSFER: extractValue(setting, 'ENABLE_MANUAL_TRANSFER'),
+        MAX_MANUAL_TRANSFER_TIMEOUT: extractValue(
+            setting,
+            'MAX_MANUAL_TRANSFER_TIMEOUT'
+        ),
+        MANUAL_TRANSFER_OPEN_HOUR: extractValue(
+            setting,
+            'MANUAL_TRANSFER_OPEN_HOUR'
+        ),
+        MANUAL_TRANSFER_CLOSE_HOUR: extractValue(
+            setting,
+            'MANUAL_TRANSFER_CLOSE_HOUR'
+        ),
+        MAX_POINT_EXPIRED: extractValue(setting, 'MAX_POINT_EXPIRED'),
     })
 
     const handleOnChange = (event) => {
@@ -27,11 +45,7 @@ export default function General(props) {
     }
 
     const handleSubmit = () => {
-        post(route('setting.update'), {
-            onSuccess: () => {
-                setTimeout(() => router.get(route(route().current())), 3000)
-            },
-        })
+        post(route('setting.update'))
     }
 
     return (
@@ -55,6 +69,7 @@ export default function General(props) {
                                 label="Nama Website"
                                 error={errors.OPEN_WEBSITE_NAME}
                             />
+
                             <div className="py-4">
                                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                     Share Text Voucher
@@ -82,6 +97,67 @@ export default function General(props) {
                                     />
                                 </Suspense>
                             </div>
+                        </div>
+                        <div className="p-2 border rounded-xl mt-2">
+                            <Checkbox
+                                label="Aktifkan Setor Tunai"
+                                value={+data.ENABLE_CASH_DEPOSIT === 1}
+                                onChange={handleOnChange}
+                                name="ENABLE_CASH_DEPOSIT"
+                            />
+                            <Checkbox
+                                label="Aktifkan Transfer Manual"
+                                value={+data.ENABLE_MANUAL_TRANSFER === 1}
+                                onChange={handleOnChange}
+                                name="ENABLE_MANUAL_TRANSFER"
+                            />
+                            <FormInputNumeric
+                                name="MAX_MANUAL_TRANSFER_TIMEOUT"
+                                value={data.MAX_MANUAL_TRANSFER_TIMEOUT}
+                                onChange={handleOnChange}
+                                label="Waktu Maksimal Transfer (Jam)"
+                                error={errors.MAX_MANUAL_TRANSFER_TIMEOUT}
+                            />
+                            <div className="my-2 flex flex-row gap-2 items-center">
+                                <div>
+                                    <FormInputTime
+                                        name="MANUAL_TRANSFER_OPEN_HOUR"
+                                        value={data.MANUAL_TRANSFER_OPEN_HOUR}
+                                        onChange={(h) =>
+                                            setData(
+                                                'MANUAL_TRANSFER_OPEN_HOUR',
+                                                h
+                                            )
+                                        }
+                                        label="Jam Buka"
+                                        error={errors.MANUAL_TRANSFER_OPEN_HOUR}
+                                    />
+                                </div>
+                                <div> - </div>
+                                <div>
+                                    <FormInputTime
+                                        name="MANUAL_TRANSFER_CLOSE_HOUR"
+                                        value={data.MANUAL_TRANSFER_CLOSE_HOUR}
+                                        onChange={(h) =>
+                                            setData(
+                                                'MANUAL_TRANSFER_CLOSE_HOUR',
+                                                h
+                                            )
+                                        }
+                                        label="Jam Tutup"
+                                        error={
+                                            errors.MANUAL_TRANSFER_CLOSE_HOUR
+                                        }
+                                    />
+                                </div>
+                            </div>
+                            <FormInputNumeric
+                                name="MAX_POINT_EXPIRED"
+                                value={data.MAX_POINT_EXPIRED}
+                                onChange={handleOnChange}
+                                label="Kadaluarsa Poin Tidak digunakan (Hari)"
+                                error={errors.MAX_POINT_EXPIRED}
+                            />
                         </div>
 
                         <div className="mt-4">

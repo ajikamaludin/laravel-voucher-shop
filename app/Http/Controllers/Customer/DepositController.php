@@ -20,7 +20,8 @@ class DepositController extends Controller
     {
         $histories = DepositHistory::where('customer_id', auth()->id())
             ->orderBy('updated_at', 'desc')
-            ->orderBy('is_valid', 'desc');
+            ->orderBy('is_valid', 'desc')
+            ->where('type', DepositHistory::TYPE_DEPOSIT);
 
         return inertia('Deposit/Index', [
             'histories' => $histories->paginate(20),
@@ -40,7 +41,7 @@ class DepositController extends Controller
             'amount' => 'required|numeric|min:10000',
             'payment' => [
                 'required',
-                Rule::in([Setting::PAYMENT_MANUAL, Setting::PAYMENT_MIDTRANS]),
+                Rule::in([Setting::PAYMENT_MANUAL, Setting::PAYMENT_MIDTRANS, Setting::PAYMENT_CASH_DEPOSIT]),
             ],
         ]);
 
@@ -48,11 +49,11 @@ class DepositController extends Controller
         $deposit = DepositHistory::make([
             'customer_id' => auth()->id(),
             'debit' => $request->amount,
-            'description' => 'Top Up #'.Str::random(5),
             'payment_channel' => $request->payment,
+            'type' => DepositHistory::TYPE_DEPOSIT,
         ]);
 
-        if ($request->payment == Setting::PAYMENT_MANUAL) {
+        if (in_array($request->payment, [Setting::PAYMENT_MANUAL, Setting::PAYMENT_CASH_DEPOSIT])) {
             $deposit->is_valid = DepositHistory::STATUS_WAIT_UPLOAD;
             $deposit->save();
         }
@@ -65,17 +66,18 @@ class DepositController extends Controller
 
             $deposit->update(['payment_token' => $token]);
         }
+
         $deposit->create_notification();
 
         DB::commit();
 
-        return redirect()->route('customer.deposit.show', ['deposit' => $deposit->id, 'direct' => 'true']);
+        return redirect()->route('transactions.deposit.show', ['deposit' => $deposit->id, 'direct' => 'true']);
     }
 
     public function show(Request $request, DepositHistory $deposit)
     {
         return inertia('Deposit/Detail', [
-            'deposit' => $deposit,
+            'deposit' => $deposit->load(['account']),
             'accounts' => Account::get(),
             'midtrans_client_key' => Setting::getByKey('MIDTRANS_CLIENT_KEY'),
             'is_production' => app()->isProduction(),
@@ -131,7 +133,7 @@ class DepositController extends Controller
 
         DB::commit();
 
-        return redirect()->route('customer.deposit.show', ['deposit' => $deposit->id]);
+        return redirect()->route('transactions.deposit.show', ['deposit' => $deposit->id]);
     }
 
     public function mindtrans_notification(Request $request)

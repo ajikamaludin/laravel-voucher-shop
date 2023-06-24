@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\DepositLocation;
+use App\Services\GeneralService;
 use Illuminate\Http\Request;
 
 class DepositLocationController extends Controller
@@ -45,8 +47,8 @@ class DepositLocationController extends Controller
             'gmap_url' => $request->gmap_url,
             'image' => $file->hashName('uploads'),
             'description' => $request->description,
-            'open_hour' => $request->open_hour,
-            'close_hour' => $request->close_hour,
+            'open_hour' => GeneralService::parserToHour($request->open_hour),
+            'close_hour' => GeneralService::parserToHour($request->close_hour),
             'is_active' => $request->is_active,
         ]);
 
@@ -88,8 +90,8 @@ class DepositLocationController extends Controller
             'gmap_url' => $request->gmap_url,
             'image' => $location->image,
             'description' => $request->description,
-            'open_hour' => $request->open_hour,
-            'close_hour' => $request->close_hour,
+            'open_hour' => GeneralService::parserToHour($request->open_hour),
+            'close_hour' => GeneralService::parserToHour($request->close_hour),
             'is_active' => $request->is_active,
         ]);
 

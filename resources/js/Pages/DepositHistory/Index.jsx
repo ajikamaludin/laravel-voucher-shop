@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { router } from '@inertiajs/react'
+import { Link, router } from '@inertiajs/react'
 import { usePrevious } from 'react-use'
 import { Head } from '@inertiajs/react'
 import { HiEye } from 'react-icons/hi2'
@@ -67,6 +67,12 @@ export default function Index(props) {
                                                 scope="col"
                                                 className="py-3 px-6"
                                             >
+                                                #
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                className="py-3 px-6"
+                                            >
                                                 Customer
                                             </th>
                                             <th
@@ -81,17 +87,18 @@ export default function Index(props) {
                                             >
                                                 Tanggal
                                             </th>
-                                            <th
-                                                scope="col"
-                                                className="py-3 px-6"
-                                            >
-                                                Deskripsi
-                                            </th>
+
                                             <th
                                                 scope="col"
                                                 className="py-3 px-6"
                                             >
                                                 Status
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                className="py-3 px-6"
+                                            >
+                                                Approver
                                             </th>
                                             <th
                                                 scope="col"
@@ -109,7 +116,18 @@ export default function Index(props) {
                                                     scope="row"
                                                     className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                                 >
-                                                    {deposit.customer.name}
+                                                    {deposit.description}
+                                                </td>
+                                                <td className="py-4 px-6">
+                                                    <Link
+                                                        className="hover:underline"
+                                                        href={route(
+                                                            'customer.edit',
+                                                            deposit.customer.id
+                                                        )}
+                                                    >
+                                                        {deposit.customer.name}
+                                                    </Link>
                                                 </td>
                                                 <td className="py-4 px-6">
                                                     {deposit.amount}
@@ -117,13 +135,13 @@ export default function Index(props) {
                                                 <td className="py-4 px-6">
                                                     {deposit.format_created_at}
                                                 </td>
-                                                <td className="py-4 px-6">
-                                                    {deposit.description}
-                                                </td>
                                                 <td
                                                     className={`py-4 px-6 ${deposit.status.text_color}`}
                                                 >
                                                     {deposit.status.text}
+                                                </td>
+                                                <td className="py-4 px-6">
+                                                    {deposit.editor?.name}
                                                 </td>
                                                 <td className="py-4 px-6 flex justify-center">
                                                     {canUpdate && (

@@ -4,6 +4,7 @@ use App\Http\Controllers\Customer\CustomerLevelController;
 use App\Http\Controllers\Customer\AuthController;
 use App\Http\Controllers\Customer\CartController;
 use App\Http\Controllers\Customer\DepositController;
+use App\Http\Controllers\Customer\DepositLocationController;
 use App\Http\Controllers\Customer\HomeController;
 use App\Http\Controllers\Customer\PaylaterController;
 use App\Http\Controllers\Customer\PoinController;
@@ -51,32 +52,37 @@ Route::middleware(['http_secure_aware', 'guard_should_customer', 'inertia.custom
         Route::get('paylater/trx/{paylater}', [PaylaterController::class, 'show'])->name('customer.paylater.show');
 
         // deposite
-        Route::get('deposit', [DepositController::class, 'index'])->name('customer.deposit.index');
-        Route::get('deposit/topup', [DepositController::class, 'create'])->name('customer.deposit.topup');
-        Route::post('deposit/topup', [DepositController::class, 'store']);
-        Route::get('deposit/trx/{deposit}', [DepositController::class, 'show'])->name('customer.deposit.show');
-        Route::post('deposit/trx/{deposit}', [DepositController::class, 'update'])->name('customer.deposit.update');
+        Route::get('trx/deposit', [DepositController::class, 'index'])->name('transactions.deposit.index');
+        Route::get('trx/deposit/topup', [DepositController::class, 'create'])->name('transactions.deposit.topup');
+        Route::post('trx/deposit/topup', [DepositController::class, 'store']);
+        Route::get('trx/deposit/{deposit}', [DepositController::class, 'show'])->name('transactions.deposit.show');
+        Route::post('trx/deposit/{deposit}', [DepositController::class, 'update'])->name('transactions.deposit.update');
+
+        // transaction
+        Route::get('trx/sale', [TransactionController::class, 'index'])->name('transactions.sale.index');
+        Route::get('trx/sale/{sale}', [TransactionController::class, 'show'])->name('transactions.sale.show');
 
         // poin
+        Route::get('trx/poin', [PoinController::class, 'index'])->name('transactions.poin.index');
+        Route::get('trx/poin/{poin}', [PoinController::class, 'show'])->name('transactions.poin.show');
+
+        // poin exchange
         Route::get('poin/exchanges', [PoinExchangeController::class, 'index'])->name('customer.poin.exchange');
         Route::get('poin/exchanges/{voucher}', [PoinExchangeController::class, 'exchange'])->name('customer.poin.exchange.process');
-        Route::get('poin', [PoinController::class, 'index'])->name('customer.poin.index');
-        Route::get('poin/{poin}', [PoinController::class, 'show'])->name('customer.poin.show');
 
         // cart
         Route::get('cart', [CartController::class, 'index'])->name('cart.index');
         Route::post('cart/process', [CartController::class, 'purchase'])->name('cart.purchase');
         Route::post('cart/{voucher}', [CartController::class, 'store'])->name('cart.store');
 
-        // transaction
-        Route::get('sale/trx', [TransactionController::class, 'index'])->name('transactions.index');
-        Route::get('sale/trx/{sale}', [TransactionController::class, 'show'])->name('transactions.show');
-
         // notification
         Route::get('notifications', [HomeController::class, 'notification'])->name('notification.index');
 
         // customer level
         Route::get('customer-level', [CustomerLevelController::class, 'index'])->name('customer.customer-level.index');
+
+        // cash deposit location
+        Route::get('cash-deposit-locations', [DepositLocationController::class, 'index'])->name('customer.deposit-location.index');
     });
 
     Route::middleware('guest:customer')->group(function () {

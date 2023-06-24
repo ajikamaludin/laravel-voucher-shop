@@ -1,11 +1,11 @@
 import React from 'react'
-import { Head, router, useForm } from '@inertiajs/react'
-import { HiChevronLeft } from 'react-icons/hi2'
+import { Head, Link, router, useForm } from '@inertiajs/react'
+import { HiCheck, HiChevronLeft, HiQuestionMarkCircle } from 'react-icons/hi2'
 
-import CustomerLayout from '@/Layouts/CustomerLayout'
-import FormInput from '@/Components/FormInput'
-import Alert from '@/Components/Alert'
 import { formatIDR } from '@/utils'
+import { CASH_DEPOSIT } from '@/Customer/utils'
+import CustomerLayout from '@/Layouts/CustomerLayout'
+import Alert from '@/Components/Alert'
 import FormInputNumeric from '@/Components/FormInputNumeric'
 
 export default function Topup({ payments }) {
@@ -33,11 +33,21 @@ export default function Topup({ payments }) {
         }`
     }
 
+    const isActivePaymentAdminFee = (payment) => {
+        return `text-xs ${
+            payment === data.payment ? 'text-white' : 'text-gray-400'
+        }`
+    }
+
+    const handleSetPayment = (payment) => {
+        setData('payment', payment.name)
+    }
+
     const handleSubmit = () => {
         if (processing) {
             return
         }
-        post(route('customer.deposit.topup'))
+        post(route('transactions.deposit.topup'))
     }
 
     return (
@@ -47,7 +57,7 @@ export default function Topup({ payments }) {
                 <div
                     className="w-full px-5 py-5"
                     onClick={() => {
-                        router.get(route('customer.deposit.index'))
+                        router.get(route('transactions.deposit.index'))
                     }}
                 >
                     <HiChevronLeft className="font-bold h-5 w-5" />
@@ -86,33 +96,78 @@ export default function Topup({ payments }) {
                     )}
                     <div className="mb-2" />
                     <div className="w-full flex flex-col space-y-2">
+                        {payments.length <= 0 && (
+                            <Alert type="error">
+                                Sistem pembayaran non-aktif{' '}
+                            </Alert>
+                        )}
                         {payments.map((payment) => (
                             <div
+                                className="flex flex-col w-full"
                                 key={payment.name}
-                                className={isActivePayment(payment.name)}
-                                onClick={() => setData('payment', payment.name)}
                             >
-                                <input type="radio" />
-                                {payment.logo === null ? (
-                                    <p>{payment.display_name}</p>
-                                ) : (
-                                    <img
-                                        src={payment.logo}
-                                        className="h-7 object-cover"
-                                    />
+                                <div
+                                    className={isActivePayment(payment.name)}
+                                    onClick={() => handleSetPayment(payment)}
+                                >
+                                    {payment.name === data.payment ? (
+                                        <div className="w-5 h-5 rounded-md border">
+                                            <HiCheck />
+                                        </div>
+                                    ) : (
+                                        <div className="w-5 h-5 rounded-md border"></div>
+                                    )}
+                                    <div className="flex flex-col">
+                                        {payment.logo === null ? (
+                                            <p>{payment.display_name}</p>
+                                        ) : (
+                                            <img
+                                                src={payment.logo}
+                                                className="h-7 pt-1 object-cover"
+                                            />
+                                        )}
+                                        {+payment.admin_fee !== 0 && (
+                                            <p
+                                                className={isActivePaymentAdminFee(
+                                                    payment.name
+                                                )}
+                                            >
+                                                biaya admin:{' '}
+                                                {formatIDR(payment.admin_fee)}
+                                            </p>
+                                        )}
+                                    </div>
+                                </div>
+                                {payment.name === CASH_DEPOSIT && (
+                                    <Link
+                                        href={route(
+                                            'customer.deposit-location.index'
+                                        )}
+                                        className="flex flex-row items-center w-full text-sm text-gray-400 py-2 gap-1"
+                                    >
+                                        <div>Daftar lokasi setor tunai</div>
+                                        <div className="text-blue-400">
+                                            ada disini
+                                        </div>
+                                        <div>
+                                            <HiQuestionMarkCircle />
+                                        </div>
+                                    </Link>
                                 )}
                             </div>
                         ))}
                     </div>
                 </div>
             </div>
-            <div className="fixed bottom-20 right-0 w-full">
-                <div
-                    onClick={handleSubmit}
-                    className="border bg-blue-700 text-white px-5 py-2 mx-auto rounded-full hover:text-black hover:bg-white max-w-sm"
-                >
-                    Bayar
-                </div>
+            <div className="fixed bottom-20 right-0 w-full px-2">
+                {payments.length > 0 && (
+                    <div
+                        onClick={handleSubmit}
+                        className="bg-blue-700 text-white px-5 py-2 mx-auto rounded-full hover:text-black hover:bg-white max-w-sm"
+                    >
+                        Bayar
+                    </div>
+                )}
             </div>
         </CustomerLayout>
     )

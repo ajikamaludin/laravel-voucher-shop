@@ -1,6 +1,19 @@
 import React, { useState } from 'react'
 import { Head, router } from '@inertiajs/react'
 import CustomerLayout from '@/Layouts/CustomerLayout'
+import HeaderTrx from '../Components/HeaderTrx'
+
+const EmptyHere = () => {
+    return (
+        <div className="w-full px-5 text-center flex flex-col my-auto">
+            <div className="font-bold text-xl">Transaksi kosong</div>
+            <div className="text-gray-400">
+                Yuk kumpulkan poin sebanyak banyaknya dengan share link refferal
+                kamu
+            </div>
+        </div>
+    )
+}
 
 export default function Index({
     auth: { user },
@@ -27,19 +40,8 @@ export default function Index({
         <CustomerLayout>
             <Head title="poin" />
             <div className="flex flex-col w-full min-h-[calc(90dvh)]">
-                <div className="w-full pt-10 px-5">
-                    <div className="text-base">{user.fullname}</div>
-                </div>
-                <div className="flex flex-row justify-between items-center pb-10 border-b px-5">
-                    <div>
-                        <div className="font-semibold text-xl text-gray-400">
-                            poin
-                        </div>
-                        <div className="font-bold text-3xl">
-                            {user.display_poin}
-                        </div>
-                    </div>
-                </div>
+                <HeaderTrx enable="poin" />
+                {_poins.length <= 0 && <EmptyHere />}
                 <div className="w-full">
                     <div className="flex flex-col py-10 space-y-5 px-5">
                         {_poins.map((poin) => (
@@ -48,7 +50,7 @@ export default function Index({
                                 className="flex flex-row pb-2 items-center justify-between border-b"
                                 onClick={() =>
                                     router.get(
-                                        route('customer.poin.show', poin.id)
+                                        route('transactions.poin.show', poin.id)
                                     )
                                 }
                             >

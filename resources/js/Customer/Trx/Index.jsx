@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Head, router } from '@inertiajs/react'
 import CustomerLayout from '@/Layouts/CustomerLayout'
+import HeaderTrx from '../Components/HeaderTrx'
 
 const EmptyHere = () => {
     return (
@@ -34,10 +35,8 @@ export default function Index({ query: { data, next_page_url } }) {
     return (
         <CustomerLayout>
             <Head title="Transaksi" />
-            <div className="flex flex-col min-h-[calc(95dvh)]">
-                <div className="py-5 text-2xl px-5 font-bold">
-                    Transaksi Pembelian
-                </div>
+            <div className="flex flex-col min-h-[calc(90dvh)]">
+                <HeaderTrx enable="trx" />
                 {sales.length <= 0 && <EmptyHere />}
                 <div className="w-full">
                     <div className="flex flex-col space-y-5 px-5">
@@ -47,7 +46,7 @@ export default function Index({ query: { data, next_page_url } }) {
                                 className="flex flex-row pb-2 items-center justify-between border-b"
                                 onClick={() =>
                                     router.get(
-                                        route('transactions.show', sale.id)
+                                        route('transactions.sale.show', sale.id)
                                     )
                                 }
                             >

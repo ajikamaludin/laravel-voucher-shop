@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
-use App\Models\poinHistory;
+use App\Models\PoinHistory;
 
 class PoinController extends Controller
 {
@@ -17,7 +17,7 @@ class PoinController extends Controller
         ]);
     }
 
-    public function show(poinHistory $poin)
+    public function show(PoinHistory $poin)
     {
         return inertia('Poin/Detail', [
             'poin' => $poin,

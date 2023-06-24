@@ -84,7 +84,7 @@ class PoinExchangeController extends Controller
         $poin->update_customer_balance();
         DB::commit();
 
-        return redirect()->route('transactions.show', $sale)
+        return redirect()->route('transactions.sale.show', $sale)
             ->with('message', ['type' => 'success', 'message' => 'penukaran berhasil']);
     }
 }

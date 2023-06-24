@@ -9,7 +9,9 @@ export default function BalanceBanner({ user }) {
             <div className="flex flex-row w-full shadow py-2 px-2 rounded bg-white items-center justify-between">
                 <div
                     className="flex flex-col w-full"
-                    onClick={() => router.get(route('customer.deposit.index'))}
+                    onClick={() =>
+                        router.get(route('transactions.deposit.index'))
+                    }
                 >
                     <div className="text-xs flex flex-row items-center space-x-1 text-gray-400">
                         <HiOutlineCash />

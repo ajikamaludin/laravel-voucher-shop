@@ -138,6 +138,12 @@ export default function Index({ auth: { user }, flash }) {
                             label="password confirm"
                         />
                     </div>
+                    <div className="w-full text-sm font-medium">
+                        <div className="mb-2">email </div>
+                        <div className="px-2 py-2.5 border rounded-md bg-gray-200">
+                            {user.email}
+                        </div>
+                    </div>
                     <div className="w-full">
                         <FormFile
                             label={'Profile Image'}
@@ -154,6 +160,7 @@ export default function Index({ auth: { user }, flash }) {
                             }
                         />
                     </div>
+
                     <div className="w-full flex flex-row justify-between">
                         <Button processing={processing} onClick={handleSubmit}>
                             Simpan
