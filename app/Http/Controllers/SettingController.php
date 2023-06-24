@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CustomerLevel;
 use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -94,33 +95,33 @@ class SettingController extends Controller
     {
         $setting = Setting::all();
 
-        return inertia('Setting/Payment', [
+        return inertia('Setting/Affilate', [
             'setting' => $setting,
-            'midtrans_notification_url' => route('api.midtrans.notification'),
+            'levels' => CustomerLevel::all()
         ]);
     }
 
     public function updateAffilate(Request $request)
     {
         $request->validate([
-            'MIDTRANS_SERVER_KEY' => 'required|string',
-            'MIDTRANS_CLIENT_KEY' => 'required|string',
-            'MIDTRANS_MERCHANT_ID' => 'required|string',
-            'MIDTRANS_ADMIN_FEE' => 'required|numeric',
-            'MIDTRANS_ENABLED' => 'required|in:0,1',
-            'midtrans_logo_file' => 'nullable|image',
+            'AFFILATE_ENABLED' => 'required|in:0,1',
+            'AFFILATE_POIN_AMOUNT' => 'required|numeric',
+            'AFFILATE_DOWNLINE_POIN_AMOUNT' => 'required|numeric',
+            'AFFILATE_SHARE_REFFERAL_CODE' => 'required|string',
+            'AFFILATE_ALLOWED_LEVELS' => 'required|array',
+            'AFFILATE_ALLOWED_LEVELS.*.key' => 'required|exists:customer_levels,key',
         ]);
 
         DB::beginTransaction();
-        foreach ($request->except(['midtrans_logo_file']) as $key => $value) {
+        foreach ($request->except(['AFFILATE_ALLOWED_LEVELS']) as $key => $value) {
             Setting::where('key', $key)->update(['value' => $value]);
         }
 
-        if ($request->hasFile('midtrans_logo_file')) {
-            $file = $request->file('midtrans_logo_file');
-            $file->store('uploads', 'public');
-            Setting::where('key', 'MIDTRANS_LOGO')->update(['value' => $file->hashName('uploads')]);
-        }
+        $allowedLevel = collect($request->AFFILATE_ALLOWED_LEVELS)->toArray();
+
+        Setting::where('key', 'AFFILATE_ALLOWED_LEVELS')->update([
+            'value' => json_encode($allowedLevel)
+        ]);
 
         Cache::flush();
 

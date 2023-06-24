@@ -20,12 +20,19 @@ class InstallationSeed extends Seeder
     public function settings()
     {
         $settings = [
+            // general
             ['key' => 'OPEN_WEBSITE_NAME', 'value' => 'Welcome to Voucher App', 'type' => 'text'],
+            ['key' => 'SHARE_TEXT', 'value' => '', 'type' => 'text'],
 
+
+            // affilate
             ['key' => 'AFFILATE_ENABLED', 'value' => '0', 'type' => 'checkbox'],
             ['key' => 'AFFILATE_POIN_AMOUNT', 'value' => '0', 'type' => 'text'],
             ['key' => 'AFFILATE_DOWNLINE_POIN_AMOUNT', 'value' => '0', 'type' => 'text'],
+            ['key' => 'AFFILATE_SHARE_REFFERAL_CODE', 'value' => 'Yuk daftar dapatkan bonus poin', 'type' => 'text'],
+            ['key' => 'AFFILATE_ALLOWED_LEVELS', 'value' => json_encode([]), 'type' => 'json'],
 
+            // midtrans
             ['key' => 'MIDTRANS_SERVER_KEY', 'value' => 'SB-Mid-server-UA0LQbY4aALV0CfLLX1v7xs8', 'type' => 'text'],
             ['key' => 'MIDTRANS_CLIENT_KEY', 'value' => 'SB-Mid-client-xqqkspzoZOM10iUG', 'type' => 'text'],
             ['key' => 'MIDTRANS_MERCHANT_ID', 'value' => 'G561244367', 'type' => 'text'],
@@ -33,8 +40,7 @@ class InstallationSeed extends Seeder
             ['key' => 'MIDTRANS_ENABLED', 'value' => '0', 'type' => 'text'],
             ['key' => 'MIDTRANS_ADMIN_FEE', 'value' => '2500', 'type' => 'text'],
 
-            // ['key' => 'VOUCHER_STOCK_NOTIFICATION', 'value' => '10', 'type' => 'text'],
-
+            // deposit
             ['key' => 'ENABLE_CASH_DEPOSIT', 'value' => '0', 'type' => 'text'],
             ['key' => 'ENABLE_MANUAL_TRANSFER', 'value' => '0', 'type' => 'text'],
             ['key' => 'MAX_MANUAL_TRANSFER_TIMEOUT', 'value' => '2', 'type' => 'text'], //dalam jam

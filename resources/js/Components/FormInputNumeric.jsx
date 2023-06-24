@@ -18,15 +18,18 @@ export default function FormInputNumeric({
     }
     value = Number(value)
 
+    const labelId = `${name}-${value}`
+
     return (
         <div>
             <label
-                htmlFor="first_name"
+                htmlFor={label}
                 className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
                 {label}
             </label>
             <NumericFormat
+                id={label}
                 max={max}
                 thousandSeparator="."
                 decimalSeparator=","

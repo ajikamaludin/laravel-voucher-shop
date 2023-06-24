@@ -1,26 +1,18 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import { Head, router, useForm } from '@inertiajs/react'
 
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import FormInput from '@/Components/FormInput'
 import Button from '@/Components/Button'
-import TextArea from '@/Components/TextArea'
-import FormFile from '@/Components/FormFile'
-import Checkbox from '@/Components/Checkbox'
 import { extractValue } from './utils'
 
+const TinyEditor = React.lazy(() => import('@/Components/TinyMCE'))
+
 export default function General(props) {
-    const { setting, midtrans_notification_url } = props
+    const { setting } = props
     const { data, setData, post, reset, processing, errors } = useForm({
         OPEN_WEBSITE_NAME: extractValue(setting, 'OPEN_WEBSITE_NAME'),
-        AFFILATE_ENABLED: extractValue(setting, 'AFFILATE_ENABLED'),
-        AFFILATE_POIN_AMOUNT: extractValue(setting, 'AFFILATE_POIN_AMOUNT'),
-        MIDTRANS_SERVER_KEY: extractValue(setting, 'MIDTRANS_SERVER_KEY'),
-        MIDTRANS_CLIENT_KEY: extractValue(setting, 'MIDTRANS_CLIENT_KEY'),
-        MIDTRANS_MERCHANT_ID: extractValue(setting, 'MIDTRANS_MERCHANT_ID'),
-        MIDTRANS_LOGO_URL: extractValue(setting, 'MIDTRANS_LOGO'),
-        MIDTRANS_ENABLED: extractValue(setting, 'MIDTRANS_ENABLED'),
-        midtrans_logo_file: null,
+        SHARE_TEXT: extractValue(setting, 'SHARE_TEXT'),
     })
 
     const handleOnChange = (event) => {
@@ -63,79 +55,33 @@ export default function General(props) {
                                 label="Nama Website"
                                 error={errors.OPEN_WEBSITE_NAME}
                             />
-                        </div>
-
-                        <div className="mt-2 p-2 border rounded-xl">
-                            <div className="font-bold mb-2">Affilate</div>
-                            <FormInput
-                                type={'number'}
-                                name="AFFILATE_POIN_AMOUNT"
-                                value={data.AFFILATE_POIN_AMOUNT}
-                                onChange={handleOnChange}
-                                label="Jumlah Bonus Poin"
-                                error={errors.AFFILATE_POIN_AMOUNT}
-                            />
-                            <Checkbox
-                                label="Enable"
-                                value={+data.AFFILATE_ENABLED === 1}
-                                onChange={handleOnChange}
-                                name="AFFILATE_ENABLED"
-                            />
-                        </div>
-
-                        <div className="mt-2 p-2 border rounded-xl">
-                            <div className="font-bold mb-2">
-                                Midtrans Payment
-                            </div>
-                            <FormInput
-                                name="MIDTRANS_MERCHANT_ID"
-                                value={data.MIDTRANS_MERCHANT_ID}
-                                onChange={handleOnChange}
-                                label="Merchant ID"
-                                error={errors.MIDTRANS_MERCHANT_ID}
-                            />
-                            <FormInput
-                                name="MIDTRANS_SERVER_KEY"
-                                value={data.MIDTRANS_SERVER_KEY}
-                                onChange={handleOnChange}
-                                label="Server Key"
-                                error={errors.MIDTRANS_SERVER_KEY}
-                            />
-                            <FormInput
-                                name="MIDTRANS_CLIENT_KEY"
-                                value={data.MIDTRANS_CLIENT_KEY}
-                                onChange={handleOnChange}
-                                label="Client Key"
-                                error={errors.MIDTRANS_CLIENT_KEY}
-                            />
-                            <FormFile
-                                label={'Logo'}
-                                onChange={(e) =>
-                                    setData(
-                                        'midtrans_logo_file',
-                                        e.target.files[0]
-                                    )
-                                }
-                                error={errors.midtrans_logo_file}
-                                preview={
-                                    <img
-                                        src={`${data.MIDTRANS_LOGO_URL}`}
-                                        className="w-40 mb-1"
-                                        alt="site logo"
+                            <div className="py-4">
+                                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                    Share Text Voucher
+                                </label>
+                                <Suspense fallback={<div>Loading...</div>}>
+                                    <TinyEditor
+                                        value={data.SHARE_TEXT}
+                                        init={{
+                                            height: 500,
+                                            // menubar: false,
+                                            menubar:
+                                                'file edit view insert format tools table help',
+                                            plugins:
+                                                'preview importcss searchreplace autolink directionality code visualblocks visualchars fullscreen image link media codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help charmap emoticons',
+                                            toolbar_mode: 'scrolling',
+                                            toolbar:
+                                                'undo redo | insertfile image media link | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | charmap emoticons | fullscreen  preview save print | ltr rtl | anchor codesample',
+                                        }}
+                                        onEditorChange={(newValue, editor) => {
+                                            setData(
+                                                'SHARE_TEXT',
+                                                editor.getContent()
+                                            )
+                                        }}
                                     />
-                                }
-                            />
-                            <FormInput
-                                value={midtrans_notification_url}
-                                label="Notification URL"
-                                readOnly={true}
-                            />
-                            <Checkbox
-                                label="Enable"
-                                value={+data.MIDTRANS_ENABLED === 1}
-                                onChange={handleOnChange}
-                                name="MIDTRANS_ENABLED"
-                            />
+                                </Suspense>
+                            </div>
                         </div>
 
                         <div className="mt-4">

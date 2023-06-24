@@ -1,10 +1,9 @@
 import React from 'react'
-import { Head, router, useForm } from '@inertiajs/react'
+import { Head, useForm } from '@inertiajs/react'
 
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import FormInput from '@/Components/FormInput'
 import Button from '@/Components/Button'
-import TextArea from '@/Components/TextArea'
 import FormFile from '@/Components/FormFile'
 import Checkbox from '@/Components/Checkbox'
 import { extractValue } from './utils'
@@ -77,7 +76,7 @@ export default function General(props) {
                                 name="MIDTRANS_ADMIN_FEE"
                                 value={data.MIDTRANS_ADMIN_FEE}
                                 onChange={handleOnChange}
-                                label="ADMIN FEE"
+                                label="Admin Fee"
                                 error={errors.MIDTRANS_ADMIN_FEE}
                             />
                             <FormFile
