@@ -1,6 +1,5 @@
 import React from 'react'
 import { Head, router } from '@inertiajs/react'
-import { toast } from 'react-toastify'
 import { HiOutlineBell } from 'react-icons/hi'
 import {
     HiChevronRight,
@@ -8,8 +7,9 @@ import {
     HiOutlineUserCircle,
 } from 'react-icons/hi2'
 
-import CustomerLayout from '@/Layouts/CustomerLayout'
+import { toastSuccess } from '../utils'
 import { useModalState } from '@/hooks'
+import CustomerLayout from '@/Layouts/CustomerLayout'
 import ModalConfirm from '@/Components/ModalConfirm'
 import BalanceBanner from '../Index/Partials/BalanceBanner'
 
@@ -25,7 +25,7 @@ export default function Index({ auth: { user }, notification_count }) {
     }
 
     const handleCopyToClipboard = (text) => {
-        toast.info('copied to clipboard')
+        toastSuccess('copied to clipboard')
         navigator.clipboard.writeText(text)
     }
 

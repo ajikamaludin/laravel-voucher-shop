@@ -61,7 +61,13 @@ class InstallationSeed extends Seeder
                 'name' => 'Basic',
                 'key' => 'basic',
                 'logo' => 'sample/basic.png',
-                'description' => '-',
+                'description' => '<p><span style="font-size: 18pt;"><strong>&nbsp;Level Ini Basic&nbsp;</strong></span></p>
+                <p>&nbsp; deskripsi berikut menjelaskan tentang level&nbsp;</p>
+                <p>&nbsp;</p>
+                <p>&nbsp; ini adalah sample deskripsi :&nbsp;</p>
+                <pre>&nbsp; 1. contoh 1</pre>
+                <pre>&nbsp; 2. contoh 2</pre>
+                <p>&nbsp;</p>',
                 'min_amount' =>
                 '100000',
                 'max_amount' => '500000'
@@ -70,7 +76,13 @@ class InstallationSeed extends Seeder
                 'name' => 'Silver',
                 'key' => 'silver',
                 'logo' => 'sample/silver.png',
-                'description' => '-',
+                'description' => '<p><span style="font-size: 18pt;"><strong>&nbsp;Level Ini Silver&nbsp;</strong></span></p>
+                <p>&nbsp; deskripsi berikut menjelaskan tentang level&nbsp;</p>
+                <p>&nbsp;</p>
+                <p>&nbsp; ini adalah sample deskripsi :&nbsp;</p>
+                <pre>&nbsp; 1. contoh 1</pre>
+                <pre>&nbsp; 2. contoh 2</pre>
+                <p>&nbsp;</p>',
                 'min_amount' => '100000',
                 'max_amount' => '1000000'
             ],
@@ -78,7 +90,13 @@ class InstallationSeed extends Seeder
                 'name' => 'Gold',
                 'key' => 'gold',
                 'logo' => 'sample/gold.png',
-                'description' => '-',
+                'description' => '<p><span style="font-size: 18pt;"><strong>&nbsp;Level Ini Gold&nbsp;</strong></span></p>
+                <p>&nbsp; deskripsi berikut menjelaskan tentang level&nbsp;</p>
+                <p>&nbsp;</p>
+                <p>&nbsp; ini adalah sample deskripsi :&nbsp;</p>
+                <pre>&nbsp; 1. contoh 1</pre>
+                <pre>&nbsp; 2. contoh 2</pre>
+                <p>&nbsp;</p>',
                 'min_amount' => '100000',
                 'max_amount' => '2000000'
             ],
@@ -86,7 +104,13 @@ class InstallationSeed extends Seeder
                 'name' => 'Platinum',
                 'key' => 'platinum',
                 'logo' => 'sample/platinum.png',
-                'description' => '-',
+                'description' => '<p><span style="font-size: 18pt;"><strong>&nbsp;Level Ini Platinum&nbsp;</strong></span></p>
+                <p>&nbsp; deskripsi berikut menjelaskan tentang level&nbsp;</p>
+                <p>&nbsp;</p>
+                <p>&nbsp; ini adalah sample deskripsi :&nbsp;</p>
+                <pre>&nbsp; 1. contoh 1</pre>
+                <pre>&nbsp; 2. contoh 2</pre>
+                <p>&nbsp;</p>',
                 'min_amount' => '100000',
                 'max_amount' => '3000000'
             ],

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Customer\CustomerLevelController;
 use App\Http\Controllers\Customer\AuthController;
 use App\Http\Controllers\Customer\CartController;
 use App\Http\Controllers\Customer\DepositController;
@@ -73,6 +74,9 @@ Route::middleware(['http_secure_aware', 'guard_should_customer', 'inertia.custom
 
         // notification
         Route::get('notifications', [HomeController::class, 'notification'])->name('notification.index');
+
+        // customer level
+        Route::get('customer-level', [CustomerLevelController::class, 'index'])->name('customer.customer-level.index');
     });
 
     Route::middleware('guest:customer')->group(function () {

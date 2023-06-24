@@ -16,7 +16,6 @@ class SettingController extends Controller
 
         return inertia('Setting/Index', [
             'setting' => $setting,
-            'midtrans_notification_url' => route('api.midtrans.notification'),
         ]);
     }
 
@@ -24,24 +23,12 @@ class SettingController extends Controller
     {
         $request->validate([
             'OPEN_WEBSITE_NAME' => 'required|string',
-            'AFFILATE_ENABLED' => 'required|in:0,1',
-            'AFFILATE_POIN_AMOUNT' => 'required|numeric',
-            'MIDTRANS_SERVER_KEY' => 'required|string',
-            'MIDTRANS_CLIENT_KEY' => 'required|string',
-            'MIDTRANS_MERCHANT_ID' => 'required|string',
-            'MIDTRANS_ENABLED' => 'required|in:0,1',
-            'midtrans_logo_file' => 'nullable|image',
+            'SHARE_TEXT' => 'required|string',
         ]);
 
         DB::beginTransaction();
-        foreach ($request->except(['midtrans_logo_file']) as $key => $value) {
+        foreach ($request->input() as $key => $value) {
             Setting::where('key', $key)->update(['value' => $value]);
-        }
-
-        if ($request->hasFile('midtrans_logo_file')) {
-            $file = $request->file('midtrans_logo_file');
-            $file->store('uploads', 'public');
-            Setting::where('key', 'MIDTRANS_LOGO')->update(['value' => $file->hashName('uploads')]);
         }
 
         Cache::flush();

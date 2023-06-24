@@ -98,7 +98,7 @@ class DummySeeder extends Seeder
         ];
 
         $count = 0;
-        $locations = Location::limit(3)->get();
+        $locations = Location::orderBy('name', 'asc')->limit(3)->get();
         foreach ($locations as $location) { //ada 3 lokasi di tiap lokasi ada 3 profile
             $count += 1;
             foreach ($profiles as $expired => $quota) {
@@ -111,7 +111,7 @@ class DummySeeder extends Seeder
                     'location_id' => $location->id,
                     'name' => 'Profile ' . $quota,
                     'quota' => $quota,
-                    'display_note' => 'bisa semua',
+                    'display_note' => rand(0, 1) == 1 ? 'bisa semua' : null,
                     'expired' => rand(1, 3),
                     'expired_unit' => $expired,
                     'description' => '',
