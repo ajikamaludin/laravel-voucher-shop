@@ -31,10 +31,10 @@ export default function Index(props) {
                     <Carousel
                         autoplay={false}
                         withoutControls={true}
-                        wrapAround={true}
+                        wrapAround={false}
                         cellSpacing={10}
                         slideIndex={selectedIndex}
-                        slidesToShow={1.25}
+                        slidesToShow={1.1}
                         afterSlide={(index) => {
                             setIndex(index)
                         }}
