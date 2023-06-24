@@ -109,7 +109,7 @@ export default function DespositLocation(props) {
                                                     <a
                                                         href={`https://wa.me/+62${location.phone}`}
                                                     >
-                                                        {location.phone}
+                                                        +62{location.phone}
                                                     </a>
                                                 </td>
                                                 <td className="py-4 px-6">

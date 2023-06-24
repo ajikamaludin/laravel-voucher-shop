@@ -5,6 +5,8 @@ namespace Database\Seeders;
 use App\Models\Account;
 use App\Models\Banner;
 use App\Models\CustomerLevel;
+use App\Models\DepositHistory;
+use App\Models\DepositLocation;
 use App\Models\Info;
 use App\Models\Location;
 use App\Models\LocationProfile;
@@ -29,6 +31,7 @@ class DummySeeder extends Seeder
         $this->location();
         $this->location_profile();
         $this->voucher();
+        $this->deposit_location();
     }
 
     public function info()
@@ -165,5 +168,32 @@ class DummySeeder extends Seeder
             }
         }
         DB::commit();
+    }
+
+    public function deposit_location()
+    {
+        DepositLocation::create([
+            'name' => 'Location 1',
+            'address' => 'Address Lengkap Alamat',
+            'phone' => '83840745543',
+            'gmap_url' => 'https://goo.gl/maps/iyJ8nq32pJ2BbfUf6',
+            'image' => 'sample/banner.jpg',
+            'description' => '<h1>lokasi favoorite</h1>',
+            'open_hour' => '00:00',
+            'close_hour' => '23:59',
+            'is_active' => 1,
+        ]);
+
+        DepositLocation::create([
+            'name' => 'Location 2',
+            'address' => 'Address Lengkap Alamat',
+            'phone' => '83840745543',
+            'gmap_url' => 'https://goo.gl/maps/iyJ8nq32pJ2BbfUf6',
+            'image' => 'sample/banner.jpg',
+            'description' => '<h1>lokasi favoorite</h1>',
+            'open_hour' => '14:00',
+            'close_hour' => '18:59',
+            'is_active' => 1,
+        ]);
     }
 }

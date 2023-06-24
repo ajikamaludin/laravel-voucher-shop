@@ -66,6 +66,8 @@ export default function Index(props) {
                         withoutControls={true}
                         wrapAround={true}
                         cellSpacing={10}
+                        // slideIndex={1}
+                        // slidesToShow={1.5}
                     >
                         {banners.map((banner, index) => (
                             <img
@@ -79,12 +81,14 @@ export default function Index(props) {
                         ))}
                     </Carousel>
                 </div>
-
                 {/* info */}
+
                 <div className="w-full px-3">
                     {infos.map((info) => (
                         <div
-                            dangerouslySetInnerHTML={{__html: info.description}}
+                            dangerouslySetInnerHTML={{
+                                __html: info.description,
+                            }}
                             key={info.id}
                         />
                     ))}
