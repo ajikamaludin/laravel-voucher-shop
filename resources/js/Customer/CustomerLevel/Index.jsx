@@ -65,6 +65,7 @@ export default function Index(props) {
                         withoutControls={true}
                         wrapAround={true}
                         dragging={false}
+                        swiping={false}
                         cellSpacing={10}
                         slideIndex={index}
                         slidesToShow={1}
