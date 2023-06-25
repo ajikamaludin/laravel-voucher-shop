@@ -1,5 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Head, router } from '@inertiajs/react'
+import { usePrevious } from 'react-use'
+
+import { formatIDDate } from '@/utils'
 import CustomerLayout from '@/Layouts/CustomerLayout'
 import HeaderTrx from '../Components/HeaderTrx'
 
@@ -15,16 +18,24 @@ const EmptyHere = () => {
     )
 }
 
-export default function Index({
-    auth: { user },
-    poins: { data, next_page_url },
-}) {
+export default function Index(props) {
+    const {
+        poins: { data, next_page_url },
+        _start_date,
+        _end_date,
+    } = props
     const [_poins, setpoins] = useState(data)
+
+    const [dates, setDates] = useState({
+        startDate: _start_date,
+        endDate: _end_date,
+    })
+    const preValue = usePrevious(`${dates}`)
 
     const handleNextPage = () => {
         router.get(
             next_page_url,
-            {},
+            { startDate: dates.startDate, endDate: dates.endDate },
             {
                 replace: true,
                 preserveState: true,
@@ -36,14 +47,40 @@ export default function Index({
         )
     }
 
+    useEffect(() => {
+        if (preValue) {
+            router.get(
+                route(route().current()),
+                {
+                    startDate: dates.startDate,
+                    endDate: dates.endDate,
+                },
+                {
+                    replace: true,
+                    preserveState: true,
+                    only: ['poins'],
+                    onSuccess: (res) => {
+                        setpoins(res.props.poins.data)
+                    },
+                }
+            )
+        }
+    }, [dates])
+
     return (
         <CustomerLayout>
             <Head title="poin" />
             <div className="flex flex-col w-full min-h-[calc(90dvh)]">
-                <HeaderTrx enable="poin" />
+                <HeaderTrx enable="poin" dates={dates} setDates={setDates} />
                 {_poins.length <= 0 && <EmptyHere />}
                 <div className="w-full">
                     <div className="flex flex-col py-10 space-y-5 px-5">
+                        {_poins.length > 0 && (
+                            <div className="text-sm text-gray-400">
+                                {formatIDDate(dates.startDate)} s/d{' '}
+                                {formatIDDate(dates.endDate)}
+                            </div>
+                        )}
                         {_poins.map((poin) => (
                             <div
                                 key={poin.id}

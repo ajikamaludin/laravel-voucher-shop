@@ -1,5 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { usePrevious } from 'react-use'
 import { Head, router } from '@inertiajs/react'
+
+import { formatIDDate } from '@/utils'
 import CustomerLayout from '@/Layouts/CustomerLayout'
 import HeaderTrx from '../Components/HeaderTrx'
 
@@ -14,13 +17,28 @@ const EmptyHere = () => {
     )
 }
 
-export default function Index({ query: { data, next_page_url } }) {
+export default function Index(props) {
+    const {
+        query: { data, next_page_url },
+        _start_date,
+        _end_date,
+    } = props
+
     const [sales, setSales] = useState(data)
+
+    const [dates, setDates] = useState({
+        startDate: _start_date,
+        endDate: _end_date,
+    })
+    const preValue = usePrevious(`${dates}`)
 
     const handleNextPage = () => {
         router.get(
             next_page_url,
-            {},
+            {
+                startDate: dates.startDate,
+                endDate: dates.endDate,
+            },
             {
                 replace: true,
                 preserveState: true,
@@ -32,14 +50,40 @@ export default function Index({ query: { data, next_page_url } }) {
         )
     }
 
+    useEffect(() => {
+        if (preValue) {
+            router.get(
+                route(route().current()),
+                {
+                    startDate: dates.startDate,
+                    endDate: dates.endDate,
+                },
+                {
+                    replace: true,
+                    preserveState: true,
+                    only: ['query'],
+                    onSuccess: (res) => {
+                        setSales(res.props.query.data)
+                    },
+                }
+            )
+        }
+    }, [dates])
+
     return (
         <CustomerLayout>
             <Head title="Transaksi" />
             <div className="flex flex-col min-h-[calc(90dvh)]">
-                <HeaderTrx enable="trx" />
+                <HeaderTrx enable="trx" dates={dates} setDates={setDates} />
                 {sales.length <= 0 && <EmptyHere />}
                 <div className="w-full">
                     <div className="flex flex-col space-y-5 px-5">
+                        {sales.length > 0 && (
+                            <div className="text-sm text-gray-400">
+                                {formatIDDate(dates.startDate)} s/d{' '}
+                                {formatIDDate(dates.endDate)}
+                            </div>
+                        )}
                         {sales.map((sale) => (
                             <div
                                 key={sale.id}

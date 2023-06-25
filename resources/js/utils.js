@@ -1,4 +1,6 @@
 import moment from 'moment'
+import 'moment/locale/id'
+
 import { isEmpty } from 'lodash'
 
 export const formatDate = (date) => {

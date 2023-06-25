@@ -1,19 +1,41 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Head, router } from '@inertiajs/react'
-import CustomerLayout from '@/Layouts/CustomerLayout'
-import { HiOutlineQuestionMarkCircle } from 'react-icons/hi2'
-import HeaderTrx from '../Components/HeaderTrx'
+import { usePrevious } from 'react-use'
 
-export default function Index({
-    auth: { user },
-    histories: { data, next_page_url },
-}) {
+import CustomerLayout from '@/Layouts/CustomerLayout'
+import HeaderTrx from '../Components/HeaderTrx'
+import { formatIDDate } from '@/utils'
+
+const EmptyHere = () => {
+    return (
+        <div className="w-full px-5 text-center flex flex-col my-auto">
+            <div className="font-bold text-xl">Transaksi kosong</div>
+            <div className="text-gray-400">
+                Yuk, topup saldo kamu sekarang juga
+            </div>
+        </div>
+    )
+}
+
+export default function Index(props) {
+    const {
+        histories: { data, next_page_url },
+        _start_date,
+        _end_date,
+    } = props
+
     const [deposites, setDeposites] = useState(data)
+
+    const [dates, setDates] = useState({
+        startDate: _start_date,
+        endDate: _end_date,
+    })
+    const preValue = usePrevious(`${dates}`)
 
     const handleNextPage = () => {
         router.get(
             next_page_url,
-            {},
+            { startDate: dates.startDate, endDate: dates.endDate },
             {
                 replace: true,
                 preserveState: true,
@@ -25,13 +47,41 @@ export default function Index({
         )
     }
 
+    useEffect(() => {
+        if (preValue) {
+            router.get(
+                route(route().current()),
+                {
+                    startDate: dates.startDate,
+                    endDate: dates.endDate,
+                },
+                {
+                    replace: true,
+                    preserveState: true,
+                    only: ['histories'],
+                    onSuccess: (res) => {
+                        setDeposites(res.props.histories.data)
+                    },
+                }
+            )
+        }
+    }, [dates])
+
     return (
         <CustomerLayout>
             <Head title="Top Up" />
             <div className="flex flex-col w-full min-h-[calc(90dvh)]">
-                <HeaderTrx />
+                <HeaderTrx dates={dates} setDates={setDates} />
+                {deposites.length <= 0 && <EmptyHere />}
+
                 <div className="w-full">
                     <div className="flex flex-col space-y-5 px-5">
+                        {deposites.length > 0 && (
+                            <div className="text-sm text-gray-400">
+                                {formatIDDate(dates.startDate)} s/d{' '}
+                                {formatIDDate(dates.endDate)}
+                            </div>
+                        )}
                         {deposites.map((history) => (
                             <div
                                 key={history.id}

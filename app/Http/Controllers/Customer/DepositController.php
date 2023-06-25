@@ -11,21 +11,33 @@ use App\Models\Setting;
 use App\Services\GeneralService;
 use App\Services\MidtransService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
 class DepositController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $histories = DepositHistory::where('customer_id', auth()->id())
             ->orderBy('updated_at', 'desc')
             ->orderBy('is_valid', 'desc')
             ->where('type', DepositHistory::TYPE_DEPOSIT);
 
+        $start_date = now()->startOfMonth();
+        $end_date = now()->endOfMonth();
+        if ($request->startDate != '' && $request->endDate != '') {
+            $start_date = Carbon::parse($request->startDate);
+            $end_date = Carbon::parse($request->endDate);
+        }
+
+        $histories->whereBetween('created_at', [$start_date, $end_date]);
+
         return inertia('Deposit/Index', [
             'histories' => $histories->paginate(20),
+            '_start_date' => $start_date->format('m/d/Y'),
+            '_end_date' => $end_date->format('m/d/Y')
         ]);
     }
 
