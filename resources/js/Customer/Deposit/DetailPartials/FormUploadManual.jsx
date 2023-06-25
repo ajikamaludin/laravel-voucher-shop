@@ -10,7 +10,7 @@ import Alert from '@/Components/Alert'
 
 export const FormUploadManual = () => {
     const {
-        props: { accounts, deposit, flash },
+        props: { accounts, deposit, flash, bank_admin_fee },
     } = usePage()
 
     const [imageUrl, setImageUrl] = useState(deposit.image_prove_url)
@@ -183,13 +183,13 @@ export const FormUploadManual = () => {
                                         <td>: </td>
                                         <td className="text-right">
                                             <span className="font-bold">
-                                                {+account.admin_fee === 0 ? (
+                                                {+bank_admin_fee === 0 ? (
                                                     'Gratis'
                                                 ) : (
                                                     <>
                                                         Rp.{' '}
                                                         {formatIDR(
-                                                            +account.admin_fee
+                                                            +bank_admin_fee
                                                         )}
                                                     </>
                                                 )}
@@ -200,8 +200,7 @@ export const FormUploadManual = () => {
                                     <tr
                                         onClick={() =>
                                             handleCopyToClipboard(
-                                                +account.admin_fee +
-                                                    +deposit.debit
+                                                +bank_admin_fee + +deposit.debit
                                             )
                                         }
                                     >
@@ -211,7 +210,7 @@ export const FormUploadManual = () => {
                                             <span className="font-bold">
                                                 Rp.{' '}
                                                 {formatIDR(
-                                                    +account.admin_fee +
+                                                    +bank_admin_fee +
                                                         +deposit.debit
                                                 )}
                                             </span>

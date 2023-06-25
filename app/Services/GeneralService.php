@@ -82,7 +82,7 @@ class GeneralService
                     'name' => Setting::PAYMENT_MANUAL,
                     'logo' => null,
                     'display_name' => 'Transfer Manual',
-                    'admin_fee' => 0
+                    'admin_fee' => Setting::getByKey('ADMINFEE_MANUAL_TRANSFER')
                 ];
             }
         }
@@ -103,7 +103,7 @@ class GeneralService
                     'name' => Setting::PAYMENT_CASH_DEPOSIT,
                     'logo' => null,
                     'display_name' => Setting::getByKey('TEXT_CASH_DEPOSIT'),
-                    'admin_fee' => 0
+                    'admin_fee' => Setting::getByKey('ADMINFEE_CASH_DEPOSIT')
                 ];
             }
         }

@@ -42,7 +42,9 @@ class InstallationSeed extends Seeder
             // deposit
             ['key' => 'ENABLE_CASH_DEPOSIT', 'value' => '1', 'type' => 'text'], // deposit by location (on/off)
             ['key' => 'TEXT_CASH_DEPOSIT', 'value' => 'Setor Tunai di Kantor WBB', 'type' => 'text'],
+            ['key' => 'ADMINFEE_CASH_DEPOSIT', 'value' => '1000', 'type' => 'text'],
             ['key' => 'ENABLE_MANUAL_TRANSFER', 'value' => '1', 'type' => 'text'], // transfer manual (on/off)
+            ['key' => 'ADMINFEE_MANUAL_TRANSFER', 'value' => '2500', 'type' => 'text'],
             ['key' => 'MAX_MANUAL_TRANSFER_TIMEOUT', 'value' => '2', 'type' => 'text'], // dalam jam
             ['key' => 'MANUAL_TRANSFER_OPEN_HOUR', 'value' => '00:00', 'type' => 'text'],
             ['key' => 'MANUAL_TRANSFER_CLOSE_HOUR', 'value' => '23:59', 'type' => 'text'],

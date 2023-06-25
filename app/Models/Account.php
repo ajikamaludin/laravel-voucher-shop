@@ -12,7 +12,6 @@ class Account extends Model
         'holder_name',
         'account_number',
         'logo',
-        'admin_fee',
     ];
 
     protected $appends = [
@@ -22,7 +21,7 @@ class Account extends Model
     protected function logoUrl(): Attribute
     {
         return Attribute::make(get: function () {
-                return asset($this->logo);
+            return asset($this->logo);
         });
     }
 }

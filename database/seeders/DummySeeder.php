@@ -60,9 +60,9 @@ class DummySeeder extends Seeder
     public function account()
     {
         $banks = [
-            ['name' => 'BTPN', 'bank_name' => 'BTPN', 'holder_name' => 'Aji Kamaludin', 'account_number' => '187391738129', 'logo' => 'sample/logo-jenius.png', 'admin_fee' => 0],
-            ['name' => 'Jago', 'bank_name' => 'Bank Jago', 'holder_name' => 'Aji Kamaludin', 'account_number' => '718297389172', 'logo' => 'sample/logo-jago.png', 'admin_fee' => 2500],
-            ['name' => 'BNI', 'bank_name' => 'Bank Negara Indoneisa', 'holder_name' => 'Aji Kamaludin', 'account_number' => '718297389172', 'logo' => 'sample/logo-bni.png', 'admin_fee' => 6500],
+            ['name' => 'BTPN', 'bank_name' => 'BTPN', 'holder_name' => 'Aji Kamaludin', 'account_number' => '187391738129', 'logo' => 'sample/logo-jenius.png'],
+            ['name' => 'Jago', 'bank_name' => 'Bank Jago', 'holder_name' => 'Aji Kamaludin', 'account_number' => '718297389172', 'logo' => 'sample/logo-jago.png'],
+            ['name' => 'BNI', 'bank_name' => 'Bank Negara Indoneisa', 'holder_name' => 'Aji Kamaludin', 'account_number' => '718297389172', 'logo' => 'sample/logo-bni.png'],
         ];
 
         foreach ($banks as $bank) {
@@ -72,7 +72,6 @@ class DummySeeder extends Seeder
                 'holder_name' => $bank['holder_name'],
                 'account_number' => $bank['account_number'],
                 'logo' => $bank['logo'],
-                'admin_fee' => $bank['admin_fee']
             ]);
         }
     }

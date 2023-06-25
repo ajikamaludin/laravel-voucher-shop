@@ -17,8 +17,13 @@ export default function General(props) {
         OPEN_WEBSITE_NAME: extractValue(setting, 'OPEN_WEBSITE_NAME'),
         SHARE_TEXT: extractValue(setting, 'SHARE_TEXT'),
         ENABLE_CASH_DEPOSIT: extractValue(setting, 'ENABLE_CASH_DEPOSIT'),
+        ADMINFEE_CASH_DEPOSIT: extractValue(setting, 'ADMINFEE_CASH_DEPOSIT'),
         TEXT_CASH_DEPOSIT: extractValue(setting, 'TEXT_CASH_DEPOSIT'),
         ENABLE_MANUAL_TRANSFER: extractValue(setting, 'ENABLE_MANUAL_TRANSFER'),
+        ADMINFEE_MANUAL_TRANSFER: extractValue(
+            setting,
+            'ADMINFEE_MANUAL_TRANSFER'
+        ),
         MAX_MANUAL_TRANSFER_TIMEOUT: extractValue(
             setting,
             'MAX_MANUAL_TRANSFER_TIMEOUT'
@@ -106,6 +111,13 @@ export default function General(props) {
                                 onChange={handleOnChange}
                                 name="ENABLE_CASH_DEPOSIT"
                             />
+                            <FormInputNumeric
+                                name="ADMINFEE_CASH_DEPOSIT"
+                                value={data.ADMINFEE_CASH_DEPOSIT}
+                                onChange={handleOnChange}
+                                label="Biaya Admin Cash / Setor Tunai"
+                                error={errors.ADMINFEE_CASH_DEPOSIT}
+                            />
                             <FormInput
                                 name="TEXT_CASH_DEPOSIT"
                                 value={data.TEXT_CASH_DEPOSIT}
@@ -113,11 +125,19 @@ export default function General(props) {
                                 label="Nama Pilihan Pembayaran Cash / Setor Tunai"
                                 error={errors.TEXT_CASH_DEPOSIT}
                             />
+
                             <Checkbox
                                 label="Aktifkan Transfer Manual"
                                 value={+data.ENABLE_MANUAL_TRANSFER === 1}
                                 onChange={handleOnChange}
                                 name="ENABLE_MANUAL_TRANSFER"
+                            />
+                            <FormInputNumeric
+                                name="ADMINFEE_MANUAL_TRANSFER"
+                                value={data.ADMINFEE_MANUAL_TRANSFER}
+                                onChange={handleOnChange}
+                                label="Biaya Admin Transfer Manual"
+                                error={errors.ADMINFEE_MANUAL_TRANSFER}
                             />
                             <FormInputNumeric
                                 name="MAX_MANUAL_TRANSFER_TIMEOUT"

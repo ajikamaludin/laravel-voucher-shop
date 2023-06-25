@@ -146,10 +146,12 @@ export default function FormModal(props) {
 
             {isEmpty(data.image_prove_url) === false && (
                 <div>
-                    <img
-                        src={data.image_prove_url}
-                        className="w-full object-fill h-96"
-                    />
+                    <a href={data.image_prove_url} target="_blank">
+                        <img
+                            src={data.image_prove_url}
+                            className="w-full object-fill h-96"
+                        />
+                    </a>
                 </div>
             )}
             {+data.is_valid !== STATUS_APPROVE &&

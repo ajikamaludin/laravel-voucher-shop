@@ -3,13 +3,14 @@ import { router, useForm, usePage } from '@inertiajs/react'
 import { isEmpty } from 'lodash'
 import { HiOutlineClipboardDocumentList } from 'react-icons/hi2'
 
+import { formatIDR } from '@/utils'
 import { toastSuccess } from '@/Customer/utils'
 import FormFile from '@/Components/FormFile'
 import Alert from '@/Components/Alert'
 
 export const FormUploadCashDeposit = () => {
     const {
-        props: { deposit_locations, deposit, flash },
+        props: { deposit_locations, deposit, flash, cash_admin_fee },
     } = usePage()
 
     const [imageUrl, setImageUrl] = useState(deposit.image_prove_url)
@@ -188,18 +189,53 @@ export const FormUploadCashDeposit = () => {
                             <div className="font-bold mt-5">Rincian</div>
                             <table className="w-full">
                                 <tbody>
-                                    <tr
-                                        onClick={() =>
-                                            handleCopyToClipboard(
-                                                deposit.amount
-                                            )
-                                        }
-                                    >
-                                        <td>Total Deposit</td>
-                                        <td> : </td>
+                                    <tr>
+                                        <td className="w-1/3">
+                                            Jumlah Deposit
+                                        </td>
+                                        <td>: </td>
                                         <td className="text-right">
                                             <span className="font-bold">
                                                 {deposit.amount}
+                                            </span>
+                                        </td>
+                                        <td className="w-5" />
+                                    </tr>
+                                    <tr>
+                                        <td>Biaya Admin</td>
+                                        <td>: </td>
+                                        <td className="text-right">
+                                            <span className="font-bold">
+                                                {+cash_admin_fee === 0 ? (
+                                                    'Gratis'
+                                                ) : (
+                                                    <>
+                                                        Rp.{' '}
+                                                        {formatIDR(
+                                                            +cash_admin_fee
+                                                        )}
+                                                    </>
+                                                )}
+                                            </span>
+                                        </td>
+                                        <td className="w-5" />
+                                    </tr>
+                                    <tr
+                                        onClick={() =>
+                                            handleCopyToClipboard(
+                                                +cash_admin_fee + +deposit.debit
+                                            )
+                                        }
+                                    >
+                                        <td>Total Bayar</td>
+                                        <td> : </td>
+                                        <td className="text-right">
+                                            <span className="font-bold">
+                                                Rp.{' '}
+                                                {formatIDR(
+                                                    +cash_admin_fee +
+                                                        +deposit.debit
+                                                )}
                                             </span>
                                         </td>
                                         <td className="w-5">

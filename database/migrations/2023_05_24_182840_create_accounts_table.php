@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('holder_name')->nullable();
             $table->string('account_number')->nullable();
             $table->string('logo')->nullable();
-            $table->decimal('admin_fee', 20, 2)->nullable();
 
             $table->timestamps();
             $table->softDeletes();

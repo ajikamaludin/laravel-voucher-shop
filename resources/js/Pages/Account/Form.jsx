@@ -4,7 +4,6 @@ import { isEmpty } from 'lodash'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import FormInput from '@/Components/FormInput'
 import FormFile from '@/Components/FormFile'
-import FormInputNumeric from '@/Components/FormInputNumeric'
 import Button from '@/Components/Button'
 import { Head, useForm } from '@inertiajs/react'
 
@@ -16,7 +15,6 @@ export default function Form(props) {
         bank_name: '',
         holder_name: '',
         account_number: '',
-        admin_fee: 0,
         logo: null,
         logo_url: '',
     })
@@ -46,7 +44,6 @@ export default function Form(props) {
                 bank_name: account.bank_name,
                 holder_name: account.holder_name,
                 account_number: account.account_number,
-                admin_fee: account.admin_fee,
                 logo_url: account.logo_url,
             })
         }
@@ -91,13 +88,6 @@ export default function Form(props) {
                             onChange={handleOnChange}
                             label="Nomor Rekening"
                             error={errors.account_number}
-                        />
-                        <FormInputNumeric
-                            name="admin_fee"
-                            value={data.admin_fee}
-                            onChange={handleOnChange}
-                            label="Admin Fee"
-                            error={errors.admin_fee}
                         />
                         <FormFile
                             label={'Logo'}

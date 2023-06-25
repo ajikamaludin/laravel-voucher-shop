@@ -29,7 +29,6 @@ class AccountController extends Controller
             'bank_name' => 'required|string',
             'holder_name' => 'required|string',
             'account_number' => 'required|string',
-            'admin_fee' => 'required|numeric',
             'logo' => 'required|image',
         ]);
 
@@ -41,7 +40,6 @@ class AccountController extends Controller
             'bank_name' => $request->bank_name,
             'holder_name' => $request->holder_name,
             'account_number' => $request->account_number,
-            'admin_fee' => $request->admin_fee,
             'logo' => $file->hashName('uploads'),
         ]);
 
@@ -63,7 +61,6 @@ class AccountController extends Controller
             'bank_name' => 'required|string',
             'holder_name' => 'required|string',
             'account_number' => 'required|string',
-            'admin_fee' => 'required|numeric',
             'logo' => 'nullable|image',
         ]);
 
@@ -79,7 +76,6 @@ class AccountController extends Controller
             'bank_name' => $request->bank_name,
             'holder_name' => $request->holder_name,
             'account_number' => $request->account_number,
-            'admin_fee' => $request->admin_fee
         ]);
 
         return redirect()->route('account.index')

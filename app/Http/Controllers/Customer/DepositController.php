@@ -84,6 +84,8 @@ class DepositController extends Controller
             'midtrans_client_key' => Setting::getByKey('MIDTRANS_CLIENT_KEY'),
             'is_production' => app()->isProduction(),
             'direct' => $request->direct,
+            'bank_admin_fee' => Setting::getByKey('ADMINFEE_MANUAL_TRANSFER'),
+            'cash_admin_fee' => Setting::getByKey('ADMINFEE_CASH_DEPOSIT')
         ]);
     }
 
