@@ -1,6 +1,7 @@
 import { formatIDR } from '@/utils'
 import { HiClipboardDocumentList, HiShare } from 'react-icons/hi2'
 import { toast } from 'react-toastify'
+import { toastSuccess } from '../utils'
 
 export default function VoucherCard(props) {
     const {
@@ -20,12 +21,12 @@ export default function VoucherCard(props) {
         }
 
         navigator.clipboard.writeText(share_word)
-        toast.info('copied to clipboard')
+        toastSuccess('copied to clipboard')
         return
     }
 
     const handleCopyToClipboard = (text) => {
-        toast.info('copied to clipboard')
+        toastSuccess('copied to clipboard')
         navigator.clipboard.writeText(text)
     }
 
@@ -33,17 +34,17 @@ export default function VoucherCard(props) {
         <div className="px-2 py-0 shadow-md rounded border border-gray-100">
             <div className="w-full flex flex-row justify-between items-end my-1">
                 <div className="text-base font-bold">
-                    {voucher.location.name}
+                    {voucher.location_profile.location.name}
                 </div>
             </div>
             <div className="w-full border border-dashed"></div>
             <div className="flex flex-row justify-between items-center">
                 <div>
                     <div className="text-xs text-gray-400 py-1">
-                        {voucher.profile}
+                        {voucher.location_profile.display_note}
                     </div>
                     <div className="text-xl font-bold">
-                        IDR {formatIDR(voucher.validate_price)}
+                        Rp {formatIDR(voucher.validate_price)}
                     </div>
                     {+voucher.discount !== 0 && (
                         <div className="flex flex-row space-x-2 items-center text-xs pb-2">
@@ -58,10 +59,10 @@ export default function VoucherCard(props) {
                 </div>
                 <div className="flex flex-col justify-end text-right">
                     <div className="text-3xl font-bold">
-                        {voucher.display_quota}
+                        {voucher.location_profile.quota}
                     </div>
-                    <div className="text-gray-400">
-                        {voucher.display_expired}
+                    <div className="text-gray-400 ">
+                        {voucher.location_profile.diplay_expired}
                     </div>
                 </div>
             </div>
@@ -69,24 +70,12 @@ export default function VoucherCard(props) {
             <div className="w-full flex flex-row justify-between items-center py-1">
                 <div className="w-full flex flex-col space-y-2 py-2 px-2 bg-blue-50 border border-blue-200 rounded text-blue-700">
                     <div className="flex flex-row space-x-2 items-center">
-                        <div>Username : </div>
+                        <div>Kode : </div>
                         <div className="font-bold">{voucher.username}</div>
                         <div
                             className="pl-2"
                             onClick={() =>
                                 handleCopyToClipboard(voucher.username)
-                            }
-                        >
-                            <HiClipboardDocumentList className="text-blue-600" />
-                        </div>
-                    </div>
-                    <div className="flex flex-row space-x-2 items-center">
-                        <div>Password : </div>
-                        <div className="font-bold">{voucher.password}</div>
-                        <div
-                            className="pl-2"
-                            onClick={() =>
-                                handleCopyToClipboard(voucher.password)
                             }
                         >
                             <HiClipboardDocumentList className="text-blue-600" />

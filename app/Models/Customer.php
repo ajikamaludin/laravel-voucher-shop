@@ -215,9 +215,9 @@ class Customer extends Authenticatable
         return Attribute::make(get: function () {
             if ($this->poin_expired_at != null) {
                 $date = Carbon::parse($this->poin_expired_at)->translatedFormat('d F Y');
-                return "( kadaluarsa pada $date )";
+                return "poin kadaluarsa pada $date";
             }
-            return '';
+            return 'informasi masa kadaluarsan poin';
         });
     }
 
@@ -259,25 +259,6 @@ class Customer extends Authenticatable
     public function carts()
     {
         return $this->hasMany(CustomerCart::class);
-    }
-
-    public function allowPay($total): array
-    {
-        $allowProcess = false;
-        $isPaylater = false;
-
-        if ($this->deposit_balance >= $total) {
-            $allowProcess = true;
-        } else {
-            $paylater = $this->is_allow_paylater &&
-                ($this->paylater_limit >= $total || ($this->paylater_limit + $this->deposit_balance) >= $total);
-            if ($paylater) {
-                $allowProcess = true;
-                $isPaylater = true;
-            }
-        }
-
-        return [$allowProcess, $isPaylater];
     }
 
     public function repayPaylater(DepositHistory $deposit): void

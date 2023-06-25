@@ -20,6 +20,8 @@ class DepositHistory extends Model
 
     const STATUS_REJECT = 5;
 
+    const STATUS_EXPIRED = 6;
+
     const TYPE_DEPOSIT = 0;
 
     const TYPE_REPAYMENT = 1;
@@ -73,6 +75,7 @@ class DepositHistory extends Model
                 self::STATUS_WAIT_PAYMENT => ['text' => 'Menunggu Pembayaran', 'color' => 'bg-green-600', 'text_color' => 'text-green-600'],
                 self::STATUS_INVALID => ['text' => 'Error', 'color' => 'bg-red-600', 'text_color' => 'text-red-600'],
                 self::STATUS_REJECT => ['text' => 'Reject', 'color' => 'bg-red-600', 'text_color' => 'text-red-600'],
+                self::STATUS_EXPIRED => ['text' => 'Expired', 'color' => 'bg-red-600', 'text_color' => 'text-red-600'],
             ][$this->is_valid];
         });
     }

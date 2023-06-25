@@ -51,13 +51,10 @@ export default function Index({ query: { data, next_page_url } }) {
                                 }
                             >
                                 <div className="flex flex-col">
-                                    <div>{sale.format_human_created_at}</div>
-                                    <div className="font-thin">
-                                        Invoice{' '}
-                                        <span className="font-bold">
-                                            #{sale.code}
-                                        </span>
+                                    <div className="font-bold">
+                                        {sale.format_human_created_at}
                                     </div>
+                                    <div className="font-thin">{sale.code}</div>
                                 </div>
                                 <div className="flex flex-col items-end">
                                     <div className="font-bold text-lg">

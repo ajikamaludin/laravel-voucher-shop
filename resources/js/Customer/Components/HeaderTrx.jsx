@@ -1,4 +1,6 @@
 import { usePage, router, Link } from '@inertiajs/react'
+import { useState } from 'react'
+import { HiOutlineQuestionMarkCircle } from 'react-icons/hi2'
 
 export default function HeaderTrx({ enable = 'deposit' }) {
     const {
@@ -6,6 +8,9 @@ export default function HeaderTrx({ enable = 'deposit' }) {
             auth: { user },
         },
     } = usePage()
+
+    const [popover, setPopover] = useState(false)
+
     return (
         <>
             <div className="w-full pt-10 px-5">
@@ -31,7 +36,17 @@ export default function HeaderTrx({ enable = 'deposit' }) {
             <div className="px-5 pb-5 border-b">
                 <div className="flex flex-row items-center text-gray-600 text-sm">
                     <div>{user.display_poin} poin</div>
-                    <div className="pl-1 text-xs">{user.poin_expired_text}</div>
+                    <div className="pl-1" onClick={() => setPopover(!popover)}>
+                        <HiOutlineQuestionMarkCircle className="h-4 w-4" />
+
+                        <div
+                            className={`${
+                                popover ? '' : 'invisible'
+                            } absolute z-10 inline-block text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm w-72 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400`}
+                        >
+                            <div className="p-2 ">{user.poin_expired_text}</div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div className="w-full">

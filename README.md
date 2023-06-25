@@ -34,6 +34,13 @@ password : password
 npm run build
 ```
 
+### Register Scheduler
+
+```bash
+crontab -e
+* * * * * cd /home/arm/projects/www/voucher && php artisan schedule:run >> /dev/null 2>&1
+```
+
 ## Other
 
 ### v1

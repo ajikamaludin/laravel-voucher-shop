@@ -114,21 +114,23 @@ class Voucher extends Model
         });
     }
 
-    public function shuffle_unsold()
+    public function shuffle_unsold($limit)
     {
-        $voucher = Voucher::where([
+        $vouchers = Voucher::where([
             ['is_sold', '=', self::UNSOLD],
-            ['batch_id', '=', $this->batch_id],
-        ])->first();
+            ['location_profile_id', '=', $this->location_profile_id],
+        ])
+            ->limit($limit)
+            ->get();
 
-        return $voucher;
+        return $vouchers;
     }
 
     public function count_unsold()
     {
         $voucher = Voucher::where([
             ['is_sold', '=', self::UNSOLD],
-            ['batch_id', '=', $this->batch_id],
+            ['location_profile_id', '=', $this->location_profile_id],
         ])->count();
 
         return $voucher;
@@ -138,15 +140,15 @@ class Voucher extends Model
     {
         $count = Voucher::where([
             ['is_sold', '=', self::UNSOLD],
-            ['batch_id', '=', $this->batch_id],
+            ['location_profile_id', '=', $this->location_profile_id],
         ])->count();
 
-        $treshold = Setting::getByKey('VOUCHER_STOCK_NOTIFICATION');
+        $treshold = $this->location_profile->min_stock;
 
         if ($count <= $treshold) {
             Notification::create([
                 'entity_type' => User::class,
-                'description' => 'stok voucher ' . $this->location->name . ' ( ' . $this->profile . ' ) ' . 'tersisa : ' . $count,
+                'description' => 'stok voucher ' . $this->location_profile->name . 'tersisa : ' . $count,
             ]);
         }
     }

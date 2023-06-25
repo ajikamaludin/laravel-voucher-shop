@@ -8,9 +8,11 @@ use App\Models\DepositHistory;
 use App\Models\PoinReward;
 use App\Models\Sale;
 use App\Models\Voucher;
+use App\Services\GeneralService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class CartController extends Controller
 {
@@ -27,14 +29,18 @@ class CartController extends Controller
             return $item->quantity * $item->voucher->validate_price;
         });
 
-        $customer = Customer::find(auth()->id());
-        [$allowProcess, $isPaylater] = $customer->allowPay($total);
+        $checkAllowProcess = [
+            $customer->deposit_balance >= $total,
+            $customer->paylater_remain >= $total
+        ];
+
+        $allowProcess = in_array(true, $checkAllowProcess);
 
         return inertia('Cart/Index', [
             'carts' => $carts,
             'total' => $total,
             'allow_process' => $allowProcess,
-            'is_paylater' => $isPaylater,
+            'payments' => GeneralService::getCartEnablePayment($customer, $total),
         ]);
     }
 
@@ -85,11 +91,20 @@ class CartController extends Controller
      * credit deposit
      * redirect to show detail
      */
-    public function purchase()
+    public function purchase(Request $request)
     {
-        DB::beginTransaction();
-        $carts = collect(session('carts'));
+        $request->validate([
+            'payed_with' => [
+                'required',
+                Rule::in([Sale::PAYED_WITH_DEPOSIT, Sale::PAYED_WITH_PAYLATER]),
+            ],
+        ]);
 
+        DB::beginTransaction();
+        $customer = $request->user('customer');
+        $carts = $customer->carts->load(['voucher.locationProfile.location']);
+
+        // validate carts not empty
         if ($carts->count() == 0) {
             return redirect()->route('home.index')
                 ->with('message', ['type' => 'error', 'message' => 'transaksi gagal, keranjang anda kosong']);
@@ -97,44 +112,31 @@ class CartController extends Controller
 
         // validate voucher is available
         foreach ($carts as $item) {
-            $batchCount = $item['voucher']->count_unsold();
-            if ($batchCount < $item['quantity']) {
-                session()->remove('carts');
+            $batchCount = $item->voucher->count_unsold();
+            if ($batchCount < $item->quantity) {
+                $customer->carts()->delete();
 
                 return redirect()->route('home.index')
                     ->with('message', ['type' => 'error', 'message' => 'transaksi gagal, voucher sedang tidak tersedia']);
             }
         }
 
+        // calculate total
         $total = $carts->sum(function ($item) {
-            return $item['quantity'] * $item['voucher']->validate_price;
+            return $item->quantity * $item->voucher->validate_price;
         });
 
-        $customer = Customer::find(auth()->id());
-
-        $paylater_limit = (int) $customer->paylater_limit;
-        if (($paylater_limit + $customer->deposit_balance) < $total) {
-            session()->remove('carts');
-
-            return redirect()->route('home.index')
-                ->with('message', ['type' => 'error', 'message' => 'transaksi gagal, pembayaran ditolak']);
-        }
-
-        $payedWith = Sale::PAYED_WITH_DEPOSIT;
-        if ($total > $customer->deposit_balance && $customer->deposit_balance == 0) {
-            $payedWith = Sale::PAYED_WITH_PAYLATER;
-        }
-
+        // create sale
         $sale = $customer->sales()->create([
-            'code' => Str::random(5),
             'date_time' => now(),
             'amount' => $total,
-            'payed_with' => $payedWith,
+            'payed_with' => $request->payed_with,
         ]);
 
+        // create sale item by per voucher
         foreach ($carts as $item) {
-            foreach (range(1, $item['quantity']) as $q) {
-                $voucher = $item['voucher']->shuffle_unsold();
+            $vouchers = $item->voucher->shuffle_unsold($item->quantity);
+            foreach ($vouchers as $voucher) {
                 $sale->items()->create([
                     'entity_type' => $voucher::class,
                     'entity_id' => $voucher->id,
@@ -147,11 +149,36 @@ class CartController extends Controller
                 $voucher->check_stock_notification();
             }
         }
+
+        // create sale notification
         $sale->create_notification();
 
+        // payed with deposit
+        if ($sale->payed_with == Sale::PAYED_WITH_DEPOSIT) {
+            $deposit = $customer->deposites()->create([
+                'credit' => $total,
+                'description' => $sale->code,
+                'related_type' => Sale::class,
+                'related_id' => $sale->id,
+                'is_valid' => DepositHistory::STATUS_VALID,
+            ]);
+            $deposit->update_customer_balance();
+        }
+
+        // payed with paylater
+        if ($sale->payed_with == Sale::PAYED_WITH_PAYLATER) {
+            $paylater = $customer->paylaterHistories()->create([
+                'debit' => $total,
+                'description' => $sale->code,
+            ]);
+            $paylater->update_customer_paylater();
+        }
+
+        // bonus poin by reward
         $bonus = PoinReward::where('customer_level_id', $customer->customer_level_id)
             ->where('amount_buy', '<=', $total)
-            ->orderBy('bonus_poin', 'desc')->first();
+            ->orderBy('bonus_poin', 'desc')
+            ->first();
 
         if ($bonus != null) {
             $poin = $customer->poins()->create([
@@ -162,45 +189,12 @@ class CartController extends Controller
             $poin->update_customer_balance();
         }
 
-        $description = 'Pembayaran #' . $sale->code;
+        // TODO : bonus poin by downline
 
-        if ($customer->deposit_balance < $total) {
-            if ($customer->deposit_balance > 0) {
-                $deposit = $customer->deposites()->create([
-                    'credit' => $customer->deposit_balance,
-                    'description' => $description,
-                    'related_type' => Sale::class,
-                    'related_id' => $sale->id,
-                    'is_valid' => DepositHistory::STATUS_VALID,
-                ]);
-                $deposit->update_customer_balance();
-            }
-
-            // payed with paylater
-            $payedWithPaylater = $total - $customer->deposit_balance;
-            $paylater = $customer->paylaterHistories()->create([
-                'debit' => $payedWithPaylater,
-                'description' => $description,
-            ]);
-
-            $paylater->update_customer_paylater();
-        }
-
-        // deposit payment
-        if ($customer->deposit_balance >= $total) {
-            $deposit = $customer->deposites()->create([
-                'credit' => $total,
-                'description' => $description,
-                'related_type' => Voucher::class,
-                'related_id' => $sale->id,
-                'is_valid' => DepositHistory::STATUS_VALID,
-            ]);
-            $deposit->update_customer_balance();
-        }
+        // remove carts
+        $customer->carts()->delete();
 
         DB::commit();
-
-        session()->remove('carts');
 
         return redirect()->route('transactions.sale.show', $sale)
             ->with('message', ['type' => 'success', 'message' => 'pembelian berhasil']);

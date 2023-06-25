@@ -1,31 +1,18 @@
 import React from 'react'
 import { Head, router } from '@inertiajs/react'
+
+import { formatIDR } from '@/utils'
 import CustomerLayout from '@/Layouts/CustomerLayout'
 import VoucherCard from './VoucherCard'
-import { formatIDR } from '@/utils'
+import EmptyHere from './IndexPartials/EmptyHere'
+import { useModalState } from '@/hooks'
+import Payment from './IndexPartials/Payment'
 
-const EmptyHere = () => {
-    return (
-        <div className="w-full px-5 text-center flex flex-col my-auto">
-            <div className="font-bold text-xl">
-                Wah, keranjang belanjamu kosong
-            </div>
-            <div className="text-gray-400">
-                Yuk, pilih paket voucher terbaik mu!
-            </div>
-        </div>
-    )
-}
+export default function Index({ carts, total, allow_process }) {
+    const paymentModal = useModalState()
 
-export default function Index({
-    auth: { user },
-    carts,
-    total,
-    allow_process,
-    is_paylater,
-}) {
-    const handleSubmit = () => {
-        router.post(route('cart.purchase'))
+    const handlePayment = () => {
+        paymentModal.toggle()
     }
 
     const handleTopUp = () => {
@@ -37,58 +24,42 @@ export default function Index({
             <Head title="Cart" />
             <div className="flex flex-col min-h-[calc(95dvh)]">
                 <div className="py-5 text-2xl px-5 font-bold">Keranjang</div>
-
                 {carts.length > 0 ? (
                     <>
-                        <div className="w-full px-5 flex flex-col space-y-2">
+                        <div className="w-full px-2 flex flex-col space-y-2 pb-28">
                             {carts.map((item) => (
                                 <VoucherCard key={item.id} item={item} />
                             ))}
                         </div>
-                        <div className="fixed bottom-20 right-0 w-full">
-                            {is_paylater && (
-                                <div
-                                    className="max-w-sm mx-auto px-4 py-2 mb-4 text-xs text-blue-800 rounded-lg bg-blue-50 flex flex-row space-x-2 w-full items-center"
-                                    role="alert"
-                                >
-                                    <div>
-                                        Saldo tidak cukup, melanjutkan transaksi
-                                        dengan paylatermu
+                        <div className="fixed bottom-12 w-full bg-white py-5 px-2 shadow-lg border-t max-w-md mx-auto">
+                            <div className="flex flex-row justify-between px-5">
+                                <div className="flex flex-col">
+                                    <div className="text-gray-400">
+                                        Total Harga
+                                    </div>
+                                    <div className="font-bold text-lg">
+                                        Rp. {formatIDR(total)}
                                     </div>
                                 </div>
-                            )}
-                            {/* <div className="max-w-sm mx-auto text-right text-gray-400">
-                                Saldo: {formatIDR(user.deposit_balance)}
-                                {is_paylater && (
-                                    <>
-                                        {' '}
-                                        | Limit:{' '}
-                                        {formatIDR(user.paylater_limit)}
-                                    </>
-                                )}
-                            </div> */}
-                            <div className="max-w-sm mx-auto text-xl font-bold text-right flex flex-row justify-between">
-                                <div>TOTAL</div>
-                                <div> {formatIDR(total)}</div>
-                            </div>
-                            {allow_process ? (
-                                <div
-                                    onClick={handleSubmit}
-                                    className="mt-3 border bg-blue-700 text-white px-5 py-2 mx-auto rounded-full hover:text-black hover:bg-white max-w-sm"
-                                >
-                                    Bayar
-                                </div>
-                            ) : (
-                                <div className="flex flex-row w-full mx-auto space-x-2 max-w-sm items-center mt-3">
-                                    <div className="border border-gray-500 bg-gray-400 text-white px-5 py-2 rounded-full flex-1">
-                                        Saldo tidak cukup
+                                {allow_process ? (
+                                    <div
+                                        onClick={handlePayment}
+                                        className="font-bold h-11 border bg-blue-700 text-white px-5 py-2 rounded-full hover:text-black hover:bg-white"
+                                    >
+                                        Bayar
                                     </div>
+                                ) : (
                                     <div
                                         onClick={handleTopUp}
-                                        className="border bg-blue-700 text-white px-5 py-2 rounded-full hover:text-black hover:bg-white"
+                                        className="font-bold h-11 border bg-blue-700 text-white px-5 py-2 rounded-full hover:text-black hover:bg-white"
                                     >
                                         Top Up
                                     </div>
+                                )}
+                            </div>
+                            {allow_process === false && (
+                                <div className="-mt-2 px-5 text-right text-sm text-gray-500">
+                                    saldo tidak cukup
                                 </div>
                             )}
                         </div>
@@ -97,6 +68,7 @@ export default function Index({
                     <EmptyHere />
                 )}
             </div>
+            <Payment state={paymentModal} />
         </CustomerLayout>
     )
 }

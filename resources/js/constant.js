@@ -4,6 +4,8 @@ export const STATUS_APPROVE = 0
 
 export const STATUS_REJECT = 5
 
+export const STATUS_EXPIRED = 6
+
 export const PAYMENT_MANUAL = 'MANUAL'
 
 export const PAYMENT_MIDTRANS = 'MIDTRANS'

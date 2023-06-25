@@ -2,8 +2,10 @@
 
 namespace App\Services;
 
+use App\Models\Customer;
 use App\Models\DepositHistory;
 use App\Models\DepositLocation;
+use App\Models\Sale;
 use App\Models\Setting;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
@@ -109,11 +111,26 @@ class GeneralService
         return $payment;
     }
 
-    public static function getCartEnablePayment()
+    public static function getCartEnablePayment(Customer $customer, $total)
     {
-        // deposit
-        // poin
-        // paylater
+        $payments = [];
+
+
+        $payments[] = [
+            'name' => Sale::PAYED_WITH_DEPOSIT,
+            'display_name' => 'Bayar dengan saldo Deposit',
+            'is_enable' => $customer->deposit_balance >= $total
+        ];
+
+        if ($customer->is_allow_paylater) {
+            $payments[] = [
+                'name' => Sale::PAYED_WITH_PAYLATER,
+                'display_name' => 'Bayar dengan saldo Hutang',
+                'is_enable' => $customer->paylater_remain >= $total
+            ];
+        }
+
+        return $payments;
     }
 
     public static function parserToHour($time)
@@ -133,9 +150,18 @@ class GeneralService
 
     public static function generateDepositCode()
     {
-        $code = DepositHistory::where('type', DepositHistory::TYPE_DEPOSIT)->count() + 1;
+        $code = DepositHistory::where('type', DepositHistory::TYPE_DEPOSIT)
+            ->whereDate('created_at', now())
+            ->count() + 1;
 
         return 'Invoice #DSR' . now()->format('dmy') . GeneralService::formatNumberCode($code);
+    }
+
+    public static function generateSaleVoucherCode()
+    {
+        $code = Sale::whereDate('created_at', now())->count() + 1;
+
+        return 'Invoice #VCR' . now()->format('dmy') . GeneralService::formatNumberCode($code);
     }
 
     public static function formatNumberCode($number)

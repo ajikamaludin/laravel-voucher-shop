@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\GeneralService;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Support\Carbon;
 
@@ -35,6 +36,15 @@ class Sale extends Model
         'format_created_at',
         'display_amount',
     ];
+
+    protected static function booted(): void
+    {
+        static::creating(function (Sale $model) {
+            if ($model->code == null) {
+                $model->code = GeneralService::generateSaleVoucherCode();
+            }
+        });
+    }
 
     public function items()
     {
@@ -90,7 +100,7 @@ class Sale extends Model
 
         Notification::create([
             'entity_id' => auth()->id(),
-            'description' => 'Transaksi pembelian anda #' . $this->code . ' sebesar ' . $this->display_amount . ' berhasil',
+            'description' => 'Transaksi pembelian anda ' . $this->code . ' sebesar ' . $this->display_amount . ' berhasil',
         ]);
     }
 }

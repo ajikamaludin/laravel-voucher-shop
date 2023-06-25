@@ -27,7 +27,7 @@ export default function VoucherCard({ item: { voucher, quantity } }) {
                         {voucher.location_profile.display_note}
                     </div>
                     <div className="text-xl font-bold">
-                        IDR {formatIDR(voucher.validate_price)}
+                        Rp {formatIDR(voucher.validate_price)}
                     </div>
                     {+voucher.discount !== 0 && (
                         <div className="flex flex-row space-x-2 items-center text-xs pb-2">
@@ -50,12 +50,6 @@ export default function VoucherCard({ item: { voucher, quantity } }) {
                 </div>
             </div>
             <div className="w-full border border-dashed"></div>
-            <div className="w-full flex flex-row justify-between items-center pt-1">
-                <div>{formatIDR(voucher.validate_price)}</div>
-                <div>x</div>
-                <div>{quantity}</div>
-                <div>{formatIDR(+voucher.validate_price * +quantity)}</div>
-            </div>
             <div className="w-full flex flex-row justify-end items-center space-x-2 py-2">
                 <HiTrash
                     className="text-red-700 w-6 h-6 rounded-full border mr-4 hover:bg-red-700"

@@ -11,9 +11,22 @@ import {
     PAYMENT_MANUAL,
     PAYMENT_MIDTRANS,
     STATUS_REJECT,
+    STATUS_EXPIRED,
 } from '@/constant'
 
 const ActionSection = ({ deposit }) => {
+    if (deposit.is_valid === STATUS_EXPIRED) {
+        return (
+            <div className="w-full px-5">
+                <div className="my-5">
+                    <div className="bg-red-50 text-red-700 p-3 border rounded-md">
+                        Expired
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
     if (deposit.is_valid === STATUS_REJECT) {
         return (
             <div className="w-full px-5">
@@ -25,6 +38,7 @@ const ActionSection = ({ deposit }) => {
             </div>
         )
     }
+
     return (
         <div className="w-full">
             {deposit.payment_channel === PAYMENT_MIDTRANS && <PayButton />}
