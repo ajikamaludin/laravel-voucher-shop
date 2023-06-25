@@ -143,12 +143,12 @@ class Voucher extends Model
             ['location_profile_id', '=', $this->location_profile_id],
         ])->count();
 
-        $treshold = $this->location_profile->min_stock;
+        $treshold = $this->locationProfile->min_stock;
 
         if ($count <= $treshold) {
             Notification::create([
                 'entity_type' => User::class,
-                'description' => 'stok voucher ' . $this->location_profile->name . 'tersisa : ' . $count,
+                'description' => 'stok voucher ' . $this->locationProfile->name . 'tersisa : ' . $count,
             ]);
         }
     }

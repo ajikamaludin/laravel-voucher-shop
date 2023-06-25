@@ -142,7 +142,9 @@ class CartController extends Controller
                     'entity_id' => $voucher->id,
                     'price' => $voucher->validate_price,
                     'quantity' => 1,
-                    'additional_info_json' => json_encode($item),
+                    'additional_info_json' => json_encode([
+                        'voucher' => $voucher->load(['locationProfile.location'])
+                    ]),
                 ]);
 
                 $voucher->update(['is_sold' => Voucher::SOLD]);
