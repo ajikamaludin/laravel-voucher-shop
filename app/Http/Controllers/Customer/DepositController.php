@@ -163,13 +163,15 @@ class DepositController extends Controller
 
     public function mindtrans_notification(Request $request)
     {
+        info('mindtrans_notification', ['request boyd' => $request->input()]);
+
         DB::beginTransaction();
         $deposit = DepositHistory::where('id', $request->order_id)->first();
 
         if ($deposit != null && $deposit->is_valid != DepositHistory::STATUS_VALID) {
             $deposit->fill([
                 'payment_response' => json_encode($request->all()),
-                'payment_type' => $request->result['payment_type'],
+                'payment_type' => $request->payment_type,
             ]);
 
             if ($request->transaction_status == 'settlement' || $request->transaction_status == 'capture') {

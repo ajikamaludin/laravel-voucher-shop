@@ -29,7 +29,7 @@ return new class extends Migration
             $table->string('payment_channel')->nullable();
             $table->string('payment_token')->nullable();
             $table->string('payment_status')->nullable();
-            $table->string('payment_response')->nullable();
+            $table->text('payment_response')->nullable();
             $table->string('payment_type')->nullable();
 
             $table->timestamps();
