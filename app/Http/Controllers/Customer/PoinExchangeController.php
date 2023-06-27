@@ -14,24 +14,38 @@ class PoinExchangeController extends Controller
 {
     public function index(Request $request)
     {
-        $locations = Location::get();
+        $locations = Location::orderBy('name', 'asc')->get();
+
         $vouchers = Voucher::with(['locationProfile.location'])
             ->whereHas('locationProfile', function ($q) {
-                $q->where('price_poin', '!=', 0)
-                    ->where('price_poin', '!=', null);
+                $q->where(['price_poin', '!=', 0])
+                    ->orWhereHas('prices', function ($q) {
+                        return $q->where(['price_poin', '!=', 0]);
+                    });
             })
             ->where('is_sold', Voucher::UNSOLD)
             ->groupBy('location_profile_id')
             ->orderBy('updated_at', 'desc');
 
         if ($request->location_id != '') {
-            $vouchers->where('location_id', $request->location_id);
+            $vouchers->whereHas('locationProfile', function ($q) use ($request) {
+                return $q->whereIn('location_id', $request->location_ids);
+            });
+
+            $slocations = Location::whereIn('id', $request->location_ids)->get();
+
+            $vouchers = tap($vouchers->paginate(20))->setHidden(['username', 'password']);
+        }
+
+        if (auth()->guard('customer')->guest() && $request->location_ids == '') {
+            $vouchers = tap($vouchers->paginate(20))->setHidden(['username', 'password']);
         }
 
         return inertia('Poin/Exchange', [
             'locations' => $locations,
-            'vouchers' => tap($vouchers->paginate(10))->setHidden(['username', 'password']),
+            'vouchers' => $vouchers,
             '_location_id' => $request->location_id ?? '',
+            '_slocations' => $slocations,
         ]);
     }
 
@@ -40,7 +54,7 @@ class PoinExchangeController extends Controller
         $batchCount = $voucher->count_unsold();
         if ($batchCount < 1) {
             return redirect()->route('customer.poin.exchange')
-                ->with('message', ['type' => 'error', 'message' => 'transaksi gagal, voucher sedang tidak tersedia']);
+                ->with('message', ['type' => 'error', 'message'=> 'transaksi gagal, voucher sedang tidak tersedia']);
         }
 
         $customer = Customer::find(auth()->id());
@@ -52,7 +66,7 @@ class PoinExchangeController extends Controller
 
         DB::beginTransaction();
         $sale = $customer->sales()->create([
-            'code' => 'Tukar poin ' . str()->upper(str()->random(5)),
+            'code' => 'Tukar poin ' . str()->upper(str()->random(5)), //TODO changes this
             'date_time' => now(),
             'amount' => 0,
             'payed_with' => Sale::PAYED_WITH_POIN,

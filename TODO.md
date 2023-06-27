@@ -3,8 +3,8 @@
 ## Note
 
 [x] Kerjakan dulu semua yang terkait penjualan normal, deposit normal dan bonus poin transaksi dan downline
-[ ] baru setelah itu yang berhubungan dengan mitrawbb dan hutang
 [ ] setelah itu baru penukaran voucher
+[ ] baru setelah itu yang berhubungan dengan mitrawbb dan hutang
 
 ## Front
 

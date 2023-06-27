@@ -6,7 +6,7 @@ import { HiOutlineQuestionMarkCircle } from 'react-icons/hi2'
 
 import { useModalState } from '@/hooks'
 import BottomSheet from './BottomSheet'
-import FormInputDateRanger from '@/Components/FormInputDateRange'
+import FormInputDateRanger from './InputDateRange'
 
 const FilterSheet = ({ state, dates, setDates, setApply }) => {
     const apply = () => {
