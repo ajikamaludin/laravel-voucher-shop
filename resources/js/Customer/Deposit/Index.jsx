@@ -5,6 +5,7 @@ import { usePrevious } from 'react-use'
 import CustomerLayout from '@/Layouts/CustomerLayout'
 import HeaderTrx from '../Components/HeaderTrx'
 import { formatIDDate } from '@/utils'
+import { isEmpty } from 'lodash'
 
 const EmptyHere = () => {
     return (
@@ -49,6 +50,9 @@ export default function Index(props) {
 
     useEffect(() => {
         if (preValue) {
+            if (isEmpty(dates.endDate)) {
+                return
+            }
             router.get(
                 route(route().current()),
                 {

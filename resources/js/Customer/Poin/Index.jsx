@@ -49,6 +49,9 @@ export default function Index(props) {
 
     useEffect(() => {
         if (preValue) {
+            if (isEmpty(dates.endDate)) {
+                return
+            }
             router.get(
                 route(route().current()),
                 {

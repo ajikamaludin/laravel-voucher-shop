@@ -88,7 +88,7 @@ export default function HeaderTrx({ enable = 'deposit', dates, setDates }) {
                     <div className="flex flex-row gap-2 ">
                         <Link
                             href={route('transactions.deposit.index')}
-                            className={`px-3 py-1 rounded-full border hover:bg-blue-500  ${
+                            className={`px-3 py-1 rounded-full border hover:bg-blue-500 hover:text-white  ${
                                 enable === 'deposit'
                                     ? 'bg-blue-700 text-white'
                                     : 'bg-blue-100'
@@ -98,7 +98,7 @@ export default function HeaderTrx({ enable = 'deposit', dates, setDates }) {
                         </Link>
                         <Link
                             href={route('transactions.sale.index')}
-                            className={`px-3 py-1 rounded-full border hover:bg-blue-500  ${
+                            className={`px-3 py-1 rounded-full border hover:bg-blue-500 hover:text-white  ${
                                 enable === 'trx'
                                     ? 'bg-blue-700 text-white'
                                     : 'bg-blue-100'
@@ -108,7 +108,7 @@ export default function HeaderTrx({ enable = 'deposit', dates, setDates }) {
                         </Link>
                         <Link
                             href={route('transactions.poin.index')}
-                            className={`px-3 py-1 rounded-full border hover:bg-blue-500  ${
+                            className={`px-3 py-1 rounded-full border hover:bg-blue-500 hover:text-white  ${
                                 enable === 'poin'
                                     ? 'bg-blue-700 text-white'
                                     : 'bg-blue-100'
