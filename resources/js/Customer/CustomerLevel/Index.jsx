@@ -43,7 +43,10 @@ export default function Index(props) {
                             <div key={level.id} className="flex flex-col h-40">
                                 <div className="h-36 rounded-lg border p-2 flex flex-row gap-2 items-center shadow-lg">
                                     <div>
-                                        <img src={level.logo_url} />
+                                        <img
+                                            src={level.logo_url}
+                                            loading="lazy"
+                                        />
                                     </div>
                                     <div className=" flex-1 flex flex-col">
                                         <div className="text-2xl font-bold">

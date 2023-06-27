@@ -7,6 +7,7 @@ use App\Models\Customer;
 use App\Models\DepositHistory;
 use App\Models\PoinReward;
 use App\Models\Sale;
+use App\Models\Setting;
 use App\Models\Voucher;
 use App\Services\GeneralService;
 use Illuminate\Http\Request;
@@ -100,7 +101,6 @@ class CartController extends Controller
             ],
         ]);
 
-        DB::beginTransaction();
         $customer = $request->user('customer');
         $carts = $customer->carts->load(['voucher.locationProfile.location']);
 
@@ -126,6 +126,7 @@ class CartController extends Controller
             return $item->quantity * $item->voucher->validate_price;
         });
 
+        DB::beginTransaction();
         // create sale
         $sale = $customer->sales()->create([
             'date_time' => now(),
@@ -148,50 +149,17 @@ class CartController extends Controller
                 ]);
 
                 $voucher->update(['is_sold' => Voucher::SOLD]);
+                
                 $voucher->check_stock_notification();
+
+                $voucher->create_bonus_poin($customer);
             }
         }
 
-        // create sale notification
+        $sale->create_payment();
         $sale->create_notification();
-
-        // payed with deposit
-        if ($sale->payed_with == Sale::PAYED_WITH_DEPOSIT) {
-            $deposit = $customer->deposites()->create([
-                'credit' => $total,
-                'description' => $sale->code,
-                'related_type' => Sale::class,
-                'related_id' => $sale->id,
-                'is_valid' => DepositHistory::STATUS_VALID,
-            ]);
-            $deposit->update_customer_balance();
-        }
-
-        // payed with paylater
-        if ($sale->payed_with == Sale::PAYED_WITH_PAYLATER) {
-            $paylater = $customer->paylaterHistories()->create([
-                'debit' => $total,
-                'description' => $sale->code,
-            ]);
-            $paylater->update_customer_paylater();
-        }
-
-        // bonus poin by reward
-        $bonus = PoinReward::where('customer_level_id', $customer->customer_level_id)
-            ->where('amount_buy', '<=', $total)
-            ->orderBy('bonus_poin', 'desc')
-            ->first();
-
-        if ($bonus != null) {
-            $poin = $customer->poins()->create([
-                'debit' => $bonus->bonus_poin,
-                'description' => 'Bonus Pembelian #' . $sale->code,
-            ]);
-
-            $poin->update_customer_balance();
-        }
-
-        // TODO : bonus poin by downline
+        $sale->create_poin_reward();
+        $sale->create_poin_affilate();
 
         // remove carts
         $customer->carts()->delete();

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\GeneralService;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Support\Facades\Auth;
 
@@ -26,6 +27,8 @@ class Voucher extends Model
     protected $appends = [
         'validate_price',
         'validate_display_price',
+        'validate_price_poin',
+        'validate_bonus_poin',
         'discount',
         'status',
         'created_at_formated'
@@ -78,6 +81,38 @@ class Voucher extends Model
                 return $price->max('display_price');
             }
             return $this->locationProfile->display_price;
+        });
+    }
+
+    public function validateBonusPoin(): Attribute
+    {
+        return Attribute::make(get: function () {
+            if ($this->locationProfile->prices->count() > 0) {
+                $price = $this->locationProfile->prices;
+                if (auth()->guard('customer')->check()) {
+                    $customer = self::getInstance()['customer'];
+                    return $price->where('customer_level_id', $customer->customer_level_id)
+                        ->value('bonus_poin');
+                }
+                return $price->max('bonus_poin');
+            }
+            return $this->locationProfile->bonus_poin;
+        });
+    }
+
+    public function validatePricePoin(): Attribute
+    {
+        return Attribute::make(get: function () {
+            if ($this->locationProfile->prices->count() > 0) {
+                $price = $this->locationProfile->prices;
+                if (auth()->guard('customer')->check()) {
+                    $customer = self::getInstance()['customer'];
+                    return $price->where('customer_level_id', $customer->customer_level_id)
+                        ->value('price_poin');
+                }
+                return $price->max('price_poin');
+            }
+            return $this->locationProfile->price_poin;
         });
     }
 
@@ -189,5 +224,21 @@ class Voucher extends Model
             'count_voucher_unsold' => $count_voucher_unsold,
             'sum_voucher_unsold' => $sum_voucher_unsold,
         ];
+    }
+
+    public function create_bonus_poin(Customer $customer)
+    {
+        $bonus = $this->validate_bonus_poin;
+
+        if ($bonus > 0) {
+            $customer = Customer::find($customer->id);
+            $poin = $customer->poins()->create([
+                'debit' => $bonus,
+                'description' => GeneralService::generateBonusPoinCode(),
+                'narration' => 'Bonus Poin Pembelian Voucher'
+            ]);
+
+            $poin->update_customer_balance();
+        }
     }
 }

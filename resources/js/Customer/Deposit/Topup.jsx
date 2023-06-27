@@ -124,6 +124,7 @@ export default function Topup({ payments }) {
                                             <img
                                                 src={payment.logo}
                                                 className="h-7 pt-1 object-cover"
+                                                loading="lazy"
                                             />
                                         )}
                                         {+payment.admin_fee !== 0 && (

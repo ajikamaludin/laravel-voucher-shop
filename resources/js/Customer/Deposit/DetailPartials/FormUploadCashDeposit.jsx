@@ -64,6 +64,7 @@ export const FormUploadCashDeposit = () => {
                 <div className="font-bold">Bukti Pembayaran</div>
                 <img
                     src={`${imageUrl}`}
+                    loading="lazy"
                     className="w-full h-52 mb-1"
                     alt="bukti Pembayaran"
                 />
@@ -97,6 +98,7 @@ export const FormUploadCashDeposit = () => {
                                 <img
                                     src={location.image_url}
                                     alt="image location"
+                                    loading="lazy"
                                     className="object-fill h-36 w-32"
                                 />
                             </div>
@@ -137,6 +139,7 @@ export const FormUploadCashDeposit = () => {
                                     <img
                                         src={location.image_url}
                                         alt="image location"
+                                        loading="lazy"
                                         className="object-fill h-36 w-32"
                                     />
                                 </div>
@@ -252,6 +255,7 @@ export const FormUploadCashDeposit = () => {
                         {isEmpty(data.image_url) == false && (
                             <img
                                 src={`${data.image_url}`}
+                                loading="lazy"
                                 className="w-full h-52 mb-1"
                                 alt="bukti Pembayaran"
                             />

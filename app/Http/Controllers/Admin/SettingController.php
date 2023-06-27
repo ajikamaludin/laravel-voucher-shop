@@ -121,7 +121,15 @@ class SettingController extends Controller
             Setting::where('key', $key)->update(['value' => $value]);
         }
 
-        $allowedLevel = collect($request->AFFILATE_ALLOWED_LEVELS)->toArray();
+        $allowedLevel = collect($request->AFFILATE_ALLOWED_LEVELS)
+            ->map(function ($item) {
+                return [
+                    'id' => $item['id'],
+                    'key' => $item['key'],
+                    'name' => $item['name'],
+                ];
+            })
+            ->toArray();
 
         Setting::where('key', 'AFFILATE_ALLOWED_LEVELS')->update([
             'value' => json_encode($allowedLevel)

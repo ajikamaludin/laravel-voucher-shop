@@ -7,6 +7,7 @@ use App\Mail\CustomerVerification;
 use App\Models\Customer;
 use App\Models\Setting;
 use App\Services\AsyncService;
+use App\Services\GeneralService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -133,7 +134,7 @@ class AuthController extends Controller
             session()->put('referral_code', $request->referral_code);
             $code = $request->referral_code;
         } else {
-            $code = session('referral_code', ' ');
+            $code = session('referral_code', '');
         }
 
         return inertia('Auth/Register', [
@@ -209,17 +210,20 @@ class AuthController extends Controller
                 session()->forget('referral_code');
                 return;
             }
+
             $refferal->customerRefferals()->create([
                 'refferal_id' => $customer->id,
                 'customer_code' => $refferal->referral_code,
             ]);
 
             $affilateEnabled = Setting::getByKey('AFFILATE_ENABLED');
-            if ($affilateEnabled == 1) {
-                $bonuspoin = Setting::getByKey('AFFILATE_poin_AMOUNT');
+            $isAllowAffilate = GeneralService::isAllowAffilate($refferal->level->key);
+            if ($affilateEnabled == 1 && $isAllowAffilate) {
+                $bonuspoin = Setting::getByKey('AFFILATE_POIN_AMOUNT');
                 $poin = $refferal->poins()->create([
                     'debit' => $bonuspoin,
-                    'description' => 'Bonus Refferal #' . Str::random(5),
+                    'description' => GeneralService::generateBonusPoinCode(),
+                    'narration' => 'Bonus Poin Affilate (Register)'
                 ]);
 
                 $poin->update_customer_balance();

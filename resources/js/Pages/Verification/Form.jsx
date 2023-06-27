@@ -77,6 +77,7 @@ export default function Form(props) {
                             <img
                                 src={customer.identity_image_url}
                                 className="w-full object-fill h-96"
+                                loading="lazy"
                             />
                         </div>
 

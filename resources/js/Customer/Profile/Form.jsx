@@ -156,6 +156,7 @@ export default function Index({ auth: { user }, flash }) {
                                     src={`${data.image_url}`}
                                     className="w-20 h-20 mb-1 rounded-full"
                                     alt="profile image"
+                                    loading="lazy"
                                 />
                             }
                         />

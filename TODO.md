@@ -2,25 +2,25 @@
 
 ## Note
 
-Kerjakan dulu semua yang terkait penjualan normal, deposit normal dan bonus poin transaksi dan downline
-baru setelah itu yang berhubungan dengan mitrawbb dan hutang
-setelah itu baru penukaran voucher
+[x] Kerjakan dulu semua yang terkait penjualan normal, deposit normal dan bonus poin transaksi dan downline
+[ ] baru setelah itu yang berhubungan dengan mitrawbb dan hutang
+[ ] setelah itu baru penukaran voucher
 
 ## Front
 
--   [ ] transaksi pembelian
--   [ ] transaksi pembelian + dapat poin downline
--   [ ] [BUG] pembelian voucher lebih dari 1 mendapat kode yang sama
+-   [x] transaksi pembelian
+-   [x] transaksi pembelian + dapat poin downline
+-   [x] [BUG] pembelian voucher lebih dari 1 mendapat kode yang sama
 -   [ ] penuakaran voucher
--   [ ] tambah metode topup deposit dengan setor tunai kantor wbb
+-   [x] tambah metode topup deposit dengan setor tunai kantor wbb
 -   [x] mengubah metode pembayaran deposit dengan daftar bank seperti deposit dan tampil logo bank
 -   [x] tampilan keranjang jadi lebih seperti tokped dengan metode pembayaran deposit atau hutang jika tersedia
 -   [x] tampilan transaksi deposit, hutang (mitra wbb), dan poin jadi satu tampilan
 -   [x] tambah screen untuk daftar setor tunai kantor wbb
 -   [x] halaman untuk menampilkan level customer
--   [ ] expired time 2jam di deposit manual maupun kantor wbb
--   [ ] ubah username dan password di detail transaksi dengan kode voucher saja
--   [ ] format nomor transaksi di deposit , transaksi dan poin
+-   [x] expired time 2jam di deposit manual maupun kantor wbb
+-   [x] ubah username dan password di detail transaksi dengan kode voucher saja
+-   [x] format nomor transaksi di deposit , transaksi dan poin
 
 # Back Office
 

@@ -150,6 +150,7 @@ export default function FormModal(props) {
                         <img
                             src={data.image_prove_url}
                             className="w-full object-fill h-96"
+                            loading="lazy"
                         />
                     </a>
                 </div>

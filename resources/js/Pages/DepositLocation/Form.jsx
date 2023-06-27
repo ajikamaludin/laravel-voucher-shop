@@ -148,6 +148,7 @@ export default function Form(props) {
                                         src={data.image_url}
                                         className="mb-1 h-24 object-cover "
                                         alt="preview"
+                                        loading="lazy"
                                     />
                                 )
                             }

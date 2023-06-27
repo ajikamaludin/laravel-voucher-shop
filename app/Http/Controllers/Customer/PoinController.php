@@ -12,6 +12,7 @@ class PoinController extends Controller
     public function index(Request $request)
     {
         $poins = PoinHistory::where('customer_id', auth()->id())
+            ->orderBy('description', 'desc')
             ->orderBy('updated_at', 'desc');
 
         $start_date = now()->startOfMonth();

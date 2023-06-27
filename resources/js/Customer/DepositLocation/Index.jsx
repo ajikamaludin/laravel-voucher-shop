@@ -48,6 +48,7 @@ export default function Index({ locations: { data, next_page_url } }) {
                             <img
                                 src={location.image_url}
                                 className="object-fill h-36 w-32"
+                                loading="lazy"
                             />
                             <div className="flex flex-col w-full">
                                 <div className="font-bold">{location.name}</div>

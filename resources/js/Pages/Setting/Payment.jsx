@@ -93,6 +93,7 @@ export default function General(props) {
                                         src={`${data.MIDTRANS_LOGO_URL}`}
                                         className="w-40 mb-1"
                                         alt="site logo"
+                                        loading="lazy"
                                     />
                                 }
                             />

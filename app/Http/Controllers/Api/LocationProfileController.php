@@ -10,7 +10,8 @@ class LocationProfileController extends Controller
 {
     public function index(Request $request)
     {
-        $query = LocationProfile::with(['location'])->orderBy('updated_at', 'desc');
+        $query = LocationProfile::with(['location'])
+            ->orderBy('updated_at', 'desc');
 
         if ($request->q != '') {
             $query->where('name', 'like', "%$request->q%")

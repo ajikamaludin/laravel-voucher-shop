@@ -134,6 +134,7 @@ const Profile = () => {
                             src={data.image_url}
                             className="mb-1 h-24 w-24 object-cover rounded-full"
                             alt="preview"
+                            loading="lazy"
                         />
                     )
                 }
@@ -164,6 +165,7 @@ const Identity = () => {
                 alt="identity"
                 src={customer?.identity_image_url}
                 className="w-full object-fill h-96"
+                loading="lazy"
             />
         </div>
     )

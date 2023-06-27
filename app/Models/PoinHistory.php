@@ -11,6 +11,7 @@ class PoinHistory extends Model
         'debit',
         'credit',
         'description',
+        'narration',
         'customer_id',
         'related_type',
         'related_id',
@@ -52,9 +53,18 @@ class PoinHistory extends Model
         return $this->belongsTo(Customer::class);
     }
 
-    public function update_customer_balance()
+    public function update_customer_balance($updateExpired = false)
     {
         $customer = Customer::find($this->customer_id);
-        $customer->update(['poin_balance' => $customer->poin_balance + $this->debit - $this->credit]);
+        $maxExpired = Setting::getByKey('MAX_POINT_EXPIRED');
+
+        if ($customer->poin_expired_at == null || $updateExpired) {
+            $customer->poin_expired_at = now()->addDays($maxExpired);
+        }
+
+        $customer->update([
+            'poin_balance' => $customer->poin_balance + $this->debit - $this->credit,
+            'poin_expired_at' =>  $customer->poin_expired_at
+        ]);
     }
 }

@@ -62,6 +62,7 @@ export default function Info(props) {
                                                         src={level.logo_url}
                                                         className="h-20"
                                                         alt="logo alt"
+                                                        loading="lazy"
                                                     />
                                                 </td>
                                                 <td className="py-4 px-6">

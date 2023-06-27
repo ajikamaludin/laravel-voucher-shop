@@ -121,7 +121,7 @@ class DummySeeder extends Seeder
                     'display_price' => $disply_price,
                     'discount' => $discount,
                     'price_poin' => $price,
-                    'bonus_poin' => 0,
+                    'bonus_poin' => $count == 1 ? 10 : 0,
                 ]);
 
                 if ($count == 3) {
@@ -133,6 +133,7 @@ class DummySeeder extends Seeder
                     foreach (CustomerLevel::LEVELS as $index => $level) {
                         if ($index != 0) {
                             $disc += 5;
+                            $bp += 5;
                         }
 
                         $p = $dp - ($dp * ($disc / 100));
@@ -175,10 +176,10 @@ class DummySeeder extends Seeder
     {
         DepositLocation::create([
             'name' => 'Location 1',
-            'address' => 'Address Lengkap Alamat',
+            'address' => 'Gedung Sebaguna Kota Alele, Jl. Address Lengkap No.20 Kota Kabupaten',
             'phone' => '83840745543',
             'gmap_url' => 'https://goo.gl/maps/iyJ8nq32pJ2BbfUf6',
-            'image' => 'sample/banner.jpg',
+            'image' => 'sample/location.png',
             'description' => '<h1>lokasi favoorite</h1>',
             'open_hour' => '00:00',
             'close_hour' => '23:59',
@@ -187,10 +188,10 @@ class DummySeeder extends Seeder
 
         DepositLocation::create([
             'name' => 'Location 2',
-            'address' => 'Address Lengkap Alamat',
+            'address' => 'Jl. Address Lengkap No.20 Kota Kabupaten',
             'phone' => '83840745543',
             'gmap_url' => 'https://goo.gl/maps/iyJ8nq32pJ2BbfUf6',
-            'image' => 'sample/banner.jpg',
+            'image' => 'sample/location.png',
             'description' => '<h1>lokasi favoorite</h1>',
             'open_hour' => '14:00',
             'close_hour' => '18:59',

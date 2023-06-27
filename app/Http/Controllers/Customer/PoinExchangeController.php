@@ -15,7 +15,7 @@ class PoinExchangeController extends Controller
     public function index(Request $request)
     {
         $locations = Location::get();
-        $vouchers = Voucher::with(['locationProfile'])
+        $vouchers = Voucher::with(['locationProfile.location'])
             ->whereHas('locationProfile', function ($q) {
                 $q->where('price_poin', '!=', 0)
                     ->where('price_poin', '!=', null);
@@ -58,7 +58,7 @@ class PoinExchangeController extends Controller
             'payed_with' => Sale::PAYED_WITH_POIN,
         ]);
 
-        $voucher = $voucher->shuffle_unsold();
+        $voucher = $voucher->shuffle_unsold(1);
         $sale->items()->create([
             'entity_type' => $voucher::class,
             'entity_id' => $voucher->id,

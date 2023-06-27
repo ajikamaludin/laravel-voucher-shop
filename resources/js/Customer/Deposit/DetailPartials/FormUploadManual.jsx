@@ -64,6 +64,7 @@ export const FormUploadManual = () => {
                 <div className="font-bold">Bukti Transfer</div>
                 <img
                     src={`${imageUrl}`}
+                    loading="lazy"
                     className="w-full h-52 mb-1"
                     alt="bukti transfer"
                 />
@@ -98,6 +99,7 @@ export const FormUploadManual = () => {
                                     src={account.logo_url}
                                     alt="logo bank"
                                     className="h-10"
+                                    loading="lazy"
                                 />
                             </div>
                             <div>
@@ -124,6 +126,7 @@ export const FormUploadManual = () => {
                                         src={account.logo_url}
                                         alt="logo bank"
                                         className="h-10"
+                                        loading="lazy"
                                     />
                                 </div>
                                 <div>
@@ -231,6 +234,7 @@ export const FormUploadManual = () => {
                                 src={`${data.image_url}`}
                                 className="w-full h-52 mb-1"
                                 alt="bukti transfer"
+                                loading="lazy"
                             />
                         )}
                     </div>

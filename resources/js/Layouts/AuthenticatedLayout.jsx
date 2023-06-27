@@ -119,6 +119,7 @@ export default function Authenticated({
                                                     src={auth.user.photo_url}
                                                     alt="user profile image"
                                                     className="h-10 rounded-full border border-gray-100"
+                                                    loading="lazy"
                                                 />
                                                 {auth.user.name}
                                                 <HiChevronDown />

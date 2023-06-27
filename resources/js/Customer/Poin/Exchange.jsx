@@ -68,7 +68,7 @@ export default function Exhange(props) {
 
     return (
         <CustomerLayout>
-            <Head title="poin" />
+            <Head title="Poin" />
             <div className="flex flex-col min-h-[calc(95dvh)]">
                 <div className="pt-5 text-2xl px-5 font-bold">Tukar poin</div>
                 <div className="px-5 text-gray-400 text-sm">

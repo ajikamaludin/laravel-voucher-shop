@@ -38,7 +38,7 @@ export default function Form(props) {
         if (isEmpty(voucher) === false) {
             setData({
                 username: voucher.username,
-                location_profile_id: voucher.location_id,
+                location_profile_id: voucher.location_profile_id,
             })
         }
     }, [voucher])

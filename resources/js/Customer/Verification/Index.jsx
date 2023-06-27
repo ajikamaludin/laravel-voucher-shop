@@ -45,6 +45,7 @@ const VerificationForm = () => {
                                 src={`${user.identity_image_url}`}
                                 className="w-full object-fill h-48 mb-1 "
                                 alt="ktp image"
+                                loading="lazy"
                             />
                         }
                     />

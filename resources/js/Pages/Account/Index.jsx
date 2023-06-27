@@ -104,6 +104,7 @@ export default function Account(props) {
                                                         src={account.logo_url}
                                                         alt="bank logo alt"
                                                         className="h-5"
+                                                        loading="lazy"
                                                     />
                                                 </td>
                                                 <td className="py-4 px-6 flex justify-end">

@@ -16,7 +16,8 @@ return new class extends Migration
 
             $table->decimal('debit', 20, 2)->default(0);
             $table->decimal('credit', 20, 2)->default(0);
-            $table->text('description')->nullable();
+            $table->string('description')->nullable();
+            $table->text('narration')->nullable();
             $table->ulid('customer_id')->nullable();
             $table->string('related_type')->nullable();
             $table->string('related_id')->nullable();

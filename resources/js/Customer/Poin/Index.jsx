@@ -69,7 +69,7 @@ export default function Index(props) {
 
     return (
         <CustomerLayout>
-            <Head title="poin" />
+            <Head title="Poin" />
             <div className="flex flex-col w-full min-h-[calc(90dvh)]">
                 <HeaderTrx enable="poin" dates={dates} setDates={setDates} />
                 {_poins.length <= 0 && <EmptyHere />}

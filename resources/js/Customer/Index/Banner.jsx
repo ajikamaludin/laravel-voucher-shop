@@ -19,6 +19,7 @@ export default function Banner({ banner }) {
                 <img
                     src={banner.image_url}
                     className="object-fill w-full h-32"
+                    loading="lazy"
                 />
                 <div className="mt-4 mb-2 text-2xl font-bold">
                     {banner.title}

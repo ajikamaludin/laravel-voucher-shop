@@ -50,6 +50,7 @@ export default function Index({
                                     src={user.image_url}
                                     alt="profile image"
                                     className="rounded-full object-cover h-14 w-14"
+                                    loading="lazy"
                                 />
                             ) : (
                                 <HiOutlineUserCircle className="text-white h-14 w-14" />

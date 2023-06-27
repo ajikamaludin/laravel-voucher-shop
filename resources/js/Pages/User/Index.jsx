@@ -131,6 +131,7 @@ export default function User(props) {
                                                     <img
                                                         src={user.photo_url}
                                                         alt="photo profile"
+                                                        loading="lazy"
                                                         className="w-20 h-20 rounded-full"
                                                     />
                                                 </td>

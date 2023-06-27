@@ -109,7 +109,7 @@ class VoucherController extends Controller
     public function edit(Voucher $voucher)
     {
         return inertia('Voucher/Form', [
-            'voucher' => $voucher->load(['prices.level']),
+            'voucher' => $voucher->load(['locationProfile']),
             'levels' => CustomerLevel::all(),
         ]);
     }

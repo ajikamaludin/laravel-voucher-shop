@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Customer;
 use App\Models\DepositHistory;
 use App\Models\DepositLocation;
+use App\Models\PoinHistory;
 use App\Models\Sale;
 use App\Models\Setting;
 use Illuminate\Support\Carbon;
@@ -164,6 +165,13 @@ class GeneralService
         return 'Invoice #VCR' . now()->format('dmy') . GeneralService::formatNumberCode($code);
     }
 
+    public static function generateBonusPoinCode()
+    {
+        $code = PoinHistory::whereDate('created_at', now())->count() + 1;
+
+        return 'Invoice #BPN' . now()->format('dmy') . GeneralService::formatNumberCode($code);
+    }
+
     public static function formatNumberCode($number)
     {
         if ($number < 10) {
@@ -176,5 +184,17 @@ class GeneralService
             return '0' . $number;
         }
         return $number;
+    }
+    
+    public static function isAllowAffilate($key)
+    {
+        $isAllow = false;
+        $levels = json_decode(Setting::getByKey('AFFILATE_ALLOWED_LEVELS'));
+        foreach($levels as $level) {
+            if ($key == $level->key) {
+                $isAllow = true;
+            }
+        }
+        return $isAllow;
     }
 }

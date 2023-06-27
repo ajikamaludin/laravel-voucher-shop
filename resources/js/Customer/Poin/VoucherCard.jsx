@@ -64,7 +64,7 @@ export default function VoucherCard({ voucher }) {
                 onClick={() => setShow(true)}
             >
                 <div className="text-base font-bold">
-                    {voucher.location_profile.name}
+                    {voucher.location_profile.location.name}
                 </div>
                 <div className="w-full border border-dashed"></div>
                 <div className="flex flex-row justify-between items-center">
@@ -73,8 +73,7 @@ export default function VoucherCard({ voucher }) {
                             {voucher.location_profile.display_note}
                         </div>
                         <div className="text-xl font-bold">
-                            {formatIDR(voucher.location_profile.price_poin)}{' '}
-                            poin
+                            {formatIDR(voucher.validate_price_poin)} poin
                         </div>
                     </div>
                     <div className="flex flex-col justify-end text-right">
@@ -82,7 +81,7 @@ export default function VoucherCard({ voucher }) {
                             {voucher.location_profile.quota}
                         </div>
                         <div className="text-gray-400 ">
-                            {voucher.location_profile.display_expired}
+                            {voucher.location_profile.diplay_expired}
                         </div>
                     </div>
                 </div>
