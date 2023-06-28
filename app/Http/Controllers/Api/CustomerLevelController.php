@@ -10,6 +10,12 @@ class CustomerLevelController extends Controller
 {
     public function index(Request $request)
     {
-        return CustomerLevel::all();
+        $query = CustomerLevel::query();
+
+        if ($request->get('only') != '') {
+            $query->whereIn('key', $request->get('only'));
+        }
+
+        return $query->get();
     }
 }

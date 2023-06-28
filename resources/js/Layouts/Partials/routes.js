@@ -156,8 +156,8 @@ export default [
                 name: 'List', //daftar mitra dan stats
                 show: true,
                 icon: HiClipboardDocumentList,
-                route: route('customer.index'),
-                active: 'customer.*',
+                route: route('mitra.index'),
+                active: 'mitra.*',
                 permission: 'view-customer',
             },
             {

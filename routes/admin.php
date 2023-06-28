@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\AccountController;
 use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\CustomerLevelController;
+use App\Http\Controllers\Admin\CustomerMitraController;
 use App\Http\Controllers\Admin\DepositController;
 use App\Http\Controllers\Admin\DepositLocationController;
 use App\Http\Controllers\Admin\GeneralController;
@@ -118,6 +119,14 @@ Route::middleware(['http_secure_aware', 'inertia.admin'])
             Route::delete('/customers/{customer}', [CustomerController::class, 'destroy'])->name('customer.destroy');
             Route::post('/customers/{customer}/level', [CustomerController::class, 'update_level'])->name('customer.update_level');
             Route::post('/customers/{customer}/partner', [CustomerController::class, 'update_partner'])->name('customer.update_partner');
+
+            // mitra
+            Route::get('/mitra', [CustomerMitraController::class, 'index'])->name('mitra.index');
+            Route::get('/mitra/create', [CustomerMitraController::class, 'create'])->name('mitra.create');
+            Route::post('/mitra', [CustomerMitraController::class, 'store'])->name('mitra.store');
+            Route::get('/mitra/{customer}', [CustomerMitraController::class, 'edit'])->name('mitra.edit');
+            Route::post('/mitra/{customer}', [CustomerMitraController::class, 'update'])->name('mitra.update');
+            Route::delete('/mitra/{customer}', [CustomerMitraController::class, 'destroy'])->name('mitra.destroy');
 
             // voucher
             Route::get('/vouchers/import', [VoucherController::class, 'form_import'])->name('voucher.form_import');

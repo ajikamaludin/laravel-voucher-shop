@@ -48,6 +48,11 @@ class AuthController extends Controller
             'username' => $request->username,
         ])->first();
 
+        if ($user === null) {
+            return redirect()->route('customer.login')
+                ->with('message', ['type' => 'error', 'message' => 'Invalid credentials']);
+        }
+
         $password = Hash::check($request->password, $user->password);
         if (!$password) {
             return redirect()->route('customer.login')

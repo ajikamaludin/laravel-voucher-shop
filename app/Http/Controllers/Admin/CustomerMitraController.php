@@ -1,0 +1,298 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use App\Models\Customer;
+use App\Models\CustomerLevel;
+use App\Models\PaylaterCustomer;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
+class CustomerMitraController extends Controller
+{
+    public function index(Request $request)
+    {
+        $stats = [
+            'total_mitra' => Customer::whereHas('level', function ($q) {
+                return $q->where('key', CustomerLevel::GOLD)
+                    ->orWhere('key', CustomerLevel::PLATINUM);
+            })->count(),
+            'blocked_mitra' => Customer::whereHas('level', function ($q) {
+                return $q->where('key', CustomerLevel::GOLD)
+                    ->orWhere('key', CustomerLevel::PLATINUM);
+            })
+                ->where('status', Customer::STATUS_SUSPEND)
+                ->count(),
+            'active_mitra' => Customer::whereHas('level', function ($q) {
+                return $q->where('key', CustomerLevel::GOLD)
+                    ->orWhere('key', CustomerLevel::PLATINUM);
+            })
+                ->where('status', '!=', Customer::STATUS_SUSPEND)
+                ->count(),
+            'sum_paylater_limit' => PaylaterCustomer::sum('limit'),
+            'sum_paylater_usage' => PaylaterCustomer::sum('usage'),
+            'sum_paylater_remain' => PaylaterCustomer::selectRaw('(SUM("limit") - SUM(usage)) as remain')->value('remain'),
+        ];
+
+        $query = Customer::query()->with(['level', 'paylater', 'locationFavorites'])
+            ->whereHas('level', function ($q) {
+                $q->where('key', CustomerLevel::GOLD)
+                    ->orWhere('key', CustomerLevel::PLATINUM);
+            });
+
+        if ($request->q != '') {
+            $query->where(function ($query) use ($request) {
+                $query->where('name', 'like', "%$request->q%")
+                    ->orWhere('fullname', 'like', "%$request->q%")
+                    ->orWhere('email', 'like', "%$request->q%")
+                    ->orWhere('phone', 'like', "%$request->q%");
+            });
+        }
+
+        if ($request->location_id != '') {
+            $query->whereHas('locationFavorites', fn ($q) => $q->where('id', $request->location_id));
+        }
+
+        if ($request->level_id != '') {
+            $query->where('customer_level_id', $request->level_id);
+        }
+
+        if ($request->sortBy != '' && $request->sortRule != '') {
+            $query->orderBy($request->sortBy, $request->sortRule);
+        } else {
+            $query->orderBy('updated_at', 'desc');
+        }
+
+        return inertia('CustomerMitra/Index', [
+            'query' => $query->paginate(),
+            'stats' => $stats,
+        ]);
+    }
+
+    public function create()
+    {
+        $levels = CustomerLevel::where('key', CustomerLevel::GOLD)
+            ->orWhere('key', CustomerLevel::PLATINUM)
+            ->get();
+
+        return inertia('CustomerMitra/Form', [
+            'levels' => $levels,
+            'statuses' => Customer::STATUS
+        ]);
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'email' => 'nullable|email|unique:customers,email',
+            'username' => 'required|string|min:5|alpha_dash|unique:customers,username',
+            'password' => 'required|string|min:8',
+            'name' => 'required|string',
+            'fullname' => 'required|string',
+            'address' => 'required|string',
+            'phone' => 'required|string',
+            'status' => 'required|numeric',
+            'image' => 'nullable|image',
+            'identity_image' => 'nullable|image',
+            // 
+            'level' => 'required|exists:customer_levels,key',
+            'paylater_limit' => 'required|numeric',
+            'day_deadline' => 'required|numeric',
+            // 
+            'id_number' => 'nullable|string',
+            'job' => 'nullable|string',
+            'image_selfie' => 'nullable|image',
+            'file_statement' => 'nullable|file',
+            'file_agreement' => 'nullable|file',
+            'items' => 'nullable|array',
+            'items.*.name' => 'nullable|string',
+            'items.*.type' => 'required|in:text,file',
+            'items.*.value' => 'nullable|string',
+        ]);
+
+        $level = CustomerLevel::where('key', $request->level)->first();
+
+        DB::beginTransaction();
+        $customer = Customer::make([
+            'email' => $request->email,
+            'username' => $request->username,
+            'password' => bcrypt($request->password),
+            'name' => $request->name,
+            'fullname' => $request->fullname,
+            'address' => $request->address,
+            'phone' => $request->phone,
+            'status' => $request->status,
+            'customer_level_id' => $level->id,
+            'identity_verified' => $request->hasFile('identity_image') ? Customer::VERIFIED : Customer::NOT_VERIFIED
+        ]);
+
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $file->store('uploads', 'public');
+            $customer->image = $file->hashName('uploads');
+        }
+
+        if ($request->hasFile('identity_image')) {
+            $file = $request->file('identity_image');
+            $file->store('uploads', 'public');
+            $customer->identity_image = $file->hashName('uploads');
+        }
+
+        $customer->save();
+
+        $customer->paylater()->create([
+            'limit' => $request->paylater_limit,
+            'day_deadline' => $request->day_deadline
+        ]);
+
+        $partner = $customer->partner()->create([
+            'id_number' => $request->id_number,
+            'job' => $request->job,
+            'additional_json' => json_encode($request->items),
+        ]);
+
+        if ($request->hasFile('image_selfie')) {
+            $file = $request->file('image_selfie');
+            $file->store('uploads', 'public');
+            $partner->update(['image_selfie' => $file->hashName('uploads')]);
+        }
+
+        if ($request->hasFile('file_statement')) {
+            $file = $request->file('file_statement');
+            $file->store('uploads', 'public');
+            $partner->update(['file_statement' => $file->hashName('uploads')]);
+        }
+
+        if ($request->hasFile('file_agreement')) {
+            $file = $request->file('file_agreement');
+            $file->store('uploads', 'public');
+            $partner->update(['file_agreement' => $file->hashName('uploads')]);
+        }
+        DB::commit();
+
+        return redirect()->route('mitra.index')
+            ->with('message', ['type' => 'success', 'message' => 'Item has beed created']);
+    }
+
+    public function edit(Customer $customer)
+    {
+        $levels = CustomerLevel::where('key', CustomerLevel::GOLD)
+            ->orWhere('key', CustomerLevel::PLATINUM)
+            ->get();
+
+        return inertia('CustomerMitra/Form', [
+            'customer' => $customer->load(['paylater', 'partner']),
+            'levels' => $levels,
+            'statuses' => Customer::STATUS
+        ]);
+    }
+
+    public function update(Request $request, Customer $customer)
+    {
+        $request->validate([
+            'email' => 'nullable|email|unique:customers,email,' . $customer->id,
+            'username' => 'required|string|min:5|alpha_dash|unique:customers,username,' . $customer->id,
+            'password' => 'nullable|string|min:8',
+            'name' => 'required|string',
+            'fullname' => 'required|string',
+            'address' => 'required|string',
+            'phone' => 'required|string',
+            'status' => 'required|numeric',
+            'image' => 'nullable|image',
+            'identity_image' => 'nullable|image',
+            // 
+            'level' => 'required|exists:customer_levels,key',
+            'paylater_limit' => 'required|numeric',
+            'day_deadline' => 'required|numeric',
+            // 
+            'id_number' => 'nullable|string',
+            'job' => 'nullable|string',
+            'image_selfie' => 'nullable|image',
+            'file_statement' => 'nullable|file',
+            'file_agreement' => 'nullable|file',
+            'items' => 'nullable|array',
+            'items.*.name' => 'nullable|string',
+            'items.*.type' => 'required|in:text,file',
+            'items.*.value' => 'nullable|string',
+        ]);
+
+        $level = CustomerLevel::where('key', $request->level)->first();
+
+        DB::beginTransaction();
+        $customer->fill([
+            'email' => $request->email,
+            'username' => $request->username,
+            'name' => $request->name,
+            'fullname' => $request->fullname,
+            'address' => $request->address,
+            'phone' => $request->phone,
+            'status' => $request->status,
+            'customer_level_id' => $level->id,
+            'identity_verified' => $request->hasFile('identity_image') ? Customer::VERIFIED : Customer::NOT_VERIFIED
+        ]);
+
+        if ($request->password != '') {
+            $customer->password = bcrypt($request->password);
+        }
+
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $file->store('uploads', 'public');
+            $customer->image = $file->hashName('uploads');
+        }
+
+        if ($request->hasFile('identity_image')) {
+            $file = $request->file('identity_image');
+            $file->store('uploads', 'public');
+            $customer->identity_image = $file->hashName('uploads');
+        }
+
+        $customer->save();
+
+        $customer->paylater()->updateOrCreate([
+            'customer_id' => $customer->id,
+        ], [
+            'limit' => $request->paylater_limit,
+            'day_deadline' => $request->day_deadline
+        ]);
+
+        $partner = $customer->partner()->updateOrCreate([
+            'customer_id' => $customer->id,
+        ], [
+            'id_number' => $request->id_number,
+            'job' => $request->job,
+            'additional_json' => json_encode($request->items),
+        ]);
+
+        if ($request->hasFile('image_selfie')) {
+            $file = $request->file('image_selfie');
+            $file->store('uploads', 'public');
+            $partner->update(['image_selfie' => $file->hashName('uploads')]);
+        }
+
+        if ($request->hasFile('file_statement')) {
+            $file = $request->file('file_statement');
+            $file->store('uploads', 'public');
+            $partner->update(['file_statement' => $file->hashName('uploads')]);
+        }
+
+        if ($request->hasFile('file_agreement')) {
+            $file = $request->file('file_agreement');
+            $file->store('uploads', 'public');
+            $partner->update(['file_agreement' => $file->hashName('uploads')]);
+        }
+        DB::commit();
+
+        return redirect()->route('mitra.index')
+            ->with('message', ['type' => 'success', 'message' => 'Item has beed updated']);
+    }
+
+    public function destroy(Customer $customer)
+    {
+        $customer->delete();
+
+        return redirect()->route('mitra.index')
+            ->with('message', ['type' => 'success', 'message' => 'Item has beed deleted']);
+    }
+}

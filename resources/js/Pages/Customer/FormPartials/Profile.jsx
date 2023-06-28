@@ -14,6 +14,7 @@ export default function Profile() {
     } = usePage()
 
     const { data, setData, post, processing, errors } = useForm({
+        email: '',
         username: '',
         password: '',
         name: '',
@@ -46,6 +47,7 @@ export default function Profile() {
     useEffect(() => {
         if (isEmpty(customer) === false) {
             setData({
+                email: customer.email,
                 username: customer.username,
                 password: customer.password,
                 name: customer.name,
@@ -94,6 +96,13 @@ export default function Profile() {
                 rows={4}
             />
             <FormInput
+                name="email"
+                value={data.email}
+                onChange={handleOnChange}
+                label="email"
+                error={errors.email}
+            />
+            <FormInput
                 name="username"
                 value={data.username}
                 onChange={handleOnChange}
@@ -110,7 +119,7 @@ export default function Profile() {
             <div className="mt-2">
                 <div className="mb-1 text-sm">Status</div>
                 <select
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     onChange={handleOnChange}
                     value={data.status}
                     name="status"
@@ -124,7 +133,7 @@ export default function Profile() {
                 </select>
             </div>
             <FormFile
-                label={'Image'}
+                label={'Profile Image'}
                 onChange={(e) => setData('image', e.target.files[0])}
                 error={errors.image}
                 preview={

@@ -55,6 +55,18 @@ class PermissionSeeder extends Seeder
             ['id' => Str::ulid(), 'label' => 'Update Customer Level', 'name' => 'update-customer-level'],
             ['id' => Str::ulid(), 'label' => 'View Customer Level', 'name' => 'view-customer-level'],
 
+            ['id' => Str::ulid(), 'label' => 'Create Mitra', 'name' => 'create-mitra'],
+            ['id' => Str::ulid(), 'label' => 'Update Mitra', 'name' => 'update-mitra'],
+            ['id' => Str::ulid(), 'label' => 'View Mitra', 'name' => 'view-mitra'],
+            ['id' => Str::ulid(), 'label' => 'Delete Mitra', 'name' => 'delete-mitra'],
+
+            ['id' => Str::ulid(), 'label' => 'Update Limit Mitra', 'name' => 'update-limit-mitra'],
+            ['id' => Str::ulid(), 'label' => 'Update Limit Tenor', 'name' => 'update-limit-tenor'],
+
+            ['id' => Str::ulid(), 'label' => 'Create Pembayaran Hutang', 'name' => 'create-paylater-repayment'],
+            ['id' => Str::ulid(), 'label' => 'Update Pembayaran Hutang', 'name' => 'update-paylater-repayment'],
+            ['id' => Str::ulid(), 'label' => 'View Pembayaran Hutang', 'name' => 'view-paylater-repayment'],
+
             ['id' => Str::ulid(), 'label' => 'View Customer Verification', 'name' => 'view-customer-verification'],
 
             ['id' => Str::ulid(), 'label' => 'View Setting', 'name' => 'view-setting'],

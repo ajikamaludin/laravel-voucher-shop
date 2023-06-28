@@ -12,6 +12,7 @@ export default function Paylater() {
     const { data, setData, post, processing, errors } = useForm({
         level: customer?.level.key,
         paylater_limit: +customer?.paylater?.limit,
+        day_deadline: +customer?.paylater?.day_deadline,
     })
 
     const handleOnChange = (event) => {
@@ -49,7 +50,7 @@ export default function Paylater() {
                 )}
                 <div className="mb-1 text-sm">Level</div>
                 <select
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     onChange={handleOnChange}
                     value={data.level}
                     name="level"
@@ -67,7 +68,7 @@ export default function Paylater() {
                     </p>
                 )}
             </div>
-            <div className="mb-4 mt-2">
+            <div className="mt-2">
                 <FormInputNumeric
                     type="number"
                     label="Limit Hutang"
@@ -75,6 +76,16 @@ export default function Paylater() {
                     onChange={handleOnChange}
                     value={data.paylater_limit}
                     error={errors.paylater_limit}
+                />
+            </div>
+            <div className="mb-4 mt-2">
+                <FormInputNumeric
+                    type="number"
+                    label="Tenor (Hari)"
+                    name="day_deadline"
+                    onChange={handleOnChange}
+                    value={data.day_deadline}
+                    error={errors.day_deadline}
                 />
             </div>
             <div className="flex items-center">

@@ -62,6 +62,7 @@ class CustomerController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'email' => 'nullable|email|unique:customers,email',
             'username' => 'required|string|min:5|alpha_dash|unique:customers,username',
             'password' => 'required|string|min:8',
             'name' => 'required|string',
@@ -73,6 +74,7 @@ class CustomerController extends Controller
         ]);
 
         $customer = Customer::make([
+            'email' => $request->email,
             'username' => $request->username,
             'password' => bcrypt($request->password),
             'name' => $request->name,
@@ -106,6 +108,7 @@ class CustomerController extends Controller
     public function update(Request $request, Customer $customer)
     {
         $request->validate([
+            'email' => 'nullable|email|unique:customers,email,' . $customer->id,
             'username' => 'required|string|min:5|alpha_dash|unique:customers,username,' . $customer->id,
             'password' => 'nullable|string|min:8',
             'name' => 'required|string',
@@ -127,6 +130,7 @@ class CustomerController extends Controller
         }
 
         $customer->update([
+            'email' => $request->email,
             'username' => $request->username,
             'password' => $customer->password,
             'name' => $request->name,
@@ -154,6 +158,7 @@ class CustomerController extends Controller
         $request->validate([
             'level' => 'required|exists:customer_levels,key',
             'paylater_limit' => 'required|numeric',
+            'day_deadline' => 'required|numeric',
         ]);
 
         $level = CustomerLevel::where('key', $request->level)->first();
@@ -164,6 +169,7 @@ class CustomerController extends Controller
             'customer_id' => $customer->id,
         ], [
             'limit' => $request->paylater_limit,
+            'day_deadline' => $request->day_deadline
         ]);
 
         return redirect()->route('customer.index')
@@ -173,7 +179,8 @@ class CustomerController extends Controller
     public function update_partner(Request $request, Customer $customer)
     {
         $request->validate([
-            'job' => 'required|string',
+            'id_number' => 'nullable|string',
+            'job' => 'nullable|string',
             'image_selfie' => 'nullable|file',
             'file_statement' => 'nullable|file',
             'file_agreement' => 'nullable|file',
@@ -187,6 +194,7 @@ class CustomerController extends Controller
         $partner = CustomerAsDataPartner::updateOrCreate([
             'customer_id' => $customer->id,
         ], [
+            'id_number' => $request->id_number,
             'job' => $request->job,
             'additional_json' => json_encode($request->items),
         ]);

@@ -253,7 +253,7 @@ class Customer extends Authenticatable
 
     public function paylater()
     {
-        return $this->hasOne(PaylaterCustomer::class);
+        return $this->hasOne(PaylaterCustomer::class, 'customer_id', 'id');
     }
 
     public function paylaterHistories()

@@ -9,6 +9,7 @@ import Alert from '@/Components/Alert'
 import FormInputWith from '@/Components/FormInputWith'
 import TextArea from '@/Components/TextArea'
 import FormFile from '@/Components/FormFile'
+import { isEmpty } from 'lodash'
 
 export default function Index({ auth: { user }, flash }) {
     const { data, setData, post, processing, errors } = useForm({
@@ -138,12 +139,14 @@ export default function Index({ auth: { user }, flash }) {
                             label="password confirm"
                         />
                     </div>
-                    <div className="w-full text-sm font-medium">
-                        <div className="mb-2">email </div>
-                        <div className="px-2 py-2.5 border rounded-md bg-gray-200">
-                            {user.email}
+                    {isEmpty(user.email) === false && (
+                        <div className="w-full text-sm font-medium">
+                            <div className="mb-2">email </div>
+                            <div className="px-2 py-2.5 border rounded-md bg-gray-200">
+                                {user.email}
+                            </div>
                         </div>
-                    </div>
+                    )}
                     <div className="w-full">
                         <FormFile
                             label={'Profile Image'}

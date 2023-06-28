@@ -15,6 +15,7 @@ return new class extends Migration
             $table->ulid('id')->primary();
 
             $table->ulid('customer_id')->nullable();
+            $table->string('id_number')->nullable();
             $table->string('job')->nullable();
             $table->string('image_selfie')->nullable();
             $table->string('file_statement')->nullable();

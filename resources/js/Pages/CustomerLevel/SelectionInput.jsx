@@ -19,6 +19,7 @@ export default function SelectionInput(props) {
         placeholder = '',
         error = '',
         all = 0,
+        only = [],
     } = props
 
     const [showItems, setShowItem] = useState([])
@@ -81,12 +82,19 @@ export default function SelectionInput(props) {
     const fetch = (q = '') => {
         setLoading(true)
         axios
-            .get(route('api.customer-level.index', { q: q, all: all }), {
-                headers: {
-                    'Content-Type': 'application/json',
-                    // 'Authorization': 'Bearer ' + auth.user.jwt_token
-                },
-            })
+            .get(
+                route('api.customer-level.index', {
+                    q: q,
+                    all: all,
+                    only: only,
+                }),
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        // 'Authorization': 'Bearer ' + auth.user.jwt_token
+                    },
+                }
+            )
             .then((response) => {
                 setShowItem(response.data)
             })

@@ -8,6 +8,7 @@ class CustomerAsDataPartner extends Model
 {
     protected $fillable = [
         'customer_id',
+        'id_number',
         'job',
         'image_selfie',
         'file_statement',

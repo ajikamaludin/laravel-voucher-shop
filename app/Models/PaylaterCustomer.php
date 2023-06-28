@@ -12,4 +12,9 @@ class PaylaterCustomer extends Model
         'day_deadline',
         'day_deadline_at'
     ];
+
+    public function customer()
+    {
+        return $this->hasOne(Customer::class, 'customer_id', 'id');
+    }
 }

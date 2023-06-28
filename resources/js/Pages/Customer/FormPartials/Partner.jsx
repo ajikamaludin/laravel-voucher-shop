@@ -20,6 +20,7 @@ export default function Partner() {
     const generalUploadRef = useRef()
 
     const { data, setData, post, processing, errors } = useForm({
+        id_number: '',
         job: '',
         image_selfie: null,
         image_selfie_url: '',
@@ -116,6 +117,7 @@ export default function Partner() {
                 items = []
             }
             setData({
+                id_number: customer.id_number,
                 job: customer.partner.job,
                 image_selfie_url: customer.partner.image_selfie_url,
                 file_statement_url: customer.partner.file_statement_url,
@@ -147,7 +149,16 @@ export default function Partner() {
                     error={errors.job}
                 />
             </div>
-            <div className="">
+            <div>
+                <FormInput
+                    name="id_number"
+                    value={data.id_number}
+                    onChange={handleOnChange}
+                    label="No KTP"
+                    error={errors.id_number}
+                />
+            </div>
+            <div>
                 <FormFile
                     label={'Image Selfie'}
                     onChange={(e) => setData('image_selfie', e.target.files[0])}
@@ -166,7 +177,7 @@ export default function Partner() {
                     }
                 />
             </div>
-            <div className="">
+            <div>
                 <FormFile
                     label={'Surat Pernyataan'}
                     onChange={(e) =>
@@ -188,7 +199,7 @@ export default function Partner() {
                     }
                 />
             </div>
-            <div className="">
+            <div>
                 <FormFile
                     label={'Surat Perjanjian'}
                     onChange={(e) =>
@@ -245,7 +256,7 @@ export default function Partner() {
                                         </td>
                                         <td className="px-2 py-1">
                                             <select
-                                                className="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                                 value={item.type}
                                                 name="type"
                                                 onChange={(e) =>
