@@ -3,6 +3,7 @@ import { Head, router } from '@inertiajs/react'
 import CustomerLayout from '@/Layouts/CustomerLayout'
 import VoucherCard from './VoucherCard'
 import { HiChevronLeft } from 'react-icons/hi2'
+import { convertPayedWith } from '../utils'
 
 export default function Detail({ sale }) {
     return (
@@ -24,10 +25,7 @@ export default function Detail({ sale }) {
                         <div className="flex flex-col items-start">
                             <div>TOTAL</div>
                             <div className="text-xs font-thin text-gray-400">
-                                pembayaran:{' '}
-                                {sale.payed_with === 'paylater'
-                                    ? 'saldo hutang'
-                                    : 'saldo deposit'}
+                                {convertPayedWith(sale.payed_with)}
                             </div>
                         </div>
                         <div> {sale.display_amount}</div>

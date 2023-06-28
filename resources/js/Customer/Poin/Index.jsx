@@ -77,7 +77,7 @@ export default function Index(props) {
                 <HeaderTrx enable="poin" dates={dates} setDates={setDates} />
                 {_poins.length <= 0 && <EmptyHere />}
                 <div className="w-full">
-                    <div className="flex flex-col py-10 space-y-5 px-5">
+                    <div className="flex flex-col py-1 space-y-5 px-5">
                         {_poins.length > 0 && (
                             <div className="text-sm text-gray-400">
                                 {formatIDDate(dates.startDate)} s/d{' '}

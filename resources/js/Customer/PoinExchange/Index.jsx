@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Head, router } from '@inertiajs/react'
+import { Head, router, useForm } from '@inertiajs/react'
 import { HiXMark, HiOutlineStar } from 'react-icons/hi2'
 
 import CustomerLayout from '@/Layouts/CustomerLayout'
@@ -9,6 +9,7 @@ import FormLocation from '@/Customer/Components/FormLocation'
 
 import { ALL, FAVORITE } from '../Index/utils'
 import { useModalState } from '@/hooks'
+import { isEmpty } from 'lodash'
 
 const EmptyHere = () => {
     return (
@@ -21,18 +22,19 @@ const EmptyHere = () => {
     )
 }
 
-export default function Exhange(props) {
+export default function Index(props) {
     const {
         locations,
-        vouchers: { data, next_page_url },
+        profiles: { data, next_page_url },
         _favorite,
         _slocations,
         _flocations,
     } = props
 
-    const [favorite, setFavorite] = useState(_favorite)
-    const [vouchers, setVouchers] = useState(data)
+    const { post, processing } = useForm({})
 
+    const [favorite, setFavorite] = useState(_favorite)
+    const [items, setItems] = useState(data ?? [])
     const [fLocations] = useState(_flocations)
     const [sLocations, setSLocations] = useState(_slocations)
     const locationModal = useModalState()
@@ -46,25 +48,32 @@ export default function Exhange(props) {
             {
                 replace: true,
                 preserveState: true,
-                only: ['vouchers'],
+                only: ['profiles'],
                 onSuccess: (res) => {
-                    setVouchers(vouchers.concat(res.props.vouchers.data))
+                    setItems(items.concat(res.props.profiles.data))
                 },
             }
         )
     }
 
-    const fetch = (locations) => {
-        let location_ids = locations.map((l) => l.id)
+    const fetch = (locations, favorite) => {
+        let location_ids = []
+        if (+favorite === +ALL) {
+            location_ids = locations.map((l) => l.id)
+        }
 
         router.get(
             route(route().current()),
-            { location_ids },
+            { location_ids, favorite },
             {
                 replace: true,
                 preserveState: true,
                 onSuccess: (res) => {
-                    setVouchers(res.props.vouchers.data)
+                    if (isEmpty(res.props.profiles.data)) {
+                        setItems([])
+                        return
+                    }
+                    setItems(res.props.profiles.data)
                 },
             }
         )
@@ -75,18 +84,29 @@ export default function Exhange(props) {
         if (!isExists) {
             const locations = [location].concat(...sLocations)
             setSLocations(locations)
-            fetch(locations)
+            fetch(locations, ALL)
         }
     }
 
     const handleRemoveLocation = (index) => {
         const locations = sLocations.filter((_, i) => i !== index)
         setSLocations(locations)
-        fetch(locations)
+        fetch(locations, favorite)
+    }
+
+    const handleFavoriteRemoveLocation = (location) => {
+        if (processing) {
+            return
+        }
+        post(route('customer.location.favorite', location), {
+            onSuccess: () => {
+                router.visit(route(route().current()))
+            },
+        })
     }
 
     const isStatus = (s) => {
-        if (s === favorite) {
+        if (+s === +favorite) {
             return 'px-2 py-1 rounded-2xl hover:bg-blue-800 text-white bg-blue-600 border border-blue-800'
         }
         return 'px-2 py-1 rounded-2xl hover:bg-blue-800 hover:text-white bg-blue-100 border border-blue-200'
@@ -94,12 +114,12 @@ export default function Exhange(props) {
 
     const handleFavorite = () => {
         setFavorite(FAVORITE)
-        fetch(fLocations)
+        fetch(fLocations, FAVORITE)
     }
 
     const handleAll = () => {
         setFavorite(ALL)
-        fetch(sLocations)
+        fetch(sLocations, ALL)
     }
 
     return (
@@ -110,6 +130,7 @@ export default function Exhange(props) {
                 <div className="px-5 text-gray-400 text-sm">
                     tukarkan poin anda dengan voucher manarik
                 </div>
+
                 <div className="w-full flex flex-col pt-5">
                     <div className="w-full flex flex-col">
                         <div className="w-full flex flex-row space-x-2 px-4">
@@ -124,34 +145,41 @@ export default function Exhange(props) {
                             </div>
                         </div>
                     </div>
-                    <div
-                        className="w-full space-x-2 px-4 my-2"
-                        onClick={locationModal.toggle}
-                    >
-                        <FormLocation placeholder="Cari Lokasi" />
-                    </div>
+
                     {favorite === ALL ? (
-                        <div className="w-full flex flex-row overflow-y-scroll space-x-2 px-4">
-                            {sLocations.map((location, index) => (
-                                <div
-                                    className="flex flex-row items-center gap-1 px-2 py-1 rounded-2xl bg-blue-100 border border-blue-200 hover:bg-blue-500"
-                                    key={location.id}
-                                    onClick={() => handleRemoveLocation(index)}
-                                >
-                                    <div>{location.name}</div>
-                                    <div className="pl-2">
-                                        <HiXMark className="h-5 w-5 text-red-700" />
+                        <>
+                            <div
+                                className="w-full space-x-2 px-4 my-2"
+                                onClick={locationModal.toggle}
+                            >
+                                <FormLocation placeholder="Cari Lokasi" />
+                            </div>
+                            <div className="w-full flex flex-row overflow-y-scroll space-x-2 px-4">
+                                {sLocations.map((location, index) => (
+                                    <div
+                                        className="flex flex-row items-center gap-1 px-2 py-1 rounded-2xl bg-blue-100 border border-blue-200 hover:bg-blue-500"
+                                        key={location.id}
+                                        onClick={() =>
+                                            handleRemoveLocation(index)
+                                        }
+                                    >
+                                        <div>{location.name}</div>
+                                        <div className="pl-2">
+                                            <HiXMark className="h-5 w-5 text-red-700" />
+                                        </div>
                                     </div>
-                                </div>
-                            ))}
-                        </div>
+                                ))}
+                            </div>
+                        </>
                     ) : (
-                        <div className="w-full flex flex-row overflow-y-scroll space-x-2 px-4">
+                        <div className="w-full flex flex-row overflow-y-scroll space-x-2 px-4 my-2">
                             {fLocations.map((location, index) => (
                                 <div
                                     className="flex flex-row items-center gap-1 px-2 py-1 rounded-2xl bg-blue-100 border border-blue-200 hover:bg-blue-500"
                                     key={location.id}
-                                    onClick={() => handleRemoveLocation(index)}
+                                    onClick={() =>
+                                        handleFavoriteRemoveLocation(location)
+                                    }
                                 >
                                     <div>{location.name}</div>
                                     <div className="pl-2">
@@ -162,17 +190,15 @@ export default function Exhange(props) {
                         </div>
                     )}
                 </div>
-                {vouchers.length <= 0 ? (
+
+                {items.length <= 0 ? (
                     <EmptyHere />
                 ) : (
                     <div className="w-full flex flex-col">
                         {/* voucher */}
                         <div className="flex flex-col w-full px-3 mt-3 space-y-2">
-                            {vouchers.map((voucher) => (
-                                <VoucherCard
-                                    key={voucher.id}
-                                    voucher={voucher}
-                                />
+                            {items.map((item) => (
+                                <VoucherCard key={item.id} item={item} />
                             ))}
                             {next_page_url !== null && (
                                 <div
@@ -186,6 +212,7 @@ export default function Exhange(props) {
                     </div>
                 )}
             </div>
+
             <LocationModal
                 state={locationModal}
                 locations={locations}

@@ -11,3 +11,13 @@ export const PAYMENT_MANUAL = 'MANUAL'
 export const PAYMENT_MIDTRANS = 'MIDTRANS'
 
 export const PAYMENT_CASH_DEPOSIT = 'CASH_DEPOSIT'
+
+export const PAYED_WITH_MIDTRANS = 'midtrans'
+
+export const PAYED_WITH_MANUAL = 'manual'
+
+export const PAYED_WITH_DEPOSIT = 'deposit'
+
+export const PAYED_WITH_PAYLATER = 'paylater'
+
+export const PAYED_WITH_POIN = 'poin'

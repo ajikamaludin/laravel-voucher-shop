@@ -45,8 +45,8 @@ export default function Detail(props) {
     const { sale } = props
 
     return (
-        <AuthenticatedLayout page={`Sale`} action={`Invoice #${sale.code}`}>
-            <Head title={`Invoice #${sale.code}`} />
+        <AuthenticatedLayout page={`Sale`} action={`${sale.code}`}>
+            <Head title={`${sale.code}`} />
 
             <div>
                 <div className="mx-auto sm:px-6 lg:px-8">

@@ -68,7 +68,7 @@ Route::middleware(['http_secure_aware', 'guard_should_customer', 'inertia.custom
 
         // poin exchange
         Route::get('poin/exchanges', [PoinExchangeController::class, 'index'])->name('customer.poin.exchange');
-        Route::get('poin/exchanges/{voucher}', [PoinExchangeController::class, 'exchange'])->name('customer.poin.exchange.process');
+        Route::get('poin/exchanges/{profile}', [PoinExchangeController::class, 'exchange'])->name('customer.poin.exchange.process');
 
         // cart
         Route::get('cart', [CartController::class, 'index'])->name('cart.index');

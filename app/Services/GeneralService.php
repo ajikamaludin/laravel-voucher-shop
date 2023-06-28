@@ -160,7 +160,9 @@ class GeneralService
 
     public static function generateSaleVoucherCode()
     {
-        $code = Sale::whereDate('created_at', now())->count() + 1;
+        $code = Sale::whereDate('created_at', '=', now())
+            ->where('payed_with', '!=', Sale::PAYED_WITH_POIN)
+            ->count() + 1;
 
         return 'Invoice #VCR' . now()->format('dmy') . GeneralService::formatNumberCode($code);
     }
@@ -170,6 +172,15 @@ class GeneralService
         $code = PoinHistory::whereDate('created_at', now())->count() + 1;
 
         return 'Invoice #BPN' . now()->format('dmy') . GeneralService::formatNumberCode($code);
+    }
+
+    public static function generateExchangePoinCode()
+    {
+        $code = Sale::whereDate('created_at', '=', now())
+            ->where('payed_with', '=', Sale::PAYED_WITH_POIN)
+            ->count() + 1;
+
+        return 'Invoice #PVC' . now()->format('dmy') . GeneralService::formatNumberCode($code);
     }
 
     public static function formatNumberCode($number)
@@ -185,12 +196,12 @@ class GeneralService
         }
         return $number;
     }
-    
+
     public static function isAllowAffilate($key)
     {
         $isAllow = false;
         $levels = json_decode(Setting::getByKey('AFFILATE_ALLOWED_LEVELS'));
-        foreach($levels as $level) {
+        foreach ($levels as $level) {
             if ($key == $level->key) {
                 $isAllow = true;
             }

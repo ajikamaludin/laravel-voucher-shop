@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import toast, { Toaster } from 'react-hot-toast'
-
+import { Toaster } from 'react-hot-toast'
 import { router, usePage } from '@inertiajs/react'
 import { HiOutlineHome } from 'react-icons/hi'
 import {
@@ -9,6 +8,8 @@ import {
     HiOutlineGift,
     HiOutlineShoppingCart,
 } from 'react-icons/hi2'
+
+import { toastError, toastSuccess } from '@/Customer/utils'
 
 export default function CustomerLayout({ children }) {
     const {
@@ -40,13 +41,11 @@ export default function CustomerLayout({ children }) {
     useEffect(() => {
         let se
         if (flash.message !== null && flash.message.type !== null) {
-            toast.success((t) => {
-                return (
-                    <div onClick={() => toast.dismiss(t.id)}>
-                        {flash.message.message}
-                    </div>
-                )
-            })
+            if (flash.message.type === 'error') {
+                toastError(flash.message.message)
+                return
+            }
+            toastSuccess(flash.message.message)
             if (+flash.message.cart === 1) {
                 setBouce(true)
                 se = setTimeout(clearAnimate, 3000)

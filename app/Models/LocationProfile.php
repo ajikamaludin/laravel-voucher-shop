@@ -42,6 +42,8 @@ class LocationProfile extends Model
         'validate_price',
         'validate_display_price',
         'validate_discount',
+        'validate_price_poin',
+        'validate_bonus_poin',
     ];
 
     protected static function booted(): void
@@ -155,6 +157,38 @@ class LocationProfile extends Model
                 return $price->min('discount');
             }
             return $this->discount;
+        });
+    }
+
+    public function validateBonusPoin(): Attribute
+    {
+        return Attribute::make(get: function () {
+            if ($this->prices->count() > 0) {
+                $price = $this->prices;
+                if (auth()->guard('customer')->check()) {
+                    $customer = self::getInstance()['customer'];
+                    return $price->where('customer_level_id', $customer->customer_level_id)
+                        ->value('bonus_poin');
+                }
+                return $price->max('bonus_poin');
+            }
+            return $this->bonus_poin;
+        });
+    }
+
+    public function validatePricePoin(): Attribute
+    {
+        return Attribute::make(get: function () {
+            if ($this->prices->count() > 0) {
+                $price = $this->prices;
+                if (auth()->guard('customer')->check()) {
+                    $customer = self::getInstance()['customer'];
+                    return $price->where('customer_level_id', $customer->customer_level_id)
+                        ->value('price_poin');
+                }
+                return $price->max('price_poin');
+            }
+            return $this->price_poin;
         });
     }
 
