@@ -8,6 +8,39 @@ import { Head, useForm } from '@inertiajs/react'
 import FormFile from '@/Components/FormFile'
 import { formatIDR } from '@/utils'
 
+const SaleItem = ({ item, index }) => {
+    const { voucher } = JSON.parse(item.additional_info_json)
+    console.log(voucher)
+    return (
+        <>
+            <td
+                scope="row"
+                className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+            >
+                {index + 1}
+            </td>
+            <td scope="row" className="py-4 px-6">
+                {voucher.location_profile.location.name}
+            </td>
+            <td scope="row" className="py-4 px-6">
+                {voucher.location_profile.name}
+            </td>
+            <td scope="row" className="py-4 px-6">
+                {voucher.username}
+            </td>
+            <td scope="row" className="py-4 px-6">
+                {voucher.comment}
+            </td>
+            <td scope="row" className="py-4 px-6">
+                {voucher.location_profile.quota}
+            </td>
+            <td scope="row" className="py-4 px-6">
+                {voucher.location_profile.display_expired}
+            </td>
+        </>
+    )
+}
+
 export default function Detail(props) {
     const { sale } = props
 
@@ -50,13 +83,10 @@ export default function Detail(props) {
                                         Lokasi
                                     </th>
                                     <th scope="col" className="py-3 px-6">
-                                        Username
-                                    </th>
-                                    <th scope="col" className="py-3 px-6">
-                                        Password
-                                    </th>
-                                    <th scope="col" className="py-3 px-6">
                                         Profile
+                                    </th>
+                                    <th scope="col" className="py-3 px-6">
+                                        Kode
                                     </th>
                                     <th scope="col" className="py-3 px-6">
                                         Comment
@@ -64,38 +94,19 @@ export default function Detail(props) {
                                     <th scope="col" className="py-3 px-6">
                                         Kuota
                                     </th>
+
+                                    <th scope="col" className="py-3 px-6">
+                                        Masa Aktif
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {sale.items.map((item, index) => (
                                     <tr
                                         className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-                                        key={item.voucher.id}
+                                        key={item.id}
                                     >
-                                        <td
-                                            scope="row"
-                                            className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                                        >
-                                            {index + 1}
-                                        </td>
-                                        <td scope="row" className="py-4 px-6">
-                                            {item.voucher.location.name}
-                                        </td>
-                                        <td scope="row" className="py-4 px-6">
-                                            {item.voucher.username}
-                                        </td>
-                                        <td scope="row" className="py-4 px-6">
-                                            {item.voucher.password}
-                                        </td>
-                                        <td scope="row" className="py-4 px-6">
-                                            {item.voucher.profile}
-                                        </td>
-                                        <td scope="row" className="py-4 px-6">
-                                            {item.voucher.comment}
-                                        </td>
-                                        <td scope="row" className="py-4 px-6">
-                                            {item.voucher.display_quota}
-                                        </td>
+                                        <SaleItem item={item} index={index} />
                                     </tr>
                                 ))}
                             </tbody>

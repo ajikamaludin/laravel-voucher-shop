@@ -73,7 +73,7 @@ Route::middleware(['http_secure_aware', 'guard_should_customer', 'inertia.custom
         // cart
         Route::get('cart', [CartController::class, 'index'])->name('cart.index');
         Route::post('cart/process', [CartController::class, 'purchase'])->name('cart.purchase');
-        Route::post('cart/{voucher}', [CartController::class, 'store'])->name('cart.store');
+        Route::post('cart/{profile}', [CartController::class, 'store'])->name('cart.store');
 
         // notification
         Route::get('notifications', [HomeController::class, 'notification'])->name('notification.index');

@@ -317,7 +317,7 @@ export default function Index(props) {
                                                     className="py-4 px-6"
                                                 >
                                                     <div
-                                                        className={`p-2 border font-bold ${voucher.status.color} rounded-full`}
+                                                        className={`p-2 border font-bold ${voucher.status.color} rounded-full text-center`}
                                                     >
                                                         {voucher.status.text}
                                                     </div>

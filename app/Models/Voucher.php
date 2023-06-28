@@ -149,28 +149,6 @@ class Voucher extends Model
         });
     }
 
-    public function shuffle_unsold($limit)
-    {
-        $vouchers = Voucher::where([
-            ['is_sold', '=', self::UNSOLD],
-            ['location_profile_id', '=', $this->location_profile_id],
-        ])
-            ->limit($limit)
-            ->get();
-
-        return $vouchers;
-    }
-
-    public function count_unsold()
-    {
-        $voucher = Voucher::where([
-            ['is_sold', '=', self::UNSOLD],
-            ['location_profile_id', '=', $this->location_profile_id],
-        ])->count();
-
-        return $voucher;
-    }
-
     public function check_stock_notification()
     {
         $count = Voucher::where([
@@ -192,10 +170,12 @@ class Voucher extends Model
     {
         $locationCallback = fn ($q) => $q->where('location_id', $location->id);
         $count_voucher_total = Voucher::whereHas('locationProfile',  $locationCallback)->count();
+
         $sum_voucher_total = Voucher::whereHas('locationProfile',  $locationCallback)
             ->join('location_profiles', 'location_profiles.id', '=', 'vouchers.location_profile_id')
-            ->selectRaw('(count(vouchers.id) * location_profiles.price) as total')
+            ->selectRaw('(sum(location_profiles.price)) as total')
             ->value('total');
+
         $count_voucher_sold = Voucher::whereHas('locationProfile',  $locationCallback)
             ->where('is_sold', Voucher::SOLD)->count();
         $count_voucher_unsold = Voucher::whereHas('locationProfile',  $locationCallback)
@@ -203,7 +183,7 @@ class Voucher extends Model
         $sum_voucher_unsold = Voucher::whereHas('locationProfile',  $locationCallback)
             ->where('is_sold', Voucher::UNSOLD)
             ->join('location_profiles', 'location_profiles.id', '=', 'vouchers.location_profile_id')
-            ->selectRaw('(count(vouchers.id) * location_profiles.price) as total')
+            ->selectRaw('(sum(location_profiles.price)) as total')
             ->value('total');
 
         $sum_voucher_sold = SaleItem::whereHas('voucher', function ($q) use ($locationCallback) {

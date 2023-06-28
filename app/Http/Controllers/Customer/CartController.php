@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Customer;
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use App\Models\DepositHistory;
+use App\Models\LocationProfile;
 use App\Models\PoinReward;
 use App\Models\Sale;
 use App\Models\Setting;
@@ -25,9 +26,9 @@ class CartController extends Controller
     public function index(Request $request)
     {
         $customer = $request->user('customer');
-        $carts = $customer->carts->load(['voucher.locationProfile.location']);
+        $carts = $customer->carts->load(['locationProfile.location']);
         $total = $carts->sum(function ($item) {
-            return $item->quantity * $item->voucher->validate_price;
+            return $item->quantity * $item->locationProfile->validate_price;
         });
 
         $checkAllowProcess = [
@@ -48,12 +49,12 @@ class CartController extends Controller
     /**
      * handle cart add, remove or sub
      */
-    public function store(Request $request, Voucher $voucher)
+    public function store(Request $request, LocationProfile $profile)
     {
         $operator = $request->param ?? 'add'; //delete, sub, add
         $customer = $request->user('customer');
 
-        $item = $customer->carts()->where(['entity_id' => $voucher->id])->first();
+        $item = $customer->carts()->where(['entity_id' => $profile->id])->first();
         if ($item !== null) {
             if ($operator == 'delete') {
                 $item->delete();
@@ -74,7 +75,7 @@ class CartController extends Controller
             }
         } else {
             $customer->carts()->create([
-                'entity_id' => $voucher->id,
+                'entity_id' => $profile->id,
                 'quantity' => 1
             ]);
 
@@ -102,7 +103,7 @@ class CartController extends Controller
         ]);
 
         $customer = $request->user('customer');
-        $carts = $customer->carts->load(['voucher.locationProfile.location']);
+        $carts = $customer->carts->load(['locationProfile.location']);
 
         // validate carts not empty
         if ($carts->count() == 0) {
@@ -112,7 +113,7 @@ class CartController extends Controller
 
         // validate voucher is available
         foreach ($carts as $item) {
-            $batchCount = $item->voucher->count_unsold();
+            $batchCount = $item->locationProfile->count_unsold();
             if ($batchCount < $item->quantity) {
                 $customer->carts()->delete();
 
@@ -123,7 +124,7 @@ class CartController extends Controller
 
         // calculate total
         $total = $carts->sum(function ($item) {
-            return $item->quantity * $item->voucher->validate_price;
+            return $item->quantity * $item->locationProfile->validate_price;
         });
 
         DB::beginTransaction();
@@ -136,7 +137,7 @@ class CartController extends Controller
 
         // create sale item by per voucher
         foreach ($carts as $item) {
-            $vouchers = $item->voucher->shuffle_unsold($item->quantity);
+            $vouchers = $item->locationProfile->shuffle_unsold($item->quantity);
             foreach ($vouchers as $voucher) {
                 $sale->items()->create([
                     'entity_type' => $voucher::class,
@@ -149,7 +150,7 @@ class CartController extends Controller
                 ]);
 
                 $voucher->update(['is_sold' => Voucher::SOLD]);
-                
+
                 $voucher->check_stock_notification();
 
                 $voucher->create_bonus_poin($customer);

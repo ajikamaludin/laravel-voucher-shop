@@ -14,20 +14,24 @@ class PoinExchangeController extends Controller
 {
     public function index(Request $request)
     {
+        $favorite = $request->favorite ?? 1;
+        $customer = $request->user('customer');
+        $flocations = $customer->locationFavorites;
+        $slocations = [];
         $locations = Location::orderBy('name', 'asc')->get();
 
         $vouchers = Voucher::with(['locationProfile.location'])
             ->whereHas('locationProfile', function ($q) {
-                $q->where(['price_poin', '!=', 0])
+                $q->where('price_poin', '!=', 0)
                     ->orWhereHas('prices', function ($q) {
-                        return $q->where(['price_poin', '!=', 0]);
+                        return $q->where('price_poin', '!=', 0);
                     });
             })
             ->where('is_sold', Voucher::UNSOLD)
             ->groupBy('location_profile_id')
             ->orderBy('updated_at', 'desc');
 
-        if ($request->location_id != '') {
+        if ($request->location_ids != '') {
             $vouchers->whereHas('locationProfile', function ($q) use ($request) {
                 return $q->whereIn('location_id', $request->location_ids);
             });
@@ -37,15 +41,20 @@ class PoinExchangeController extends Controller
             $vouchers = tap($vouchers->paginate(20))->setHidden(['username', 'password']);
         }
 
-        if (auth()->guard('customer')->guest() && $request->location_ids == '') {
+        if ($request->location_ids == '' && $flocations->count() > 0) {
+            $favorite = 1;
+            $vouchers->whereHas('locationProfile', function ($q) use ($flocations) {
+                return $q->whereIn('location_id', $flocations->pluck('id')->toArray());
+            });
             $vouchers = tap($vouchers->paginate(20))->setHidden(['username', 'password']);
         }
 
         return inertia('Poin/Exchange', [
             'locations' => $locations,
             'vouchers' => $vouchers,
-            '_location_id' => $request->location_id ?? '',
             '_slocations' => $slocations,
+            '_flocations' => $flocations,
+            '_favorite' => $favorite
         ]);
     }
 
@@ -54,7 +63,7 @@ class PoinExchangeController extends Controller
         $batchCount = $voucher->count_unsold();
         if ($batchCount < 1) {
             return redirect()->route('customer.poin.exchange')
-                ->with('message', ['type' => 'error', 'message'=> 'transaksi gagal, voucher sedang tidak tersedia']);
+                ->with('message', ['type' => 'error', 'message' => 'transaksi gagal, voucher sedang tidak tersedia']);
         }
 
         $customer = Customer::find(auth()->id());

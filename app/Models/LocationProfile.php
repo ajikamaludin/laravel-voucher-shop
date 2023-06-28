@@ -38,7 +38,10 @@ class LocationProfile extends Model
     ];
 
     protected $appends = [
-        'diplay_expired',
+        'display_expired',
+        'validate_price',
+        'validate_display_price',
+        'validate_discount',
     ];
 
     protected static function booted(): void
@@ -60,6 +63,19 @@ class LocationProfile extends Model
         });
     }
 
+    private static $instance = [];
+
+    private static function getInstance()
+    {
+        if (count(self::$instance) == 0) {
+            self::$instance = [
+                'customer' => Customer::find(auth()->guard('customer')->id())
+            ];
+        }
+
+        return self::$instance;
+    }
+
     public function prices()
     {
         return $this->hasMany(LocationProfilePrice::class);
@@ -75,7 +91,7 @@ class LocationProfile extends Model
         return $this->hasMany(Voucher::class);
     }
 
-    public function diplayExpired(): Attribute
+    public function displayExpired(): Attribute
     {
         return Attribute::make(get: function () {
             return $this->expired . ' ' . $this->expired_unit;
@@ -92,5 +108,75 @@ class LocationProfile extends Model
                 'unsold_count' => $unsoldCount,
             ];
         });
+    }
+
+    public function validatePrice(): Attribute
+    {
+        return Attribute::make(get: function () {
+            if ($this->prices->count() > 0) {
+                $price = $this->prices;
+                if (auth()->guard('customer')->check()) {
+                    $customer = self::getInstance()['customer'];
+                    return $price->where('customer_level_id', $customer->customer_level_id)
+                        ->value('price');
+                }
+                return $price->max('price');
+            }
+            return $this->price;
+        });
+    }
+
+    public function validateDisplayPrice(): Attribute
+    {
+        return Attribute::make(get: function () {
+            if ($this->prices->count() > 0) {
+                $price = $this->prices;
+                if (auth()->guard('customer')->check()) {
+                    $customer = self::getInstance()['customer'];
+                    return $price->where('customer_level_id', $customer->customer_level_id)
+                        ->value('display_price');
+                }
+                return $price->max('display_price');
+            }
+            return $this->display_price;
+        });
+    }
+
+    public function validateDiscount(): Attribute
+    {
+        return Attribute::make(get: function () {
+            if ($this->prices->count() > 0) {
+                $price = $this->prices;
+                if (auth()->guard('customer')->check()) {
+                    $customer = self::getInstance()['customer'];
+                    return $price->where('customer_level_id', $customer->customer_level_id)
+                        ->value('discount');
+                }
+                return $price->min('discount');
+            }
+            return $this->discount;
+        });
+    }
+
+    public function shuffle_unsold($limit)
+    {
+        $vouchers = Voucher::where([
+            ['is_sold', '=', Voucher::UNSOLD],
+            ['location_profile_id', '=', $this->id],
+        ])
+            ->limit($limit)
+            ->get();
+
+        return $vouchers;
+    }
+
+    public function count_unsold()
+    {
+        $voucher = Voucher::where([
+            ['is_sold', '=', Voucher::UNSOLD],
+            ['location_profile_id', '=', $this->id],
+        ])->count();
+
+        return $voucher;
     }
 }

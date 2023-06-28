@@ -8,6 +8,7 @@ use App\Models\Customer;
 use App\Models\CustomerLocationFavorite;
 use App\Models\Info;
 use App\Models\Location;
+use App\Models\LocationProfile;
 use App\Models\Notification;
 use App\Models\Voucher;
 use Illuminate\Http\Request;
@@ -31,30 +32,29 @@ class HomeController extends Controller
 
         $slocations = [];
 
-        $vouchers = Voucher::with(['locationProfile.location'])
-            ->where('is_sold', Voucher::UNSOLD)
-            ->orderBy('updated_at', 'desc')
-            ->groupBy('location_profile_id');
+        $profiles = LocationProfile::with(['location'])
+            ->whereHas('vouchers', function ($q) {
+                $q->where('is_sold', Voucher::UNSOLD);
+            })
+            ->orderBy('updated_at', 'desc');
 
         if ($request->location_ids != '') {
-            $vouchers->whereHas('locationProfile', function ($q) use ($request) {
-                return $q->whereIn('location_id', $request->location_ids);
-            });
+            $profiles->whereIn('location_id', $request->location_ids);
 
             $slocations = Location::whereIn('id', $request->location_ids)->get();
 
-            $vouchers = tap($vouchers->paginate(self::LIMIT))->setHidden(['username', 'password']);
+            $profiles = $profiles->paginate(self::LIMIT);
         }
 
         if (auth()->guard('customer')->guest() && $request->location_ids == '') {
-            $vouchers = tap($vouchers->paginate(self::LIMIT))->setHidden(['username', 'password']);
+            $profiles = $profiles->paginate(self::LIMIT);
         }
 
         return inertia('Index/Index', [
             'infos' => $infos,
             'banners' => $banners,
             'locations' => $locations,
-            'vouchers' => $vouchers,
+            'profiles' => $profiles,
             '_slocations' => $slocations,
             '_status' => 0
         ]);
@@ -66,21 +66,20 @@ class HomeController extends Controller
         $banners = Banner::orderBy('updated_at', 'desc')->get();
         $locations = Location::orderBy('name', 'asc')->get();
 
-        $vouchers = Voucher::with(['locationProfile.location'])
-            ->where('is_sold', Voucher::UNSOLD)
-            ->orderBy('updated_at', 'desc')
-            ->groupBy('location_profile_id');
+        $profiles = LocationProfile::with(['location'])
+            ->whereHas('vouchers', function ($q) {
+                $q->where('is_sold', Voucher::UNSOLD);
+            })
+            ->orderBy('updated_at', 'desc');
 
         $customer = Customer::find(auth()->id());
-        $vouchers->whereHas('locationProfile', function ($q) use ($customer) {
-            return $q->whereIn('location_id', $customer->locationFavorites()->pluck('id')->toArray());
-        });
+        $profiles->whereIn('location_id', $customer->locationFavorites()->pluck('id')->toArray());
 
         return inertia('Index/Index', [
             'infos' => $infos,
             'banners' => $banners,
             'locations' => $locations,
-            'vouchers' => tap($vouchers->paginate(self::LIMIT))->setHidden(['username', 'password']),
+            'profiles' => $profiles->paginate(self::LIMIT),
             '_flocations' => $customer->locationFavorites,
             '_status' => 1
         ]);

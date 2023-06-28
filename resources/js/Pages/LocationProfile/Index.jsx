@@ -154,7 +154,7 @@ export default function Index(props) {
                                                     scope="row"
                                                     className="py-4 px-6"
                                                 >
-                                                    {profile.diplay_expired}
+                                                    {profile.display_expired}
                                                 </td>
                                                 <td className="py-4 px-6 flex justify-end">
                                                     <Dropdown

@@ -50,7 +50,6 @@ services:
   mariadb:
     image: mariadb:latest
     container_name: voucher-mariadb
-    restart: always
     ports:
       - 3306:3306
     volumes:
@@ -67,6 +66,24 @@ services:
     networks:
       voucher:
         ipv4_address: 10.25.10.99
+  postgresql:
+    image: postgres:14-alpine3.17
+    container_name: voucher-postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres:/var/lib/postgresql/data
+      - ./database:/database
+    environment:
+      POSTGRES_DB: voucher
+      POSTGRES_USER: aji
+      POSTGRES_PASSWORD: eta
+    mem_limit: 254m
+    mem_reservation: 128M
+    cpus: 0.5
+    networks:
+      voucher:
+        ipv4_address: 10.25.10.199
   portainer:
     image: portainer/portainer-ce:latest
     ports:
@@ -74,7 +91,20 @@ services:
     volumes:
       - data:/data
       - /var/run/docker.sock:/var/run/docker.sock
-    restart: unless-stopped
+    networks:
+      - voucher
+  phpcli:
+    image: voucher
+    container_name: voucher-app-cli
+    volumes:
+      - ./:/var/www
+    working_dir: /var/www
+    entrypoint: ["php","artisan", "schedule:work"]
+    mem_limit: 128M
+    mem_reservation: 128M
+    cpus: 0.5
+    depends_on:
+      - app
     networks:
       - voucher
 
@@ -82,6 +112,8 @@ volumes:
   data:
     driver: local
   mariadb: 
+    driver: local
+  postgres:
     driver: local
 
 networks:

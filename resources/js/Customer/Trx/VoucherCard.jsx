@@ -62,7 +62,7 @@ export default function VoucherCard(props) {
                         {voucher.location_profile.quota}
                     </div>
                     <div className="text-gray-400 ">
-                        {voucher.location_profile.diplay_expired}
+                        {voucher.location_profile.display_expired}
                     </div>
                 </div>
             </div>

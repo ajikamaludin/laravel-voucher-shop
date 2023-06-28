@@ -4,45 +4,39 @@ import { useModalState } from '@/hooks'
 import { formatIDR } from '@/utils'
 import { router } from '@inertiajs/react'
 
-const Voucher = ({ voucher, onClick }) => {
+const Voucher = ({ item, onClick }) => {
     return (
         <div
             className="px-3 py-1 shadow-md rounded border border-gray-100 hover:bg-gray-50"
             onClick={onClick}
         >
             <div className="w-full flex flex-row justify-between">
-                <div className="text-base font-bold">
-                    {voucher.location_profile.location.name}
-                </div>
+                <div className="text-base font-bold">{item.location.name}</div>
                 <div className="text-sm text-gray-500"></div>
             </div>
             <div className="w-full border border-dashed"></div>
             <div className="flex flex-row justify-between items-center">
                 <div>
                     <div className="text-xs text-gray-400 py-1">
-                        {voucher.location_profile.display_note}
+                        {item.display_note}
                     </div>
                     <div className="text-xl font-bold">
-                        Rp {formatIDR(voucher.validate_price)}
+                        Rp {formatIDR(item.validate_price)}
                     </div>
-                    {+voucher.discount !== 0 && (
+                    {+item.validate_discount !== 0 && (
                         <div className="flex flex-row space-x-2 items-center text-xs pb-2">
                             <div className="bg-red-300 text-red-600 px-1 py-0.5 font-bold rounded">
-                                {voucher.discount}%
+                                {item.validate_discount}%
                             </div>
                             <div className="text-gray-400 line-through">
-                                {formatIDR(voucher.validate_display_price)}
+                                {formatIDR(item.validate_display_price)}
                             </div>
                         </div>
                     )}
                 </div>
                 <div className="flex flex-col justify-end text-right">
-                    <div className="text-3xl font-bold">
-                        {voucher.location_profile.quota}
-                    </div>
-                    <div className="text-gray-400 ">
-                        {voucher.location_profile.diplay_expired}
-                    </div>
+                    <div className="text-3xl font-bold">{item.quota}</div>
+                    <div className="text-gray-400 ">{item.display_expired}</div>
                 </div>
             </div>
         </div>
@@ -50,27 +44,27 @@ const Voucher = ({ voucher, onClick }) => {
 }
 
 const ModalChoose = (props) => {
-    const { state, voucher } = props
+    const { state, item } = props
 
     const onDirectBuy = () => {
-        router.post(route('cart.store', voucher), { direct: 1 })
+        router.post(route('cart.store', item), { direct: 1 })
         state.toggle()
     }
 
     const addToCarts = () => {
-        router.post(route('cart.store', voucher))
+        router.post(route('cart.store', item))
         state.toggle()
     }
 
     return (
         <BottomSheet isOpen={state.isOpen} toggle={() => state.toggle()}>
-            <Voucher voucher={voucher} />
-            {voucher.location_profile.display_note !== null && (
+            <Voucher item={item} />
+            {item.display_note !== null && (
                 <div
                     className="p-4 my-4 text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400"
                     role="alert"
                 >
-                    {voucher.location_profile.display_note}
+                    {item.display_note}
                 </div>
             )}
             <div className="flex flex-row justify-between gap-2 mt-2">
@@ -91,7 +85,7 @@ const ModalChoose = (props) => {
     )
 }
 
-export default function VoucherCard({ voucher }) {
+export default function VoucherCard({ item }) {
     const chooseModalState = useModalState()
 
     const onVoucherChoose = () => {
@@ -101,9 +95,9 @@ export default function VoucherCard({ voucher }) {
     return (
         <>
             <div onClick={() => onVoucherChoose()}>
-                <Voucher voucher={voucher} />
+                <Voucher item={item} />
             </div>
-            <ModalChoose state={chooseModalState} voucher={voucher} />
+            <ModalChoose state={chooseModalState} item={item} />
         </>
     )
 }

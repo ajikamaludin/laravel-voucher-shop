@@ -10,7 +10,7 @@ class SaleController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Sale::with(['items.voucher', 'customer.level'])
+        $query = Sale::with(['items', 'customer.level'])
             ->withCount(['items'])
             ->orderBy('updated_at', 'desc');
 
@@ -31,7 +31,7 @@ class SaleController extends Controller
     public function show(Sale $sale)
     {
         return inertia('Sale/Detail', [
-            'sale' => $sale->load(['items.voucher.location', 'customer.level']),
+            'sale' => $sale->load(['items', 'customer.level']),
         ]);
     }
 }

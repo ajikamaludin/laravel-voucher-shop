@@ -18,4 +18,9 @@ class CustomerCart extends Model
     {
         return $this->belongsTo(Voucher::class, 'entity_id');
     }
+
+    public function locationProfile()
+    {
+        return $this->belongsTo(LocationProfile::class, 'entity_id');
+    }
 }

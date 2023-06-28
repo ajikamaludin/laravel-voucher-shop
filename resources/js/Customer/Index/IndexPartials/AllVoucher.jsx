@@ -4,7 +4,7 @@ import { HiXMark } from 'react-icons/hi2'
 
 import { useModalState } from '@/hooks'
 import VoucherCard from '../Partials/VoucherCard'
-import FormLocation from '../../Components/FormLocation'
+import FormLocation from '@/Customer/Components/FormLocation'
 import LocationModal from '../Partials/LocationModal'
 
 const EmptyLocation = () => {
@@ -33,7 +33,7 @@ export default function AllVoucher() {
     const {
         props: {
             locations,
-            vouchers: { data, next_page_url },
+            profiles: { data, next_page_url },
             _slocations,
         },
     } = usePage()
@@ -68,10 +68,10 @@ export default function AllVoucher() {
             {
                 replace: true,
                 preserveState: true,
-                only: ['vouchers'],
+                only: ['profiles'],
                 onSuccess: (res) => {
-                    if (res.props.vouchers.data !== undefined) {
-                        setItems(items.concat(res.props.vouchers.data))
+                    if (res.props.profiles.data !== undefined) {
+                        setItems(items.concat(res.props.profiles.data))
                     }
                 },
             }
@@ -88,8 +88,8 @@ export default function AllVoucher() {
                 replace: true,
                 preserveState: true,
                 onSuccess: (res) => {
-                    if (res.props.vouchers.data !== undefined) {
-                        setItems(res.props.vouchers.data)
+                    if (res.props.profiles.data !== undefined) {
+                        setItems(res.props.profiles.data)
                         return
                     }
                     setItems([])
@@ -124,8 +124,8 @@ export default function AllVoucher() {
 
             {/* voucher */}
             <div className="flex flex-col w-full px-3 mt-3 space-y-2">
-                {items.map((voucher) => (
-                    <VoucherCard key={voucher.id} voucher={voucher} />
+                {items.map((item) => (
+                    <VoucherCard key={item.id} item={item} />
                 ))}
                 {nextPageUrl !== null && (
                     <div

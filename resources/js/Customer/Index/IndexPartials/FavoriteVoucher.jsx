@@ -29,7 +29,7 @@ const EmptyVoucher = () => {
 export default function FavoriteVoucher() {
     const {
         props: {
-            vouchers: { data, next_page_url },
+            profiles: { data, next_page_url },
             _flocations,
         },
     } = usePage()
@@ -92,8 +92,8 @@ export default function FavoriteVoucher() {
 
             {/* voucher */}
             <div className="flex flex-col w-full px-3 mt-3 space-y-2">
-                {items.map((voucher) => (
-                    <VoucherCard key={voucher.id} voucher={voucher} />
+                {items.map((item) => (
+                    <VoucherCard key={item.id} item={item} />
                 ))}
                 {nextPageUrl !== null && (
                     <div
