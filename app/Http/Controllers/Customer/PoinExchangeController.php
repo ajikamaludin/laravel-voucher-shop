@@ -74,7 +74,7 @@ class PoinExchangeController extends Controller
 
         if ($customer->poin_balance < $profile->validate_price_poin) {
             return redirect()->route('customer.poin.exchange')
-                ->with('message', ['type' => 'error', 'message' => 'koin kamu tidak cukup untuk ditukar voucher ini']);
+                ->with('message', ['type' => 'error', 'message' => 'poin kamu tidak cukup untuk ditukar voucher ini']);
         }
 
         DB::beginTransaction();
