@@ -5,6 +5,7 @@ import { Head, router } from '@inertiajs/react'
 import { formatIDDate } from '@/utils'
 import CustomerLayout from '@/Layouts/CustomerLayout'
 import HeaderTrx from '../Components/HeaderTrx'
+import { isEmpty } from 'lodash'
 
 const EmptyHere = () => {
     return (

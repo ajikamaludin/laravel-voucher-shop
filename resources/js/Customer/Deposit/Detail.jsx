@@ -1,6 +1,6 @@
 import React from 'react'
 import { Head, router } from '@inertiajs/react'
-import { HiChevronLeft } from 'react-icons/hi2'
+import { HiChevronLeft, HiClipboardDocumentList } from 'react-icons/hi2'
 
 import CustomerLayout from '@/Layouts/CustomerLayout'
 import { PayButton } from './DetailPartials/PayButton'
@@ -13,6 +13,7 @@ import {
     STATUS_REJECT,
     STATUS_EXPIRED,
 } from '@/constant'
+import { handleCopyToClipboard } from '../utils'
 
 const ActionSection = ({ deposit }) => {
     if (deposit.is_valid === STATUS_EXPIRED) {
@@ -67,8 +68,16 @@ export default function Detail({ deposit }) {
                 {/* detail */}
                 <div className="flex flex-row  items-center pb-5 border-b px-5">
                     <div className="w-full">
-                        <div className="font-semibold text-xl text-gray-400">
-                            {deposit.description}
+                        <div
+                            className="font-semibold text-xl text-gray-400 flex flex-row items-center w-full"
+                            onClick={() =>
+                                handleCopyToClipboard(deposit.description)
+                            }
+                        >
+                            <div>{deposit.description}</div>
+                            <div className="pl-3 text-gray-400">
+                                <HiClipboardDocumentList />
+                            </div>
                         </div>
                         <div className="font-bold text-3xl">
                             {deposit.amount}

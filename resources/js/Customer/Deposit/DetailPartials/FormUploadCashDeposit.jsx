@@ -47,7 +47,7 @@ export const FormUploadCashDeposit = () => {
             onSuccess: () =>
                 setTimeout(
                     () => router.get(route(route().current(), deposit)),
-                    3000
+                    500
                 ),
         })
     }

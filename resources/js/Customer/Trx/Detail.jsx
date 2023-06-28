@@ -2,8 +2,8 @@ import React from 'react'
 import { Head, router } from '@inertiajs/react'
 import CustomerLayout from '@/Layouts/CustomerLayout'
 import VoucherCard from './VoucherCard'
-import { HiChevronLeft } from 'react-icons/hi2'
-import { convertPayedWith } from '../utils'
+import { HiChevronLeft, HiClipboardDocumentList } from 'react-icons/hi2'
+import { convertPayedWith, handleCopyToClipboard } from '../utils'
 
 export default function Detail({ sale }) {
     return (
@@ -18,8 +18,18 @@ export default function Detail({ sale }) {
                 >
                     <HiChevronLeft className="font-bold h-5 w-5" />
                 </div>
-                <div className="text-2xl px-5 font-bold">{sale.code}</div>
-                <div className="px-5">{sale.format_created_at}</div>
+                <div
+                    className=" text-2xl px-5 font-bold flex flex-row items-center w-full"
+                    onClick={() => handleCopyToClipboard(sale.code)}
+                >
+                    <div>{sale.code}</div>
+                    <div className="pl-3 text-gray-400">
+                        <HiClipboardDocumentList />
+                    </div>
+                </div>
+                <div className="px-5 text-gray-400">
+                    {sale.format_created_at}
+                </div>
                 <div className="px-5 pb-4 w-full">
                     <div className="text-xl font-bold text-right flex flex-row justify-between">
                         <div className="flex flex-col items-start">

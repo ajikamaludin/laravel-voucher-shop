@@ -5,6 +5,7 @@ import { usePrevious } from 'react-use'
 import { formatIDDate } from '@/utils'
 import CustomerLayout from '@/Layouts/CustomerLayout'
 import HeaderTrx from '../Components/HeaderTrx'
+import { isEmpty } from 'lodash'
 
 const EmptyHere = () => {
     return (
@@ -104,7 +105,7 @@ export default function Index(props) {
                                 </div>
                                 <div className="flex flex-col items-end">
                                     <div className="font-bold text-lg">
-                                        {poin.amount}
+                                        {poin.amount} poin
                                     </div>
                                 </div>
                             </div>

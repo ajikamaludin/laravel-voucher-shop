@@ -17,6 +17,11 @@ export const toastError = (message) => {
     })
 }
 
+export const handleCopyToClipboard = (text) => {
+    toastSuccess('copied to clipboard')
+    navigator.clipboard.writeText(text)
+}
+
 export const convertPayedWith = (payed_with) => {
     const payedWith = [
         {
