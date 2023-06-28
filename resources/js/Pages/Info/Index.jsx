@@ -43,7 +43,9 @@ export default function Info(props) {
                         <div className="flex justify-between">
                             {canCreate && (
                                 <Link href={route('info.create')}>
-                                    <Button size="sm">Tambah</Button>
+                                    <Button size="sm" color="primary">
+                                        Tambah
+                                    </Button>
                                 </Link>
                             )}
                         </div>
@@ -89,6 +91,7 @@ export default function Info(props) {
                                                 </td>
                                                 <td className="py-4 px-6 flex justify-end">
                                                     <Dropdown
+                                                        color="primary"
                                                         label={'Opsi'}
                                                         floatingArrow={true}
                                                         arrowIcon={true}
@@ -97,7 +100,13 @@ export default function Info(props) {
                                                     >
                                                         {canUpdate && (
                                                             <Dropdown.Item>
-                                                                 <Link href={route('info.edit', info)} className="flex space-x-1 items-center">
+                                                                <Link
+                                                                    href={route(
+                                                                        'info.edit',
+                                                                        info
+                                                                    )}
+                                                                    className="flex space-x-1 items-center"
+                                                                >
                                                                     <HiPencil />
                                                                     <div>
                                                                         Ubah

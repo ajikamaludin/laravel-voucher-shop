@@ -42,6 +42,11 @@ class DepositController extends Controller
         ]);
     }
 
+    // TODO: ubah deposit confirm menggunakan page form
+    public function edit(DepositHistory $deposit)
+    {
+    }
+
     public function update(Request $request, DepositHistory $deposit)
     {
         $request->validate([

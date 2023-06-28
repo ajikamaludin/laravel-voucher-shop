@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react'
+import { Head, useForm } from '@inertiajs/react'
+import { Button, TextInput, Label, Checkbox, Spinner } from 'flowbite-react'
+
 import GuestLayout from '@/Layouts/GuestLayout'
 import InputError from '@/Components/Defaults/InputError'
-import { Head, Link, useForm } from '@inertiajs/react'
-import { Button, TextInput, Label, Checkbox, Spinner } from 'flowbite-react'
 
 export default function Login({ status }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -93,7 +94,11 @@ export default function Login({ status }) {
                 </div>
 
                 <div className="flex items-center justify-end mt-4">
-                    <Button onClick={submit} disabled={processing}>
+                    <Button
+                        onClick={submit}
+                        disabled={processing}
+                        color="primary"
+                    >
                         {processing ? <Spinner /> : 'Log in'}
                     </Button>
                 </div>

@@ -126,7 +126,9 @@ export default function Customer(props) {
                         <div className="flex justify-between">
                             {canCreate && (
                                 <Link href={route('customer.create')}>
-                                    <Button size="sm">Tambah</Button>
+                                    <Button color="primary" size="sm">
+                                        Tambah
+                                    </Button>
                                 </Link>
                             )}
                             <div className="flex flex-col gap-1 items-end">
@@ -329,6 +331,7 @@ export default function Customer(props) {
                                                 </td>
                                                 <td className="py-4 px-6 flex justify-end">
                                                     <Dropdown
+                                                        color="primary"
                                                         label={'Opsi'}
                                                         floatingArrow={true}
                                                         arrowIcon={true}

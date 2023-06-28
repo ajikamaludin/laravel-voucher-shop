@@ -14,7 +14,7 @@ import { isEmpty } from 'lodash'
 const EmptyHere = () => {
     return (
         <div className="w-full px-5 text-center flex flex-col my-auto">
-            <div className="font-bold text-xl">Voucher segera tersedia</div>
+            <div className="font-bold text-xl">Belum ada data tersedia</div>
             <div className="text-gray-400">
                 Yuk, share referral kamu untuk tingkatkan poinnya
             </div>

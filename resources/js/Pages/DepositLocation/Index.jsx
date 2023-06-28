@@ -45,7 +45,9 @@ export default function DespositLocation(props) {
                         <div className="flex justify-between">
                             {canCreate && (
                                 <Link href={route('deposit-location.create')}>
-                                    <Button size="sm">Tambah</Button>
+                                    <Button size="sm" color="primary">
+                                        Tambah
+                                    </Button>
                                 </Link>
                             )}
                         </div>
@@ -122,6 +124,7 @@ export default function DespositLocation(props) {
                                                 </td>
                                                 <td className="py-4 px-6 flex justify-end">
                                                     <Dropdown
+                                                        color="primary"
                                                         label={'Opsi'}
                                                         floatingArrow={true}
                                                         arrowIcon={true}

@@ -151,10 +151,16 @@ export default function Index(props) {
                             {canCreate && (
                                 <div className="flex flex-row space-x-2">
                                     <Link href={route('voucher.create')}>
-                                        <Button size="sm">Tambah</Button>
+                                        <Button size="sm" color="primary">
+                                            Tambah
+                                        </Button>
                                     </Link>
                                     <Link href={route('voucher.import')}>
-                                        <Button size="sm" outline>
+                                        <Button
+                                            size="sm"
+                                            outline
+                                            color="primary"
+                                        >
                                             Import
                                         </Button>
                                     </Link>
@@ -325,6 +331,7 @@ export default function Index(props) {
 
                                                 <td className="py-4 px-6 flex justify-end">
                                                     <Dropdown
+                                                        color="primary"
                                                         label={'Opsi'}
                                                         floatingArrow={true}
                                                         arrowIcon={true}

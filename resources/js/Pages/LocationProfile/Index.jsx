@@ -69,7 +69,9 @@ export default function Index(props) {
                                     <Link
                                         href={route('location-profile.create')}
                                     >
-                                        <Button size="sm">Tambah</Button>
+                                        <Button size="sm" color="primary">
+                                            Tambah
+                                        </Button>
                                     </Link>
                                 </div>
                             )}
@@ -158,6 +160,7 @@ export default function Index(props) {
                                                 </td>
                                                 <td className="py-4 px-6 flex justify-end">
                                                     <Dropdown
+                                                        color="primary"
                                                         label={'Opsi'}
                                                         floatingArrow={true}
                                                         arrowIcon={true}

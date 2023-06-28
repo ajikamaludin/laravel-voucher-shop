@@ -18,6 +18,9 @@ return new class extends Migration
             $table->decimal('credit', 20, 2)->default(0);
             $table->text('description')->nullable();
             $table->ulid('customer_id')->nullable();
+            $table->smallInteger('type')->default(0);
+            $table->smallInteger('is_valid')->default(0);
+            $table->string('image_prove');
 
             $table->timestamps();
             $table->softDeletes();

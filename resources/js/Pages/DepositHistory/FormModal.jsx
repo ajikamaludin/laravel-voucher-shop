@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react'
+import { Link, useForm } from '@inertiajs/react'
+import { isEmpty } from 'lodash'
+
+import { STATUS_APPROVE, STATUS_REJECT } from '@/constant'
 import Modal from '@/Components/Modal'
-import { useForm } from '@inertiajs/react'
 import Button from '@/Components/Button'
 import FormInput from '@/Components/FormInput'
-import RoleSelectionInput from '../Role/SelectionInput'
-
-import { isEmpty } from 'lodash'
-import { STATUS_APPROVE, STATUS_REJECT } from '@/constant'
 
 export default function FormModal(props) {
     const { modalState } = props
@@ -26,8 +25,7 @@ export default function FormModal(props) {
             is_valid: 0,
             status_text: '',
             text_color: '',
-            customer_name: '',
-            customer_phone: '',
+            customer: '',
             description: '',
             reject_reason: '',
         })
@@ -72,9 +70,7 @@ export default function FormModal(props) {
                 is_valid: deposit.is_valid,
                 status_text: deposit.status.text,
                 text_color: deposit.status.text_color,
-                customer_name: `${deposit.customer.name} ( ${
-                    deposit.customer.phone ?? deposit.customer.email
-                } )`,
+                customer: deposit.customer,
                 description: deposit.description,
                 reject_reason: deposit.note,
                 deposit_location: deposit.deposit_location,
@@ -94,7 +90,16 @@ export default function FormModal(props) {
                     <tr>
                         <td className="font-bold">Customer</td>
                         <td>:</td>
-                        <td>{data.customer_name}</td>
+                        <td>
+                            <Link
+                                href={route('customer.edit', {
+                                    customer: data.customer,
+                                })}
+                                className="hover:underline"
+                            >
+                                {data.customer.name}
+                            </Link>
+                        </td>
                     </tr>
                     <tr>
                         <td className="font-bold">Deskripsi</td>

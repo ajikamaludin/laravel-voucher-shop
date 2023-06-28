@@ -62,7 +62,9 @@ export default function Product(props) {
                         <div className="flex justify-between">
                             {canCreate && (
                                 <Link href={route('roles.create')}>
-                                    <Button size="sm">Tambah</Button>
+                                    <Button color="primary" size="sm">
+                                        Tambah
+                                    </Button>
                                 </Link>
                             )}
 
@@ -116,7 +118,7 @@ export default function Product(props) {
                                                                     key={
                                                                         user.id
                                                                     }
-                                                                    className="px-2 py-1 bg-blue-600 text-white border rounded-full border-blue-900"
+                                                                    className="underline"
                                                                     onClick={() =>
                                                                         router.visit(
                                                                             route(
@@ -127,6 +129,7 @@ export default function Product(props) {
                                                                     }
                                                                 >
                                                                     {user.name}
+                                                                    {' ,'}
                                                                 </div>
                                                             )
                                                         )}
@@ -134,6 +137,7 @@ export default function Product(props) {
                                                 </td>
                                                 <td className="py-4 px-6 flex justify-end">
                                                     <Dropdown
+                                                        color="primary"
                                                         label={'Opsi'}
                                                         floatingArrow={true}
                                                         arrowIcon={true}

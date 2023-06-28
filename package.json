@@ -11,8 +11,7 @@
         "@vitejs/plugin-react": "^3.0.0",
         "autoprefixer": "^10.4.12",
         "axios": "^1.1.2",
-        "laravel-vite-plugin": "^0.7.2",
-        "lodash": "^4.17.19",
+        "laravel-vite-plugin": "^0.7.5",
         "postcss": "^8.4.18",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
@@ -20,10 +19,11 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
+        "lodash": "^4.17.19",
         "@tinymce/tinymce-react": "^4.3.0",
         "chart.js": "^4.3.0",
-        "flowbite": "^1.6.3",
-        "flowbite-react": "^0.3.8",
+        "flowbite": "^1.6.6",
+        "flowbite-react": "^0.4.9",
         "is": "^3.3.0",
         "moment": "^2.29.4",
         "nprogress": "^0.2.0",

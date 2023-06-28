@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { Head, router } from '@inertiajs/react'
+import { Head, Link, router } from '@inertiajs/react'
+import { usePrevious } from 'react-use'
 import { HiEye } from 'react-icons/hi'
 
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import Pagination from '@/Components/Pagination'
 import SearchInput from '@/Components/SearchInput'
 import { formatIDR } from '@/utils'
-import { usePrevious } from 'react-use'
 
 export default function Info(props) {
     const {
@@ -38,11 +38,6 @@ export default function Info(props) {
                 <div className="mx-auto sm:px-6 lg:px-8 ">
                     <div className="p-6 overflow-hidden shadow-sm sm:rounded-lg bg-gray-200 dark:bg-gray-800 space-y-4">
                         <div className="flex justify-between">
-                            {/* {canCreate && (
-                                <Link href={route('banner.create')}>
-                                    <Button size="sm">Tambah</Button>
-                                </Link>
-                            )} */}
                             <div className="flex items-center">
                                 <SearchInput
                                     onChange={(e) => setSearch(e.target.value)}
@@ -103,8 +98,15 @@ export default function Info(props) {
                                                 >
                                                     {sale.code}
                                                 </td>
-                                                <td className="py-4 px-6">
-                                                    {sale.customer.name}
+                                                <td className="py-4 px-6 hover:underline">
+                                                    <Link
+                                                        href={route(
+                                                            'customer.edit',
+                                                            sale.customer
+                                                        )}
+                                                    >
+                                                        {sale.customer.name}
+                                                    </Link>
                                                 </td>
                                                 <td className="py-4 px-6">
                                                     {sale.format_created_at}

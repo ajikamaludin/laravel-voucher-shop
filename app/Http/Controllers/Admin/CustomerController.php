@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
+use App\Models\CustomerAsDataPartner;
 use App\Models\CustomerLevel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -96,7 +97,7 @@ class CustomerController extends Controller
     public function edit(Customer $customer)
     {
         return inertia('Customer/Form', [
-            'customer' => $customer->load(['level']),
+            'customer' => $customer->load(['level', 'partner']),
             'levels' => CustomerLevel::all(),
             'statuses' => Customer::STATUS
         ]);
@@ -164,6 +165,49 @@ class CustomerController extends Controller
         ], [
             'limit' => $request->paylater_limit,
         ]);
+
+        return redirect()->route('customer.index')
+            ->with('message', ['type' => 'success', 'message' => 'Item has beed updated']);
+    }
+
+    public function update_partner(Request $request, Customer $customer)
+    {
+        $request->validate([
+            'job' => 'required|string',
+            'image_selfie' => 'nullable|file',
+            'file_statement' => 'nullable|file',
+            'file_agreement' => 'nullable|file',
+            'items' => 'nullable|array',
+            'items.*.name' => 'nullable|string',
+            'items.*.type' => 'required|in:text,file',
+            'items.*.value' => 'nullable|string',
+        ]);
+        // 
+
+        $partner = CustomerAsDataPartner::updateOrCreate([
+            'customer_id' => $customer->id,
+        ], [
+            'job' => $request->job,
+            'additional_json' => json_encode($request->items),
+        ]);
+
+        if ($request->hasFile('image_selfie')) {
+            $file = $request->file('image_selfie');
+            $file->store('uploads', 'public');
+            $partner->update(['image_selfie' => $file->hashName('uploads')]);
+        }
+
+        if ($request->hasFile('file_statement')) {
+            $file = $request->file('file_statement');
+            $file->store('uploads', 'public');
+            $partner->update(['file_statement' => $file->hashName('uploads')]);
+        }
+
+        if ($request->hasFile('file_agreement')) {
+            $file = $request->file('file_agreement');
+            $file->store('uploads', 'public');
+            $partner->update(['file_statement' => $file->hashName('uploads')]);
+        }
 
         return redirect()->route('customer.index')
             ->with('message', ['type' => 'success', 'message' => 'Item has beed updated']);

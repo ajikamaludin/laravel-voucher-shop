@@ -50,6 +50,7 @@ export default function Info(props) {
                         <div className="flex justify-between">
                             {canCreate && (
                                 <Button
+                                    color="primary"
                                     size="sm"
                                     onClick={() => toggleFormModal()}
                                 >
@@ -110,6 +111,7 @@ export default function Info(props) {
                                                 </td>
                                                 <td className="py-4 px-6 flex justify-end">
                                                     <Dropdown
+                                                        color="primary"
                                                         label={'Opsi'}
                                                         floatingArrow={true}
                                                         arrowIcon={true}

@@ -74,9 +74,6 @@ export default function Index({ app_name, flash }) {
                         <Button processing={processing} onClick={handleSubmit}>
                             Sign in
                         </Button>
-                        {/* <a href="#" className="text-sm underline text-blue-600">
-                            forgot password
-                        </a> */}
                     </div>
                     <div className="flex flex-row items-center space-x-2 justify-between my-3">
                         <div className="border-b-2 w-full" />

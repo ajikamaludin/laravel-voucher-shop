@@ -1,16 +1,12 @@
-import React, { useEffect, Suspense } from 'react'
-import { isEmpty } from 'lodash'
+import React from 'react'
+import { Head, Link } from '@inertiajs/react'
 
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
-import FormInput from '@/Components/FormInput'
-import Button from '@/Components/Button'
-import { Head, useForm } from '@inertiajs/react'
-import FormFile from '@/Components/FormFile'
 import { formatIDR } from '@/utils'
 
 const SaleItem = ({ item, index }) => {
     const { voucher } = JSON.parse(item.additional_info_json)
-    console.log(voucher)
+
     return (
         <>
             <td
@@ -56,7 +52,17 @@ export default function Detail(props) {
                                 <tr>
                                     <td className="font-bold">Customer</td>
                                     <td>:</td>
-                                    <td>{sale.customer.name}</td>
+                                    <td>
+                                        <Link
+                                            href={route(
+                                                'customer.edit',
+                                                sale.customer
+                                            )}
+                                            className="hover:underline"
+                                        >
+                                            {sale.customer.name}
+                                        </Link>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td className="font-bold">

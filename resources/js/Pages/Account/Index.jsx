@@ -42,7 +42,9 @@ export default function Account(props) {
                         <div className="flex justify-between">
                             {canCreate && (
                                 <Link href={route('account.create')}>
-                                    <Button size="sm">Tambah</Button>
+                                    <Button color="primary" size="sm">
+                                        Tambah
+                                    </Button>
                                 </Link>
                             )}
                         </div>
@@ -109,6 +111,7 @@ export default function Account(props) {
                                                 </td>
                                                 <td className="py-4 px-6 flex justify-end">
                                                     <Dropdown
+                                                        color="primary"
                                                         label={'Opsi'}
                                                         floatingArrow={true}
                                                         arrowIcon={true}

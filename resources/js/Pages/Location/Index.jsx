@@ -68,12 +68,15 @@ export default function Index(props) {
                     <div className="p-6 overflow-hidden shadow-sm sm:rounded-lg bg-gray-200 dark:bg-gray-800 space-y-4">
                         <div className="flex flex-col lg:flex-row gap-1 justify-between">
                             {canCreate && (
-                                <Button
-                                    size="sm"
-                                    onClick={() => toggleFormModal()}
-                                >
-                                    Tambah
-                                </Button>
+                                <div className="flex flex-row space-x-2">
+                                    <Button
+                                        color="primary"
+                                        size="sm"
+                                        onClick={() => toggleFormModal()}
+                                    >
+                                        Tambah
+                                    </Button>
+                                </div>
                             )}
                             <div className="flex flex-col md:flex-row gap-1 items-center">
                                 <div className="w-full max-w-md">
@@ -126,6 +129,7 @@ export default function Index(props) {
                                                 </td>
                                                 <td className="py-4 px-6 flex justify-end">
                                                     <Dropdown
+                                                        color="primary"
                                                         label={'Opsi'}
                                                         floatingArrow={true}
                                                         arrowIcon={true}

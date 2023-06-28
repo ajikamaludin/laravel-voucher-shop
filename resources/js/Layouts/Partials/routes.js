@@ -14,6 +14,7 @@ import {
     HiArchiveBox,
     HiBanknotes,
     HiCheckBadge,
+    HiClipboardDocumentList,
     HiCog8Tooth,
     HiCreditCard,
     HiCurrencyDollar,
@@ -115,7 +116,7 @@ export default [
             {
                 name: 'List',
                 show: true,
-                icon: HiUserCircle,
+                icon: HiClipboardDocumentList,
                 route: route('customer.index'),
                 active: 'customer.*',
                 permission: 'view-customer',
@@ -143,6 +144,45 @@ export default [
                 route: route('customer-verification.index'),
                 active: 'customer-verification.*',
                 permission: 'view-customer-verification',
+            },
+        ],
+    },
+    {
+        name: 'Mitra WBB',
+        show: true,
+        icon: HiUserCircle,
+        items: [
+            {
+                name: 'List', //daftar mitra dan stats
+                show: true,
+                icon: HiClipboardDocumentList,
+                route: route('customer.index'),
+                active: 'customer.*',
+                permission: 'view-customer',
+            },
+            {
+                name: 'Pembayaran Hutang', // daftar pembayaran hutang yang perlu di konfirmasi , dan ada tombol add untuk pembayaran hutang oleh admin
+                show: true,
+                icon: HiCash,
+                route: route('setting.affilate'),
+                active: 'setting.affilate',
+                permission: 'view-setting-affilate',
+            },
+            {
+                name: 'Tambah Limit', // form tambah limit, pilih mitra/customer dan limit
+                show: true,
+                icon: HiArrowCircleUp,
+                route: route('customer-level.index'),
+                active: 'customer-level.*',
+                permission: 'view-customer-level',
+            },
+            {
+                name: 'Tambah Tenor', // form tambah limit , pilih mitra dengan penambahan tenor
+                show: true,
+                icon: HiArrowCircleUp,
+                route: route('setting.affilate'),
+                active: 'setting.affilate',
+                permission: 'view-setting-affilate',
             },
         ],
     },

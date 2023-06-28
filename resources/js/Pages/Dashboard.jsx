@@ -99,8 +99,8 @@ export default function Dashboard(props) {
 
             <div>
                 <div className="mx-auto sm:px-6 lg:px-8 ">
-                    <div className="w-full flex flex-row mt-4 space-x-2 border rounded-md shadow">
-                        <div className="flex-1 overflow-auto bg-white p-4">
+                    <div className="w-full flex flex-row mt-4 space-x-2 border dark:border-gray-900 rounded-md shadow">
+                        <div className="flex-1 overflow-auto bg-white dark:bg-gray-800 p-4 rounded-md">
                             <div className="w-full flex flex-col md:flex-row justify-between mb-4">
                                 <div className="text-gray-500 text-xl pb-4">
                                     Penjualan
@@ -134,12 +134,12 @@ export default function Dashboard(props) {
                             />
                         </div>
                     </div>
-                    <div className="bg-white rounded-md shadow border mt-4 w-full">
+                    <div className="bg-white dark:bg-gray-800 rounded-md shadow border dark:border-gray-800 mt-4 w-full">
                         <div className="text-gray-500 text-xl px-3 py-4">
                             Deposit Hari Ini
                         </div>
                         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 mb-4 px-2">
-                            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-800 dark:text-gray-400">
                                 <tr>
                                     <th scope="col" className="py-3 px-6">
                                         #
@@ -175,7 +175,7 @@ export default function Dashboard(props) {
                             </tbody>
                         </table>
                     </div>
-                    <div className="bg-white rounded-md shadow border mt-2">
+                    <div className="bg-white dark:bg-gray-800 dark:border-gray-800  rounded-md shadow border mt-2">
                         <div className="text-gray-500 text-xl px-3 py-4">
                             Penjualan Hari Ini
                         </div>

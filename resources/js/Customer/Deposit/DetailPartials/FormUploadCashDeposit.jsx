@@ -65,7 +65,7 @@ export const FormUploadCashDeposit = () => {
                 <img
                     src={`${imageUrl}`}
                     loading="lazy"
-                    className="w-full h-52 mb-1"
+                    className="w-full mb-1"
                     alt="bukti Pembayaran"
                 />
                 <div

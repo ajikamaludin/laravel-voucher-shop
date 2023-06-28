@@ -7,11 +7,34 @@ use Illuminate\Support\Carbon;
 
 class PaylaterHistory extends Model
 {
+    const STATUS_VALID = 0;
+
+    const STATUS_WAIT_UPLOAD = 1;
+
+    const STATUS_WAIT_APPROVE = 2;
+
+    const STATUS_WAIT_PAYMENT = 3;
+
+    const STATUS_INVALID = 4;
+
+    const STATUS_REJECT = 5;
+
+    const STATUS_EXPIRED = 6;
+
+    const TYPE_PAYMENT = 0;
+
+    const TYPE_UPGRADE = 1;
+
+    const TYPE_REPAYMENT = 3;
+
     protected $fillable = [
         'debit',
         'credit',
         'description',
         'customer_id',
+        'type',
+        'is_valid',
+        'image_prove'
     ];
 
     protected $appends = [
@@ -24,7 +47,10 @@ class PaylaterHistory extends Model
     {
         $customer = Customer::find($this->customer_id);
         $paylater = $customer->paylater;
-        $paylater->update(['usage' => $paylater->usage + $this->debit - $this->credit]);
+        $paylater->update([
+            'usage' => $paylater->usage + $this->debit - $this->credit,
+            // TODO: add day dateline
+        ]);
     }
 
     public function formatHumanCreatedAt(): Attribute

@@ -117,6 +117,7 @@ class GeneralController extends Controller
     public function upload(Request $request)
     {
         $request->validate(['image' => 'required|file']);
+
         $file = $request->file('image');
         $file->store('uploads', 'public');
 

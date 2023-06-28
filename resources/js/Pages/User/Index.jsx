@@ -61,7 +61,9 @@ export default function User(props) {
                         <div className="flex justify-between">
                             {canCreate && (
                                 <Link href={route('user.create')}>
-                                    <Button size="sm">Tambah</Button>
+                                    <Button size="sm" color="primary">
+                                        Tambah
+                                    </Button>
                                 </Link>
                             )}
                             <div className="flex items-center">
@@ -160,6 +162,7 @@ export default function User(props) {
                                                 </td>
                                                 <td className="py-4 px-6 flex justify-end">
                                                     <Dropdown
+                                                        color="primary"
                                                         label={'Opsi'}
                                                         floatingArrow={true}
                                                         arrowIcon={true}

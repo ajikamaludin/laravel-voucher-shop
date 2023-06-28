@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('paylater_customers', function (Blueprint $table) {
+        Schema::create('customer_as_data_partners', function (Blueprint $table) {
             $table->ulid('id')->primary();
 
-            $table->text('description')->nullable();
             $table->ulid('customer_id')->nullable();
-            $table->decimal('limit', 20, 2)->default(0);
-            $table->decimal('usage', 20, 2)->default(0);
-            $table->smallInteger('day_deadline')->default(0);
-            $table->timestamp('day_deadline_at')->nullable();
+            $table->string('job')->nullable();
+            $table->string('image_selfie')->nullable();
+            $table->string('file_statement')->nullable();
+            $table->string('file_agreement')->nullable();
+            $table->text('additional_json')->nullable();
 
             $table->timestamps();
             $table->softDeletes();
@@ -34,6 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('paylater_customers');
+        Schema::dropIfExists('customer_as_data_partners');
     }
 };

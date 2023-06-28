@@ -65,7 +65,7 @@ export const FormUploadManual = () => {
                 <img
                     src={`${imageUrl}`}
                     loading="lazy"
-                    className="w-full h-52 mb-1"
+                    className="w-full object-contain h-[calc(50dvh)] mb-1"
                     alt="bukti transfer"
                 />
                 <div

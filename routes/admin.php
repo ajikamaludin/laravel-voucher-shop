@@ -117,6 +117,7 @@ Route::middleware(['http_secure_aware', 'inertia.admin'])
             Route::post('/customers/{customer}', [CustomerController::class, 'update'])->name('customer.update');
             Route::delete('/customers/{customer}', [CustomerController::class, 'destroy'])->name('customer.destroy');
             Route::post('/customers/{customer}/level', [CustomerController::class, 'update_level'])->name('customer.update_level');
+            Route::post('/customers/{customer}/partner', [CustomerController::class, 'update_partner'])->name('customer.update_partner');
 
             // voucher
             Route::get('/vouchers/import', [VoucherController::class, 'form_import'])->name('voucher.form_import');

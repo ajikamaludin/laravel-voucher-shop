@@ -271,6 +271,16 @@ class Customer extends Authenticatable
         return $this->hasMany(CustomerCart::class);
     }
 
+    public function locationFavorites()
+    {
+        return $this->belongsToMany(Location::class, CustomerLocationFavorite::class);
+    }
+
+    public function partner()
+    {
+        return $this->hasOne(CustomerAsDataPartner::class);
+    }
+
     public function repayPaylater(DepositHistory $deposit): void
     {
         if ($this->paylater != null && $this->paylater->usage > 0) {
@@ -288,10 +298,5 @@ class Customer extends Authenticatable
             ]);
             $deposit->update_customer_balance();
         }
-    }
-
-    public function locationFavorites()
-    {
-        return $this->belongsToMany(Location::class, CustomerLocationFavorite::class);
     }
 }

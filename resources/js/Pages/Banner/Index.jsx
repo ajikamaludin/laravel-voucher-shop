@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Link, router } from '@inertiajs/react'
-import { usePrevious } from 'react-use'
 import { Head } from '@inertiajs/react'
 import { Button, Dropdown } from 'flowbite-react'
 import { HiPencil, HiTrash } from 'react-icons/hi'
@@ -44,7 +43,9 @@ export default function Info(props) {
                         <div className="flex justify-between">
                             {canCreate && (
                                 <Link href={route('banner.create')}>
-                                    <Button size="sm">Tambah</Button>
+                                    <Button size="sm" color="primary">
+                                        Tambah
+                                    </Button>
                                 </Link>
                             )}
                         </div>
@@ -79,6 +80,7 @@ export default function Info(props) {
                                                 </td>
                                                 <td className="py-4 px-6 flex justify-end">
                                                     <Dropdown
+                                                        color="primary"
                                                         label={'Opsi'}
                                                         floatingArrow={true}
                                                         arrowIcon={true}

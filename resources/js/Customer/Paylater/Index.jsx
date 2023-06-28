@@ -64,7 +64,7 @@ export default function Index({
                         role="alert"
                     >
                         <div>
-                            Lunasi pinjaman kamu dengan melakukan topup deposit
+                            lunasi pinjaman kamu sebelum jatuh tempo pada ...
                         </div>
                     </div>
                 </div>

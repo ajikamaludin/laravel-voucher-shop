@@ -1,3 +1,4 @@
+import { isEmpty } from 'lodash'
 import React, { useRef } from 'react'
 
 export default function FormFile({
@@ -18,9 +19,22 @@ export default function FormFile({
                 </label>
             )}
             {preview && preview}
+            <div className="w-full flex flex-row gap-1 items-center border rounded-md py-1 px-1">
+                <div
+                    className="px-2 py-1 border rounded-md text-white bg-black hover:bg-gray-600"
+                    onClick={() => inputRef.current.click()}
+                >
+                    Choose File
+                </div>
+                <div className="pl-2">
+                    {isEmpty(inputRef.current?.value)
+                        ? 'No choosen file'
+                        : inputRef.current.value}
+                </div>
+            </div>
             <input
                 id={label}
-                className="block w-full mb-5 text-xs text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                className="w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 hidden"
                 type="file"
                 onChange={onChange}
                 ref={inputRef}
