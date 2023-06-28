@@ -62,8 +62,14 @@ class PoinExchangeController extends Controller
         ]);
     }
 
-    public function exchange(LocationProfile $profile)
+    public function exchange(Request $request, LocationProfile $profile)
     {
+        $customer = $request->user('customer');
+        if (!$customer->allow_transaction) {
+            return redirect()->back()
+                ->with('message', ['type' => 'error', 'message' => 'akun anda dibekukan tidak dapat melakukan transaksi',]);
+        }
+
         $batchCount = $profile->count_unsold();
         if ($batchCount < 1) {
             return redirect()->route('customer.poin.exchange')

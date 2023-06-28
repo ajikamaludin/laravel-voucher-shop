@@ -41,8 +41,14 @@ class DepositController extends Controller
         ]);
     }
 
-    public function create()
+    public function create(Request $request)
     {
+        $customer = $request->user('customer');
+        if (!$customer->allow_transaction) {
+            return redirect()->back()
+                ->with('message', ['type' => 'error', 'message' => 'akun anda dibekukan tidak dapat melakukan transaksi',]);
+        }
+
         return inertia('Deposit/Topup', [
             'payments' => GeneralService::getEnablePayment(),
         ]);

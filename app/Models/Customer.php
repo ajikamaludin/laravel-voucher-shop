@@ -221,6 +221,16 @@ class Customer extends Authenticatable
         });
     }
 
+    public function allowTransaction(): Attribute
+    {
+        return Attribute::make(get: function () {
+            if ($this->status == self::STATUS_SUSPEND) {
+                return false;
+            }
+            return true;
+        });
+    }
+
     public function level()
     {
         return $this->belongsTo(CustomerLevel::class, 'customer_level_id');

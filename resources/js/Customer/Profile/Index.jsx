@@ -12,6 +12,7 @@ import { useModalState } from '@/hooks'
 import CustomerLayout from '@/Layouts/CustomerLayout'
 import ModalConfirm from '@/Components/ModalConfirm'
 import BalanceBanner from '../Index/Partials/BalanceBanner'
+import { STATUS_SUSPEND } from '@/constant'
 
 export default function Index({
     auth: { user },
@@ -84,21 +85,37 @@ export default function Index({
                     {/* saldo */}
                     <BalanceBanner user={user} />
                 </div>
-                <div className="p-4 pb-0">
-                    <div
-                        className="p-4 text-blue-800 rounded-lg bg-blue-50 flex flex-row space-x-2 w-full items-center"
-                        role="alert"
-                        onClick={() =>
-                            handleReferalCopyToClipboard(user.referral_code)
-                        }
-                    >
-                        <div>Referral Code: </div>
-                        <div className="font-bold">{user.referral_code}</div>
-                        <div>
-                            <HiClipboardDocumentList className="text-blue-600" />
+                {user.status === STATUS_SUSPEND ? (
+                    <div className="p-4 pb-0">
+                        <div
+                            className="font-semibold p-4 text-red-800 rounded-lg bg-red-50 flex flex-row space-x-2 w-full items-center"
+                            role="alert"
+                        >
+                            <div>
+                                Akun sedang dibekukan / suspend tidak dapat
+                                melakukan transaksi
+                            </div>
                         </div>
                     </div>
-                </div>
+                ) : (
+                    <div className="p-4 pb-0">
+                        <div
+                            className="p-4 text-blue-800 rounded-lg bg-blue-50 flex flex-row space-x-2 w-full items-center"
+                            role="alert"
+                            onClick={() =>
+                                handleReferalCopyToClipboard(user.referral_code)
+                            }
+                        >
+                            <div>Referral Code: </div>
+                            <div className="font-bold">
+                                {user.referral_code}
+                            </div>
+                            <div>
+                                <HiClipboardDocumentList className="text-blue-600" />
+                            </div>
+                        </div>
+                    </div>
+                )}
                 <div className="p-4 flex flex-col">
                     {user.is_allow_paylater && (
                         <div

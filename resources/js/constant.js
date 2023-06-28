@@ -21,3 +21,5 @@ export const PAYED_WITH_DEPOSIT = 'deposit'
 export const PAYED_WITH_PAYLATER = 'paylater'
 
 export const PAYED_WITH_POIN = 'poin'
+
+export const STATUS_SUSPEND = 2

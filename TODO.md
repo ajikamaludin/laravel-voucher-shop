@@ -3,7 +3,7 @@
 ## Note
 
 [x] Kerjakan dulu semua yang terkait penjualan normal, deposit normal dan bonus poin transaksi dan downline
-[ ] setelah itu baru penukaran voucher -> sedang ngerjain ini
+[x] setelah itu baru penukaran voucher -> sedang ngerjain ini
 [ ] baru setelah itu yang berhubungan dengan mitrawbb dan hutang
 
 ## Front
@@ -11,7 +11,8 @@
 -   [x] transaksi pembelian
 -   [x] transaksi pembelian + dapat poin downline
 -   [x] [BUG] pembelian voucher lebih dari 1 mendapat kode yang sama
--   [ ] penuakaran voucher
+-   [x] penuakaran voucher
+-   [x] akun dibekukan tidak dapat melakukan transaksi
 -   [x] tambah metode topup deposit dengan setor tunai kantor wbb
 -   [x] mengubah metode pembayaran deposit dengan daftar bank seperti deposit dan tampil logo bank
 -   [x] tampilan keranjang jadi lebih seperti tokped dengan metode pembayaran deposit atau hutang jika tersedia

@@ -54,6 +54,12 @@ class CartController extends Controller
         $operator = $request->param ?? 'add'; //delete, sub, add
         $customer = $request->user('customer');
 
+        if (!$customer->allow_transaction) {
+            $customer->carts()->delete();
+            return redirect()->back()
+                ->with('message', ['type' => 'error', 'message' => 'akun anda dibekukan tidak dapat melakukan transaksi',]);
+        }
+
         $item = $customer->carts()->where(['entity_id' => $profile->id])->first();
         if ($item !== null) {
             if ($operator == 'delete') {
