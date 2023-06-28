@@ -106,7 +106,7 @@ class PoinExchangeController extends Controller
                 'narration' => 'Penukaran Voucher Poin'
             ]);
 
-            $poin->update_customer_balance();
+            $poin->update_customer_balance(true);
         }
 
         $sale->create_notification();
