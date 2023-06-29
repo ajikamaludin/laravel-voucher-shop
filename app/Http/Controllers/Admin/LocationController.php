@@ -13,7 +13,7 @@ class LocationController extends Controller
         $query = Location::orderBy('updated_at', 'desc');
 
         if ($request->q != '') {
-            $query->where('name', 'like', "%$request->q%");
+            $query->where('name', 'ilike', "%$request->q%");
         }
 
         return inertia('Location/Index', [

@@ -20,7 +20,7 @@ class RoleController extends Controller
         $query = Role::query()->with(['users']);
 
         if ($request->q) {
-            $query->where('name', 'like', "%{$request->q}%");
+            $query->where('name', 'ilike', "%{$request->q}%");
         }
 
         $query->orderBy('created_at', 'desc');

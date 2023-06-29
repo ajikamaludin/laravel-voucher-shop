@@ -14,6 +14,7 @@ import SearchInput from '@/Components/SearchInput'
 import LocationSelectionInput from '../Location/SelectionInput'
 import LevelSelectionInput from '../CustomerLevel/SelectionInput'
 import ThSort from '@/Components/ThSortComponent'
+import { HiEye } from 'react-icons/hi2'
 
 export default function Customer(props) {
     const {
@@ -361,6 +362,83 @@ export default function Customer(props) {
                                                         dismissOnClick={true}
                                                         size={'sm'}
                                                     >
+                                                        <Dropdown.Item>
+                                                            <Link
+                                                                href={route(
+                                                                    'mitra.edit',
+                                                                    customer
+                                                                )}
+                                                                className="flex space-x-1 items-center"
+                                                            >
+                                                                <HiEye />
+                                                                <div>
+                                                                    Transaksi
+                                                                    Pembelian
+                                                                </div>
+                                                            </Link>
+                                                        </Dropdown.Item>
+                                                        <Dropdown.Item>
+                                                            <Link
+                                                                href={route(
+                                                                    'mitra.edit',
+                                                                    customer
+                                                                )}
+                                                                className="flex space-x-1 items-center"
+                                                            >
+                                                                <HiEye />
+                                                                <div>
+                                                                    Riwayat
+                                                                    Hutang
+                                                                </div>
+                                                            </Link>
+                                                        </Dropdown.Item>
+                                                        <Dropdown.Item>
+                                                            <Link
+                                                                href={route(
+                                                                    'mitra.edit',
+                                                                    customer
+                                                                )}
+                                                                className="flex space-x-1 items-center"
+                                                            >
+                                                                <HiEye />
+                                                                <div>
+                                                                    Riwayat
+                                                                    Topup limit
+                                                                </div>
+                                                            </Link>
+                                                        </Dropdown.Item>
+                                                        <Dropdown.Item>
+                                                            <Link
+                                                                href={route(
+                                                                    'mitra.edit',
+                                                                    customer
+                                                                )}
+                                                                className="flex space-x-1 items-center"
+                                                            >
+                                                                <HiEye />
+                                                                <div>
+                                                                    Riwayat
+                                                                    penambahan
+                                                                    tenor
+                                                                </div>
+                                                            </Link>
+                                                        </Dropdown.Item>
+                                                        <Dropdown.Item>
+                                                            <Link
+                                                                href={route(
+                                                                    'mitra.edit',
+                                                                    customer
+                                                                )}
+                                                                className="flex space-x-1 items-center"
+                                                            >
+                                                                <HiEye />
+                                                                <div>
+                                                                    Riwayat
+                                                                    Topup
+                                                                    Deposit
+                                                                </div>
+                                                            </Link>
+                                                        </Dropdown.Item>
                                                         {canUpdate && (
                                                             <Dropdown.Item>
                                                                 <Link

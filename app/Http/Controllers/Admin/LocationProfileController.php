@@ -19,8 +19,8 @@ class LocationProfileController extends Controller
         }
 
         if ($request->q != '') {
-            $query->where('name', 'like', "%$request->q%")
-                ->orWhere('display_note', 'like', "%$request->q%");
+            $query->where('name', 'ilike', "%$request->q%")
+                ->orWhere('display_note', 'ilike', "%$request->q%");
         }
 
         return inertia('LocationProfile/Index', [

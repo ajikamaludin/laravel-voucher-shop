@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use App\Models\CustomerLevel;
+use App\Models\Location;
 use App\Models\PaylaterCustomer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -43,10 +44,10 @@ class CustomerMitraController extends Controller
 
         if ($request->q != '') {
             $query->where(function ($query) use ($request) {
-                $query->where('name', 'like', "%$request->q%")
-                    ->orWhere('fullname', 'like', "%$request->q%")
-                    ->orWhere('email', 'like', "%$request->q%")
-                    ->orWhere('phone', 'like', "%$request->q%");
+                $query->where('name', 'ilike', "%$request->q%")
+                    ->orWhere('fullname', 'ilike', "%$request->q%")
+                    ->orWhere('email', 'ilike', "%$request->q%")
+                    ->orWhere('phone', 'ilike', "%$request->q%");
             });
         }
 
@@ -70,15 +71,22 @@ class CustomerMitraController extends Controller
         ]);
     }
 
-    public function create()
+    public function create(Request $request)
     {
         $levels = CustomerLevel::where('key', CustomerLevel::GOLD)
             ->orWhere('key', CustomerLevel::PLATINUM)
             ->get();
 
+        $locations = Location::query();
+
+        if ($request->location_q != '') {
+            $locations->where('name', 'ilike', "%$request->location_q%");
+        }
+
         return inertia('CustomerMitra/Form', [
             'levels' => $levels,
-            'statuses' => Customer::STATUS
+            'statuses' => Customer::STATUS,
+            'locations' => $locations->paginate(10),
         ]);
     }
 
@@ -98,7 +106,7 @@ class CustomerMitraController extends Controller
             // 
             'level' => 'required|exists:customer_levels,key',
             'paylater_limit' => 'required|numeric',
-            'day_deadline' => 'required|numeric',
+            'day_deadline' => 'required|numeric|max:365',
             // 
             'id_number' => 'nullable|string',
             'job' => 'nullable|string',
@@ -109,6 +117,8 @@ class CustomerMitraController extends Controller
             'items.*.name' => 'nullable|string',
             'items.*.type' => 'required|in:text,file',
             'items.*.value' => 'nullable|string',
+            'locations' => 'nullable|array',
+            'locations.*.id' => 'nullable|exists:locations,id',
         ]);
 
         $level = CustomerLevel::where('key', $request->level)->first();
@@ -141,6 +151,10 @@ class CustomerMitraController extends Controller
 
         $customer->save();
 
+        foreach (collect($request->locations) as $location) {
+            $customer->locationFavorites()->attach($location['id']);
+        }
+
         $customer->paylater()->create([
             'limit' => $request->paylater_limit,
             'day_deadline' => $request->day_deadline
@@ -149,7 +163,7 @@ class CustomerMitraController extends Controller
         $partner = $customer->partner()->create([
             'id_number' => $request->id_number,
             'job' => $request->job,
-            'additional_json' => json_encode($request->items),
+            'additional_json' => json_encode($request->items ?? []),
         ]);
 
         if ($request->hasFile('image_selfie')) {
@@ -175,16 +189,24 @@ class CustomerMitraController extends Controller
             ->with('message', ['type' => 'success', 'message' => 'Item has beed created']);
     }
 
-    public function edit(Customer $customer)
+    public function edit(Request $request, Customer $customer)
     {
         $levels = CustomerLevel::where('key', CustomerLevel::GOLD)
             ->orWhere('key', CustomerLevel::PLATINUM)
             ->get();
 
+        $locations = Location::query();
+
+        if ($request->location_q != '') {
+            $locations->where('name', 'ilike', "%$request->location_q%");
+        }
+
         return inertia('CustomerMitra/Form', [
-            'customer' => $customer->load(['paylater', 'partner']),
+            'customer' => $customer->load(['paylater', 'partner', 'locationFavorites']),
             'levels' => $levels,
-            'statuses' => Customer::STATUS
+            'statuses' => Customer::STATUS,
+            'locations' => $locations->paginate(10),
+
         ]);
     }
 
@@ -250,6 +272,11 @@ class CustomerMitraController extends Controller
 
         $customer->save();
 
+        $customer->locationFavorites()->detach();
+        foreach (collect($request->locations) as $location) {
+            $customer->locationFavorites()->attach($location['id']);
+        }
+
         $customer->paylater()->updateOrCreate([
             'customer_id' => $customer->id,
         ], [
@@ -262,7 +289,7 @@ class CustomerMitraController extends Controller
         ], [
             'id_number' => $request->id_number,
             'job' => $request->job,
-            'additional_json' => json_encode($request->items),
+            'additional_json' => json_encode($request->items ?? []),
         ]);
 
         if ($request->hasFile('image_selfie')) {

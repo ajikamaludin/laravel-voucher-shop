@@ -11,9 +11,13 @@ import TextArea from '@/Components/TextArea'
 import FormFile from '@/Components/FormFile'
 import Button from '@/Components/Button'
 import FormInputNumeric from '@/Components/FormInputNumeric'
+import { useModalState } from '@/hooks'
+import LocationModal from './LocationModal'
 
 export default function Form(props) {
-    const { customer, statuses, levels, csrf_token } = props
+    const { customer, statuses, levels, locations, csrf_token } = props
+
+    const locationModal = useModalState()
 
     const [uploadIndex, setUploadIndex] = useState(null)
     const [loading, setLoading] = useState(false)
@@ -121,6 +125,21 @@ export default function Form(props) {
                 : event.target.value
         )
     }
+
+    const handleItemClick = (location) => {
+        const isExist = data.locations.find((l) => l.id === location.id)
+        if (isEmpty(isExist)) {
+            setData('locations', data.locations.concat(location))
+        }
+    }
+
+    const removeLocation = (location) => {
+        setData(
+            'locations',
+            data.locations.filter((l) => l.id !== location.id)
+        )
+    }
+
     const handleSubmit = () => {
         if (isEmpty(customer) === false) {
             post(route('mitra.update', customer))
@@ -132,8 +151,10 @@ export default function Form(props) {
     useEffect(() => {
         if (isEmpty(customer) === false) {
             let items = []
-            if (isEmpty(customer.partner) == false) {
-                items = JSON.parse(customer.partner.additional_json)
+            if (isEmpty(customer.partner) === false) {
+                if (customer.partner.additional_json !== null) {
+                    items = JSON.parse(customer.partner.additional_json)
+                }
             }
             setData({
                 email: customer.email,
@@ -155,6 +176,7 @@ export default function Form(props) {
                 file_statement_url: customer?.partner?.file_statement_url,
                 file_agreement_url: customer?.partner?.file_agreement_url,
                 items: items,
+                locations: customer.location_favorites,
             })
         }
     }, [customer])
@@ -184,7 +206,6 @@ export default function Form(props) {
                             label="Nama Panggilan"
                             error={errors.name}
                         />
-
                         <FormInputWith
                             type="number"
                             leftItem={<div className="text-sm">+62</div>}
@@ -548,6 +569,58 @@ export default function Form(props) {
                                 </>
                             )}
                         </div>
+                        <div className="border rounded-md px-2 mt-4">
+                            <div className="flex flex-col w-full gap-2 p-2">
+                                <div className="font-semibold">
+                                    Lokasi Favorit
+                                </div>
+                                <div>
+                                    <Button
+                                        onClick={() => locationModal.toggle()}
+                                    >
+                                        Tambah
+                                    </Button>
+                                </div>
+                            </div>
+                            <div className="w-full px-2 mb-2">
+                                <table className="w-full">
+                                    <thead>
+                                        <tr>
+                                            <th className="text-left px-2 py-1">
+                                                Nama
+                                            </th>
+                                            <th className="text-left px-2 py-1">
+                                                Deskripsi
+                                            </th>
+                                            <th className="px-2 py-1 justify-end" />
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {data.locations.map((location) => (
+                                            <tr key={location.id}>
+                                                <td className="px-2 py-1">
+                                                    {location.name}
+                                                </td>
+                                                <td className="px-2 py-1">
+                                                    {location.description}
+                                                </td>
+                                                <td className="px-2 py-1">
+                                                    <div
+                                                        onClick={() =>
+                                                            removeLocation(
+                                                                location
+                                                            )
+                                                        }
+                                                    >
+                                                        <HiXCircle className="text-red-700 w-10 h-7" />
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                         <div className="mt-8">
                             <Button
                                 onClick={handleSubmit}
@@ -559,6 +632,11 @@ export default function Form(props) {
                     </div>
                 </div>
             </div>
+            <LocationModal
+                locations={locations}
+                modalState={locationModal}
+                onItemClick={handleItemClick}
+            />
         </AuthenticatedLayout>
     )
 }

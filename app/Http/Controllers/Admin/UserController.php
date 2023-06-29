@@ -15,7 +15,7 @@ class UserController extends Controller
         $query = User::query()->with(['role']);
 
         if ($request->q) {
-            $query->where('name', 'like', "%{$request->q}%");
+            $query->where('name', 'ilike', "%{$request->q}%");
         }
 
         $query->orderBy('created_at', 'desc');

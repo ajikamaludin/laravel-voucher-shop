@@ -51,7 +51,7 @@ class Setting extends Model
     {
         $data = Cache::get('settings');
         if ($data == null) {
-            $settings = Setting::where('key', 'like', 'OPEN%')->get();
+            $settings = Setting::where('key', 'ilike', 'OPEN%')->get();
             foreach ($settings as $setting) {
                 $data[$setting->key] = $setting->value;
             }

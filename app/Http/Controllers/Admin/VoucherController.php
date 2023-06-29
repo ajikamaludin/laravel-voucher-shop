@@ -20,7 +20,7 @@ class VoucherController extends Controller
         $query = Location::orderBy('updated_at', 'desc');
 
         if ($request->q != '') {
-            $query->where('name', 'like', "%$request->q%");
+            $query->where('name', 'ilike', "%$request->q%");
         }
 
         return inertia('Voucher/Location', [
@@ -38,8 +38,8 @@ class VoucherController extends Controller
         }
 
         if ($request->q != '') {
-            $query->where('name', 'like', "%$request->q%")
-                ->orWhere('display_note', 'like', "%$request->q%");
+            $query->where('name', 'ilike', "%$request->q%")
+                ->orWhere('display_note', 'ilike', "%$request->q%");
         }
 
         return inertia('Voucher/Profile', [
@@ -55,9 +55,9 @@ class VoucherController extends Controller
             ->where('location_profile_id', $profile->id);
 
         if ($request->q != '') {
-            $query->where('username', 'like', "%$request->q%")
-                ->orWhere('comment', 'like', "%$request->q%")
-                ->orWhere('profile', 'like', "%$request->q%");
+            $query->where('username', 'ilike', "%$request->q%")
+                ->orWhere('comment', 'ilike', "%$request->q%")
+                ->orWhere('profile', 'ilike', "%$request->q%");
         }
 
         if ($request->sortBy != '' && $request->sortRule != '') {

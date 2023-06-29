@@ -13,9 +13,9 @@ class CustomerController extends Controller
         $query = Customer::orderBy('updated_at', 'desc');
 
         if ($request->q != '') {
-            $query->where('name', 'like', "%$request->q%")
-                ->orWhere('fullname', 'like', "%$request->q%")
-                ->orWhere('username', 'like', "%$request->q%");
+            $query->where('name', 'ilike', "%$request->q%")
+                ->orWhere('fullname', 'ilike', "%$request->q%")
+                ->orWhere('username', 'ilike', "%$request->q%");
         }
 
         return $query->limit(100)->get();
