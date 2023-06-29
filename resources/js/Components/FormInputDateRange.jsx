@@ -13,13 +13,14 @@ export default function FormInputDateRanger({
         <div>
             {label !== '' && (
                 <label
-                    htmlFor="first_name"
+                    htmlFor={label}
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
                     {label}
                 </label>
             )}
             <DatePicker
+                id={label}
                 selected={converToDate(selected.startDate)}
                 onChange={(date) => {
                     let startDate = dateToString(date[0])

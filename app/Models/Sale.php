@@ -35,6 +35,7 @@ class Sale extends Model
         'format_human_created_at',
         'format_created_at',
         'display_amount',
+        'payment_with',
     ];
 
     protected static function booted(): void
@@ -74,6 +75,21 @@ class Sale extends Model
     {
         return Attribute::make(get: function () {
             return 'Rp '.number_format($this->amount, is_float($this->amount) ? 2 : 0, ',', '.');
+        });
+    }
+
+    public function paymentWith(): Attribute
+    {
+        return Attribute::make(get: function () {
+            if ($this->payed_with != null) {
+                return [
+                    self::PAYED_WITH_DEPOSIT => 'Deposit',
+                    self::PAYED_WITH_PAYLATER => 'Hutang',
+                    self::PAYED_WITH_POIN => 'Penukaran Poin',
+                ][$this->payed_with];
+            }
+
+            return '';
         });
     }
 

@@ -96,7 +96,7 @@ export default function Index(props) {
 
                 <div className="w-full flex flex-col">
                     {/* chips */}
-                    <div className="w-full flex flex-row overflow-y-scroll space-x-2 px-4">
+                    <div className="w-full flex flex-row space-x-2 px-4">
                         <div className={isStatus(ALL)} onClick={handleAll}>
                             Semua
                         </div>

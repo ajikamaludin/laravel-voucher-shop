@@ -19,6 +19,7 @@ export default function SelectionInput(props) {
         placeholder = '',
         error = '',
         all = 0,
+        type = 'id',
     } = props
 
     const [showItems, setShowItem] = useState([])
@@ -45,7 +46,11 @@ export default function SelectionInput(props) {
 
     const handleSelectItem = (item) => {
         setIsSelected(true)
-        onItemSelected(item.id)
+        if (type === 'id') {
+            onItemSelected(item.id)
+        } else {
+            onItemSelected(item)
+        }
         setSelected(item.name)
         setIsOpen(false)
     }

@@ -3,7 +3,7 @@ import { Link, router } from '@inertiajs/react'
 import { usePrevious } from 'react-use'
 import { Head } from '@inertiajs/react'
 import { Button, Dropdown } from 'flowbite-react'
-import { HiFilter, HiPencil, HiTrash } from 'react-icons/hi'
+import { HiFilter, HiOutlineFilter, HiPencil, HiTrash } from 'react-icons/hi'
 import { useModalState } from '@/hooks'
 
 import { hasPermission, formatIDR } from '@/utils'
@@ -182,7 +182,7 @@ export default function Index(props) {
                                         className="px-3 py-2 rounded-md border bg-gray-600 border-gray-700 hover:bg-gray-500"
                                         onClick={filterModal.toggle}
                                     >
-                                        <HiFilter className="w-5 h-5 text-white" />
+                                        <HiOutlineFilter className="w-5 h-5 text-white" />
                                     </div>
                                 </div>
                                 <div>

@@ -90,7 +90,10 @@ export default function SidebarNav({ user }) {
                     </Sidebar.Item>
                 </Sidebar.ItemGroup>
                 <p className="text-sm font-light text-gray-900 dark:text-gray-100 text-center bottom-4 left-4 pt-10">
-                    Elsoft &copy; {new Date().getFullYear()}
+                    SesuaiHarapanDev &copy; {new Date().getFullYear()}{' '}
+                    {new Date().getFullYear() !== 2023
+                        ? '- ' + new Date().getFullYear()
+                        : ''}
                 </p>
             </Sidebar.Items>
         </Sidebar>

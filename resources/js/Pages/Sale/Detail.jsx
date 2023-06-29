@@ -100,7 +100,6 @@ export default function Detail(props) {
                                     <th scope="col" className="py-3 px-6">
                                         Kuota
                                     </th>
-
                                     <th scope="col" className="py-3 px-6">
                                         Masa Aktif
                                     </th>
