@@ -14,7 +14,7 @@ class DepositLocationController extends Controller
         $query = DepositLocation::orderBy('updated_at', 'desc');
 
         return inertia('DepositLocation/Index', [
-            'query' => $query->paginate()
+            'query' => $query->paginate(),
         ]);
     }
 
@@ -59,7 +59,7 @@ class DepositLocationController extends Controller
     public function edit(DepositLocation $location)
     {
         return inertia('DepositLocation/Form', [
-            'location' => $location
+            'location' => $location,
         ]);
     }
 

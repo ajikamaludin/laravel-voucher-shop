@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
 use App\Models\CustomerLevel;
-use Illuminate\Http\Request;
 
 class CustomerLevelController extends Controller
 {

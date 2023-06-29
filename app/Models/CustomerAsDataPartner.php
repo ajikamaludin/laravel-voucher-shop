@@ -28,25 +28,27 @@ class CustomerAsDataPartner extends Model
             if ($this->image_selfie != null) {
                 return asset($this->image_selfie);
             }
-            return null;
+
         });
     }
+
     public function fileStatementUrl(): Attribute
     {
         return Attribute::make(get: function () {
             if ($this->file_statement != null) {
                 return asset($this->file_statement);
             }
-            return null;
+
         });
     }
+
     public function fileAgreementUrl(): Attribute
     {
         return Attribute::make(get: function () {
             if ($this->file_agreement != null) {
                 return asset($this->file_agreement);
             }
-            return null;
+
         });
     }
 }

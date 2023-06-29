@@ -1,8 +1,8 @@
 <?php
 
-use App\Http\Controllers\Customer\CustomerLevelController;
 use App\Http\Controllers\Customer\AuthController;
 use App\Http\Controllers\Customer\CartController;
+use App\Http\Controllers\Customer\CustomerLevelController;
 use App\Http\Controllers\Customer\DepositController;
 use App\Http\Controllers\Customer\DepositLocationController;
 use App\Http\Controllers\Customer\HomeController;
@@ -96,7 +96,7 @@ Route::middleware(['http_secure_aware', 'guard_should_customer', 'inertia.custom
         Route::get('/register', [AuthController::class, 'register'])->name('customer.register');
         Route::post('/register', [AuthController::class, 'store']);
 
-        // 
+        //
         Route::get('/customer/{customer:id}/active', [AuthController::class, 'active'])->name('customer.active');
     });
 });

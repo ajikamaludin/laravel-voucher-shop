@@ -20,7 +20,7 @@ return new class extends Migration
             $table->ulid('customer_id')->nullable();
             $table->smallInteger('type')->default(0);
             $table->smallInteger('is_valid')->default(0);
-            $table->string('image_prove');
+            $table->string('image_prove')->nullable();
 
             $table->timestamps();
             $table->softDeletes();

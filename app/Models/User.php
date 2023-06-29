@@ -51,7 +51,7 @@ class User extends Authenticatable
     ];
 
     protected $appends = [
-        'photo_url'
+        'photo_url',
     ];
 
     public function role()
@@ -82,7 +82,7 @@ class User extends Authenticatable
 
     public function photoUrl(): Attribute
     {
-        return Attribute::make(get: function() {
+        return Attribute::make(get: function () {
             return asset($this->photo);
         });
     }

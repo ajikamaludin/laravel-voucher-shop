@@ -27,7 +27,7 @@ class PoinController extends Controller
         return inertia('Poin/Index', [
             'poins' => $poins->paginate(20),
             '_start_date' => $start_date->format('m/d/Y'),
-            '_end_date' => $end_date->format('m/d/Y')
+            '_end_date' => $end_date->format('m/d/Y'),
         ]);
     }
 

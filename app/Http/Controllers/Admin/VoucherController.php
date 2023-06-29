@@ -11,7 +11,6 @@ use App\Services\GeneralService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 
 class VoucherController extends Controller
 {
@@ -101,7 +100,7 @@ class VoucherController extends Controller
 
         return redirect()->route('voucher.index', [
             'location' => $profile->location_id,
-            'profile' => $profile->id
+            'profile' => $profile->id,
         ])
             ->with('message', ['type' => 'success', 'message' => 'Item has beed saved']);
     }
@@ -131,7 +130,7 @@ class VoucherController extends Controller
 
         return redirect()->route('voucher.index', [
             'location' => $profile->location_id,
-            'profile' => $profile->id
+            'profile' => $profile->id,
         ])
             ->with('message', ['type' => 'success', 'message' => 'Item has beed updated']);
     }
@@ -169,7 +168,7 @@ class VoucherController extends Controller
         if (count($vouchers) <= 0) {
             return redirect()->route('voucher.index', [
                 'location' => $profile->location_id,
-                'profile' => $profile->id
+                'profile' => $profile->id,
             ])
                 ->with('message', ['type' => 'error', 'message' => 'Nothing to import']);
         }
@@ -187,10 +186,9 @@ class VoucherController extends Controller
         }
         DB::commit();
 
-
         return redirect()->route('voucher.index', [
             'location' => $profile->location_id,
-            'profile' => $profile->id
+            'profile' => $profile->id,
         ])
             ->with('message', ['type' => 'success', 'message' => 'Items has beed saved']);
     }
@@ -226,8 +224,7 @@ class VoucherController extends Controller
                 ->with('message', ['type' => 'success', 'message' => "$count Item has beed deleted"]);
         }
 
-
         return redirect()->route('voucher.location')
-            ->with('message', ['type' => 'error', 'message' => "Items not found to delete"]);
+            ->with('message', ['type' => 'error', 'message' => 'Items not found to delete']);
     }
 }

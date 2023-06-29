@@ -12,8 +12,9 @@ class ProfileController extends Controller
     public function index()
     {
         $shareText = Setting::getByKey('AFFILATE_SHARE_REFFERAL_CODE');
+
         return inertia('Profile/Index', [
-            'share_text' => $shareText
+            'share_text' => $shareText,
         ]);
     }
 
@@ -31,7 +32,7 @@ class ProfileController extends Controller
             'name' => 'string|required',
             'address' => 'string|required',
             'phone' => 'string|required|numeric',
-            'username' => 'string|required|min:5|alpha_dash|unique:customers,username,' . $customer->id,
+            'username' => 'string|required|min:5|alpha_dash|unique:customers,username,'.$customer->id,
             'password' => 'nullable|string|min:8|confirmed',
             'image' => 'nullable|image',
         ]);

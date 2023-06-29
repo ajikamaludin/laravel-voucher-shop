@@ -10,10 +10,17 @@ class AsyncService
 {
     public static function async(Closure $closure, $isAsync = true)
     {
-        info('async service', [$closure]);
+        info(self::class, [$closure]);
         if ($isAsync) {
             Loop::addTimer(0.1, async(function () use ($closure) {
-                $closure();
+                try {
+                    $closure();
+                } catch (\Exception $e) {
+                    info(self::class, [
+                        'message' => $e->getMessage(),
+                        'error' => $e,
+                    ]);
+                }
             }));
         } else {
             $closure();

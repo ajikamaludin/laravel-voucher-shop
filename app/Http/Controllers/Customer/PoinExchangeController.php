@@ -58,16 +58,16 @@ class PoinExchangeController extends Controller
             'profiles' => $profiles,
             '_slocations' => $slocations,
             '_flocations' => $flocations,
-            '_favorite' => $favorite
+            '_favorite' => $favorite,
         ]);
     }
 
     public function exchange(Request $request, LocationProfile $profile)
     {
         $customer = $request->user('customer');
-        if (!$customer->allow_transaction) {
+        if (! $customer->allow_transaction) {
             return redirect()->back()
-                ->with('message', ['type' => 'error', 'message' => 'akun anda dibekukan tidak dapat melakukan transaksi',]);
+                ->with('message', ['type' => 'error', 'message' => 'akun anda dibekukan tidak dapat melakukan transaksi']);
         }
 
         $batchCount = $profile->count_unsold();
@@ -99,7 +99,7 @@ class PoinExchangeController extends Controller
                 'price' => $voucher->validate_price_poin,
                 'quantity' => 1,
                 'additional_info_json' => json_encode([
-                    'voucher' => $voucher->load(['locationProfile.location'])
+                    'voucher' => $voucher->load(['locationProfile.location']),
                 ]),
             ]);
 
@@ -109,7 +109,7 @@ class PoinExchangeController extends Controller
             $poin = $customer->poins()->create([
                 'credit' => $voucher->validate_price_poin,
                 'description' => $sale->code,
-                'narration' => 'Penukaran Voucher Poin'
+                'narration' => 'Penukaran Voucher Poin',
             ]);
 
             $poin->update_customer_balance(true);

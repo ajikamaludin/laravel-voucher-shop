@@ -50,7 +50,7 @@ class AccountController extends Controller
     public function edit(Account $account)
     {
         return inertia('Account/Form', [
-            'account' => $account
+            'account' => $account,
         ]);
     }
 
@@ -63,7 +63,6 @@ class AccountController extends Controller
             'account_number' => 'required|string',
             'logo' => 'nullable|image',
         ]);
-
 
         if ($request->hasFile('logo')) {
             $file = $request->file('logo');

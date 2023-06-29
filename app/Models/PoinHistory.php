@@ -64,7 +64,7 @@ class PoinHistory extends Model
 
         $customer->update([
             'poin_balance' => $customer->poin_balance + $this->debit - $this->credit,
-            'poin_expired_at' =>  $customer->poin_expired_at
+            'poin_expired_at' => $customer->poin_expired_at,
         ]);
     }
 }

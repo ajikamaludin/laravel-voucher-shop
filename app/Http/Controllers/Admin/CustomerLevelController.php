@@ -20,7 +20,7 @@ class CustomerLevelController extends Controller
     public function edit(CustomerLevel $customerLevel)
     {
         return inertia('CustomerLevel/Form', [
-            'customer_level' => $customerLevel
+            'customer_level' => $customerLevel,
         ]);
     }
 

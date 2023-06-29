@@ -1,9 +1,11 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { Head, useForm } from '@inertiajs/react'
+import { Head, Link, useForm } from '@inertiajs/react'
 import { isEmpty } from 'lodash'
 import { HiXCircle } from 'react-icons/hi2'
 import { Spinner } from 'flowbite-react'
+import { Button as FButton } from 'flowbite-react'
 
+import { useModalState } from '@/hooks'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import FormInput from '@/Components/FormInput'
 import FormInputWith from '@/Components/FormInputWith'
@@ -11,13 +13,14 @@ import TextArea from '@/Components/TextArea'
 import FormFile from '@/Components/FormFile'
 import Button from '@/Components/Button'
 import FormInputNumeric from '@/Components/FormInputNumeric'
-import { useModalState } from '@/hooks'
 import LocationModal from './LocationModal'
 
 export default function Form(props) {
     const { customer, statuses, levels, locations, csrf_token } = props
 
     const locationModal = useModalState()
+
+    const [isDisable, setDisable] = useState(false)
 
     const [uploadIndex, setUploadIndex] = useState(null)
     const [loading, setLoading] = useState(false)
@@ -178,6 +181,7 @@ export default function Form(props) {
                 items: items,
                 locations: customer.location_favorites,
             })
+            setDisable(true)
         }
     }, [customer])
 
@@ -191,7 +195,72 @@ export default function Form(props) {
             <div>
                 <div className="mx-auto sm:px-6 lg:px-8">
                     <div className="overflow-hidden p-4 shadow-sm sm:rounded-lg bg-white dark:bg-gray-800 flex flex-col ">
-                        <div className="text-xl font-bold mb-4">Mitra WBB</div>
+                        <div className="flex flex-col lg:flex-row justify-between">
+                            <div className="text-xl font-bold mb-4">
+                                Mitra WBB
+                            </div>
+                            {isEmpty(customer) === false && (
+                                <div className="flex flex-col lg:flex-row gap-2 justify-end">
+                                    <Link href="#">
+                                        <FButton
+                                            size="xs"
+                                            color="primary"
+                                            outline
+                                        >
+                                            Riwayat Deposit
+                                        </FButton>
+                                    </Link>
+                                    <Link href="#">
+                                        <FButton
+                                            size="xs"
+                                            color="primary"
+                                            outline
+                                        >
+                                            Riwayat Pembelian
+                                        </FButton>
+                                    </Link>
+                                    <Link href="#">
+                                        <FButton
+                                            size="xs"
+                                            color="primary"
+                                            outline
+                                        >
+                                            Riwayat Pembayaran Hutang
+                                        </FButton>
+                                    </Link>
+                                    <Link href="#">
+                                        <FButton
+                                            size="xs"
+                                            color="primary"
+                                            outline
+                                        >
+                                            Riwayat Topup Limit
+                                        </FButton>
+                                    </Link>
+                                    <Link href="#">
+                                        <FButton
+                                            size="xs"
+                                            color="primary"
+                                            outline
+                                        >
+                                            Riwayat Penambahan Tenor
+                                        </FButton>
+                                    </Link>
+                                </div>
+                            )}
+                        </div>
+                        {isEmpty(customer) === false && (
+                            <div className="flex flex-row justify-end">
+                                <FButton
+                                    size="xs"
+                                    color="primary"
+                                    onClick={() => setDisable(!isDisable)}
+                                >
+                                    {isDisable ? 'Edit' : 'Batal'}
+                                </FButton>
+                            </div>
+                        )}
+
                         <FormInput
                             name="fullname"
                             value={data.fullname}
@@ -512,6 +581,9 @@ export default function Form(props) {
                                                                         e
                                                                     )
                                                                 }
+                                                                readOnly={
+                                                                    isDisable
+                                                                }
                                                             />
                                                         ) : (
                                                             <div className="w-full flex flex-row gap-1 items-center">
@@ -562,9 +634,11 @@ export default function Form(props) {
                                         </tbody>
                                     </table>
                                     <div className="w-full flex flex-row justify-end">
-                                        <Button onClick={() => addItem()}>
-                                            Tambah
-                                        </Button>
+                                        {!isDisable && (
+                                            <Button onClick={() => addItem()}>
+                                                Tambah
+                                            </Button>
+                                        )}
                                     </div>
                                 </>
                             )}
@@ -575,11 +649,15 @@ export default function Form(props) {
                                     Lokasi Favorit
                                 </div>
                                 <div>
-                                    <Button
-                                        onClick={() => locationModal.toggle()}
-                                    >
-                                        Tambah
-                                    </Button>
+                                    {!isDisable && (
+                                        <Button
+                                            onClick={() =>
+                                                locationModal.toggle()
+                                            }
+                                        >
+                                            Tambah
+                                        </Button>
+                                    )}
                                 </div>
                             </div>
                             <div className="w-full px-2 mb-2">
@@ -622,12 +700,14 @@ export default function Form(props) {
                             </div>
                         </div>
                         <div className="mt-8">
-                            <Button
-                                onClick={handleSubmit}
-                                processing={processing}
-                            >
-                                Simpan
-                            </Button>
+                            {!isDisable && (
+                                <Button
+                                    onClick={handleSubmit}
+                                    processing={processing}
+                                >
+                                    Simpan
+                                </Button>
+                            )}
                         </div>
                     </div>
                 </div>

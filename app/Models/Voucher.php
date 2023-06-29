@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Services\GeneralService;
 use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Support\Facades\Auth;
 
 class Voucher extends Model
 {
@@ -31,7 +30,7 @@ class Voucher extends Model
         'validate_bonus_poin',
         'discount',
         'status',
-        'created_at_formated'
+        'created_at_formated',
     ];
 
     private static $instance = [];
@@ -40,7 +39,7 @@ class Voucher extends Model
     {
         if (count(self::$instance) == 0) {
             self::$instance = [
-                'customer' => Customer::find(auth()->guard('customer')->id())
+                'customer' => Customer::find(auth()->guard('customer')->id()),
             ];
         }
 
@@ -59,11 +58,14 @@ class Voucher extends Model
                 $price = $this->locationProfile->prices;
                 if (auth()->guard('customer')->check()) {
                     $customer = self::getInstance()['customer'];
+
                     return $price->where('customer_level_id', $customer->customer_level_id)
                         ->value('price');
                 }
+
                 return $price->max('price');
             }
+
             return $this->locationProfile->price;
         });
     }
@@ -75,11 +77,14 @@ class Voucher extends Model
                 $price = $this->locationProfile->prices;
                 if (auth()->guard('customer')->check()) {
                     $customer = self::getInstance()['customer'];
+
                     return $price->where('customer_level_id', $customer->customer_level_id)
                         ->value('display_price');
                 }
+
                 return $price->max('display_price');
             }
+
             return $this->locationProfile->display_price;
         });
     }
@@ -91,11 +96,14 @@ class Voucher extends Model
                 $price = $this->locationProfile->prices;
                 if (auth()->guard('customer')->check()) {
                     $customer = self::getInstance()['customer'];
+
                     return $price->where('customer_level_id', $customer->customer_level_id)
                         ->value('bonus_poin');
                 }
+
                 return $price->max('bonus_poin');
             }
+
             return $this->locationProfile->bonus_poin;
         });
     }
@@ -107,11 +115,14 @@ class Voucher extends Model
                 $price = $this->locationProfile->prices;
                 if (auth()->guard('customer')->check()) {
                     $customer = self::getInstance()['customer'];
+
                     return $price->where('customer_level_id', $customer->customer_level_id)
                         ->value('price_poin');
                 }
+
                 return $price->max('price_poin');
             }
+
             return $this->locationProfile->price_poin;
         });
     }
@@ -123,11 +134,14 @@ class Voucher extends Model
                 $price = $this->locationProfile->prices;
                 if (auth()->guard('customer')->check()) {
                     $customer = self::getInstance()['customer'];
+
                     return $price->where('customer_level_id', $customer->customer_level_id)
                         ->value('discount');
                 }
+
                 return $price->min('discount');
             }
+
             return $this->locationProfile->discount;
         });
     }
@@ -137,7 +151,7 @@ class Voucher extends Model
         return Attribute::make(get: function () {
             return [
                 'color' => $this->sold == self::SOLD ? 'bg-green-200 border-green-600' : 'bg-yellow-100 border-yellow-300',
-                'text' => $this->sold == self::SOLD ? 'Ya' : 'Tidak'
+                'text' => $this->sold == self::SOLD ? 'Ya' : 'Tidak',
             ];
         });
     }
@@ -161,7 +175,7 @@ class Voucher extends Model
         if ($count <= $treshold) {
             Notification::create([
                 'entity_type' => User::class,
-                'description' => 'stok voucher ' . $this->locationProfile->name . 'tersisa : ' . $count,
+                'description' => 'stok voucher '.$this->locationProfile->name.'tersisa : '.$count,
             ]);
         }
     }
@@ -169,18 +183,18 @@ class Voucher extends Model
     public static function stats(Location $location)
     {
         $locationCallback = fn ($q) => $q->where('location_id', $location->id);
-        $count_voucher_total = Voucher::whereHas('locationProfile',  $locationCallback)->count();
+        $count_voucher_total = Voucher::whereHas('locationProfile', $locationCallback)->count();
 
-        $sum_voucher_total = Voucher::whereHas('locationProfile',  $locationCallback)
+        $sum_voucher_total = Voucher::whereHas('locationProfile', $locationCallback)
             ->join('location_profiles', 'location_profiles.id', '=', 'vouchers.location_profile_id')
             ->selectRaw('(sum(location_profiles.price)) as total')
             ->value('total');
 
-        $count_voucher_sold = Voucher::whereHas('locationProfile',  $locationCallback)
+        $count_voucher_sold = Voucher::whereHas('locationProfile', $locationCallback)
             ->where('is_sold', Voucher::SOLD)->count();
-        $count_voucher_unsold = Voucher::whereHas('locationProfile',  $locationCallback)
+        $count_voucher_unsold = Voucher::whereHas('locationProfile', $locationCallback)
             ->where('is_sold', Voucher::UNSOLD)->count();
-        $sum_voucher_unsold = Voucher::whereHas('locationProfile',  $locationCallback)
+        $sum_voucher_unsold = Voucher::whereHas('locationProfile', $locationCallback)
             ->where('is_sold', Voucher::UNSOLD)
             ->join('location_profiles', 'location_profiles.id', '=', 'vouchers.location_profile_id')
             ->selectRaw('(sum(location_profiles.price)) as total')
@@ -215,7 +229,7 @@ class Voucher extends Model
             $poin = $customer->poins()->create([
                 'debit' => $bonus,
                 'description' => GeneralService::generateBonusPoinCode(),
-                'narration' => 'Bonus Poin Pembelian Voucher'
+                'narration' => 'Bonus Poin Pembelian Voucher',
             ]);
 
             $poin->update_customer_balance();

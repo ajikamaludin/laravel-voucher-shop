@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use App\Models\DepositHistory;
+use App\Models\PaylaterHistory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
@@ -13,13 +14,11 @@ class DepositController extends Controller
 {
     public function index(Request $request)
     {
-        $query = DepositHistory::with(['customer', 'account', 'depositLocation', 'editor'])
-            ->where('credit', 0)
-            ->orderBy('is_valid', 'desc')
-            ->orderBy('updated_at', 'desc');
+        $deposits = DepositHistory::with(['customer', 'account', 'depositLocation', 'editor'])
+            ->where('credit', 0);
 
         if ($request->q != '') {
-            $query->where(function ($query) use ($request) {
+            $deposits->where(function ($query) use ($request) {
                 $query->where('description', 'ilike', "%$request->q%")
                     ->orWhereHas('customer', function ($query) use ($request) {
                         $query->where('fullname', 'ilike', "%$request->q%")
@@ -29,31 +28,63 @@ class DepositController extends Controller
             });
         }
 
+        $sortBy = 'updated_at';
+        $sortRule = 'desc';
+        if ($request->sortBy != '' && $request->sortRule != '') {
+            $sortBy = $request->sortBy;
+            $sortRule = $request->sortRule;
+        }
+
+        $deposits->orderBy($sortBy, $sortRule);
+
         if ($request->status != '') {
-            $query->where('is_valid', $request->status);
+            $deposits->where('is_valid', $request->status);
         }
 
         if ($request->customer_id != '') {
-            $query->where('is_valid', $request->customer_id);
+            $deposits->where('is_valid', $request->customer_id);
         }
 
+        $customers = Customer::with(['paylater'])->orderBy('deposit_balance', 'desc');
+
+        $stats = [
+            'deposit_this_month' => DepositHistory::whereMonth('created_at', now()->month)
+                ->whereYear('created_at', now()->year)
+                ->sum('debit'),
+            'deposit_today' => DepositHistory::whereDate('created_at', now())
+                ->sum('debit'),
+            'paylater_this_month' => PaylaterHistory::whereMonth('created_at', now()->month)
+                ->whereYear('created_at', now()->year)
+                ->sum('debit'),
+            'paylater_today' => PaylaterHistory::whereDate('created_at', now())
+                ->sum('debit'),
+        ];
+
         return inertia('DepositHistory/Index', [
-            'query' => $query->paginate(),
+            'deposits' => $deposits->paginate(),
+            '_q' => $request->q,
+            '_sortBy' => $sortBy,
+            '_sortRule' => $sortRule,
+            'customers' => $customers->paginate(10, '*', 'customer_page'),
+            'stats' => $stats,
         ]);
     }
 
-    // TODO: ubah deposit confirm menggunakan page form
     public function edit(DepositHistory $deposit)
     {
+        return inertia('DepositHistory/Form', [
+            'deposit' => $deposit->load(['customer', 'account', 'depositLocation', 'editor']),
+        ]);
     }
 
     public function update(Request $request, DepositHistory $deposit)
     {
         $request->validate([
-            'status' => [
+            'is_valid' => [
                 'required',
                 Rule::in([DepositHistory::STATUS_VALID, DepositHistory::STATUS_REJECT]),
             ],
+            'debit' => 'required|numeric',
         ]);
 
         if ($request->status == DepositHistory::STATUS_REJECT) {
@@ -62,14 +93,13 @@ class DepositController extends Controller
 
         DB::beginTransaction();
         $deposit->update([
-            'is_valid' => $request->status,
-            'note' => $request->reject_reason
+            'debit' => $request->debit,
+            'is_valid' => $request->is_valid,
+            'note' => $request->reject_reason,
         ]);
+
         if ($request->status == DepositHistory::STATUS_VALID) {
             $deposit->update_customer_balance();
-
-            $customer = Customer::find($deposit->customer_id);
-            $customer->repayPaylater($deposit);
             $deposit->create_notification_user();
         }
         DB::commit();

@@ -27,7 +27,7 @@
 
 -   [x] tambah biaya admin di deposit manual transfer
 -   [x] info di ubah jadi html
--   [ ] tambahan detail customer untuk detail mitra wbb
+-   [x] tambahan detail customer untuk detail mitra wbb
 -   [x] detail customer level untuk tampilan screen level customer di depan
 -   [x] rombak fitur affiliasi
 -   [x] tambah detail di user admin

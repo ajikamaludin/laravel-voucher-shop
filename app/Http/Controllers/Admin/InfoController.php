@@ -43,7 +43,7 @@ class InfoController extends Controller
     public function edit(Info $info)
     {
         return inertia('Info/Form', [
-            'info' => $info
+            'info' => $info,
         ]);
     }
 

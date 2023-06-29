@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Customer;
 use App\Http\Controllers\Controller;
 use App\Models\Banner;
 use App\Models\Customer;
-use App\Models\CustomerLocationFavorite;
 use App\Models\Info;
 use App\Models\Location;
 use App\Models\LocationProfile;
@@ -56,7 +55,7 @@ class HomeController extends Controller
             'locations' => $locations,
             'profiles' => $profiles,
             '_slocations' => $slocations,
-            '_status' => 0
+            '_status' => 0,
         ]);
     }
 
@@ -81,7 +80,7 @@ class HomeController extends Controller
             'locations' => $locations,
             'profiles' => $profiles->paginate(self::LIMIT),
             '_flocations' => $customer->locationFavorites,
-            '_status' => 1
+            '_status' => 1,
         ]);
     }
 

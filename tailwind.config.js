@@ -2,11 +2,11 @@ import defaultTheme from 'tailwindcss/defaultTheme'
 import forms from '@tailwindcss/forms'
 
 /** @type {import('tailwindcss').Config} */
-export default {
+module.exports = {
     darkMode: 'class',
     content: [
-        './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
-        './resources/views/**/*.blade.php',
+        'vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
+        '/resources/views/**/*.blade.php',
         './app/Models/*.php',
         './resources/js/**/*.jsx',
         'node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}',
@@ -45,6 +45,6 @@ export default {
                 },
             },
         },
-        plugins: [forms, require('flowbite/plugin')],
     },
+    plugins: [forms, require('flowbite/plugin')],
 }

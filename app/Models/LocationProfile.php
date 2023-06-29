@@ -71,7 +71,7 @@ class LocationProfile extends Model
     {
         if (count(self::$instance) == 0) {
             self::$instance = [
-                'customer' => Customer::find(auth()->guard('customer')->id())
+                'customer' => Customer::find(auth()->guard('customer')->id()),
             ];
         }
 
@@ -96,7 +96,7 @@ class LocationProfile extends Model
     public function displayExpired(): Attribute
     {
         return Attribute::make(get: function () {
-            return $this->expired . ' ' . $this->expired_unit;
+            return $this->expired.' '.$this->expired_unit;
         });
     }
 
@@ -119,11 +119,14 @@ class LocationProfile extends Model
                 $price = $this->prices;
                 if (auth()->guard('customer')->check()) {
                     $customer = self::getInstance()['customer'];
+
                     return $price->where('customer_level_id', $customer->customer_level_id)
                         ->value('price');
                 }
+
                 return $price->max('price');
             }
+
             return $this->price;
         });
     }
@@ -135,11 +138,14 @@ class LocationProfile extends Model
                 $price = $this->prices;
                 if (auth()->guard('customer')->check()) {
                     $customer = self::getInstance()['customer'];
+
                     return $price->where('customer_level_id', $customer->customer_level_id)
                         ->value('display_price');
                 }
+
                 return $price->max('display_price');
             }
+
             return $this->display_price;
         });
     }
@@ -151,11 +157,14 @@ class LocationProfile extends Model
                 $price = $this->prices;
                 if (auth()->guard('customer')->check()) {
                     $customer = self::getInstance()['customer'];
+
                     return $price->where('customer_level_id', $customer->customer_level_id)
                         ->value('discount');
                 }
+
                 return $price->min('discount');
             }
+
             return $this->discount;
         });
     }
@@ -167,11 +176,14 @@ class LocationProfile extends Model
                 $price = $this->prices;
                 if (auth()->guard('customer')->check()) {
                     $customer = self::getInstance()['customer'];
+
                     return $price->where('customer_level_id', $customer->customer_level_id)
                         ->value('bonus_poin');
                 }
+
                 return $price->max('bonus_poin');
             }
+
             return $this->bonus_poin;
         });
     }
@@ -183,11 +195,14 @@ class LocationProfile extends Model
                 $price = $this->prices;
                 if (auth()->guard('customer')->check()) {
                     $customer = self::getInstance()['customer'];
+
                     return $price->where('customer_level_id', $customer->customer_level_id)
                         ->value('price_poin');
                 }
+
                 return $price->max('price_poin');
             }
+
             return $this->price_poin;
         });
     }

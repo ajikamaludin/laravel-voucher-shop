@@ -101,7 +101,7 @@ class SettingController extends Controller
 
         return inertia('Setting/Affilate', [
             'setting' => $setting,
-            'levels' => CustomerLevel::all()
+            'levels' => CustomerLevel::all(),
         ]);
     }
 
@@ -132,7 +132,7 @@ class SettingController extends Controller
             ->toArray();
 
         Setting::where('key', 'AFFILATE_ALLOWED_LEVELS')->update([
-            'value' => json_encode($allowedLevel)
+            'value' => json_encode($allowedLevel),
         ]);
 
         Cache::flush();

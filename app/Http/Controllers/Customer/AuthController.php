@@ -54,7 +54,7 @@ class AuthController extends Controller
         }
 
         $password = Hash::check($request->password, $user->password);
-        if (!$password) {
+        if (! $password) {
             return redirect()->route('customer.login')
                 ->with('message', ['type' => 'error', 'message' => 'Invalid credentials']);
         }
@@ -72,7 +72,7 @@ class AuthController extends Controller
 
         $isAuth = Auth::guard('customer')->login($user);
         if ($isAuth) {
-            return redirect()->route('home.index');
+            return redirect()->route('home.index', ['direct' => 1]);
         }
 
         return redirect()->route('customer.login')
@@ -94,6 +94,7 @@ class AuthController extends Controller
                 ->user();
         } catch (\Exception $e) {
             info('auth google error', ['exception' => $e]);
+
             return redirect()->route('customer.login')
                 ->with('message', ['type' => 'error', 'message' => 'Google authentication fail, please try again']);
         }
@@ -108,7 +109,7 @@ class AuthController extends Controller
                 'fullname' => $user->name,
                 'name' => $user->nickname,
                 'email' => $user->email,
-                'username' => Str::slug($user->name . '_' . Str::random(5), '_'),
+                'username' => Str::slug($user->name.'_'.Str::random(5), '_'),
                 'google_id' => $user->id,
                 'google_oauth_response' => json_encode($user),
                 'status' => Customer::STATUS_ACTIVE,
@@ -127,7 +128,7 @@ class AuthController extends Controller
 
         Auth::guard('customer')->loginUsingId($customer->id);
 
-        return redirect()->route('home.index');
+        return redirect()->route('home.index', ['direct' => 1]);
     }
 
     public function register(Request $request)
@@ -213,6 +214,7 @@ class AuthController extends Controller
             $refferal = Customer::where('referral_code', $code)->first();
             if ($refferal == null) {
                 session()->forget('referral_code');
+
                 return;
             }
 
@@ -228,7 +230,7 @@ class AuthController extends Controller
                 $poin = $refferal->poins()->create([
                     'debit' => $bonuspoin,
                     'description' => GeneralService::generateBonusPoinCode(),
-                    'narration' => 'Bonus Poin Affilate (Register)'
+                    'narration' => 'Bonus Poin Affilate (Register)',
                 ]);
 
                 $poin->update_customer_balance();

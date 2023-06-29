@@ -3,17 +3,12 @@
 namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
-use App\Models\Customer;
-use App\Models\DepositHistory;
 use App\Models\LocationProfile;
-use App\Models\PoinReward;
 use App\Models\Sale;
-use App\Models\Setting;
 use App\Models\Voucher;
 use App\Services\GeneralService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
 class CartController extends Controller
@@ -33,7 +28,7 @@ class CartController extends Controller
 
         $checkAllowProcess = [
             $customer->deposit_balance >= $total,
-            $customer->paylater_remain >= $total
+            $customer->paylater_remain >= $total,
         ];
 
         $allowProcess = in_array(true, $checkAllowProcess);
@@ -54,10 +49,11 @@ class CartController extends Controller
         $operator = $request->param ?? 'add'; //delete, sub, add
         $customer = $request->user('customer');
 
-        if (!$customer->allow_transaction) {
+        if (! $customer->allow_transaction) {
             $customer->carts()->delete();
+
             return redirect()->back()
-                ->with('message', ['type' => 'error', 'message' => 'akun anda dibekukan tidak dapat melakukan transaksi',]);
+                ->with('message', ['type' => 'error', 'message' => 'akun anda dibekukan tidak dapat melakukan transaksi']);
         }
 
         $item = $customer->carts()->where(['entity_id' => $profile->id])->first();
@@ -69,20 +65,20 @@ class CartController extends Controller
             if ($operator == 'add') {
                 // bisa tambah filter stock vouchernya
                 $item->update([
-                    'quantity' => $item->quantity + 1
+                    'quantity' => $item->quantity + 1,
                 ]);
             }
             if ($operator == 'sub') {
                 if ($item->quantity - 1 != 0) {
                     $item->update([
-                        'quantity' => $item->quantity - 1
+                        'quantity' => $item->quantity - 1,
                     ]);
                 }
             }
         } else {
             $customer->carts()->create([
                 'entity_id' => $profile->id,
-                'quantity' => 1
+                'quantity' => 1,
             ]);
 
             session()->flash('message', ['type' => 'success', 'message' => 'voucher ditambahkan ke keranjang', 'cart' => 1]);
@@ -151,7 +147,7 @@ class CartController extends Controller
                     'price' => $voucher->validate_price,
                     'quantity' => 1,
                     'additional_info_json' => json_encode([
-                        'voucher' => $voucher->load(['locationProfile.location'])
+                        'voucher' => $voucher->load(['locationProfile.location']),
                     ]),
                 ]);
 

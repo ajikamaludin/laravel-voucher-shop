@@ -62,7 +62,7 @@ class UserController extends Controller
     public function edit(User $user)
     {
         return inertia('User/Form', [
-            'user' => $user->load(['role'])
+            'user' => $user->load(['role']),
         ]);
     }
 
@@ -70,9 +70,9 @@ class UserController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $user->id,
+            'email' => 'required|email|unique:users,email,'.$user->id,
             'password' => 'nullable|string|max:255',
-            'username' => 'required|alpha_dash|unique:users,username,' . $user->id,
+            'username' => 'required|alpha_dash|unique:users,username,'.$user->id,
             'phone_wa' => 'required|string',
             'photo' => 'nullable|image',
         ]);

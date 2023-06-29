@@ -20,7 +20,7 @@ class DepositLocation extends Model
 
     protected $appends = [
         'image_url',
-        'operational_hour'
+        'operational_hour',
     ];
 
     protected function imageUrl(): Attribute
@@ -33,7 +33,7 @@ class DepositLocation extends Model
     protected function operationalHour(): Attribute
     {
         return Attribute::make(get: function () {
-            return $this->open_hour . ' - ' . $this->close_hour;
+            return $this->open_hour.' - '.$this->close_hour;
         });
     }
 }

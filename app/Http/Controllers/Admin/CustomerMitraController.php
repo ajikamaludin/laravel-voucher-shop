@@ -103,11 +103,11 @@ class CustomerMitraController extends Controller
             'status' => 'required|numeric',
             'image' => 'nullable|image',
             'identity_image' => 'nullable|image',
-            // 
+            //
             'level' => 'required|exists:customer_levels,key',
             'paylater_limit' => 'required|numeric',
             'day_deadline' => 'required|numeric|max:365',
-            // 
+            //
             'id_number' => 'nullable|string',
             'job' => 'nullable|string',
             'image_selfie' => 'nullable|image',
@@ -134,7 +134,7 @@ class CustomerMitraController extends Controller
             'phone' => $request->phone,
             'status' => $request->status,
             'customer_level_id' => $level->id,
-            'identity_verified' => $request->hasFile('identity_image') ? Customer::VERIFIED : Customer::NOT_VERIFIED
+            'identity_verified' => $request->hasFile('identity_image') ? Customer::VERIFIED : Customer::NOT_VERIFIED,
         ]);
 
         if ($request->hasFile('image')) {
@@ -157,7 +157,7 @@ class CustomerMitraController extends Controller
 
         $customer->paylater()->create([
             'limit' => $request->paylater_limit,
-            'day_deadline' => $request->day_deadline
+            'day_deadline' => $request->day_deadline,
         ]);
 
         $partner = $customer->partner()->create([
@@ -213,8 +213,8 @@ class CustomerMitraController extends Controller
     public function update(Request $request, Customer $customer)
     {
         $request->validate([
-            'email' => 'nullable|email|unique:customers,email,' . $customer->id,
-            'username' => 'required|string|min:5|alpha_dash|unique:customers,username,' . $customer->id,
+            'email' => 'nullable|email|unique:customers,email,'.$customer->id,
+            'username' => 'required|string|min:5|alpha_dash|unique:customers,username,'.$customer->id,
             'password' => 'nullable|string|min:8',
             'name' => 'required|string',
             'fullname' => 'required|string',
@@ -223,11 +223,11 @@ class CustomerMitraController extends Controller
             'status' => 'required|numeric',
             'image' => 'nullable|image',
             'identity_image' => 'nullable|image',
-            // 
+            //
             'level' => 'required|exists:customer_levels,key',
             'paylater_limit' => 'required|numeric',
             'day_deadline' => 'required|numeric',
-            // 
+            //
             'id_number' => 'nullable|string',
             'job' => 'nullable|string',
             'image_selfie' => 'nullable|image',
@@ -251,7 +251,7 @@ class CustomerMitraController extends Controller
             'phone' => $request->phone,
             'status' => $request->status,
             'customer_level_id' => $level->id,
-            'identity_verified' => $request->hasFile('identity_image') ? Customer::VERIFIED : Customer::NOT_VERIFIED
+            'identity_verified' => $request->hasFile('identity_image') ? Customer::VERIFIED : Customer::NOT_VERIFIED,
         ]);
 
         if ($request->password != '') {
@@ -281,7 +281,7 @@ class CustomerMitraController extends Controller
             'customer_id' => $customer->id,
         ], [
             'limit' => $request->paylater_limit,
-            'day_deadline' => $request->day_deadline
+            'day_deadline' => $request->day_deadline,
         ]);
 
         $partner = $customer->partner()->updateOrCreate([

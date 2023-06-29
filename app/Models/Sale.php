@@ -73,7 +73,7 @@ class Sale extends Model
     public function displayAmount(): Attribute
     {
         return Attribute::make(get: function () {
-            return 'Rp ' . number_format($this->amount, is_float($this->amount) ? 2 : 0, ',', '.');
+            return 'Rp '.number_format($this->amount, is_float($this->amount) ? 2 : 0, ',', '.');
         });
     }
 
@@ -82,12 +82,12 @@ class Sale extends Model
         if ($this->payed_with == self::PAYED_WITH_POIN) {
             Notification::create([
                 'entity_type' => User::class,
-                'description' => $this->customer->fullname . ' melakukan penukaran ' . $this->items()->count() . ' voucher sebesar ' . $this->items->value('price') . ' poin',
+                'description' => $this->customer->fullname.' melakukan penukaran '.$this->items()->count().' voucher sebesar '.$this->items->value('price').' poin',
             ]);
 
             Notification::create([
                 'entity_id' => auth()->id(),
-                'description' => 'Transaksi ' . $this->code . ' berhasil',
+                'description' => 'Transaksi '.$this->code.' berhasil',
             ]);
 
             return;
@@ -95,17 +95,17 @@ class Sale extends Model
 
         Notification::create([
             'entity_type' => User::class,
-            'description' => $this->customer->fullname . ' melakukan pembelian ' . $this->items()->count() . ' voucher sebesar ' . $this->display_amount,
+            'description' => $this->customer->fullname.' melakukan pembelian '.$this->items()->count().' voucher sebesar '.$this->display_amount,
         ]);
 
         Notification::create([
             'entity_id' => auth()->id(),
-            'description' => 'Transaksi pembelian anda ' . $this->code . ' sebesar ' . $this->display_amount . ' berhasil',
+            'description' => 'Transaksi pembelian anda '.$this->code.' sebesar '.$this->display_amount.' berhasil',
         ]);
     }
 
     public function create_payment()
-    {        
+    {
         // payed with deposit
         if ($this->payed_with == Sale::PAYED_WITH_DEPOSIT) {
             $deposit = $this->customer->deposites()->create([
@@ -139,7 +139,7 @@ class Sale extends Model
             $poin = $this->customer->poins()->create([
                 'debit' => $bonus->bonus_poin,
                 'description' => GeneralService::generateBonusPoinCode(),
-                'narration' => 'Bonus Poin Reward'
+                'narration' => 'Bonus Poin Reward',
             ]);
 
             $poin->update_customer_balance();
@@ -159,7 +159,7 @@ class Sale extends Model
                 $poin = $customer->poins()->create([
                     'debit' => $bonus,
                     'description' => GeneralService::generateBonusPoinCode(),
-                    'narration' => 'Bonus Poin Affilate (Downline)'
+                    'narration' => 'Bonus Poin Affilate (Downline)',
                 ]);
 
                 $poin->update_customer_balance();

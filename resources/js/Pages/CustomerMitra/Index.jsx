@@ -362,83 +362,6 @@ export default function Customer(props) {
                                                         dismissOnClick={true}
                                                         size={'sm'}
                                                     >
-                                                        <Dropdown.Item>
-                                                            <Link
-                                                                href={route(
-                                                                    'mitra.edit',
-                                                                    customer
-                                                                )}
-                                                                className="flex space-x-1 items-center"
-                                                            >
-                                                                <HiEye />
-                                                                <div>
-                                                                    Transaksi
-                                                                    Pembelian
-                                                                </div>
-                                                            </Link>
-                                                        </Dropdown.Item>
-                                                        <Dropdown.Item>
-                                                            <Link
-                                                                href={route(
-                                                                    'mitra.edit',
-                                                                    customer
-                                                                )}
-                                                                className="flex space-x-1 items-center"
-                                                            >
-                                                                <HiEye />
-                                                                <div>
-                                                                    Riwayat
-                                                                    Hutang
-                                                                </div>
-                                                            </Link>
-                                                        </Dropdown.Item>
-                                                        <Dropdown.Item>
-                                                            <Link
-                                                                href={route(
-                                                                    'mitra.edit',
-                                                                    customer
-                                                                )}
-                                                                className="flex space-x-1 items-center"
-                                                            >
-                                                                <HiEye />
-                                                                <div>
-                                                                    Riwayat
-                                                                    Topup limit
-                                                                </div>
-                                                            </Link>
-                                                        </Dropdown.Item>
-                                                        <Dropdown.Item>
-                                                            <Link
-                                                                href={route(
-                                                                    'mitra.edit',
-                                                                    customer
-                                                                )}
-                                                                className="flex space-x-1 items-center"
-                                                            >
-                                                                <HiEye />
-                                                                <div>
-                                                                    Riwayat
-                                                                    penambahan
-                                                                    tenor
-                                                                </div>
-                                                            </Link>
-                                                        </Dropdown.Item>
-                                                        <Dropdown.Item>
-                                                            <Link
-                                                                href={route(
-                                                                    'mitra.edit',
-                                                                    customer
-                                                                )}
-                                                                className="flex space-x-1 items-center"
-                                                            >
-                                                                <HiEye />
-                                                                <div>
-                                                                    Riwayat
-                                                                    Topup
-                                                                    Deposit
-                                                                </div>
-                                                            </Link>
-                                                        </Dropdown.Item>
                                                         {canUpdate && (
                                                             <Dropdown.Item>
                                                                 <Link
@@ -448,9 +371,9 @@ export default function Customer(props) {
                                                                     )}
                                                                     className="flex space-x-1 items-center"
                                                                 >
-                                                                    <HiPencil />
+                                                                    <HiEye />
                                                                     <div>
-                                                                        Ubah
+                                                                        Lihat
                                                                     </div>
                                                                 </Link>
                                                             </Dropdown.Item>

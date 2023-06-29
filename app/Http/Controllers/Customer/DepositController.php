@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
 use App\Models\Account;
-use App\Models\Customer;
 use App\Models\DepositHistory;
 use App\Models\DepositLocation;
 use App\Models\Setting;
@@ -13,7 +12,6 @@ use App\Services\MidtransService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
 class DepositController extends Controller
@@ -37,16 +35,16 @@ class DepositController extends Controller
         return inertia('Deposit/Index', [
             'histories' => $histories->paginate(20),
             '_start_date' => $start_date->format('m/d/Y'),
-            '_end_date' => $end_date->format('m/d/Y')
+            '_end_date' => $end_date->format('m/d/Y'),
         ]);
     }
 
     public function create(Request $request)
     {
         $customer = $request->user('customer');
-        if (!$customer->allow_transaction) {
+        if (! $customer->allow_transaction) {
             return redirect()->back()
-                ->with('message', ['type' => 'error', 'message' => 'akun anda dibekukan tidak dapat melakukan transaksi',]);
+                ->with('message', ['type' => 'error', 'message' => 'akun anda dibekukan tidak dapat melakukan transaksi']);
         }
 
         return inertia('Deposit/Topup', [
@@ -103,7 +101,7 @@ class DepositController extends Controller
             'is_production' => app()->isProduction(),
             'direct' => $request->direct,
             'bank_admin_fee' => Setting::getByKey('ADMINFEE_MANUAL_TRANSFER'),
-            'cash_admin_fee' => Setting::getByKey('ADMINFEE_CASH_DEPOSIT')
+            'cash_admin_fee' => Setting::getByKey('ADMINFEE_CASH_DEPOSIT'),
         ]);
     }
 
@@ -157,9 +155,6 @@ class DepositController extends Controller
 
         if ($is_valid == DepositHistory::STATUS_VALID) {
             $deposit->update_customer_balance();
-
-            $customer = Customer::find($deposit->customer_id);
-            $customer->repayPaylater($deposit);
         }
 
         DB::commit();
@@ -183,8 +178,6 @@ class DepositController extends Controller
             if ($request->transaction_status == 'settlement' || $request->transaction_status == 'capture') {
                 $deposit->fill(['payment_status' => DepositHistory::STATUS_VALID]);
                 $deposit->update_customer_balance();
-                $customer = Customer::find($deposit->customer_id);
-                $customer->repayPaylater($deposit);
                 $deposit->create_notification();
                 $deposit->create_notification_user();
             } elseif ($request->transaction_status == 'pending') {

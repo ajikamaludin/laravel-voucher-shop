@@ -43,6 +43,7 @@ class CustomerLevel extends Model
             return asset($this->logo);
         });
     }
+
     public static function getByKey($key)
     {
         return CustomerLevel::where('key', $key)->first();

@@ -1,9 +1,9 @@
 <?php
 
-use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Admin\AccountController;
 use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\CustomerController;
+use App\Http\Controllers\Admin\CustomerHistoryController;
 use App\Http\Controllers\Admin\CustomerLevelController;
 use App\Http\Controllers\Admin\CustomerMitraController;
 use App\Http\Controllers\Admin\DepositController;
@@ -21,6 +21,7 @@ use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\VerificationController;
 use App\Http\Controllers\Admin\VoucherController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['http_secure_aware', 'inertia.admin'])
@@ -128,6 +129,9 @@ Route::middleware(['http_secure_aware', 'inertia.admin'])
             Route::post('/mitra/{customer}', [CustomerMitraController::class, 'update'])->name('mitra.update');
             Route::delete('/mitra/{customer}', [CustomerMitraController::class, 'destroy'])->name('mitra.destroy');
 
+            // mitra history
+            Route::get('/mitra/{customer}/deposit', [CustomerHistoryController::class, 'deposit'])->name('mitra.history.deposit');
+
             // voucher
             Route::get('/vouchers/import', [VoucherController::class, 'form_import'])->name('voucher.form_import');
             Route::post('/vouchers/import', [VoucherController::class, 'import'])->name('voucher.import');
@@ -151,6 +155,7 @@ Route::middleware(['http_secure_aware', 'inertia.admin'])
 
             // deposit
             Route::get('/deposites', [DepositController::class, 'index'])->name('deposit.index');
+            Route::get('/deposites/{deposit}', [DepositController::class, 'edit'])->name('deposit.edit');
             Route::post('/deposites/{deposit}', [DepositController::class, 'update'])->name('deposit.update');
 
             // poin rewared
@@ -166,7 +171,7 @@ Route::middleware(['http_secure_aware', 'inertia.admin'])
             // notification
             Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
 
-            // deposit location 
+            // deposit location
             Route::get('/deposit-location', [DepositLocationController::class, 'index'])->name('deposit-location.index');
             Route::get('/deposit-location/create', [DepositLocationController::class, 'create'])->name('deposit-location.create');
             Route::post('/deposit-location', [DepositLocationController::class, 'store'])->name('deposit-location.store');

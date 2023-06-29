@@ -9,7 +9,6 @@ use App\Models\PoinHistory;
 use App\Models\Sale;
 use App\Models\Setting;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Str;
 
 class GeneralService
 {
@@ -83,7 +82,7 @@ class GeneralService
                     'name' => Setting::PAYMENT_MANUAL,
                     'logo' => null,
                     'display_name' => 'Transfer Manual',
-                    'admin_fee' => Setting::getByKey('ADMINFEE_MANUAL_TRANSFER')
+                    'admin_fee' => Setting::getByKey('ADMINFEE_MANUAL_TRANSFER'),
                 ];
             }
         }
@@ -104,7 +103,7 @@ class GeneralService
                     'name' => Setting::PAYMENT_CASH_DEPOSIT,
                     'logo' => null,
                     'display_name' => Setting::getByKey('TEXT_CASH_DEPOSIT'),
-                    'admin_fee' => Setting::getByKey('ADMINFEE_CASH_DEPOSIT')
+                    'admin_fee' => Setting::getByKey('ADMINFEE_CASH_DEPOSIT'),
                 ];
             }
         }
@@ -116,18 +115,17 @@ class GeneralService
     {
         $payments = [];
 
-
         $payments[] = [
             'name' => Sale::PAYED_WITH_DEPOSIT,
             'display_name' => 'Bayar dengan saldo Deposit',
-            'is_enable' => $customer->deposit_balance >= $total
+            'is_enable' => $customer->deposit_balance >= $total,
         ];
 
         if ($customer->is_allow_paylater) {
             $payments[] = [
                 'name' => Sale::PAYED_WITH_PAYLATER,
                 'display_name' => 'Bayar dengan saldo Hutang',
-                'is_enable' => $customer->paylater_remain >= $total
+                'is_enable' => $customer->paylater_remain >= $total,
             ];
         }
 
@@ -138,11 +136,11 @@ class GeneralService
     {
         $r = '';
         $time = explode(':', $time);
-        foreach ($time as $t) { //00 : 00 
+        foreach ($time as $t) { //00 : 00
             if ($t < 10) {
-                $r .= '0' . (int) $t . ':';
+                $r .= '0'.(int) $t.':';
             } else {
-                $r .= $t . ':';
+                $r .= $t.':';
             }
         }
 
@@ -155,7 +153,7 @@ class GeneralService
             ->whereDate('created_at', now())
             ->count() + 1;
 
-        return 'Invoice #DSR' . now()->format('dmy') . GeneralService::formatNumberCode($code);
+        return 'Invoice #DSR'.now()->format('dmy').GeneralService::formatNumberCode($code);
     }
 
     public static function generateSaleVoucherCode()
@@ -164,14 +162,14 @@ class GeneralService
             ->where('payed_with', '!=', Sale::PAYED_WITH_POIN)
             ->count() + 1;
 
-        return 'Invoice #VCR' . now()->format('dmy') . GeneralService::formatNumberCode($code);
+        return 'Invoice #VCR'.now()->format('dmy').GeneralService::formatNumberCode($code);
     }
 
     public static function generateBonusPoinCode()
     {
         $code = PoinHistory::whereDate('created_at', now())->count() + 1;
 
-        return 'Invoice #BPN' . now()->format('dmy') . GeneralService::formatNumberCode($code);
+        return 'Invoice #BPN'.now()->format('dmy').GeneralService::formatNumberCode($code);
     }
 
     public static function generateExchangePoinCode()
@@ -180,20 +178,21 @@ class GeneralService
             ->where('payed_with', '=', Sale::PAYED_WITH_POIN)
             ->count() + 1;
 
-        return 'Invoice #PVC' . now()->format('dmy') . GeneralService::formatNumberCode($code);
+        return 'Invoice #PVC'.now()->format('dmy').GeneralService::formatNumberCode($code);
     }
 
     public static function formatNumberCode($number)
     {
         if ($number < 10) {
-            return '000' . $number;
+            return '000'.$number;
         }
         if ($number < 100) {
-            return '00' . $number;
+            return '00'.$number;
         }
         if ($number < 1000) {
-            return '0' . $number;
+            return '0'.$number;
         }
+
         return $number;
     }
 
@@ -206,6 +205,7 @@ class GeneralService
                 $isAllow = true;
             }
         }
+
         return $isAllow;
     }
 }

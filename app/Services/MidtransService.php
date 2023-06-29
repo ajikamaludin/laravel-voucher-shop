@@ -29,7 +29,7 @@ class MidtransService
                 'price' => $this->deposit->debit,
                 'quantity' => 1,
                 'name' => $this->deposit->description,
-            ]
+            ],
         ];
 
         $adminFee = Setting::getByKey('MIDTRANS_ADMIN_FEE');

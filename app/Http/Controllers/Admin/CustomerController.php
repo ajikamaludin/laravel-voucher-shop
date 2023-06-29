@@ -55,7 +55,7 @@ class CustomerController extends Controller
     {
         return inertia('Customer/Form', [
             'levels' => CustomerLevel::all(),
-            'statuses' => Customer::STATUS
+            'statuses' => Customer::STATUS,
         ]);
     }
 
@@ -101,22 +101,22 @@ class CustomerController extends Controller
         return inertia('Customer/Form', [
             'customer' => $customer->load(['level', 'partner']),
             'levels' => CustomerLevel::all(),
-            'statuses' => Customer::STATUS
+            'statuses' => Customer::STATUS,
         ]);
     }
 
     public function update(Request $request, Customer $customer)
     {
         $request->validate([
-            'email' => 'nullable|email|unique:customers,email,' . $customer->id,
-            'username' => 'required|string|min:5|alpha_dash|unique:customers,username,' . $customer->id,
+            'email' => 'nullable|email|unique:customers,email,'.$customer->id,
+            'username' => 'required|string|min:5|alpha_dash|unique:customers,username,'.$customer->id,
             'password' => 'nullable|string|min:8',
             'name' => 'required|string',
             'fullname' => 'required|string',
             'address' => 'required|string',
             'phone' => 'required|string',
             'image' => 'nullable|image',
-            'status' => 'required|numeric'
+            'status' => 'required|numeric',
         ]);
 
         if ($request->password != '') {
@@ -138,7 +138,7 @@ class CustomerController extends Controller
             'address' => $request->address,
             'phone' => $request->phone,
             'image' => $customer->image,
-            'status' => $request->status
+            'status' => $request->status,
         ]);
 
         return redirect()->route('customer.index')
@@ -169,7 +169,7 @@ class CustomerController extends Controller
             'customer_id' => $customer->id,
         ], [
             'limit' => $request->paylater_limit,
-            'day_deadline' => $request->day_deadline
+            'day_deadline' => $request->day_deadline,
         ]);
 
         return redirect()->route('customer.index')
@@ -189,7 +189,7 @@ class CustomerController extends Controller
             'items.*.type' => 'required|in:text,file',
             'items.*.value' => 'nullable|string',
         ]);
-        // 
+        //
 
         $partner = CustomerAsDataPartner::updateOrCreate([
             'customer_id' => $customer->id,

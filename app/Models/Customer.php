@@ -6,7 +6,6 @@ use App\Models\Traits\UserTrackable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Carbon;
@@ -31,7 +30,7 @@ class Customer extends Authenticatable
     const STATUS = [
         self::STATUS_INACTIVE => 'Belum Aktif',
         self::STATUS_ACTIVE => 'Aktif',
-        self::STATUS_SUSPEND => 'Suspend/Block'
+        self::STATUS_SUSPEND => 'Suspend/Block',
     ];
 
     protected $fillable = [
@@ -68,6 +67,7 @@ class Customer extends Authenticatable
         'display_phone',
         'paylater_remain',
         'paylater_limit',
+        'paylater_usage',
         'is_allow_paylater',
         'verification_status',
         'status_text',
@@ -145,7 +145,7 @@ class Customer extends Authenticatable
                 return ' - ';
             }
 
-            return '+62' . $this->phone;
+            return '+62'.$this->phone;
         });
     }
 
@@ -160,6 +160,17 @@ class Customer extends Authenticatable
     {
         return Attribute::make(get: function () {
             return number_format($this->poin_balance, is_float($this->poin_balance) ? 2 : 0, ',', '.');
+        });
+    }
+
+    public function paylaterUsage(): Attribute
+    {
+        return Attribute::make(get: function () {
+            if ($this->is_allow_paylater) {
+                return $this->paylater->usage;
+            }
+
+            return '';
         });
     }
 
@@ -215,8 +226,10 @@ class Customer extends Authenticatable
         return Attribute::make(get: function () {
             if ($this->poin_expired_at != null) {
                 $date = Carbon::parse($this->poin_expired_at)->translatedFormat('d F Y');
+
                 return "poin kadaluarsa pada $date";
             }
+
             return 'informasi masa kadaluarsan poin';
         });
     }
@@ -227,6 +240,7 @@ class Customer extends Authenticatable
             if ($this->status == self::STATUS_SUSPEND) {
                 return false;
             }
+
             return true;
         });
     }
@@ -279,24 +293,5 @@ class Customer extends Authenticatable
     public function partner()
     {
         return $this->hasOne(CustomerAsDataPartner::class);
-    }
-
-    public function repayPaylater(DepositHistory $deposit): void
-    {
-        if ($this->paylater != null && $this->paylater->usage > 0) {
-            $cut = $deposit->debit > $this->paylater->usage ? $this->paylater->usage : $deposit->debit;
-
-            $paylater = $this->paylaterHistories()->create([
-                'credit' => $cut,
-                'description' => $deposit->description . ' (Pengembalian)',
-            ]);
-            $paylater->update_customer_paylater();
-
-            $deposit = $this->deposites()->create([
-                'credit' => $cut,
-                'description' => 'Pembayaran Paylater',
-            ]);
-            $deposit->update_customer_balance();
-        }
     }
 }

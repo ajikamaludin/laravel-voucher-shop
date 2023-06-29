@@ -65,7 +65,7 @@ services:
     cpus: 1
     networks:
       voucher:
-        ipv4_address: 10.25.10.99
+        ipv4_address: 10.25.99.99
   postgresql:
     image: postgres:14-alpine3.17
     container_name: voucher-postgres
@@ -83,7 +83,7 @@ services:
     cpus: 0.5
     networks:
       voucher:
-        ipv4_address: 10.25.10.199
+        ipv4_address: 10.25.99.199
   portainer:
     image: portainer/portainer-ce:latest
     ports:
@@ -122,5 +122,5 @@ networks:
     ipam:
       driver: default
       config:
-          - subnet: 10.25.10.0/24
-            gateway: 10.25.10.1
+          - subnet: 10.25.99.0/24
+            gateway: 10.25.99.1

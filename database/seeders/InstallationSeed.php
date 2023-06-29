@@ -70,9 +70,8 @@ class InstallationSeed extends Seeder
                 <pre>&nbsp; 1. contoh 1</pre>
                 <pre>&nbsp; 2. contoh 2</pre>
                 <p>&nbsp;</p>',
-                'min_amount' =>
-                '100000',
-                'max_amount' => '500000'
+                'min_amount' => '100000',
+                'max_amount' => '500000',
             ],
             [
                 'name' => 'Silver',
@@ -86,7 +85,7 @@ class InstallationSeed extends Seeder
                 <pre>&nbsp; 2. contoh 2</pre>
                 <p>&nbsp;</p>',
                 'min_amount' => '100000',
-                'max_amount' => '1000000'
+                'max_amount' => '1000000',
             ],
             [
                 'name' => 'Gold',
@@ -100,7 +99,7 @@ class InstallationSeed extends Seeder
                 <pre>&nbsp; 2. contoh 2</pre>
                 <p>&nbsp;</p>',
                 'min_amount' => '100000',
-                'max_amount' => '2000000'
+                'max_amount' => '2000000',
             ],
             [
                 'name' => 'Platinum',
@@ -114,7 +113,7 @@ class InstallationSeed extends Seeder
                 <pre>&nbsp; 2. contoh 2</pre>
                 <p>&nbsp;</p>',
                 'min_amount' => '100000',
-                'max_amount' => '3000000'
+                'max_amount' => '3000000',
             ],
         ];
 
