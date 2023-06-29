@@ -2,7 +2,13 @@ import React, { useEffect } from 'react'
 import { Head, Link, useForm } from '@inertiajs/react'
 import { isEmpty } from 'lodash'
 
-import { STATUS_APPROVE, STATUS_REJECT } from '@/constant'
+import {
+    STATUS_APPROVE,
+    STATUS_EXPIRED,
+    STATUS_REJECT,
+    STATUS_WAIT_APPROVE,
+    STATUS_WAIT_UPLOAD,
+} from '@/constant'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import FormInput from '@/Components/FormInput'
 import Button from '@/Components/Button'
@@ -29,8 +35,8 @@ export default function Form(props) {
     }
 
     const showForm =
-        +deposit.is_valid !== STATUS_APPROVE &&
-        +deposit.is_valid !== STATUS_REJECT
+        +deposit.is_valid === STATUS_WAIT_APPROVE ||
+        +deposit.is_valid === STATUS_WAIT_UPLOAD
 
     const handleSubmit = () => {
         post(route('deposit.update', deposit))

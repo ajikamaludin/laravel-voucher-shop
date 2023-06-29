@@ -18,6 +18,10 @@ class CustomerController extends Controller
                 ->orWhere('username', 'ilike', "%$request->q%");
         }
 
+        if ($request->levels != '') {
+            $query->whereHas('level', fn ($q) => $q->whereIn('key', $request->levels));
+        }
+
         return $query->limit(100)->get();
     }
 }

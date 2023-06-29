@@ -1,15 +1,14 @@
 import React from 'react'
 import { Link, router } from '@inertiajs/react'
 import { Head } from '@inertiajs/react'
-import { HiEye } from 'react-icons/hi2'
 
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import Pagination from '@/Components/Pagination'
-import { formatIDR } from '@/utils'
 import Button from '@/Components/Button'
-import { HiOutlineReply, HiRefresh } from 'react-icons/hi'
+import { HiRefresh } from 'react-icons/hi'
+import { formatIDR } from '@/utils'
 
-export default function DepositHistory(props) {
+export default function PaylaterLimitHistory(props) {
     const {
         query: { links, data },
         customer,
@@ -18,24 +17,33 @@ export default function DepositHistory(props) {
     return (
         <AuthenticatedLayout
             page={'Mitra WBB'}
-            action={[customer.name, 'Riwayat Deposit']}
+            action={[customer.name, 'Riwayat Topup Limit']}
             parent={route('mitra.edit', customer)}
         >
-            <Head title="Deposit" />
+            <Head title="Riwayat Topup Limit" />
 
             <div>
                 <div className="mx-auto sm:px-6 lg:px-8 ">
                     <div className="p-6 overflow-hidden shadow-sm sm:rounded-lg bg-gray-200 dark:bg-gray-800 space-y-4">
-                        <div className="w-full flex flex-row justify-end">
-                            <Button
-                                onClick={() =>
-                                    router.visit(
-                                        route(route().current(), customer)
-                                    )
-                                }
-                            >
-                                <HiRefresh className="w-5 h-5" />
-                            </Button>
+                        <div className="w-full flex flex-row justify-between">
+                            <div>
+                                <Link href={route('paylater.update.limit')}>
+                                    <Button color="primary" size="sm">
+                                        Tambah
+                                    </Button>
+                                </Link>
+                            </div>
+                            <div>
+                                <Button
+                                    onClick={() =>
+                                        router.visit(
+                                            route(route().current(), customer)
+                                        )
+                                    }
+                                >
+                                    <HiRefresh className="w-5 h-5" />
+                                </Button>
+                            </div>
                         </div>
                         <div className="overflow-auto">
                             <div>
@@ -46,25 +54,7 @@ export default function DepositHistory(props) {
                                                 scope="col"
                                                 className="py-3 px-6"
                                             >
-                                                #
-                                            </th>
-                                            <th
-                                                scope="col"
-                                                className="py-3 px-6"
-                                            >
                                                 Customer
-                                            </th>
-                                            <th
-                                                scope="col"
-                                                className="py-3 px-3"
-                                            >
-                                                Debit
-                                            </th>
-                                            <th
-                                                scope="col"
-                                                className="py-3 px-3"
-                                            >
-                                                Credit
                                             </th>
                                             <th
                                                 scope="col"
@@ -76,39 +66,32 @@ export default function DepositHistory(props) {
                                                 scope="col"
                                                 className="py-3 px-6"
                                             >
-                                                Note
+                                                Limit
                                             </th>
                                             <th
                                                 scope="col"
                                                 className="py-3 px-6"
                                             >
-                                                Status
+                                                Keterangan
                                             </th>
                                             <th
                                                 scope="col"
                                                 className="py-3 px-6"
                                             >
-                                                Approver
+                                                Creator
                                             </th>
-                                            <th
-                                                scope="col"
-                                                className="py-3 px-6"
-                                            />
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {data.map((deposit) => (
+                                        {data.map((history) => (
                                             <tr
                                                 className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-                                                key={deposit.id}
+                                                key={history.id}
                                             >
                                                 <td
                                                     scope="row"
                                                     className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                                 >
-                                                    {deposit.description}
-                                                </td>
-                                                <td className="py-4 px-6">
                                                     <Link
                                                         className="hover:underline"
                                                         href={route(
@@ -119,41 +102,18 @@ export default function DepositHistory(props) {
                                                         {customer.name}
                                                     </Link>
                                                 </td>
-                                                <td className="py-4 px-3">
-                                                    {`Rp ${formatIDR(
-                                                        deposit.credit
-                                                    )}`}
-                                                </td>
-                                                <td className="py-4 px-3">
-                                                    {`Rp ${formatIDR(
-                                                        deposit.debit
-                                                    )}`}
+                                                <td className="py-4 px-6">
+                                                    {history.format_created_at}
                                                 </td>
                                                 <td className="py-4 px-6">
-                                                    {deposit.format_created_at}
+                                                    Rp.{' '}
+                                                    {formatIDR(history.credit)}
                                                 </td>
                                                 <td className="py-4 px-6">
-                                                    {deposit.note}
-                                                </td>
-                                                <td
-                                                    className={`py-4 px-6 ${deposit.status.text_color}`}
-                                                >
-                                                    {deposit.status.text}
+                                                    {history.description}
                                                 </td>
                                                 <td className="py-4 px-6">
-                                                    {deposit.editor?.name}
-                                                </td>
-                                                <td className="py-4 px-6 flex justify-center">
-                                                    <Link
-                                                        href={route(
-                                                            'deposit.edit',
-                                                            deposit
-                                                        )}
-                                                        className="flex space-x-1 items-center hover:underline"
-                                                    >
-                                                        <HiEye />
-                                                        <div>Lihat</div>
-                                                    </Link>
+                                                    {history.creator.name}
                                                 </td>
                                             </tr>
                                         ))}

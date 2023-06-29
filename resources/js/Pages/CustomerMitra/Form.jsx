@@ -201,7 +201,12 @@ export default function Form(props) {
                             </div>
                             {isEmpty(customer) === false && (
                                 <div className="flex flex-col lg:flex-row gap-2 justify-end">
-                                    <Link href="#">
+                                    <Link
+                                        href={route(
+                                            'mitra.history.deposit',
+                                            customer
+                                        )}
+                                    >
                                         <FButton
                                             size="xs"
                                             color="primary"
@@ -210,7 +215,12 @@ export default function Form(props) {
                                             Riwayat Deposit
                                         </FButton>
                                     </Link>
-                                    <Link href="#">
+                                    <Link
+                                        href={route(
+                                            'mitra.history.sale',
+                                            customer
+                                        )}
+                                    >
                                         <FButton
                                             size="xs"
                                             color="primary"
@@ -228,7 +238,12 @@ export default function Form(props) {
                                             Riwayat Pembayaran Hutang
                                         </FButton>
                                     </Link>
-                                    <Link href="#">
+                                    <Link
+                                        href={route(
+                                            'mitra.history.paylater_limit',
+                                            customer
+                                        )}
+                                    >
                                         <FButton
                                             size="xs"
                                             color="primary"
@@ -237,7 +252,12 @@ export default function Form(props) {
                                             Riwayat Topup Limit
                                         </FButton>
                                     </Link>
-                                    <Link href="#">
+                                    <Link
+                                        href={route(
+                                            'mitra.history.paylater_deadline',
+                                            customer
+                                        )}
+                                    >
                                         <FButton
                                             size="xs"
                                             color="primary"

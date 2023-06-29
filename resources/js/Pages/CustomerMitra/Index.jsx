@@ -85,9 +85,9 @@ export default function Customer(props) {
         }
     }, [search, location, level])
 
-    const canCreate = hasPermission(auth, 'create-customer')
-    const canUpdate = hasPermission(auth, 'update-customer')
-    const canDelete = hasPermission(auth, 'delete-customer')
+    const canCreate = hasPermission(auth, 'create-mitra')
+    const canUpdate = hasPermission(auth, 'update-mitra')
+    const canDelete = hasPermission(auth, 'delete-mitra')
 
     return (
         <AuthenticatedLayout page={'Mitra WBB'} action={''}>

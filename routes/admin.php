@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\InfoController;
 use App\Http\Controllers\Admin\LocationController;
 use App\Http\Controllers\Admin\LocationProfileController;
 use App\Http\Controllers\Admin\NotificationController;
+use App\Http\Controllers\Admin\PaylaterController;
 use App\Http\Controllers\Admin\PoinRewardController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\RoleController;
@@ -121,6 +122,12 @@ Route::middleware(['http_secure_aware', 'inertia.admin'])
             Route::post('/customers/{customer}/level', [CustomerController::class, 'update_level'])->name('customer.update_level');
             Route::post('/customers/{customer}/partner', [CustomerController::class, 'update_partner'])->name('customer.update_partner');
 
+            // update tenor
+            Route::get('/paylater/update-tenor', [PaylaterController::class, 'tenor'])->name('paylater.update.tenor');
+            Route::post('/paylater/update-tenor', [PaylaterController::class, 'updateTenor']);
+            Route::get('/paylater/update-limit', [PaylaterController::class, 'limit'])->name('paylater.update.limit');
+            Route::post('/paylater/update-limit', [PaylaterController::class, 'updateLimit']);
+
             // mitra
             Route::get('/mitra', [CustomerMitraController::class, 'index'])->name('mitra.index');
             Route::get('/mitra/create', [CustomerMitraController::class, 'create'])->name('mitra.create');
@@ -131,6 +138,9 @@ Route::middleware(['http_secure_aware', 'inertia.admin'])
 
             // mitra history
             Route::get('/mitra/{customer}/deposit', [CustomerHistoryController::class, 'deposit'])->name('mitra.history.deposit');
+            Route::get('/mitra/{customer}/sale', [CustomerHistoryController::class, 'sale'])->name('mitra.history.sale');
+            Route::get('/mitra/{customer}/paylater_deadline', [CustomerHistoryController::class, 'paylater_deadline'])->name('mitra.history.paylater_deadline');
+            Route::get('/mitra/{customer}/paylater_limit', [CustomerHistoryController::class, 'paylater_limit'])->name('mitra.history.paylater_limit');
 
             // voucher
             Route::get('/vouchers/import', [VoucherController::class, 'form_import'])->name('voucher.form_import');

@@ -41,3 +41,12 @@ export const DEPOSIT_STATUSES = [
     { key: 'Reject', value: STATUS_REJECT },
     { key: 'Expired', value: STATUS_EXPIRED },
 ]
+export const BASIC = 'basic'
+
+export const SILVER = 'silver'
+
+export const GOLD = 'gold'
+
+export const PLATINUM = 'platinum'
+
+export const MUST_VERIFIED = [GOLD, PLATINUM]

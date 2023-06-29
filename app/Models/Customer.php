@@ -275,6 +275,11 @@ class Customer extends Authenticatable
         return $this->hasMany(PaylaterHistory::class);
     }
 
+    public function paylaterTenorHistories()
+    {
+        return $this->hasMany(PaylaterTenorHistory::class);
+    }
+
     public function customerRefferals()
     {
         return $this->hasMany(CustomerRefferal::class);

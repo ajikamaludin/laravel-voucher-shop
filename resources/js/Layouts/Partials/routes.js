@@ -158,7 +158,7 @@ export default [
                 icon: HiClipboardDocumentList,
                 route: route('mitra.index'),
                 active: 'mitra.*',
-                permission: 'view-customer',
+                permission: 'view-mitra',
             },
             {
                 name: 'Pembayaran Hutang', // daftar pembayaran hutang yang perlu di konfirmasi , dan ada tombol add untuk pembayaran hutang oleh admin
@@ -166,23 +166,23 @@ export default [
                 icon: HiCash,
                 route: route('setting.affilate'),
                 active: 'setting.affilate',
-                permission: 'view-setting-affilate',
+                permission: 'view-paylater-repayment',
             },
             {
                 name: 'Tambah Limit', // form tambah limit, pilih mitra/customer dan limit
                 show: true,
                 icon: HiArrowCircleUp,
-                route: route('customer-level.index'),
-                active: 'customer-level.*',
-                permission: 'view-customer-level',
+                route: route('paylater.update.limit'),
+                active: 'paylater.update.limit',
+                permission: 'update-limit-mitra',
             },
             {
                 name: 'Tambah Tenor', // form tambah limit , pilih mitra dengan penambahan tenor
                 show: true,
                 icon: HiArrowCircleUp,
-                route: route('setting.affilate'),
-                active: 'setting.affilate',
-                permission: 'view-setting-affilate',
+                route: route('paylater.update.tenor'),
+                active: 'paylater.update.tenor',
+                permission: 'update-limit-tenor',
             },
         ],
     },

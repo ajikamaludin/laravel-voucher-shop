@@ -27,6 +27,8 @@ class PaylaterHistory extends Model
 
     const TYPE_REPAYMENT = 3;
 
+    const TYPE_UPDATE_TENOR = 4;
+
     protected $fillable = [
         'debit',
         'credit',

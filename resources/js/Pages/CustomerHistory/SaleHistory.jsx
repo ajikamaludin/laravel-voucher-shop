@@ -9,7 +9,7 @@ import { formatIDR } from '@/utils'
 import Button from '@/Components/Button'
 import { HiOutlineReply, HiRefresh } from 'react-icons/hi'
 
-export default function DepositHistory(props) {
+export default function SaleHistory(props) {
     const {
         query: { links, data },
         customer,
@@ -18,10 +18,10 @@ export default function DepositHistory(props) {
     return (
         <AuthenticatedLayout
             page={'Mitra WBB'}
-            action={[customer.name, 'Riwayat Deposit']}
+            action={[customer.name, 'Riwayat Pembelian']}
             parent={route('mitra.edit', customer)}
         >
-            <Head title="Deposit" />
+            <Head title="Riwayat Pembelian" />
 
             <div>
                 <div className="mx-auto sm:px-6 lg:px-8 ">
@@ -56,18 +56,6 @@ export default function DepositHistory(props) {
                                             </th>
                                             <th
                                                 scope="col"
-                                                className="py-3 px-3"
-                                            >
-                                                Debit
-                                            </th>
-                                            <th
-                                                scope="col"
-                                                className="py-3 px-3"
-                                            >
-                                                Credit
-                                            </th>
-                                            <th
-                                                scope="col"
                                                 className="py-3 px-6"
                                             >
                                                 Tanggal
@@ -76,19 +64,13 @@ export default function DepositHistory(props) {
                                                 scope="col"
                                                 className="py-3 px-6"
                                             >
-                                                Note
+                                                Pembayaran
                                             </th>
                                             <th
                                                 scope="col"
                                                 className="py-3 px-6"
                                             >
-                                                Status
-                                            </th>
-                                            <th
-                                                scope="col"
-                                                className="py-3 px-6"
-                                            >
-                                                Approver
+                                                Total
                                             </th>
                                             <th
                                                 scope="col"
@@ -97,16 +79,16 @@ export default function DepositHistory(props) {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {data.map((deposit) => (
+                                        {data.map((sale) => (
                                             <tr
                                                 className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-                                                key={deposit.id}
+                                                key={sale.id}
                                             >
                                                 <td
                                                     scope="row"
                                                     className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                                 >
-                                                    {deposit.description}
+                                                    {sale.code}
                                                 </td>
                                                 <td className="py-4 px-6">
                                                     <Link
@@ -119,35 +101,22 @@ export default function DepositHistory(props) {
                                                         {customer.name}
                                                     </Link>
                                                 </td>
+                                                <td className="py-4 px-6">
+                                                    {sale.format_created_at}
+                                                </td>
+                                                <td className="py-4 px-6">
+                                                    {sale.payment_with}
+                                                </td>
                                                 <td className="py-4 px-3">
                                                     {`Rp ${formatIDR(
-                                                        deposit.credit
+                                                        sale.amount
                                                     )}`}
-                                                </td>
-                                                <td className="py-4 px-3">
-                                                    {`Rp ${formatIDR(
-                                                        deposit.debit
-                                                    )}`}
-                                                </td>
-                                                <td className="py-4 px-6">
-                                                    {deposit.format_created_at}
-                                                </td>
-                                                <td className="py-4 px-6">
-                                                    {deposit.note}
-                                                </td>
-                                                <td
-                                                    className={`py-4 px-6 ${deposit.status.text_color}`}
-                                                >
-                                                    {deposit.status.text}
-                                                </td>
-                                                <td className="py-4 px-6">
-                                                    {deposit.editor?.name}
                                                 </td>
                                                 <td className="py-4 px-6 flex justify-center">
                                                     <Link
                                                         href={route(
-                                                            'deposit.edit',
-                                                            deposit
+                                                            'sale.show',
+                                                            sale
                                                         )}
                                                         className="flex space-x-1 items-center hover:underline"
                                                     >

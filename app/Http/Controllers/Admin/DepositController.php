@@ -50,13 +50,17 @@ class DepositController extends Controller
         $stats = [
             'deposit_this_month' => DepositHistory::whereMonth('created_at', now()->month)
                 ->whereYear('created_at', now()->year)
+                ->where('is_valid', DepositHistory::STATUS_VALID)
                 ->sum('debit'),
             'deposit_today' => DepositHistory::whereDate('created_at', now())
+                ->where('is_valid', DepositHistory::STATUS_VALID)
                 ->sum('debit'),
             'paylater_this_month' => PaylaterHistory::whereMonth('created_at', now()->month)
+                ->where('is_valid', PaylaterHistory::STATUS_VALID)
                 ->whereYear('created_at', now()->year)
                 ->sum('debit'),
             'paylater_today' => PaylaterHistory::whereDate('created_at', now())
+                ->where('is_valid', PaylaterHistory::STATUS_VALID)
                 ->sum('debit'),
         ];
 

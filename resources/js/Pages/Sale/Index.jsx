@@ -196,7 +196,7 @@ export default function Info(props) {
                                     value={search.q}
                                 />
                             </div>
-                            <div>
+                            <div className="flex flex-row">
                                 <div
                                     className="px-3 py-2 rounded-md border bg-gray-600 border-gray-700 hover:bg-gray-500"
                                     onClick={() => filterModal.toggle()}

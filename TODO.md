@@ -34,8 +34,11 @@
 -   [x] tambah logo bank
 -   [x] tambah setor tunai
 -   [x] pengaturan share dapat menggunakan html
--   [ ] menu mitrawbb (list, topup limit mitra -> after save redirect topup limit,
+-   [x] menu mitrawbb (list, topup limit mitra -> after save redirect topup limit,
         tambah batas bayar -> after save redirect history penambahan batas bayar)
--   [ ] menu mitra wbb ada tombol tambah mitra untuk registrasi dengan full form (edit tetap di customer)
+-   [x] menu mitra wbb ada tombol tambah mitra untuk registrasi dengan full form
+-   [x] menu pembayaran hutang [admin dapat melakukan pembayaran hutang dari customer, atau mengkonfirmasi pembayaran yang dilakukan custoemr]
 -   [ ] untuk detail mitra nanti akan ada button untuk (transaksi mitra dengan cakupan: pembelian voucher, pembayaran hutang,
         topuplimit, penambahan batas bayar, history deposit)
+-   [ ] ubah filter di mitra list dan customer list menjadi seperti di sale index
+-   [ ] tambah floating button untuk notifikasi deposit (angka saja), di dashboard tambahkan list deposit terbaru
