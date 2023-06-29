@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Customer;
 use App\Models\DepositHistory;
 use App\Models\DepositLocation;
+use App\Models\PaylaterHistory;
 use App\Models\PoinHistory;
 use App\Models\Sale;
 use App\Models\Setting;
@@ -145,6 +146,15 @@ class GeneralService
         }
 
         return substr($r, 0, -1);
+    }
+
+    public static function generatePaylaterTopupCode()
+    {
+        $code = PaylaterHistory::where('type', PaylaterHistory::TYPE_UPGRADE)
+            ->whereDate('created_at', now())
+            ->count() + 1;
+
+        return 'Invoice #TLH'.now()->format('dmy').GeneralService::formatNumberCode($code);
     }
 
     public static function generateDepositCode()

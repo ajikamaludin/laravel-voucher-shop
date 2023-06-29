@@ -33,6 +33,7 @@ class PaylaterHistory extends Model
         'debit',
         'credit',
         'description',
+        'note',
         'customer_id',
         'type',
         'is_valid',

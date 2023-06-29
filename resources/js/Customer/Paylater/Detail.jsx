@@ -32,6 +32,13 @@ export default function Detail({ paylater }) {
                         </div>
                     </div>
                 </div>
+                <div className="w-full px-5">
+                    <div className="my-5">
+                        <div className="bg-blue-50 text-blue-700 p-3 border rounded-md">
+                            {paylater.note}
+                        </div>
+                    </div>
+                </div>
             </div>
         </CustomerLayout>
     )

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use App\Models\PaylaterHistory;
+use App\Services\GeneralService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -47,7 +48,8 @@ class PaylaterController extends Controller
 
         $customer->paylaterHistories()->create([
             'credit' => $request->limit,
-            'description' => $request->description,
+            'description' => GeneralService::generatePaylaterTopupCode(),
+            'note' => $request->description,
             'type' => PaylaterHistory::TYPE_UPGRADE,
         ]);
 

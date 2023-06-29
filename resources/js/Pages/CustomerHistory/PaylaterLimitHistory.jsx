@@ -54,6 +54,12 @@ export default function PaylaterLimitHistory(props) {
                                                 scope="col"
                                                 className="py-3 px-6"
                                             >
+                                                #
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                className="py-3 px-6"
+                                            >
                                                 Customer
                                             </th>
                                             <th
@@ -92,6 +98,9 @@ export default function PaylaterLimitHistory(props) {
                                                     scope="row"
                                                     className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                                 >
+                                                    {history.description}
+                                                </td>
+                                                <td>
                                                     <Link
                                                         className="hover:underline"
                                                         href={route(
@@ -110,7 +119,7 @@ export default function PaylaterLimitHistory(props) {
                                                     {formatIDR(history.credit)}
                                                 </td>
                                                 <td className="py-4 px-6">
-                                                    {history.description}
+                                                    {history.note}
                                                 </td>
                                                 <td className="py-4 px-6">
                                                     {history.creator.name}
