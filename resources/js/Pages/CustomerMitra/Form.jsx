@@ -537,8 +537,8 @@ export default function Form(props) {
                                 />
                             ) : (
                                 <>
-                                    <table className="w-full">
-                                        <thead>
+                                    <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 mb-4">
+                                        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                             <tr>
                                                 <th className="text-left px-2 py-1 w-2/6">
                                                     Nama
@@ -608,7 +608,7 @@ export default function Form(props) {
                                                         ) : (
                                                             <div className="w-full flex flex-row gap-1 items-center">
                                                                 <div
-                                                                    className="px-2 py-1 border rounded-md hover:bg-gray-200"
+                                                                    className="px-2 py-1 border rounded-md hover:bg-gray-700 bg-black text-white"
                                                                     onClick={() =>
                                                                         handleClickUpload(
                                                                             index
@@ -681,8 +681,8 @@ export default function Form(props) {
                                 </div>
                             </div>
                             <div className="w-full px-2 mb-2">
-                                <table className="w-full">
-                                    <thead>
+                                <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 mb-4">
+                                    <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                         <tr>
                                             <th className="text-left px-2 py-1">
                                                 Nama
