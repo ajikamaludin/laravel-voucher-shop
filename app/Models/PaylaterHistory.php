@@ -74,10 +74,10 @@ class PaylaterHistory extends Model
     {
         return Attribute::make(get: function () {
             if ($this->credit == 0) {
-                return 'Rp'.number_format($this->debit, is_float($this->debit) ? 2 : 0, ',', '.');
+                return 'Rp' . number_format($this->debit, is_float($this->debit) ? 2 : 0, ',', '.');
             }
 
-            return '-Rp'.number_format($this->credit, is_float($this->credit) ? 2 : 0, ',', '.');
+            return '-Rp' . number_format($this->credit, is_float($this->credit) ? 2 : 0, ',', '.');
         });
     }
 }

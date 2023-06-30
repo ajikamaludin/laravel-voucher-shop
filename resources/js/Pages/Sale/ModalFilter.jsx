@@ -49,7 +49,7 @@ export default function ModalFilter(props) {
                 <div className="flex flex-row w-full gap-1 flex-wrap mb-2">
                     {locations.map((location) => (
                         <div
-                            className="px-2 py-1 border rounded-md flex flex-row items-center gap-1"
+                            className="px-2 py-1 border border-gray-300 rounded-md bg-gray-100 flex flex-row items-center gap-1"
                             key={location.id}
                         >
                             <div className="">{location.name}</div>

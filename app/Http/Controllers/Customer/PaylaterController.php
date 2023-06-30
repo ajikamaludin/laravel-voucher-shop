@@ -24,4 +24,12 @@ class PaylaterController extends Controller
             'paylater' => $paylater,
         ]);
     }
+
+    public function create()
+    {
+    }
+
+    public function store()
+    {
+    }
 }

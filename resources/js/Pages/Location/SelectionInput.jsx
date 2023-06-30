@@ -48,10 +48,10 @@ export default function SelectionInput(props) {
         setIsSelected(true)
         if (type === 'id') {
             onItemSelected(item.id)
+            setSelected(item.name)
         } else {
             onItemSelected(item)
         }
-        setSelected(item.name)
         setIsOpen(false)
     }
 

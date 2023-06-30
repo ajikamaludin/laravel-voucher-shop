@@ -190,17 +190,15 @@ export default function Authenticated({
                     </div>
                 </nav>
 
-                <div className="flex-1 flex flex-row">
+                <div className="flex flex-row">
                     <div
-                        className={`w-fit ${
-                            showingNavigationDropdown
-                                ? 'absolute h-screen z-10'
-                                : 'md:block hidden'
+                        className={`w-fit h-screen md:h-full absolute z-10 ${
+                            !showingNavigationDropdown && 'collapse md:visible'
                         }`}
                     >
                         <SidebarNav user={auth.user} />
                     </div>
-                    <main className="w-full">
+                    <main className="md:pl-64 w-full">
                         {page !== '' && (
                             <Breadcrumb
                                 className="bg-gray-200 py-3 px-5 mb-2 dark:bg-gray-700"

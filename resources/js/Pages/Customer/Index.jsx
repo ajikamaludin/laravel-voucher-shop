@@ -92,9 +92,9 @@ export default function Customer(props) {
         <AuthenticatedLayout page={'Customer'} action={''}>
             <Head title="Customer" />
 
-            <div className="w-full lg:max-w-[1100px] 2xl:max-w-full">
-                <div className="mx-auto sm:px-6 lg:px-8">
-                    <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 mb-2">
+            <div>
+                <div className="w-full mx-auto sm:px-6 lg:px-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 mb-2">
                         <div className="border rounded-md shadow bg-white px-4 py-2 flex flex-col">
                             <div className="text-gray-600 text-lg">Basic</div>
                             <div className="font-bold text-xl pt-2">
@@ -122,7 +122,7 @@ export default function Customer(props) {
                             </div>
                         </div>
                     </div>
-                    <div className="p-6 overflow-hidden shadow-sm sm:rounded-lg bg-gray-200 dark:bg-gray-800 space-y-4">
+                    <div className="p-6 shadow-sm sm:rounded-lg bg-gray-200 dark:bg-gray-800 space-y-4">
                         <div className="flex justify-between">
                             {canCreate && (
                                 <Link href={route('customer.create')}>
@@ -384,6 +384,7 @@ export default function Customer(props) {
                     </div>
                 </div>
             </div>
+
             <ModalConfirm modalState={confirmModal} onConfirm={onDelete} />
         </AuthenticatedLayout>
     )

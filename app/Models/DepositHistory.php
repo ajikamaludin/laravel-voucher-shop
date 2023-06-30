@@ -22,6 +22,8 @@ class DepositHistory extends Model
 
     const STATUS_EXPIRED = 6;
 
+    const STATUS_HIDDEN = 7;
+
     const TYPE_DEPOSIT = 0;
 
     const TYPE_REPAYMENT = 1;
@@ -98,10 +100,10 @@ class DepositHistory extends Model
     {
         return Attribute::make(get: function () {
             if ($this->credit == 0) {
-                return 'Rp '.number_format($this->debit, is_float($this->debit) ? 2 : 0, ',', '.');
+                return 'Rp ' . number_format($this->debit, is_float($this->debit) ? 2 : 0, ',', '.');
             }
 
-            return '-Rp '.number_format($this->credit, is_float($this->credit) ? 2 : 0, ',', '.');
+            return '-Rp ' . number_format($this->credit, is_float($this->credit) ? 2 : 0, ',', '.');
         });
     }
 
@@ -142,7 +144,7 @@ class DepositHistory extends Model
             }
             Notification::create([
                 'entity_type' => User::class,
-                'description' => $this->customer->fullname.' melakukan deposit transfer manual sebesar : '.$this->amount.$status,
+                'description' => $this->customer->fullname . ' melakukan deposit transfer manual sebesar : ' . $this->amount . $status,
             ]);
         }
 
@@ -153,14 +155,14 @@ class DepositHistory extends Model
             }
             Notification::create([
                 'entity_type' => User::class,
-                'description' => $this->customer->fullname.' melakukan deposit manual sebesar : '.$this->amount.$status,
+                'description' => $this->customer->fullname . ' melakukan deposit manual sebesar : ' . $this->amount . $status,
             ]);
         }
 
         if ($this->payment_channel == Setting::PAYMENT_MIDTRANS) {
             Notification::create([
                 'entity_type' => User::class,
-                'description' => $this->customer->fullname.' melakukan deposit via midtrans sebesar : '.$this->amount,
+                'description' => $this->customer->fullname . ' melakukan deposit via midtrans sebesar : ' . $this->amount,
             ]);
         }
     }
@@ -169,7 +171,7 @@ class DepositHistory extends Model
     {
         Notification::create([
             'entity_id' => $this->customer_id,
-            'description' => 'Deposit '.$this->description.' sebesar '.$this->amount.' sudah sukses diterima',
+            'description' => 'Deposit ' . $this->description . ' sebesar ' . $this->amount . ' sudah sukses diterima',
         ]);
     }
 }

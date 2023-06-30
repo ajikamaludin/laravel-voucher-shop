@@ -38,7 +38,7 @@ export default function Info(props) {
             <Head title="Banner" />
 
             <div>
-                <div className="mx-auto sm:px-6 lg:px-8 ">
+                <div className="mx-auto sm:px-6 lg:px-8">
                     <div className="p-6 overflow-hidden shadow-sm sm:rounded-lg bg-gray-200 dark:bg-gray-800 space-y-4">
                         <div className="flex justify-between">
                             {canCreate && (
