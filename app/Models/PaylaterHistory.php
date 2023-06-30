@@ -50,9 +50,14 @@ class PaylaterHistory extends Model
     {
         $customer = Customer::find($this->customer_id);
         $paylater = $customer->paylater;
+
+        if ($paylater->day_deadline_at == null) {
+            $paylater->day_deadline_at = now()->addDays($paylater->day_deadline);
+        }
+
         $paylater->update([
             'usage' => $paylater->usage + $this->debit - $this->credit,
-            // TODO: add day dateline
+            'day_deadline_at' => $paylater->day_deadline_at,
         ]);
     }
 

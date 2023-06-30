@@ -63,9 +63,7 @@ export default function Index({
                         className="mx-auto px-4 mt-4 py-2 text-xs text-blue-800 rounded-lg bg-blue-50 flex flex-row space-x-2 w-full items-center"
                         role="alert"
                     >
-                        <div>
-                            lunasi pinjaman kamu sebelum jatuh tempo pada ...
-                        </div>
+                        <div>{user.paylater.paylater_description}</div>
                     </div>
                 </div>
                 <div className="w-full">

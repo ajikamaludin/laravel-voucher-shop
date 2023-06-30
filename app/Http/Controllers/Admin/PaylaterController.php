@@ -7,6 +7,7 @@ use App\Models\Customer;
 use App\Models\PaylaterHistory;
 use App\Services\GeneralService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class PaylaterController extends Controller
@@ -79,8 +80,15 @@ class PaylaterController extends Controller
         DB::beginTransaction();
         $customer = Customer::find($request->customer_id);
 
-        $customer->paylater->update([
+        $paylater = $customer->paylater;
+        if ($paylater->day_deadline_at != null) {
+            $paylater->day_deadline_at = Carbon::parse($paylater->day_deadline_at)
+                ->addDays($request->day_deadline - $paylater->day_deadline);
+        }
+
+        $paylater->update([
             'day_deadline' => $request->day_deadline,
+            'day_deadline_at' => $paylater->day_deadline_at,
         ]);
 
         $customer->partner()->updateOrCreate([
