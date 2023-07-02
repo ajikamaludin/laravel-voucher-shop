@@ -146,7 +146,7 @@ export default function PaylaterHistory(props) {
                                                 <td className="py-4 px-6 flex justify-center">
                                                     <Link
                                                         href={route(
-                                                            'paylater.show',
+                                                            'paylater.repay.show',
                                                             paylater
                                                         )}
                                                         className="flex space-x-1 items-center hover:underline"

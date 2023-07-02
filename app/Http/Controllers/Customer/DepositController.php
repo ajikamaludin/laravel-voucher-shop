@@ -42,7 +42,7 @@ class DepositController extends Controller
     public function create(Request $request)
     {
         $customer = $request->user('customer');
-        if (! $customer->allow_transaction) {
+        if (!$customer->allow_transaction) {
             return redirect()->back()
                 ->with('message', ['type' => 'error', 'message' => 'akun anda dibekukan tidak dapat melakukan transaksi']);
         }
@@ -148,6 +148,10 @@ class DepositController extends Controller
             $is_valid = DepositHistory::STATUS_INVALID;
         }
 
+        if ($deposit->is_valid == DepositHistory::STATUS_VALID) {
+            return redirect()->route('transactions.deposit.show', ['deposit' => $deposit->id]);
+        }
+
         $deposit->update([
             'is_valid' => $is_valid,
             'payment_response' => json_encode($request->result),
@@ -155,9 +159,19 @@ class DepositController extends Controller
         ]);
 
         if ($is_valid == DepositHistory::STATUS_VALID) {
-            $deposit->update_customer_balance();
+            if ($deposit->type == DepositHistory::TYPE_REPAYMENT) {
+                $paylater = $deposit->paylater;
+                $paylater->update([
+                    'credit' => $deposit->debit,
+                    'is_valid' => $deposit->is_valid,
+                ]);
+                $paylater->update_customer_paylater();
+            }
+
+            if ($deposit->type == DepositHistory::TYPE_DEPOSIT) {
+                $deposit->update_customer_balance();
+            }
         }
-        // TODO: update for paylater
 
         DB::commit();
 
@@ -178,19 +192,30 @@ class DepositController extends Controller
             ]);
 
             if ($request->transaction_status == 'settlement' || $request->transaction_status == 'capture') {
-                $deposit->fill(['payment_status' => DepositHistory::STATUS_VALID]);
-                $deposit->update_customer_balance();
-                $deposit->create_notification();
-                $deposit->create_notification_user();
+                $deposit->fill(['is_valid' => DepositHistory::STATUS_VALID]);
+
+                if ($deposit->type == DepositHistory::TYPE_REPAYMENT) {
+                    $paylater = $deposit->paylater;
+                    $paylater->update([
+                        'credit' => $deposit->debit,
+                        'is_valid' => $deposit->is_valid,
+                    ]);
+                    $paylater->update_customer_paylater();
+                }
+
+                if ($deposit->type == DepositHistory::TYPE_DEPOSIT) {
+                    $deposit->update_customer_balance();
+                    $deposit->create_notification();
+                    $deposit->create_notification_user();
+                }
             } elseif ($request->transaction_status == 'pending') {
-                $deposit->fill(['payment_status' => DepositHistory::STATUS_WAIT_PAYMENT]);
+                $deposit->fill(['is_valid' => DepositHistory::STATUS_WAIT_PAYMENT]);
             } else {
-                $deposit->fill(['payment_status' => DepositHistory::STATUS_INVALID]);
+                $deposit->fill(['is_valid' => DepositHistory::STATUS_INVALID]);
             }
 
             $deposit->save();
         }
-        // TODO: update for paylater
 
         DB::commit();
 

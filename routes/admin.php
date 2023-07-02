@@ -170,10 +170,10 @@ Route::middleware(['http_secure_aware', 'inertia.admin'])
             Route::post('/deposites/{deposit}', [DepositController::class, 'update'])->name('deposit.update');
 
             // repayment
-            Route::get('/paylater', [PaylaterController::class, 'index'])->name('paylater.index');
-            Route::get('/paylater/{paylater}', [PaylaterController::class, 'show'])->name('paylater.show');
-            Route::get('/paylater/{deposit}/edit', [PaylaterController::class, 'edit'])->name('paylater.edit');
-            Route::post('/paylater/{deposit}', [PaylaterController::class, 'update'])->name('paylater.update');
+            Route::get('/paylater', [PaylaterController::class, 'index'])->name('paylater.repay.index');
+            Route::get('/paylater/{paylater}', [PaylaterController::class, 'show'])->name('paylater.repay.show');
+            Route::get('/paylater/{deposit}/edit', [PaylaterController::class, 'edit'])->name('paylater.repay.edit');
+            Route::post('/paylater/{deposit}', [PaylaterController::class, 'update'])->name('paylater.repay.update');
 
             // poin rewared
             Route::get('/bonus-poin', [PoinRewardController::class, 'index'])->name('poin-reward.index');

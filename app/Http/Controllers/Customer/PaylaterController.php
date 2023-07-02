@@ -29,7 +29,7 @@ class PaylaterController extends Controller
         if ($paylater->type == PaylaterHistory::TYPE_REPAYMENT) {
             $deposit = DepositHistory::where('related_id', $paylater->id)->first();
 
-            if (! in_array($deposit->is_valid, [DepositHistory::STATUS_VALID])) {
+            if (!in_array($deposit->is_valid, [DepositHistory::STATUS_VALID])) {
                 return redirect()->route('transactions.deposit.show', [
                     'deposit' => $deposit,
                     'back' => 'customer.paylater.index',
@@ -68,6 +68,14 @@ class PaylaterController extends Controller
                 ->with('message', ['type' => 'error', 'message' => 'Nominal Tagihan tidak boleh lebih dari tagihan']);
         }
 
+        // alasan pembayaran tidak full
+        if ($customer->paylater->usage != $request->amount) {
+            $request->validate([
+                'not_fullpayment_reason' => 'required|string',
+                'next_payment' => 'required|date',
+            ]);
+        }
+
         // only 1 repayment at a time
         $repayment = DepositHistory::query()
             ->where([
@@ -89,6 +97,8 @@ class PaylaterController extends Controller
         $paylater = $customer->paylaterHistories()->create([
             'credit' => $request->amount,
             'description' => $code,
+            'not_fullpayment_reason' => $request->not_fullpayment_reason,
+            'next_payment' => $request->next_payment,
             'type' => PaylaterHistory::TYPE_REPAYMENT,
         ]);
 

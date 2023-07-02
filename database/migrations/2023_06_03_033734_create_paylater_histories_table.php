@@ -18,6 +18,8 @@ return new class extends Migration
             $table->decimal('credit', 20, 2)->default(0);
             $table->string('description')->nullable();
             $table->text('note')->nullable();
+            $table->timestamp('next_payment')->nullable();
+            $table->string('not_fullpayment_reason')->nullable();
             $table->ulid('customer_id')->nullable();
             $table->smallInteger('type')->default(0);
             $table->smallInteger('is_valid')->default(0);

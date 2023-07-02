@@ -7,11 +7,15 @@ import { CASH_DEPOSIT } from '@/Customer/utils'
 import CustomerLayout from '@/Layouts/CustomerLayout'
 import Alert from '@/Components/Alert'
 import FormInputNumeric from '@/Components/FormInputNumeric'
+import FormInput from '@/Components/FormInput'
+import FormInputDate from '@/Components/FormInputDate'
 
-export default function Repay({ payments, amount }) {
+export default function Repay({ payments, amount, auth: { user } }) {
     const { data, setData, post, processing, errors } = useForm({
         amount: amount,
         payment: '',
+        not_fullpayment_reason: '',
+        next_payment: '',
     })
 
     const amounts = [amount]
@@ -41,6 +45,8 @@ export default function Repay({ payments, amount }) {
     const handleSetPayment = (payment) => {
         setData('payment', payment.name)
     }
+
+    const isNotFullPayment = +user.paylater.usage !== +data.amount
 
     const handleSubmit = () => {
         if (processing) {
@@ -88,6 +94,27 @@ export default function Repay({ payments, amount }) {
                         error={errors.amount}
                     />
                 </div>
+                {isNotFullPayment && (
+                    <div className="w-full px-5">
+                        <FormInput
+                            placeholder="keterangan tidak bayar penuh"
+                            value={data.not_fullpayment_reason}
+                            onChange={(e) =>
+                                setData(
+                                    'not_fullpayment_reason',
+                                    e.target.value
+                                )
+                            }
+                            error={errors.not_fullpayment_reason}
+                        />
+                        <FormInputDate
+                            placeholder="tanggal akan bayar penuh"
+                            selected={data.next_payment}
+                            onChange={(date) => setData('next_payment', date)}
+                            error={errors.next_payment}
+                        />
+                    </div>
+                )}
                 <div className="w-full px-5 mt-10 flex flex-col">
                     <div className="font-bold mb-2">Metode Pembayaran</div>
                     {errors.payment && (

@@ -132,7 +132,7 @@ export default function Form(props) {
                                         Alasan Penolakan
                                     </td>
                                     <td>:</td>
-                                    <td>{deposit.reject_reason}</td>
+                                    <td>{deposit.note}</td>
                                 </tr>
                                 {isEmpty(deposit.editor) === false && (
                                     <tr>

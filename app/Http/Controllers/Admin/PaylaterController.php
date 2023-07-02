@@ -54,15 +54,18 @@ class PaylaterController extends Controller
 
     public function show(PaylaterHistory $paylater)
     {
+        $deposit = DepositHistory::where('related_id', $paylater->id)->first();
+
         return inertia('Paylater/Detail', [
             'paylater' => $paylater->load(['customer']),
+            'deposit' => $deposit->load(['customer', 'account', 'depositLocation', 'editor', 'paylater']),
         ]);
     }
 
     public function edit(DepositHistory $deposit)
     {
         return inertia('Paylater/Form', [
-            'deposit' => $deposit->load(['customer', 'account', 'depositLocation', 'editor']),
+            'deposit' => $deposit->load(['customer', 'account', 'depositLocation', 'paylater', 'editor']),
         ]);
     }
 
@@ -91,7 +94,6 @@ class PaylaterController extends Controller
         $paylater->update([
             'credit' => $request->debit,
             'is_valid' => $request->is_valid,
-            'note' => $request->reject_reason,
         ]);
 
         if ($request->is_valid == DepositHistory::STATUS_VALID) {
@@ -101,7 +103,7 @@ class PaylaterController extends Controller
 
         DB::commit();
 
-        return redirect()->route('paylater.index')
+        return redirect()->route('paylater.repay.index')
             ->with('message', ['type' => 'success', 'message' => 'Item has beed updated']);
     }
 

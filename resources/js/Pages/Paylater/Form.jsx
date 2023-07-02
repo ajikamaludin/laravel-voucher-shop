@@ -12,7 +12,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import FormInput from '@/Components/FormInput'
 import Button from '@/Components/Button'
 import FormInputNumeric from '@/Components/FormInputNumeric'
-import { formatIDR } from '@/utils'
+import { formatIDDate, formatIDR } from '@/utils'
 
 export default function Form(props) {
     const { deposit } = props
@@ -39,7 +39,7 @@ export default function Form(props) {
         +deposit.is_valid === STATUS_WAIT_UPLOAD
 
     const handleSubmit = () => {
-        post(route('paylater.update', deposit))
+        post(route('paylater.repay.update', deposit))
     }
 
     useEffect(() => {
@@ -57,7 +57,7 @@ export default function Form(props) {
         <AuthenticatedLayout
             page={'Pembayaran Hutang'}
             action={deposit.description}
-            parent={route('paylater.index')}
+            parent={route('paylater.repay.index')}
         >
             <Head title="Pembayaran Hutang" />
 
@@ -74,7 +74,7 @@ export default function Form(props) {
                                     <td>:</td>
                                     <td>
                                         <Link
-                                            href={route('customer.edit', {
+                                            href={route('mitra.edit', {
                                                 customer: deposit.customer,
                                             })}
                                             className="hover:underline"
@@ -131,7 +131,7 @@ export default function Form(props) {
                                         Alasan Penolakan
                                     </td>
                                     <td>:</td>
-                                    <td>{deposit.reject_reason}</td>
+                                    <td>{deposit.note}</td>
                                 </tr>
                                 {isEmpty(deposit.editor) === false && (
                                     <tr>
@@ -145,6 +145,36 @@ export default function Form(props) {
                                     <td>:</td>
                                     <td>{deposit.format_created_at}</td>
                                 </tr>
+                                <tr>
+                                    <td className="font-bold">
+                                        Pembayaran Hutang
+                                    </td>
+                                    <td>:</td>
+                                    <td>
+                                        {isEmpty(
+                                            deposit.paylater
+                                                .not_fullpayment_reason
+                                        ) === false ? (
+                                            <p>Sebagian</p>
+                                        ) : (
+                                            <p>Penuh</p>
+                                        )}
+                                    </td>
+                                </tr>
+                                {isEmpty(deposit.paylater.next_payment) ===
+                                    false && (
+                                    <tr>
+                                        <td className="font-bold">
+                                            Tanggal Pemenuhan
+                                        </td>
+                                        <td>:</td>
+                                        <td>
+                                            {formatIDDate(
+                                                deposit.paylater.next_payment
+                                            )}
+                                        </td>
+                                    </tr>
+                                )}
                             </tbody>
                         </table>
 
@@ -167,7 +197,7 @@ export default function Form(props) {
                                 <div className="my-4">
                                     <FormInputNumeric
                                         type="number"
-                                        label="Jumlah Deposit"
+                                        label="Jumlah"
                                         name="debit"
                                         onChange={handleOnChange}
                                         value={data.debit}

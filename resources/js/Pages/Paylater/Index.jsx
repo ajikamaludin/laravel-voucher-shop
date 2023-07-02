@@ -191,7 +191,7 @@ export default function Index(props) {
                                                     {canUpdate && (
                                                         <Link
                                                             href={route(
-                                                                'paylater.edit',
+                                                                'paylater.repay.edit',
                                                                 deposit
                                                             )}
                                                             className="flex space-x-1 items-center hover:underline"
