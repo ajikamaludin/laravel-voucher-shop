@@ -4,27 +4,105 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
+use App\Models\DepositHistory;
 use App\Models\PaylaterHistory;
 use App\Services\GeneralService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 
 class PaylaterController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        // TODO show list of paylater repaymeny
+        $deposits = DepositHistory::with(['customer', 'account', 'depositLocation', 'editor'])
+            ->where('credit', 0)
+            ->where('type', DepositHistory::TYPE_REPAYMENT);
+
+        if ($request->q != '') {
+            $deposits->where(function ($query) use ($request) {
+                $query->where('description', 'ilike', "%$request->q%")
+                    ->orWhereHas('customer', function ($query) use ($request) {
+                        $query->where('fullname', 'ilike', "%$request->q%")
+                            ->orWhere('email', 'ilike', "%$request->q%")
+                            ->orWhere('phone', 'ilike', "%$request->q%");
+                    });
+            });
+        }
+
+        $sortBy = 'updated_at';
+        $sortRule = 'desc';
+        if ($request->sortBy != '' && $request->sortRule != '') {
+            $sortBy = $request->sortBy;
+            $sortRule = $request->sortRule;
+        }
+
+        $deposits->orderBy($sortBy, $sortRule);
+
+        if ($request->status != '') {
+            $deposits->where('is_valid', $request->status);
+        }
+
+        return inertia('Paylater/Index', [
+            'deposits' => $deposits->paginate(),
+            '_q' => $request->q,
+            '_sortBy' => $sortBy,
+            '_sortRule' => $sortRule,
+        ]);
     }
 
-    public function edit()
+    public function show(PaylaterHistory $paylater)
     {
-        // TODO show detail repayment and confirmation
+        return inertia('Paylater/Detail', [
+            'paylater' => $paylater->load(['customer'])
+        ]);
     }
 
-    public function update()
+    public function edit(DepositHistory $deposit)
     {
-        // TODO store update detail of repayment
+        return inertia('Paylater/Form', [
+            'deposit' => $deposit->load(['customer', 'account', 'depositLocation', 'editor']),
+        ]);
+    }
+
+    public function update(Request $request, DepositHistory $deposit)
+    {
+        $request->validate([
+            'is_valid' => [
+                'required',
+                Rule::in([DepositHistory::STATUS_VALID, DepositHistory::STATUS_REJECT]),
+            ],
+            'debit' => 'required|numeric',
+        ]);
+
+        if ($request->is_valid == DepositHistory::STATUS_REJECT) {
+            $request->validate(['reject_reason' => 'required|string']);
+        }
+
+        DB::beginTransaction();
+        $deposit->update([
+            'debit' => $request->debit,
+            'is_valid' => $request->is_valid,
+            'note' => $request->reject_reason,
+        ]);
+
+        $paylater = $deposit->paylater;
+        $paylater->update([
+            'credit' => $request->debit,
+            'is_valid' => $request->is_valid,
+            'note' => $request->reject_reason,
+        ]);
+
+        if ($request->is_valid == DepositHistory::STATUS_VALID) {
+            $paylater->update_customer_paylater();
+            $paylater->create_notification_user();
+        }
+
+        DB::commit();
+
+        return redirect()->route('paylater.index')
+            ->with('message', ['type' => 'success', 'message' => 'Item has beed updated']);
     }
 
     public function limit()

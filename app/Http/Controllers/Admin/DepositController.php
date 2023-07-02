@@ -42,10 +42,6 @@ class DepositController extends Controller
             $deposits->where('is_valid', $request->status);
         }
 
-        if ($request->customer_id != '') {
-            $deposits->where('is_valid', $request->customer_id);
-        }
-
         $customers = Customer::with(['paylater'])->orderBy('deposit_balance', 'desc');
 
         $stats = [
@@ -96,7 +92,7 @@ class DepositController extends Controller
             'debit' => 'required|numeric',
         ]);
 
-        if ($request->status == DepositHistory::STATUS_REJECT) {
+        if ($request->is_valid == DepositHistory::STATUS_REJECT) {
             $request->validate(['reject_reason' => 'required|string']);
         }
 
@@ -107,12 +103,13 @@ class DepositController extends Controller
             'note' => $request->reject_reason,
         ]);
 
-        if ($request->status == DepositHistory::STATUS_VALID) {
+        if ($request->is_valid == DepositHistory::STATUS_VALID) {
             $deposit->update_customer_balance();
             $deposit->create_notification_user();
         }
         DB::commit();
 
-        session()->flash('message', ['type' => 'success', 'message' => 'Item has beed updated']);
+        return redirect()->route('deposit.index')
+            ->with('message', ['type' => 'success', 'message' => 'Item has beed updated']);
     }
 }

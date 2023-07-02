@@ -26,7 +26,7 @@ export default function Index({
 
     return (
         <CustomerLayout>
-            <Head title="Top Up" />
+            <Head title="Mitra WBB" />
             <div className="flex flex-col w-full min-h-[calc(90dvh)]">
                 <div className="w-full pt-10 px-5">
                     <div className="text-base">{user.fullname}</div>
@@ -47,14 +47,18 @@ export default function Index({
                             </div>
                         </div>
                         <div>
-                            <div
-                                className="px-3 py-2 border rounded-full bg-blue-700 text-white hover:bg-transparent hover:text-black"
-                                onClick={() =>
-                                    router.get(route('customer.paylater.repay'))
-                                }
-                            >
-                                Bayar Tagihan
-                            </div>
+                            {+user.paylater.usage !== 0 && (
+                                <div
+                                    className="px-3 py-2 border rounded-full bg-blue-700 text-white hover:bg-transparent hover:text-black"
+                                    onClick={() =>
+                                        router.get(
+                                            route('customer.paylater.repay')
+                                        )
+                                    }
+                                >
+                                    Bayar Tagihan
+                                </div>
+                            )}
                         </div>
                     </div>
                     <div
@@ -91,6 +95,13 @@ export default function Index({
                                     <div className="font-bold text-lg">
                                         {history.amount}
                                     </div>
+                                    {history.status !== '' && (
+                                        <div
+                                            className={`text-xs px-2 py-1 rounded-full border text-white bg-red-600`}
+                                        >
+                                            {history.status}
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         ))}

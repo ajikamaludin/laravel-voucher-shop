@@ -41,7 +41,11 @@ export default function Detail(props) {
     const { sale } = props
 
     return (
-        <AuthenticatedLayout page={`Sale`} action={`${sale.code}`}>
+        <AuthenticatedLayout
+            page={`Sale`}
+            action={`${sale.code}`}
+            parent={route('sale.index')}
+        >
             <Head title={`${sale.code}`} />
 
             <div>
@@ -69,7 +73,7 @@ export default function Detail(props) {
                                         Metode Pembayaran
                                     </td>
                                     <td>:</td>
-                                    <td>{sale.payed_with}</td>
+                                    <td>{sale.payment_with}</td>
                                 </tr>
                                 <tr>
                                     <td className="font-bold">Total</td>

@@ -52,6 +52,7 @@ class DepositHistory extends Model
         'format_created_at',
         'amount',
         'image_prove_url',
+        'admin_fee'
     ];
 
     protected static function booted(): void
@@ -112,6 +113,23 @@ class DepositHistory extends Model
         });
     }
 
+    public function adminFee(): Attribute
+    {
+        return Attribute::make(get: function () {
+            if ($this->account_id != null) {
+                return Setting::getByKey('ADMINFEE_MANUAL_TRANSFER');
+            }
+
+            if ($this->deposit_location_id != null) {
+                return Setting::getByKey('ADMINFEE_CASH_DEPOSIT');
+            }
+
+            if ($this->payment_token != null) {
+                return Setting::getByKey('MIDTRANS_ADMIN_FEE');
+            }
+        });
+    }
+
     public function customer()
     {
         return $this->belongsTo(Customer::class);
@@ -125,6 +143,11 @@ class DepositHistory extends Model
     public function depositLocation()
     {
         return $this->belongsTo(DepositLocation::class, 'deposit_location_id');
+    }
+
+    public function paylater()
+    {
+        return $this->hasOne(PaylaterHistory::class, 'id', 'related_id');
     }
 
     public function update_customer_balance()

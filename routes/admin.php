@@ -139,6 +139,7 @@ Route::middleware(['http_secure_aware', 'inertia.admin'])
             // mitra history
             Route::get('/mitra/{customer}/deposit', [CustomerHistoryController::class, 'deposit'])->name('mitra.history.deposit');
             Route::get('/mitra/{customer}/sale', [CustomerHistoryController::class, 'sale'])->name('mitra.history.sale');
+            Route::get('/mitra/{customer}/paylater', [CustomerHistoryController::class, 'paylater'])->name('mitra.history.paylater');
             Route::get('/mitra/{customer}/paylater_deadline', [CustomerHistoryController::class, 'paylater_deadline'])->name('mitra.history.paylater_deadline');
             Route::get('/mitra/{customer}/paylater_limit', [CustomerHistoryController::class, 'paylater_limit'])->name('mitra.history.paylater_limit');
 
@@ -167,6 +168,12 @@ Route::middleware(['http_secure_aware', 'inertia.admin'])
             Route::get('/deposites', [DepositController::class, 'index'])->name('deposit.index');
             Route::get('/deposites/{deposit}', [DepositController::class, 'edit'])->name('deposit.edit');
             Route::post('/deposites/{deposit}', [DepositController::class, 'update'])->name('deposit.update');
+
+            // repayment
+            Route::get('/paylater', [PaylaterController::class, 'index'])->name('paylater.index');
+            Route::get('/paylater/{paylater}', [PaylaterController::class, 'show'])->name('paylater.show');
+            Route::get('/paylater/{deposit}/edit', [PaylaterController::class, 'edit'])->name('paylater.edit');
+            Route::post('/paylater/{deposit}', [PaylaterController::class, 'update'])->name('paylater.update');
 
             // poin rewared
             Route::get('/bonus-poin', [PoinRewardController::class, 'index'])->name('poin-reward.index');

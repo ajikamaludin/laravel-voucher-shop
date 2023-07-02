@@ -51,7 +51,7 @@ const ActionSection = ({ deposit }) => {
     )
 }
 
-export default function Detail({ deposit }) {
+export default function Detail({ deposit, back }) {
     return (
         <CustomerLayout>
             <Head title="Top Up" />
@@ -59,7 +59,7 @@ export default function Detail({ deposit }) {
                 <div
                     className="w-full px-5 py-5"
                     onClick={() => {
-                        router.get(route('transactions.deposit.index'))
+                        router.get(route(back))
                     }}
                 >
                     <HiChevronLeft className="font-bold h-5 w-5" />

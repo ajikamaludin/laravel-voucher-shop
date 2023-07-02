@@ -35,8 +35,17 @@ class CustomerHistoryController extends Controller
         ]);
     }
 
-    public function paylater()
+    public function paylater(Customer $customer)
     {
+        $query = PaylaterHistory::with(['editor'])
+            ->where('customer_id', $customer->id)
+            // ->where('type', PaylaterHistory::TYPE_REPAYMENT)
+            ->orderBy('created_at', 'desc');
+
+        return inertia('CustomerHistory/PaylaterHistory', [
+            'query' => $query->paginate(),
+            'customer' => $customer,
+        ]);
     }
 
     public function paylater_limit(Customer $customer)

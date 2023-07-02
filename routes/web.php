@@ -53,7 +53,7 @@ Route::middleware(['http_secure_aware', 'guard_should_customer', 'inertia.custom
         Route::get('paylater/repay', [PaylaterController::class, 'create'])->name('customer.paylater.repay');
         Route::post('paylater/repay', [PaylaterController::class, 'store']);
 
-        // deposite
+        // deposit
         Route::get('trx/deposit', [DepositController::class, 'index'])->name('transactions.deposit.index');
         Route::get('trx/deposit/topup', [DepositController::class, 'create'])->name('transactions.deposit.topup');
         Route::post('trx/deposit/topup', [DepositController::class, 'store']);

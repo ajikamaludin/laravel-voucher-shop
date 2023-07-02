@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\DepositHistory;
+use App\Models\PaylaterHistory;
 use App\Models\Setting;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -41,6 +42,8 @@ class ExpiredDepositHistoryJob implements ShouldQueue
         ])
             ->get();
 
+        $paylaterIds = [];
+
         info(self::class, ['deposit' => $deposits->count()]);
         foreach ($deposits as $deposit) {
             $lastUpdated = Carbon::parse($deposit->updated_at);
@@ -51,12 +54,20 @@ class ExpiredDepositHistoryJob implements ShouldQueue
             // Check if the time difference is more than 2 hours
             if ($timeDifference > $maxTimeout) {
                 $expiredIds[] = $deposit->id;
+                if ($deposit->related_id != null && $deposit->type == DepositHistory::TYPE_REPAYMENT) {
+                    $paylaterIds[] = $deposit->related_id;
+                }
             }
         }
-        info(self::class, ['deposit_to_expired' => count($expiredIds)]);
 
+        info(self::class, ['deposit_to_expired' => count($expiredIds)]);
         if (count($expiredIds) > 0) {
             DepositHistory::whereIn('id', $expiredIds)->update(['is_valid' => DepositHistory::STATUS_EXPIRED]);
+        }
+
+        info(self::class, ['paylater_to_expired' => count($paylaterIds)]);
+        if (count($paylaterIds) > 0) {
+            PaylaterHistory::whereIn('id', $paylaterIds)->update(['is_valid' => PaylaterHistory::STATUS_EXPIRED]);
         }
 
         DB::commit();

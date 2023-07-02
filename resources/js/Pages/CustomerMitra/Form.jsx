@@ -229,7 +229,12 @@ export default function Form(props) {
                                             Riwayat Pembelian
                                         </FButton>
                                     </Link>
-                                    <Link href="#">
+                                    <Link
+                                        href={route(
+                                            'mitra.history.paylater',
+                                            customer
+                                        )}
+                                    >
                                         <FButton
                                             size="xs"
                                             color="primary"

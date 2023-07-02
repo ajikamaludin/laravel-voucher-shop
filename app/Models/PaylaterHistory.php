@@ -44,21 +44,13 @@ class PaylaterHistory extends Model
         'format_human_created_at',
         'format_created_at',
         'amount',
+        'status',
+        'status_text',
     ];
 
-    public function update_customer_paylater()
+    public function customer()
     {
-        $customer = Customer::find($this->customer_id);
-        $paylater = $customer->paylater;
-
-        if ($paylater->day_deadline_at == null) {
-            $paylater->day_deadline_at = now()->addDays($paylater->day_deadline);
-        }
-
-        $paylater->update([
-            'usage' => $paylater->usage + $this->debit - $this->credit,
-            'day_deadline_at' => $paylater->day_deadline_at,
-        ]);
+        return $this->belongsTo(Customer::class);
     }
 
     public function formatHumanCreatedAt(): Attribute
@@ -84,5 +76,68 @@ class PaylaterHistory extends Model
 
             return '-Rp ' . number_format($this->credit, is_float($this->credit) ? 2 : 0, ',', '.');
         });
+    }
+
+    public function status(): Attribute
+    {
+        return Attribute::make(get: function () {
+            if ($this->type == self::TYPE_REPAYMENT && $this->is_valid == self::STATUS_REJECT) {
+                return 'Reject';
+            }
+
+            if ($this->type == self::TYPE_REPAYMENT && $this->is_valid == self::STATUS_EXPIRED) {
+                return 'Expired';
+            }
+
+            if ($this->type == self::TYPE_REPAYMENT && $this->is_valid != self::STATUS_VALID) {
+                return 'Menunggu pembayaran';
+            }
+
+            return '';
+        });
+    }
+
+    public function statusText(): Attribute
+    {
+        return Attribute::make(get: function () {
+            return [
+                self::STATUS_VALID => ['text' => 'Success', 'color' => 'bg-green-600', 'text_color' => 'text-green-600'],
+                self::STATUS_WAIT_UPLOAD => ['text' => 'Upload bukti bayar', 'color' => 'bg-red-600', 'text_color' => 'text-red-600'],
+                self::STATUS_WAIT_APPROVE => ['text' => 'Menunggu Approve', 'color' => 'bg-green-600', 'text_color' => 'text-green-600'],
+                self::STATUS_WAIT_PAYMENT => ['text' => 'Menunggu Pembayaran', 'color' => 'bg-green-600', 'text_color' => 'text-green-600'],
+                self::STATUS_INVALID => ['text' => 'Error', 'color' => 'bg-red-600', 'text_color' => 'text-red-600'],
+                self::STATUS_REJECT => ['text' => 'Reject', 'color' => 'bg-red-600', 'text_color' => 'text-red-600'],
+                self::STATUS_EXPIRED => ['text' => 'Expired', 'color' => 'bg-red-600', 'text_color' => 'text-red-600'],
+            ][$this->is_valid];
+        });
+    }
+
+    public function create_notification_user()
+    {
+        Notification::create([
+            'entity_id' => $this->customer_id,
+            'description' => 'Pembayaran ' . $this->description . ' sebesar ' . $this->amount . ' sudah sukses diterima',
+        ]);
+    }
+
+    public function update_customer_paylater()
+    {
+        $customer = Customer::find($this->customer_id);
+        $paylater = $customer->paylater;
+
+        if ($paylater->day_deadline_at == null) {
+            $paylater->day_deadline_at = now()->addDays($paylater->day_deadline);
+        }
+
+        $usage = $paylater->usage + $this->debit - $this->credit;
+
+        if ($usage == 0) {
+            $paylater->day_deadline_at = null;
+        }
+
+        $paylater->update([
+            'usage' => $usage,
+            'day_deadline_at' => $paylater->day_deadline_at,
+        ]);
     }
 }

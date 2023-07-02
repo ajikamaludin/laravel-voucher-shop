@@ -164,8 +164,8 @@ export default [
                 name: 'Pembayaran Hutang', // daftar pembayaran hutang yang perlu di konfirmasi , dan ada tombol add untuk pembayaran hutang oleh admin
                 show: true,
                 icon: HiCash,
-                route: route('setting.affilate'),
-                active: 'setting.affilate',
+                route: route('paylater.index'),
+                active: 'paylater.*',
                 permission: 'view-paylater-repayment',
             },
             {

@@ -8,7 +8,7 @@ import CustomerLayout from '@/Layouts/CustomerLayout'
 export default function Detail({ paylater }) {
     return (
         <CustomerLayout>
-            <Head title="poin" />
+            <Head title="Mitra WBB" />
             <div className="flex flex-col min-h-[calc(95dvh)]">
                 <div
                     className="w-full px-5 py-5"
@@ -38,6 +38,11 @@ export default function Detail({ paylater }) {
                         {isEmpty(paylater.note) === false && (
                             <div className="bg-blue-50 text-blue-700 p-3 border rounded-md">
                                 {paylater.note}
+                            </div>
+                        )}
+                        {isEmpty(paylater.status) === false && (
+                            <div className="bg-red-50 text-red-700 p-3 border rounded-md">
+                                {paylater.status}
                             </div>
                         )}
                     </div>

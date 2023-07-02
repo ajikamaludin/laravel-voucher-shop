@@ -4,7 +4,6 @@ import { isEmpty } from 'lodash'
 
 import {
     STATUS_APPROVE,
-    STATUS_EXPIRED,
     STATUS_REJECT,
     STATUS_WAIT_APPROVE,
     STATUS_WAIT_UPLOAD,
@@ -20,7 +19,7 @@ export default function Form(props) {
 
     const { data, setData, post, processing, errors } = useForm({
         debit: 0,
-        is_valid: '',
+        is_valid: 0,
         reject_reason: '',
     })
 
@@ -40,7 +39,7 @@ export default function Form(props) {
         +deposit.is_valid === STATUS_WAIT_UPLOAD
 
     const handleSubmit = () => {
-        post(route('deposit.update', deposit))
+        post(route('paylater.update', deposit))
     }
 
     useEffect(() => {
@@ -56,11 +55,11 @@ export default function Form(props) {
 
     return (
         <AuthenticatedLayout
-            page={'Deposit'}
+            page={'Pembayaran Hutang'}
             action={deposit.description}
-            parent={route('deposit.index')}
+            parent={route('paylater.index')}
         >
-            <Head title="Deposit" />
+            <Head title="Pembayaran Hutang" />
 
             <div>
                 <div className="mx-auto sm:px-6 lg:px-8">
@@ -118,7 +117,7 @@ export default function Form(props) {
                                 <tr>
                                     <td className="font-bold">Admin Fee</td>
                                     <td>:</td>
-                                    <td>Rp {formatIDR(deposit.admin_fee)}</td>
+                                    <td>Rp {formatIDR(+deposit.admin_fee)}</td>
                                 </tr>
                                 <tr>
                                     <td className="font-bold">Status</td>
@@ -178,7 +177,7 @@ export default function Form(props) {
                                     <select
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         onChange={handleOnChange}
-                                        value={data.is_valid}
+                                        value={+data.is_valid}
                                         name="is_valid"
                                     >
                                         <option value="">
@@ -192,9 +191,9 @@ export default function Form(props) {
                                             Reject
                                         </option>
                                     </select>
-                                    {errors.is_valid && (
+                                    {errors.status && (
                                         <div className="text-sm text-red-500">
-                                            {errors.is_valid}
+                                            {errors.status}
                                         </div>
                                     )}
                                     {errors.reject_reason && (

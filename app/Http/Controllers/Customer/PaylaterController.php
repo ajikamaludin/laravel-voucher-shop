@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
+use App\Models\Account;
 use App\Models\Customer;
 use App\Models\DepositHistory;
+use App\Models\DepositLocation;
 use App\Models\PaylaterHistory;
 use App\Models\Setting;
 use App\Services\GeneralService;
@@ -27,6 +29,17 @@ class PaylaterController extends Controller
 
     public function show(Request $request, PaylaterHistory $paylater)
     {
+        if ($paylater->type == PaylaterHistory::TYPE_REPAYMENT) {
+            $deposit = DepositHistory::where('related_id', $paylater->id)->first();
+
+            if (!in_array($deposit->is_valid, [DepositHistory::STATUS_VALID])) {
+                return redirect()->route('transactions.deposit.show', [
+                    'deposit' => $deposit,
+                    'back' => 'customer.paylater.index'
+                ]);
+            }
+        }
+
         return inertia('Paylater/Detail', [
             'paylater' => $paylater,
         ]);
@@ -51,6 +64,27 @@ class PaylaterController extends Controller
         ]);
 
         $customer = $request->user('customer');
+
+        // validate amount 
+        if ($customer->paylater->usage < $request->amount) {
+            return redirect()->back()
+                ->with('message', ['type' => 'error', 'message' => 'Nominal Tagihan tidak boleh lebih dari tagihan']);
+        }
+
+        // only 1 repayment at a time
+        $repayment = DepositHistory::query()
+            ->where([
+                ['customer_id', '=', $customer->id],
+                ['type', '=', DepositHistory::TYPE_REPAYMENT]
+            ])->where(function ($query) {
+                $query->where('is_valid', '!=', DepositHistory::STATUS_VALID)
+                    ->where('is_valid', '!=', DepositHistory::STATUS_REJECT)
+                    ->where('is_valid', '!=', DepositHistory::STATUS_EXPIRED);
+            })->first();
+        if ($repayment != null) {
+            return redirect()->back()
+                ->with('message', ['type' => 'error', 'message' => 'Selesaikan pembayaran tagihan sebelumnya']);
+        }
 
         DB::beginTransaction();
         $code = GeneralService::generateDepositRepayCode();
@@ -93,6 +127,10 @@ class PaylaterController extends Controller
 
         DB::commit();
 
-        return redirect()->route('transactions.deposit.show', ['deposit' => $deposit->id, 'direct' => 'true']);
+        return redirect()->route('transactions.deposit.show', [
+            'deposit' => $deposit->id,
+            'direct' => 'true',
+            'back' => 'customer.paylater.index'
+        ]);
     }
 }
