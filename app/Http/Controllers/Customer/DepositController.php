@@ -42,7 +42,7 @@ class DepositController extends Controller
     public function create(Request $request)
     {
         $customer = $request->user('customer');
-        if (!$customer->allow_transaction) {
+        if (! $customer->allow_transaction) {
             return redirect()->back()
                 ->with('message', ['type' => 'error', 'message' => 'akun anda dibekukan tidak dapat melakukan transaksi']);
         }
@@ -102,7 +102,7 @@ class DepositController extends Controller
             'direct' => $request->direct,
             'bank_admin_fee' => Setting::getByKey('ADMINFEE_MANUAL_TRANSFER'),
             'cash_admin_fee' => Setting::getByKey('ADMINFEE_CASH_DEPOSIT'),
-            'back' => $request->back ?? 'transactions.deposit.index'
+            'back' => $request->back ?? 'transactions.deposit.index',
         ]);
     }
 
@@ -157,7 +157,7 @@ class DepositController extends Controller
         if ($is_valid == DepositHistory::STATUS_VALID) {
             $deposit->update_customer_balance();
         }
-        // TODO: update for paylater 
+        // TODO: update for paylater
 
         DB::commit();
 
@@ -190,7 +190,7 @@ class DepositController extends Controller
 
             $deposit->save();
         }
-        // TODO: update for paylater 
+        // TODO: update for paylater
 
         DB::commit();
 

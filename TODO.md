@@ -41,4 +41,4 @@
 -   [x] ubah filter di mitra list dan customer list menjadi seperti di sale index
 -   [x] untuk detail mitra nanti akan ada button untuk (transaksi mitra dengan cakupan: pembelian voucher, pembayaran hutang,
         topuplimit, penambahan batas bayar, history deposit)
--   [ ] tambah floating button untuk notifikasi deposit (angka saja), di dashboard tambahkan list deposit terbaru
+-   [ ] di dashboard tambahkan list deposit terbaru

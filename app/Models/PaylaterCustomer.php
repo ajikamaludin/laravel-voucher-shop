@@ -17,7 +17,7 @@ class PaylaterCustomer extends Model
     ];
 
     protected $appends = [
-        'paylater_description'
+        'paylater_description',
     ];
 
     public function customer()
@@ -30,10 +30,11 @@ class PaylaterCustomer extends Model
         return Attribute::make(get: function () {
             if ($this->day_deadline_at != null) {
                 $deadlineAt = Carbon::parse($this->day_deadline_at)->translatedFormat('d F Y');
+
                 return "lunasi pinjaman kamu sebelum jatuh tempo pada {$deadlineAt}";
             }
 
-            return "yuk gunakan terus saldo yang tersedia";
+            return 'yuk gunakan terus saldo yang tersedia';
         });
     }
 }

@@ -55,7 +55,7 @@ class PaylaterController extends Controller
     public function show(PaylaterHistory $paylater)
     {
         return inertia('Paylater/Detail', [
-            'paylater' => $paylater->load(['customer'])
+            'paylater' => $paylater->load(['customer']),
         ]);
     }
 
