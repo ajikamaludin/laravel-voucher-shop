@@ -76,16 +76,13 @@ export default function Index(props) {
             <Head title="Top Up" />
             <div className="flex flex-col w-full min-h-[calc(90dvh)]">
                 <HeaderTrx dates={dates} setDates={setDates} />
-                {deposites.length <= 0 && <EmptyHere />}
 
                 <div className="w-full">
                     <div className="flex flex-col space-y-5 px-5">
-                        {deposites.length > 0 && (
-                            <div className="text-sm text-gray-400">
-                                {formatIDDate(dates.startDate)} s/d{' '}
-                                {formatIDDate(dates.endDate)}
-                            </div>
-                        )}
+                        <div className="text-sm text-gray-400">
+                            {formatIDDate(dates.startDate)} s/d{' '}
+                            {formatIDDate(dates.endDate)}
+                        </div>
                         {deposites.map((history) => (
                             <div
                                 key={history.id}
@@ -131,6 +128,8 @@ export default function Index(props) {
                         )}
                     </div>
                 </div>
+
+                {deposites.length <= 0 && <EmptyHere />}
             </div>
         </CustomerLayout>
     )

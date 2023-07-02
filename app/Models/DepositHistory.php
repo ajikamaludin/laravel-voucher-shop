@@ -22,8 +22,6 @@ class DepositHistory extends Model
 
     const STATUS_EXPIRED = 6;
 
-    const STATUS_HIDDEN = 7;
-
     const TYPE_DEPOSIT = 0;
 
     const TYPE_REPAYMENT = 1;

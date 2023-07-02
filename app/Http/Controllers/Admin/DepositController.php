@@ -15,7 +15,8 @@ class DepositController extends Controller
     public function index(Request $request)
     {
         $deposits = DepositHistory::with(['customer', 'account', 'depositLocation', 'editor'])
-            ->where('credit', 0);
+            ->where('credit', 0)
+            ->where('type', DepositHistory::TYPE_DEPOSIT);
 
         if ($request->q != '') {
             $deposits->where(function ($query) use ($request) {
@@ -51,16 +52,20 @@ class DepositController extends Controller
             'deposit_this_month' => DepositHistory::whereMonth('created_at', now()->month)
                 ->whereYear('created_at', now()->year)
                 ->where('is_valid', DepositHistory::STATUS_VALID)
+                ->where('type', DepositHistory::TYPE_DEPOSIT)
                 ->sum('debit'),
             'deposit_today' => DepositHistory::whereDate('created_at', now())
                 ->where('is_valid', DepositHistory::STATUS_VALID)
+                ->where('type', DepositHistory::TYPE_DEPOSIT)
                 ->sum('debit'),
             'paylater_this_month' => PaylaterHistory::whereMonth('created_at', now()->month)
                 ->where('is_valid', PaylaterHistory::STATUS_VALID)
+                ->where('type', DepositHistory::TYPE_DEPOSIT)
                 ->whereYear('created_at', now()->year)
                 ->sum('debit'),
             'paylater_today' => PaylaterHistory::whereDate('created_at', now())
                 ->where('is_valid', PaylaterHistory::STATUS_VALID)
+                ->where('type', DepositHistory::TYPE_DEPOSIT)
                 ->sum('debit'),
         ];
 

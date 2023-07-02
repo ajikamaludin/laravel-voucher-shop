@@ -15,6 +15,7 @@ class CustomerHistoryController extends Controller
     {
         $query = DepositHistory::with(['editor'])
             ->where('customer_id', $customer->id)
+            ->where('type', DepositHistory::TYPE_DEPOSIT)
             ->orderBy('created_at', 'desc');
 
         return inertia('CustomerHistory/DepositHistory', [

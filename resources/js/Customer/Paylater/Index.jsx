@@ -50,9 +50,7 @@ export default function Index({
                             <div
                                 className="px-3 py-2 border rounded-full bg-blue-700 text-white hover:bg-transparent hover:text-black"
                                 onClick={() =>
-                                    router.get(
-                                        route('transactions.deposit.topup')
-                                    )
+                                    router.get(route('customer.paylater.repay'))
                                 }
                             >
                                 Bayar Tagihan

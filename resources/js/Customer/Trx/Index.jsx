@@ -79,15 +79,13 @@ export default function Index(props) {
             <Head title="Transaksi" />
             <div className="flex flex-col min-h-[calc(90dvh)]">
                 <HeaderTrx enable="trx" dates={dates} setDates={setDates} />
-                {sales.length <= 0 && <EmptyHere />}
+
                 <div className="w-full">
                     <div className="flex flex-col space-y-5 px-5">
-                        {sales.length > 0 && (
-                            <div className="text-sm text-gray-400">
-                                {formatIDDate(dates.startDate)} s/d{' '}
-                                {formatIDDate(dates.endDate)}
-                            </div>
-                        )}
+                        <div className="text-sm text-gray-400">
+                            {formatIDDate(dates.startDate)} s/d{' '}
+                            {formatIDDate(dates.endDate)}
+                        </div>
                         {sales.map((sale) => (
                             <div
                                 key={sale.id}
@@ -121,6 +119,8 @@ export default function Index(props) {
                         )}
                     </div>
                 </div>
+
+                {sales.length <= 0 && <EmptyHere />}
             </div>
         </CustomerLayout>
     )

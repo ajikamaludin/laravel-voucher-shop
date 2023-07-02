@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { usePage, router } from '@inertiajs/react'
 
 import BottomSheet from '@/Customer/Components/BottomSheet'
+import { toastError } from '@/Customer/utils'
 
 const Payment = ({ state }) => {
     const {
@@ -18,13 +19,16 @@ const Payment = ({ state }) => {
     }
 
     const pay = (payment) => {
+        if (!payment.is_enable) {
+            return
+        }
         if (processing) {
             return
         }
         router.post(
             route('cart.purchase'),
             {
-                payed_with: payment,
+                payed_with: payment.name,
             },
             {
                 onBefore: () => setProcessing(true),
@@ -41,7 +45,7 @@ const Payment = ({ state }) => {
                     <div
                         key={payment.name}
                         className={isEnable(payment.is_enable)}
-                        onClick={() => pay(payment.name)}
+                        onClick={() => pay(payment)}
                     >
                         {payment.display_name}
                     </div>

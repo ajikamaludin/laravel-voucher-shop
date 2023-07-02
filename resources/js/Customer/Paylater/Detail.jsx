@@ -1,6 +1,7 @@
 import React from 'react'
 import { Head, router } from '@inertiajs/react'
 import { HiChevronLeft } from 'react-icons/hi2'
+import { isEmpty } from 'lodash'
 
 import CustomerLayout from '@/Layouts/CustomerLayout'
 
@@ -34,9 +35,11 @@ export default function Detail({ paylater }) {
                 </div>
                 <div className="w-full px-5">
                     <div className="my-5">
-                        <div className="bg-blue-50 text-blue-700 p-3 border rounded-md">
-                            {paylater.note}
-                        </div>
+                        {isEmpty(paylater.note) === false && (
+                            <div className="bg-blue-50 text-blue-700 p-3 border rounded-md">
+                                {paylater.note}
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
