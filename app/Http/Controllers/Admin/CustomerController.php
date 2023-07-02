@@ -31,23 +31,30 @@ class CustomerController extends Controller
             });
         }
 
-        if ($request->location_id != '') {
-            $query->whereHas('locationFavorites', fn ($q) => $q->where('id', $request->location_id));
+        if ($request->location_ids != '') {
+            $query->whereHas('locationFavorites', fn ($q) => $q->whereIn('id', $request->location_ids));
         }
 
-        if ($request->level_id != '') {
-            $query->where('customer_level_id', $request->level_id);
+        if ($request->levels != '') {
+            $query->whereIn('customer_level_id', $request->levels);
         }
 
+        $sortBy = 'updated_at';
+        $sortRule = 'desc';
         if ($request->sortBy != '' && $request->sortRule != '') {
-            $query->orderBy($request->sortBy, $request->sortRule);
-        } else {
-            $query->orderBy('updated_at', 'desc');
+            $sortBy = $request->sortBy;
+            $sortRule = $request->sortRule;
         }
+
+        $query->orderBy($sortBy, $sortRule);
 
         return inertia('Customer/Index', [
             'query' => $query->paginate(),
             'stats' => $stats,
+            'levels' => CustomerLevel::all(),
+            '_search' => $request->q,
+            '_sortBy' => $sortBy,
+            '_sortOrder' => $sortRule,
         ]);
     }
 
@@ -108,8 +115,8 @@ class CustomerController extends Controller
     public function update(Request $request, Customer $customer)
     {
         $request->validate([
-            'email' => 'nullable|email|unique:customers,email,'.$customer->id,
-            'username' => 'required|string|min:5|alpha_dash|unique:customers,username,'.$customer->id,
+            'email' => 'nullable|email|unique:customers,email,' . $customer->id,
+            'username' => 'required|string|min:5|alpha_dash|unique:customers,username,' . $customer->id,
             'password' => 'nullable|string|min:8',
             'name' => 'required|string',
             'fullname' => 'required|string',
@@ -189,7 +196,6 @@ class CustomerController extends Controller
             'items.*.type' => 'required|in:text,file',
             'items.*.value' => 'nullable|string',
         ]);
-        //
 
         $partner = CustomerAsDataPartner::updateOrCreate([
             'customer_id' => $customer->id,

@@ -3,7 +3,8 @@ import { Link, router } from '@inertiajs/react'
 import { usePrevious } from 'react-use'
 import { Head } from '@inertiajs/react'
 import { Button, Dropdown } from 'flowbite-react'
-import { HiPencil, HiTrash } from 'react-icons/hi'
+import { HiOutlineFilter, HiPencil, HiTrash } from 'react-icons/hi'
+import { HiEye } from 'react-icons/hi2'
 import { useModalState } from '@/hooks'
 
 import { formatIDR, hasPermission } from '@/utils'
@@ -11,10 +12,8 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import Pagination from '@/Components/Pagination'
 import ModalConfirm from '@/Components/ModalConfirm'
 import SearchInput from '@/Components/SearchInput'
-import LocationSelectionInput from '../Location/SelectionInput'
-import LevelSelectionInput from '../CustomerLevel/SelectionInput'
 import ThSort from '@/Components/ThSortComponent'
-import { HiEye } from 'react-icons/hi2'
+import ModalFilter from '../Customer/ModalFilter'
 
 export default function Customer(props) {
     const {
@@ -26,16 +25,15 @@ export default function Customer(props) {
         _sortOrder,
     } = props
 
-    const [location, setLocation] = useState(null)
-    const [level, setLevel] = useState(null)
     const [search, setSearch] = useState({
         q: _search,
         sortBy: _sortBy,
         sortOrder: _sortOrder,
     })
-    const preValue = usePrevious(`${search}${location}${level}`)
+    const preValue = usePrevious(`${search}`)
 
     const confirmModal = useModalState()
+    const filterModal = useModalState()
 
     const handleDeleteClick = (customer) => {
         confirmModal.setData(customer)
@@ -71,19 +69,23 @@ export default function Customer(props) {
         })
     }
 
-    const params = { q: search, location_id: location, level_id: level }
+    const handleFilter = (filter) => {
+        setSearch({ ...search, ...filter })
+    }
+
+    const params = { ...search }
     useEffect(() => {
         if (preValue) {
             router.get(
                 route(route().current()),
-                { ...search, location_id: location, level_id: level },
+                { ...search },
                 {
                     replace: true,
                     preserveState: true,
                 }
             )
         }
-    }, [search, location, level])
+    }, [search])
 
     const canCreate = hasPermission(auth, 'create-mitra')
     const canUpdate = hasPermission(auth, 'update-mitra')
@@ -155,30 +157,17 @@ export default function Customer(props) {
                                 </Link>
                             )}
                             <div className="flex flex-col gap-1 items-end">
-                                <div className="max-w-md">
-                                    <SearchInput
-                                        onChange={handleSearchChange}
-                                        value={search.q}
-                                    />
-                                </div>
                                 <div className="flex flex-row gap-1">
-                                    <div className="w-full max-w-md">
-                                        <LevelSelectionInput
-                                            itemSelected={level}
-                                            onItemSelected={(id) =>
-                                                setLevel(id)
-                                            }
-                                            placeholder={'filter level'}
-                                            only={['gold', 'platinum']}
-                                        />
+                                    <div
+                                        className="px-3 py-2 rounded-md border bg-gray-600 border-gray-700 hover:bg-gray-500"
+                                        onClick={() => filterModal.toggle()}
+                                    >
+                                        <HiOutlineFilter className="w-5 h-5 text-white" />
                                     </div>
-                                    <div className="w-full max-w-md">
-                                        <LocationSelectionInput
-                                            itemSelected={location}
-                                            onItemSelected={(id) =>
-                                                setLocation(id)
-                                            }
-                                            placeholder={'filter lokasi'}
+                                    <div>
+                                        <SearchInput
+                                            onChange={handleSearchChange}
+                                            value={search.q}
                                         />
                                     </div>
                                 </div>
@@ -409,6 +398,7 @@ export default function Customer(props) {
                 </div>
             </div>
             <ModalConfirm modalState={confirmModal} onConfirm={onDelete} />
+            <ModalFilter state={filterModal} handleFilter={handleFilter} />
         </AuthenticatedLayout>
     )
 }

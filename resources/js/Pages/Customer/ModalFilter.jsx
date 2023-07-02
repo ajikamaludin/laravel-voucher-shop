@@ -1,25 +1,20 @@
 import React, { useState } from 'react'
 import { HiXCircle } from 'react-icons/hi2'
 
-import {
-    PAYED_WITH_DEPOSIT,
-    PAYED_WITH_MANUAL,
-    PAYED_WITH_PAYLATER,
-} from '@/constant'
 import Modal from '@/Components/Modal'
 import Button from '@/Components/Button'
 import LocationSelectionInput from '../Location/SelectionInput'
-import FormInputDateRanger from '@/Components/FormInputDateRange'
+import Checkbox from '@/Components/Checkbox'
+import { usePage } from '@inertiajs/react'
 
 export default function ModalFilter(props) {
+    const {
+        props: { levels },
+    } = usePage()
     const { state, handleFilter } = props
 
     const [locations, setLocations] = useState([])
-    const [dates, setDates] = useState({
-        startDate: null,
-        endDate: null,
-    })
-    const [payment, setPayment] = useState('')
+    const [checkedLevels, setCheckedLevels] = useState([])
 
     const handleAddLocation = (location) => {
         const isExists = locations.find((l) => l.id === location.id)
@@ -32,11 +27,28 @@ export default function ModalFilter(props) {
         setLocations(locations.filter((l) => l.id !== location.id))
     }
 
+    const handleLevelChecked = (level, e) => {
+        const isExists = isLevelChecked(level)
+        if (!isExists && e.target.checked) {
+            setCheckedLevels(checkedLevels.concat(level))
+            return
+        }
+
+        setCheckedLevels(checkedLevels.filter((l) => l.id !== level.id))
+    }
+
+    const isLevelChecked = (level) => {
+        const isExists = checkedLevels.find((l) => l.id === level.id)
+        if (isExists) {
+            return true
+        }
+        return false
+    }
+
     const handleClickFilter = () => {
         handleFilter({
             location_ids: locations.map((l) => l.id),
-            payment,
-            ...dates,
+            levels: checkedLevels.map((l) => l.id),
         })
         state.toggle()
     }
@@ -65,24 +77,17 @@ export default function ModalFilter(props) {
                     onItemSelected={(item) => handleAddLocation(item)}
                 />
             </div>
-            <div>
-                <FormInputDateRanger
-                    label="Tanggal: "
-                    selected={dates}
-                    onChange={(dates) => setDates(dates)}
+            <div className="mb-1 text-sm">Level : </div>
+            {levels.map((level) => (
+                <Checkbox
+                    key={level.id}
+                    label={level.name}
+                    value={isLevelChecked(level)}
+                    onChange={(e) => handleLevelChecked(level, e)}
                 />
-            </div>
-            <div className="mb-1 text-sm">Pembayaran : </div>
-            <select
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                onChange={(e) => setPayment(e.target.value)}
-                value={payment}
-            >
-                <option value=""> -- filter pembayaran -- </option>
-                <option value={PAYED_WITH_DEPOSIT}>Deposit</option>
-                <option value={PAYED_WITH_PAYLATER}>Hutang</option>
-            </select>
+            ))}
 
+            <div className="mb-2"></div>
             <Button onClick={() => handleClickFilter()}>Filter</Button>
         </Modal>
     )
