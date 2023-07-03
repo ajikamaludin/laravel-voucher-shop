@@ -18,6 +18,8 @@ return new class extends Migration
             $table->ulid('entity_id')->nullable();
             $table->string('description')->nullable();
             $table->smallInteger('is_read')->default(0);
+            $table->string('url')->nullable();
+            $table->string('type')->nullable();
 
             $table->timestamps();
             $table->softDeletes();

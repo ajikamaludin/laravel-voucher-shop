@@ -1,3 +1,5 @@
+import { router } from '@inertiajs/react'
+
 export const filterOpenMenu = (user, item) => {
     const isAdmin = user.role === null
     if ('items' in item) {
@@ -21,5 +23,21 @@ export const filterOpenMenu = (user, item) => {
     }
     if (isAdmin) {
         return item
+    }
+}
+
+export const browserNotification = (title, message, url) => {
+    if (typeof Notification !== undefined) {
+        let permission = Notification.permission
+        if (permission === 'granted') {
+            let notification = new Notification(title, {
+                body: message,
+            })
+
+            notification.onclick = () => {
+                window.parent.focus()
+                router.visit(url)
+            }
+        }
     }
 }

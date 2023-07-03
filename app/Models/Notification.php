@@ -7,6 +7,8 @@ use Illuminate\Support\Carbon;
 
 class Notification extends Model
 {
+    const TYPE_DEPOSIT = 'deposit';
+
     const UNREAD = 0;
 
     const READ = 1;
@@ -16,6 +18,8 @@ class Notification extends Model
         'entity_id',
         'description',
         'is_read',
+        'url',
+        'type',
     ];
 
     protected $appends = [

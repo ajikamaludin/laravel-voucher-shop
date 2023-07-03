@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\NotificationEvent;
 use App\Http\Controllers\Api\CustomerController;
 use App\Http\Controllers\Api\CustomerLevelController;
 use App\Http\Controllers\Api\LocationController;

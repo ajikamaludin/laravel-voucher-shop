@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
+import { router, Link, usePage } from '@inertiajs/react'
+import { Breadcrumb, Flowbite } from 'flowbite-react'
 import { ToastContainer, toast } from 'react-toastify'
+import { HiMenu, HiChevronDown, HiHome } from 'react-icons/hi'
+import { HiOutlineBell } from 'react-icons/hi2'
+
 import ApplicationLogo from '@/Components/Defaults/ApplicationLogo'
 import Dropdown from '@/Components/Defaults/Dropdown'
-import { Link, usePage } from '@inertiajs/react'
-import { Breadcrumb, Flowbite } from 'flowbite-react'
-import { HiMenu, HiChevronDown, HiHome } from 'react-icons/hi'
-import { router } from '@inertiajs/react'
 import SidebarNav from './Partials/SidebarNav'
-import { HiOutlineBell } from 'react-icons/hi2'
+import NotificationContent from './Partials/NotificationContent'
+import NotificationDeposit from './Partials/NotificationDeposit'
 
 const customTheme = {
     button: {
@@ -34,16 +36,17 @@ export default function Authenticated({
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false)
 
-    const handleNotification = (notif) => {
-        fetch(route('api.notification.update', notif))
-        router.get(route(route().current()))
-    }
-
     useEffect(() => {
         if (flash.message !== null) {
             toast(flash.message.message, { type: flash.message.type })
         }
     }, [flash])
+
+    useEffect(() => {
+        if (typeof Notification !== undefined) {
+            Notification.requestPermission()
+        }
+    }, [])
 
     return (
         <Flowbite theme={{ theme: customTheme }}>
@@ -61,71 +64,10 @@ export default function Authenticated({
 
                             <div className="hidden sm:flex sm:items-center sm:ml-6">
                                 <div className="ml-3 relative">
-                                    <Dropdown>
-                                        <Dropdown.Trigger>
-                                            <div className="flex flex-row">
-                                                <HiOutlineBell className="h-6 w-6" />
-                                                <div>
-                                                    <div className="bg-blue-300 text-blue-600 rounded-lg px-1 text-xs -ml-2">
-                                                        {
-                                                            count_unread_notifications
-                                                        }
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </Dropdown.Trigger>
-                                        <Dropdown.Content width="64">
-                                            {notifications.map((notif) => (
-                                                <div
-                                                    className={`px-4 py-2 hover:bg-gray-100 border-b`}
-                                                    onClick={() =>
-                                                        handleNotification(
-                                                            notif
-                                                        )
-                                                    }
-                                                    key={notif.id}
-                                                >
-                                                    <div
-                                                        className={`${
-                                                            +notif.is_read ===
-                                                                0 && 'font-bold'
-                                                        }`}
-                                                    >
-                                                        {notif.description}
-                                                    </div>
-                                                    <div className="text-xs">
-                                                        {
-                                                            notif.format_created_at
-                                                        }
-                                                    </div>
-                                                </div>
-                                            ))}
-                                            {notifications.length > 0 && (
-                                                <div className="w-full flex flex-row justify-between px-3">
-                                                    <div
-                                                        className="text-xs hover:text-blue-500 hover:underline"
-                                                        onClick={() =>
-                                                            router.get(
-                                                                route(
-                                                                    'notifications.index'
-                                                                )
-                                                            )
-                                                        }
-                                                    >
-                                                        lihat semua
-                                                    </div>
-                                                    <div
-                                                        className="text-xs hover:text-blue-500 hover:underline"
-                                                        onClick={() =>
-                                                            handleNotification()
-                                                        }
-                                                    >
-                                                        tandai semua dibaca
-                                                    </div>
-                                                </div>
-                                            )}
-                                        </Dropdown.Content>
-                                    </Dropdown>
+                                    <NotificationDeposit />
+                                </div>
+                                <div className="ml-3 relative">
+                                    <NotificationContent />
                                 </div>
                                 <div className="ml-3 relative">
                                     <Dropdown>

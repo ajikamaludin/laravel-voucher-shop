@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use App\Models\Notification;
 use Illuminate\Http\Request;
+use Illuminate\Notifications\Notification as NotificationsNotification;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
@@ -30,6 +31,7 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $notifications = Notification::where('entity_type', \App\Models\User::class)->orderBy('created_at', 'desc');
         return array_merge(parent::share($request), [
             'auth' => [
                 'user' => $request->user() ? $request->user()->load(['role.permissions']) : $request->user(),
@@ -39,8 +41,10 @@ class HandleInertiaRequests extends Middleware
             ],
             'app_name' => env('APP_NAME', 'App Name'),
             'csrf_token' => csrf_token(),
-            'notifications' => Notification::where('entity_type', \App\Models\User::class)->orderBy('created_at', 'desc')->limit(10)->get(),
-            'count_unread_notifications' => Notification::where('entity_type', \App\Models\User::class)->where('is_read', Notification::UNREAD)->count(),
+            'notifications' => $notifications->limit(10)->get(),
+            'count_unread_notifications' => $notifications->where('is_read', Notification::UNREAD)->count(),
+            'deposit_notifications' => $notifications->where('type', Notification::TYPE_DEPOSIT)
+                ->where('is_read', Notification::UNREAD)->limit(10)->get(),
         ]);
     }
 }

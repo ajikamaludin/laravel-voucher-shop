@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use App\Events\NotificationEvent;
 use App\Services\GeneralService;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Support\Carbon;
+use PHPUnit\Framework\Error\Notice;
 
 class DepositHistory extends Model
 {
@@ -99,10 +101,10 @@ class DepositHistory extends Model
     {
         return Attribute::make(get: function () {
             if ($this->credit == 0) {
-                return 'Rp '.number_format($this->debit, is_float($this->debit) ? 2 : 0, ',', '.');
+                return 'Rp ' . number_format($this->debit, is_float($this->debit) ? 2 : 0, ',', '.');
             }
 
-            return '-Rp '.number_format($this->credit, is_float($this->credit) ? 2 : 0, ',', '.');
+            return '-Rp ' . number_format($this->credit, is_float($this->credit) ? 2 : 0, ',', '.');
         });
     }
 
@@ -163,9 +165,12 @@ class DepositHistory extends Model
             if ($this->is_valid == self::STATUS_WAIT_APPROVE) {
                 $status = ' (bukti bayar di upload, membutuhkan konfirmasi)';
             }
-            Notification::create([
+
+            $notification = Notification::create([
                 'entity_type' => User::class,
-                'description' => $this->customer->fullname.' melakukan deposit transfer manual sebesar : '.$this->amount.$status,
+                'description' => $this->customer->fullname . ' melakukan deposit transfer manual sebesar : ' . $this->amount . $status,
+                'url' => route('deposit.edit', $this),
+                'type' => Notification::TYPE_DEPOSIT,
             ]);
         }
 
@@ -174,25 +179,43 @@ class DepositHistory extends Model
             if ($this->is_valid == self::STATUS_WAIT_APPROVE) {
                 $status = ' (bukti bayar di upload, membutuhkan konfirmasi)';
             }
-            Notification::create([
+
+            $notification = Notification::create([
                 'entity_type' => User::class,
-                'description' => $this->customer->fullname.' melakukan deposit manual sebesar : '.$this->amount.$status,
+                'description' => $this->customer->fullname . ' melakukan deposit manual sebesar : ' . $this->amount . $status,
+                'url' => route('deposit.edit', $this),
+                'type' => Notification::TYPE_DEPOSIT,
             ]);
         }
 
         if ($this->payment_channel == Setting::PAYMENT_MIDTRANS) {
-            Notification::create([
+            $notification = Notification::create([
                 'entity_type' => User::class,
-                'description' => $this->customer->fullname.' melakukan deposit via midtrans sebesar : '.$this->amount,
+                'description' => $this->customer->fullname . ' melakukan deposit via midtrans sebesar : ' . $this->amount,
+                'url' => route('deposit.edit', $this),
+                'type' => Notification::TYPE_DEPOSIT,
             ]);
         }
+
+        NotificationEvent::dispatch([
+            'id' => $notification->id,
+            'description' => $notification->description,
+            'url' => $notification->url,
+            'type' => Notification::TYPE_DEPOSIT,
+            'format_created_at' => now()->translatedFormat('d F Y H:i:s'),
+            'deposit_notifications' => Notification::where('entity_type', User::class)
+                ->where('type', Notification::TYPE_DEPOSIT)
+                ->where('is_read', Notification::UNREAD)->limit(10)
+                ->orderBy('created_at', 'desc')
+                ->get(),
+        ]);
     }
 
     public function create_notification_user()
     {
         Notification::create([
             'entity_id' => $this->customer_id,
-            'description' => 'Deposit '.$this->description.' sebesar '.$this->amount.' sudah sukses diterima',
+            'description' => 'Deposit ' . $this->description . ' sebesar ' . $this->amount . ' sudah sukses diterima',
         ]);
     }
 }
