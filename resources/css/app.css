@@ -138,6 +138,14 @@
     @apply flex flex-col;
 }
 
+.react-datepicker__year-container {
+    @apply flex flex-col;
+}
+
+.react-datepicker__year {
+    @apply flex flex-col;
+}
+
 .react-datepicker__month {
     @apply flex flex-col;
 }
@@ -148,6 +156,10 @@
 
 .react-datepicker__month-wrapper {
     @apply flex flex-row;
+}
+
+.react-datepicker__year-wrapper {
+    @apply grid grid-cols-4;
 }
 
 .react-datepicker__month-0 {
@@ -200,6 +212,18 @@
 
 .react-datepicker__current-month {
     @apply ml-2.5 text-lg font-semibold text-gray-800 dark:text-gray-100;
+}
+
+.react-datepicker__year-text {
+    @apply ml-2.5 text-lg  text-gray-800 dark:text-gray-100 px-2 rounded-md;
+}
+
+.react-datepicker__year-text--selected {
+    @apply bg-blue-400 shadow-md font-semibold;
+}
+
+.react-datepicker__year-text--today {
+    @apply bg-blue-200;
 }
 
 .react-datepicker__week {

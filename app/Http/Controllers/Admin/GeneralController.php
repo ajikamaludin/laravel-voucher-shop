@@ -3,36 +3,18 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Customer;
 use App\Models\DepositHistory;
 use App\Models\Sale;
 use App\Models\SaleItem;
-use App\Models\Voucher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class GeneralController extends Controller
 {
     public function index(Request $request)
     {
-        $total_voucher = Voucher::count();
-        $total_customer = Customer::count();
-        $total_customer_verified = Customer::where('identity_verified', Customer::VERIFIED)->count();
-        $total_deposit = DepositHistory::where('is_valid', DepositHistory::STATUS_VALID)->sum('debit');
-
-        $month = now()->translatedFormat('F');
-        $startOfMonth = now()->startOfMonth()->format('m/d/Y');
-        $endOfMonth = now()->endOfMonth()->format('m/d/Y');
-        $total_voucher_sale_this_month = SaleItem::whereBetween('created_at', [$startOfMonth, $endOfMonth])
-            ->sum('price');
-        $count_voucher_sale_this_month = SaleItem::whereBetween('created_at', [$startOfMonth, $endOfMonth])
-            ->sum('quantity');
-        $total_voucher_sale_this_day = SaleItem::whereDate('created_at', now()->format('Y-m-d'))
-            ->sum('price');
-        $count_voucher_sale_this_day = SaleItem::whereDate('created_at', now()->format('Y-m-d'))
-            ->sum('quantity');
-
         $deposites = DepositHistory::whereDate('created_at', now()->format('Y-m-d'))
             ->where('is_valid', DepositHistory::STATUS_VALID)
             ->where('debit', '!=', '0')
@@ -53,59 +35,135 @@ class GeneralController extends Controller
             ->get();
 
         // charts
-        $startDate = now()->startOfMonth()->format('m/d/Y');
-        $endDate = now()->endOfMonth()->format('m/d/Y');
+        $startDate = now()->startOfMonth();
+        $endDate = now()->endOfMonth();
+        $year = $startDate;
         if ($request->start_date != '') {
-            $startDate = Carbon::parse($request->start_date)->format('m/d/Y');
+            $startDate = Carbon::parse($request->start_date);
         }
         if ($request->end_date != '') {
-            $endDate = Carbon::parse($request->end_date)->format('m/d/Y');
+            $endDate = Carbon::parse($request->end_date);
         }
-        $charts = Sale::selectRaw('SUM(amount) as sale_total, date_time')
+        if ($request->year != '') {
+            $year = Carbon::parse($request->year);
+        }
+
+        $saleDepositCharts = Sale::selectRaw('SUM(amount) as sale_total, DATE(date_time)')
             ->whereBetween('date_time', [$startDate, $endDate])
-            ->orderBy('date_time', 'asc')
-            ->groupBy('date_time');
+            ->where('payed_with', Sale::PAYED_WITH_DEPOSIT)
+            ->groupBy(DB::raw('DATE(date_time)'));
+
+        $salePaylaterCharts = Sale::selectRaw('SUM(amount) as sale_total, DATE(date_time)')
+            ->whereBetween('date_time', [$startDate, $endDate])
+            ->where('payed_with', Sale::PAYED_WITH_PAYLATER)
+            ->groupBy(DB::raw('DATE(date_time)'));
 
         // filter lokasi
         if ($request->location_id != '') {
-            $charts->whereHas('items', function ($q) use ($request) {
+            $saleDepositCharts->whereHas('items', function ($q) use ($request) {
                 $q->join('vouchers', 'vouchers.id', '=', 'sale_items.entity_id')
-                    ->where('vouchers.location_id', $request->location_id);
+                    ->join('location_profiles', 'vouchers.location_profile_id', '=', 'location_profiles.id')
+                    ->where('location_profiles.location_id', $request->location_id);
+            });
+            $salePaylaterCharts->whereHas('items', function ($q) use ($request) {
+                $q->join('vouchers', 'vouchers.id', '=', 'sale_items.entity_id')
+                    ->join('location_profiles', 'vouchers.location_profile_id', '=', 'location_profiles.id')
+                    ->where('location_profiles.location_id', $request->location_id);
             });
         }
 
         // filter customer
         if ($request->customer_id != '') {
-            $charts->where('customer_id', $request->customer_id);
+            $saleDepositCharts->where('customer_id', $request->customer_id);
+            $salePaylaterCharts->where('customer_id', $request->customer_id);
         }
 
-        $ca = [];
+        $depositSaleCharts = [];
+        $paylaterSaleCharts = [];
+        $dates = [];
         $date = Carbon::parse($startDate);
         $end = Carbon::parse($endDate);
-        $data = $charts->get();
+
+        $saleDepositCharts = $saleDepositCharts->get();
+        $salePaylaterCharts = $salePaylaterCharts->get();
+
         while ($date <= $end) {
-            $da = $data->where('date', $date->format('d/m/Y'))?->value('sale_total') ?? 0;
-            $ca[] = ['sale_total' => $da, 'date' => $date->format('d/m/Y')];
+            if ($request->payment == 'deposit' || $request->payment == '') {
+                $sdc = $saleDepositCharts->where('date', $date->format('Y-m-d'))->value('sale_total') ?? 0;
+                $depositSaleCharts[] = ['sale_total' => $sdc, 'date' => $date->format('d/m/Y')];
+            }
+
+            if ($request->payment == 'paylater' || $request->payment == '') {
+                $spc = $salePaylaterCharts->where('date', $date->format('Y-m-d'))->value('sale_total') ?? 0;
+                $paylaterSaleCharts[] = ['sale_total' => $spc, 'date' => $date->format('d/m/Y')];
+            }
+
+            $dates[] = ['date' => $date->format('d/m/Y')];
+
             $date = $date->addDay();
         }
 
+        $saleYearDepositCharts = Sale::selectRaw("SUM(amount) as sale_total, DATE_PART('month', date_time) as month")
+            ->where('payed_with', Sale::PAYED_WITH_DEPOSIT)
+            ->whereRaw("DATE_PART('year', sales.date_time) = " . Carbon::parse($year)->year)
+            ->groupBy(DB::raw("DATE_PART('month', date_time)"));
+
+        $saleYearPaylaterCharts = Sale::selectRaw("SUM(amount) as sale_total, DATE_PART('month', date_time) as month")
+            ->where('payed_with', Sale::PAYED_WITH_PAYLATER)
+            ->whereRaw("DATE_PART('year', sales.date_time) = " . Carbon::parse($year)->year)
+            ->groupBy(DB::raw("DATE_PART('month', date_time)"));
+
+        // filter lokasi
+        if ($request->year_location_id != '') {
+            $saleYearDepositCharts->whereHas('items', function ($q) use ($request) {
+                $q->join('vouchers', 'vouchers.id', '=', 'sale_items.entity_id')
+                    ->join('location_profiles', 'vouchers.location_profile_id', '=', 'location_profiles.id')
+                    ->where('location_profiles.location_id', $request->year_location_id);
+            });
+            $saleYearPaylaterCharts->whereHas('items', function ($q) use ($request) {
+                $q->join('vouchers', 'vouchers.id', '=', 'sale_items.entity_id')
+                    ->join('location_profiles', 'vouchers.location_profile_id', '=', 'location_profiles.id')
+                    ->where('location_profiles.location_id', $request->year_location_id);
+            });
+        }
+
+        // filter customer
+        if ($request->year_customer_id != '') {
+            $saleYearDepositCharts->where('customer_id', $request->year_customer_id);
+            $saleYearPaylaterCharts->where('customer_id', $request->year_customer_id);
+        }
+
+        $saleYearDepositCharts = $saleYearDepositCharts->get();
+        $saleYearPaylaterCharts = $saleYearPaylaterCharts->get();
+
+        $depositYearSaleCharts = [];
+        $paylaterYearSaleCharts = [];
+        $months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+        $ms = [];
+        foreach ($months as $month) {
+            if ($request->year_payment == 'deposit' || $request->year_payment == '') {
+                $depositYearSaleCharts[] = ['sale_total' => $saleYearDepositCharts->where('month', $month)->value('sale_total') ?? 0, 'month' => $month];
+            }
+            if ($request->year_payment == 'paylater' || $request->year_payment == '') {
+                $paylaterYearSaleCharts[] = ['sale_total' => $saleYearPaylaterCharts->where('month', $month)->value('sale_total') ?? 0, 'month' => $month];
+            }
+            $ms[] = ['month' => $month];
+        }
+
         return inertia('Dashboard', [
-            'total_voucher' => $total_voucher,
-            'total_customer' => $total_customer,
-            'total_customer_verified' => $total_customer_verified,
-            'total_deposit' => $total_deposit,
-            'total_voucher_sale_this_month' => $total_voucher_sale_this_month,
-            'count_voucher_sale_this_month' => $count_voucher_sale_this_month,
-            'total_voucher_sale_this_day' => $total_voucher_sale_this_day,
-            'count_voucher_sale_this_day' => $count_voucher_sale_this_day,
-            'month' => $month,
             'deposites' => $deposites,
             'sales' => $sales,
-            'charts' => $ca,
+            'sales_deposit_charts' => $depositSaleCharts,
+            'sales_paylater_charts' => $paylaterSaleCharts,
+            '_dates' => $dates,
             '_startDate' => $startDate,
             '_endDate' => $endDate,
-            'c' => $charts,
-            'd' => $data,
+            '_payment' => $request->payment,
+            'deposit_year_sale_charts' => $depositYearSaleCharts,
+            'paylater_year_sale_charts' => $paylaterYearSaleCharts,
+            '_year_payment' => $request->year_payment,
+            '_months' => $ms,
+            '_year' => $year,
         ]);
     }
 

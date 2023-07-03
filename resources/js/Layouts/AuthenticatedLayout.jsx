@@ -192,7 +192,7 @@ export default function Authenticated({
 
                 <div className="flex flex-row">
                     <div
-                        className={`w-fit h-screen md:h-full absolute z-10 ${
+                        className={`w-fit h-screen md:h-full absolute z-10 bg-gray-50 ${
                             !showingNavigationDropdown && 'collapse md:visible'
                         }`}
                     >
