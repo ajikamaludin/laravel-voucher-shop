@@ -5,6 +5,7 @@ import { isEmpty } from 'lodash'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import Button from '@/Components/Button'
 import FormInput from '@/Components/FormInput'
+import FormInputNumeric from '@/Components/FormInputNumeric'
 
 export default function Form(props) {
     const { customer, levels } = props
@@ -12,6 +13,7 @@ export default function Form(props) {
         useForm({
             level: customer.level.key,
             paylater_limit: +customer.paylater?.limit,
+            day_deadline: +customer?.paylater?.day_deadline,
         })
 
     const handleOnChange = (event) => {
@@ -102,14 +104,24 @@ export default function Form(props) {
                                 </p>
                             )}
                         </div>
-                        <div className="mb-4 mt-2">
-                            <FormInput
+                        <div className="mt-2">
+                            <FormInputNumeric
                                 type="number"
                                 label="Limit Hutang"
                                 name="paylater_limit"
                                 onChange={handleOnChange}
                                 value={data.paylater_limit}
                                 error={errors.paylater_limit}
+                            />
+                        </div>
+                        <div className="mb-4 mt-2">
+                            <FormInputNumeric
+                                type="number"
+                                label="Tenor (Hari)"
+                                name="day_deadline"
+                                onChange={handleOnChange}
+                                value={data.day_deadline}
+                                error={errors.day_deadline}
                             />
                         </div>
                         <div className="flex items-center">

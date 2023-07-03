@@ -43,9 +43,13 @@ class HandleInertiaRequests extends Middleware
             'csrf_token' => csrf_token(),
             'notifications' => $notifications->limit(10)->get(),
             'count_unread_notifications' => $notifications->where('is_read', Notification::UNREAD)->count(),
-            'deposit_notifications' => $notifications->where('type', Notification::TYPE_DEPOSIT)
+            'deposit_notifications' => Notification::where('entity_type', \App\Models\User::class)
+                ->orderBy('created_at', 'desc')
+                ->where('type', Notification::TYPE_DEPOSIT)
                 ->where('is_read', Notification::UNREAD)->limit(10)->get(),
-            'stock_notifications' => $notifications->where('type', Notification::TYPE_VOUCHER_STOCK)
+            'stock_notifications' => Notification::where('entity_type', \App\Models\User::class)
+                ->orderBy('created_at', 'desc')
+                ->where('type', Notification::TYPE_VOUCHER_STOCK)
                 ->where('is_read', Notification::UNREAD)->limit(10)->get(),
         ]);
     }
