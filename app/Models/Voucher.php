@@ -176,7 +176,7 @@ class Voucher extends Model
         if ($count <= $treshold) {
             $notification = Notification::create([
                 'entity_type' => User::class,
-                'description' => 'stok voucher ' . $this->locationProfile->name . ' tersisa : ' . $count,
+                'description' => 'stok voucher ' . $this->locationProfile->name . ' (' . $this->locationProfile->location->name . ') ' . ' tersisa : ' . $count,
                 'url' => route('voucher.profile', $this->locationProfile->location_id),
                 'type' => Notification::TYPE_VOUCHER_STOCK,
             ]);
