@@ -49,7 +49,7 @@ class CartController extends Controller
         $operator = $request->param ?? 'add'; //delete, sub, add
         $customer = $request->user('customer');
 
-        if (! $customer->allow_transaction) {
+        if (!$customer->allow_transaction) {
             $customer->carts()->delete();
 
             return redirect()->back()

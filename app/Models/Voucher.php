@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\NotificationEvent;
 use App\Services\GeneralService;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 
@@ -173,9 +174,24 @@ class Voucher extends Model
         $treshold = $this->locationProfile->min_stock;
 
         if ($count <= $treshold) {
-            Notification::create([
+            $notification = Notification::create([
                 'entity_type' => User::class,
-                'description' => 'stok voucher '.$this->locationProfile->name.'tersisa : '.$count,
+                'description' => 'stok voucher ' . $this->locationProfile->name . ' tersisa : ' . $count,
+                'url' => route('voucher.profile', $this->locationProfile->location_id),
+                'type' => Notification::TYPE_VOUCHER_STOCK,
+            ]);
+
+            NotificationEvent::dispatch([
+                'id' => $notification->id,
+                'description' => $notification->description,
+                'url' => $notification->url,
+                'type' => Notification::TYPE_VOUCHER_STOCK,
+                'format_created_at' => now()->translatedFormat('d F Y H:i:s'),
+                'stock_notifications' => Notification::where('entity_type', User::class)
+                    ->where('type', Notification::TYPE_VOUCHER_STOCK)
+                    ->where('is_read', Notification::UNREAD)->limit(10)
+                    ->orderBy('created_at', 'desc')
+                    ->get(),
             ]);
         }
     }

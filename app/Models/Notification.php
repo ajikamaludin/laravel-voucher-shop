@@ -9,6 +9,8 @@ class Notification extends Model
 {
     const TYPE_DEPOSIT = 'deposit';
 
+    const TYPE_VOUCHER_STOCK = 'voucher_stock';
+
     const UNREAD = 0;
 
     const READ = 1;

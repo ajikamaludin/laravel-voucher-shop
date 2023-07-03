@@ -45,6 +45,8 @@ class HandleInertiaRequests extends Middleware
             'count_unread_notifications' => $notifications->where('is_read', Notification::UNREAD)->count(),
             'deposit_notifications' => $notifications->where('type', Notification::TYPE_DEPOSIT)
                 ->where('is_read', Notification::UNREAD)->limit(10)->get(),
+            'stock_notifications' => $notifications->where('type', Notification::TYPE_VOUCHER_STOCK)
+                ->where('is_read', Notification::UNREAD)->limit(10)->get(),
         ]);
     }
 }

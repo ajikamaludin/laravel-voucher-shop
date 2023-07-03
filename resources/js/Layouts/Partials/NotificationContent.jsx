@@ -3,6 +3,7 @@ import { router, usePage } from '@inertiajs/react'
 import { HiOutlineBell } from 'react-icons/hi2'
 
 import Dropdown from '@/Components/Defaults/Dropdown'
+import { isEmpty } from 'lodash'
 
 export default function NotificationContent() {
     const {
@@ -10,6 +11,10 @@ export default function NotificationContent() {
     } = usePage()
     const handleNotification = (notif) => {
         fetch(route('api.notification.update', notif))
+        if (isEmpty(notif.url) === false) {
+            router.visit(notif.url)
+            return
+        }
         router.get(route(route().current()))
     }
 

@@ -10,6 +10,7 @@ import Dropdown from '@/Components/Defaults/Dropdown'
 import SidebarNav from './Partials/SidebarNav'
 import NotificationContent from './Partials/NotificationContent'
 import NotificationDeposit from './Partials/NotificationDeposit'
+import NotificationStock from './Partials/NotificationStock'
 
 const customTheme = {
     button: {
@@ -63,6 +64,9 @@ export default function Authenticated({
                             </div>
 
                             <div className="hidden sm:flex sm:items-center sm:ml-6">
+                                <div className="ml-3 relative">
+                                    <NotificationStock />
+                                </div>
                                 <div className="ml-3 relative">
                                     <NotificationDeposit />
                                 </div>
