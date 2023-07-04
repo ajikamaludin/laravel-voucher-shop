@@ -49,8 +49,8 @@ class DummySeeder extends Seeder
         $images = ['1.webp', '2.webp', '3.webp'];
         foreach ($images as $index => $image) {
             Banner::create([
-                'title' => 'Banner ' . $index,
-                'image' => 'sample/' . $image,
+                'title' => 'Banner '.$index,
+                'image' => 'sample/'.$image,
                 'description' => '<h1>Banner </h1>',
             ]);
         }
@@ -109,7 +109,7 @@ class DummySeeder extends Seeder
 
                 $lp = LocationProfile::create([
                     'location_id' => $location->id,
-                    'name' => 'Profile ' . $quota,
+                    'name' => 'Profile '.$quota,
                     'quota' => $quota,
                     'display_note' => rand(0, 1) == 1 ? 'bisa semua' : null,
                     'expired' => rand(1, 3),

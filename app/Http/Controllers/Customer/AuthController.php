@@ -54,7 +54,7 @@ class AuthController extends Controller
         }
 
         $password = Hash::check($request->password, $user->password);
-        if (!$password) {
+        if (! $password) {
             return redirect()->route('customer.login')
                 ->with('message', ['type' => 'error', 'message' => 'Invalid credentials']);
         }
@@ -109,7 +109,7 @@ class AuthController extends Controller
                 'fullname' => $user->name,
                 'name' => $user->name,
                 'email' => $user->email,
-                'username' => Str::slug($user->name . '_' . Str::random(5), '_'),
+                'username' => Str::slug($user->name.'_'.Str::random(5), '_'),
                 'google_id' => $user->id,
                 'google_oauth_response' => json_encode($user),
                 'status' => Customer::STATUS_ACTIVE,

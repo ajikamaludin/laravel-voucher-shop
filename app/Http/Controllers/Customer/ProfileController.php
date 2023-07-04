@@ -32,7 +32,7 @@ class ProfileController extends Controller
             'name' => 'string|nullable',
             'address' => 'string|required',
             'phone' => 'string|required|numeric',
-            'username' => 'string|required|min:5|alpha_dash|unique:customers,username,' . $customer->id,
+            'username' => 'string|required|min:5|alpha_dash|unique:customers,username,'.$customer->id,
             'password' => 'nullable|string|min:8|confirmed',
             'image' => 'nullable|image',
         ]);

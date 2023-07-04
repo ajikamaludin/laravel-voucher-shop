@@ -73,10 +73,10 @@ class PaylaterHistory extends Model
     {
         return Attribute::make(get: function () {
             if ($this->credit == 0) {
-                return 'Rp ' . number_format($this->debit, is_float($this->debit) ? 2 : 0, ',', '.');
+                return 'Rp '.number_format($this->debit, is_float($this->debit) ? 2 : 0, ',', '.');
             }
 
-            return '-Rp ' . number_format($this->credit, is_float($this->credit) ? 2 : 0, ',', '.');
+            return '-Rp '.number_format($this->credit, is_float($this->credit) ? 2 : 0, ',', '.');
         });
     }
 
@@ -118,7 +118,7 @@ class PaylaterHistory extends Model
     {
         Notification::create([
             'entity_id' => $this->customer_id,
-            'description' => 'Pembayaran ' . $this->description . ' sebesar ' . $this->amount . ' sudah sukses diterima',
+            'description' => 'Pembayaran '.$this->description.' sebesar '.$this->amount.' sudah sukses diterima',
         ]);
     }
 

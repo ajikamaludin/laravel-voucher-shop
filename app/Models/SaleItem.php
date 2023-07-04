@@ -38,7 +38,7 @@ class SaleItem extends Model
     {
         return Attribute::make(get: function () {
             $shareText = Setting::getByKey('SHARE_TEXT').'
-Kode Voucher : ' . $this->voucher->username;
+Kode Voucher : '.$this->voucher->username;
 
             return $shareText;
         });

@@ -29,7 +29,7 @@ class PaylaterController extends Controller
         if ($paylater->type == PaylaterHistory::TYPE_REPAYMENT) {
             $deposit = DepositHistory::where('related_id', $paylater->id)->first();
 
-            if (!in_array($deposit->is_valid, [DepositHistory::STATUS_VALID])) {
+            if (! in_array($deposit->is_valid, [DepositHistory::STATUS_VALID])) {
                 return redirect()->route('transactions.deposit.show', [
                     'deposit' => $deposit,
                     'back' => 'customer.paylater.index',

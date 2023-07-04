@@ -145,7 +145,7 @@ class Customer extends Authenticatable
                 return ' - ';
             }
 
-            return '+62' . $this->phone;
+            return '+62'.$this->phone;
         });
     }
 

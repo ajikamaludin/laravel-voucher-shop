@@ -4,7 +4,6 @@ namespace App\Http\Middleware;
 
 use App\Models\Notification;
 use Illuminate\Http\Request;
-use Illuminate\Notifications\Notification as NotificationsNotification;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
@@ -32,6 +31,7 @@ class HandleInertiaRequests extends Middleware
     public function share(Request $request): array
     {
         $notifications = Notification::where('entity_type', \App\Models\User::class)->orderBy('created_at', 'desc');
+
         return array_merge(parent::share($request), [
             'auth' => [
                 'user' => $request->user() ? $request->user()->load(['role.permissions']) : $request->user(),

@@ -6,7 +6,6 @@ use App\Events\NotificationEvent;
 use App\Services\GeneralService;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Support\Carbon;
-use PHPUnit\Framework\Error\Notice;
 
 class DepositHistory extends Model
 {
@@ -101,10 +100,10 @@ class DepositHistory extends Model
     {
         return Attribute::make(get: function () {
             if ($this->credit == 0) {
-                return 'Rp ' . number_format($this->debit, is_float($this->debit) ? 2 : 0, ',', '.');
+                return 'Rp '.number_format($this->debit, is_float($this->debit) ? 2 : 0, ',', '.');
             }
 
-            return '-Rp ' . number_format($this->credit, is_float($this->credit) ? 2 : 0, ',', '.');
+            return '-Rp '.number_format($this->credit, is_float($this->credit) ? 2 : 0, ',', '.');
         });
     }
 
@@ -172,7 +171,7 @@ class DepositHistory extends Model
 
             $notification = Notification::create([
                 'entity_type' => User::class,
-                'description' => $this->customer->fullname . ' melakukan deposit transfer manual sebesar : ' . $this->amount . $status,
+                'description' => $this->customer->fullname.' melakukan deposit transfer manual sebesar : '.$this->amount.$status,
                 'url' => route('deposit.edit', $this),
                 'type' => Notification::TYPE_DEPOSIT,
             ]);
@@ -186,7 +185,7 @@ class DepositHistory extends Model
 
             $notification = Notification::create([
                 'entity_type' => User::class,
-                'description' => $this->customer->fullname . ' melakukan deposit manual sebesar : ' . $this->amount . $status,
+                'description' => $this->customer->fullname.' melakukan deposit manual sebesar : '.$this->amount.$status,
                 'url' => route('deposit.edit', $this),
                 'type' => Notification::TYPE_DEPOSIT,
             ]);
@@ -195,12 +194,11 @@ class DepositHistory extends Model
         if ($this->payment_channel == Setting::PAYMENT_MIDTRANS) {
             $notification = Notification::create([
                 'entity_type' => User::class,
-                'description' => $this->customer->fullname . ' melakukan deposit via midtrans sebesar : ' . $this->amount,
+                'description' => $this->customer->fullname.' melakukan deposit via midtrans sebesar : '.$this->amount,
                 'url' => route('deposit.edit', $this),
                 'type' => Notification::TYPE_DEPOSIT,
             ]);
         }
-
 
         NotificationEvent::dispatch([
             'id' => $notification->id,
@@ -224,7 +222,7 @@ class DepositHistory extends Model
 
         $notification = Notification::create([
             'entity_type' => User::class,
-            'description' => $this->customer->fullname . ' melakukan pembayaran hutang sebesar ' . $this->amount,
+            'description' => $this->customer->fullname.' melakukan pembayaran hutang sebesar '.$this->amount,
             'url' => route('paylater.repay.edit', $this),
             'type' => Notification::TYPE_DEPOSIT,
         ]);
@@ -247,7 +245,7 @@ class DepositHistory extends Model
     {
         Notification::create([
             'entity_id' => $this->customer_id,
-            'description' => 'Deposit ' . $this->description . ' sebesar ' . $this->amount . ' sudah sukses diterima',
+            'description' => 'Deposit '.$this->description.' sebesar '.$this->amount.' sudah sukses diterima',
         ]);
     }
 }

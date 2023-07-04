@@ -103,15 +103,15 @@ class GeneralController extends Controller
             $date = $date->addDay();
         }
 
-        $saleYearDepositCharts = Sale::selectRaw("SUM(amount) as sale_total, MONTH(date_time) as month")
+        $saleYearDepositCharts = Sale::selectRaw('SUM(amount) as sale_total, MONTH(date_time) as month')
             ->where('payed_with', Sale::PAYED_WITH_DEPOSIT)
-            ->whereRaw("YEAR(sales.date_time) = " . Carbon::parse($year)->year)
-            ->groupBy(DB::raw("MONTH(date_time)"));
+            ->whereRaw('YEAR(sales.date_time) = '.Carbon::parse($year)->year)
+            ->groupBy(DB::raw('MONTH(date_time)'));
 
-        $saleYearPaylaterCharts = Sale::selectRaw("SUM(amount) as sale_total, MONTH(date_time) as month")
+        $saleYearPaylaterCharts = Sale::selectRaw('SUM(amount) as sale_total, MONTH(date_time) as month')
             ->where('payed_with', Sale::PAYED_WITH_PAYLATER)
-            ->whereRaw("YEAR(sales.date_time) = " . Carbon::parse($year)->year)
-            ->groupBy(DB::raw("MONTH(date_time)"));
+            ->whereRaw('YEAR(sales.date_time) = '.Carbon::parse($year)->year)
+            ->groupBy(DB::raw('MONTH(date_time)'));
 
         // filter lokasi
         if ($request->year_location_id != '') {

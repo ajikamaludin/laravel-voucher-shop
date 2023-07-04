@@ -21,6 +21,7 @@ class CustomerApi
             $customer = Customer::find($request->header('user'));
             Auth::guard('customer')->setUser($customer);
         }
+
         return $next($request);
     }
 }

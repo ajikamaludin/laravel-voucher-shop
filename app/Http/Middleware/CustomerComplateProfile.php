@@ -17,7 +17,7 @@ class CustomerComplateProfile
     {
         $customer = $request->user('customer');
 
-        if (!$customer->is_profile_complate) {
+        if (! $customer->is_profile_complate) {
             return redirect()->route('customer.profile.show')
                 ->with('message', ['type' => 'error', 'message' => 'silahkan lengkapi profile sebelum dapat ber-transaksi']);
         }
