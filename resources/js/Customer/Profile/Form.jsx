@@ -70,7 +70,7 @@ export default function Index({ auth: { user }, flash }) {
                             label="nama lengkap"
                         />
                     </div>
-                    <div className="w-full">
+                    {/* <div className="w-full">
                         <FormInput
                             placeholder="nama panggilan"
                             name="name"
@@ -80,7 +80,7 @@ export default function Index({ auth: { user }, flash }) {
                             onKeyDownCapture={(e) => handleKeyDown(e)}
                             label="nama panggilan"
                         />
-                    </div>
+                    </div> */}
                     <FormInputWith
                         type="number"
                         leftItem={<div className="text-sm">+62</div>}

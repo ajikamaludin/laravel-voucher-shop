@@ -54,7 +54,7 @@ class AuthController extends Controller
         }
 
         $password = Hash::check($request->password, $user->password);
-        if (! $password) {
+        if (!$password) {
             return redirect()->route('customer.login')
                 ->with('message', ['type' => 'error', 'message' => 'Invalid credentials']);
         }
@@ -107,9 +107,9 @@ class AuthController extends Controller
             DB::beginTransaction();
             $customer = Customer::create([
                 'fullname' => $user->name,
-                'name' => $user->nickname,
+                'name' => $user->name,
                 'email' => $user->email,
-                'username' => Str::slug($user->name.'_'.Str::random(5), '_'),
+                'username' => Str::slug($user->name . '_' . Str::random(5), '_'),
                 'google_id' => $user->id,
                 'google_oauth_response' => json_encode($user),
                 'status' => Customer::STATUS_ACTIVE,
@@ -153,7 +153,7 @@ class AuthController extends Controller
         $request->validate([
             'fullname' => 'required|string',
             'email' => 'required|email|unique:users,email',
-            'name' => 'required|string',
+            'name' => 'nullable|string',
             'address' => 'required|string',
             'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:9|max:16',
             'username' => 'required|string|min:5|alpha_dash|unique:customers,username',
@@ -164,7 +164,7 @@ class AuthController extends Controller
         DB::beginTransaction();
         $customer = Customer::create([
             'fullname' => $request->fullname,
-            'name' => $request->name,
+            'name' => $request->fullname,
             'address' => $request->address,
             'phone' => $request->phone,
             'username' => $request->username,

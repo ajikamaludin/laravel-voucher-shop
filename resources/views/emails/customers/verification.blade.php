@@ -1,5 +1,5 @@
 <x-mail::message>
-# Hai, {{ $customer->name }}
+# Hai, {{ $customer->fullname }}
 
 ## Welcome to {{ config('app.name', 'Voucher WBB') }}
 Untuk mulai menggunakan layanan kami, harap aktifkan akun Anda dengan mengklik tombol aktivasi ini di bawah.

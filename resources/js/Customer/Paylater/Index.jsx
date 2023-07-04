@@ -97,9 +97,9 @@ export default function Index({
                                     </div>
                                     {history.status !== '' && (
                                         <div
-                                            className={`text-xs px-2 py-1 rounded-full border text-white bg-red-600`}
+                                            className={`text-xs px-2 py-1 text-red-600`}
                                         >
-                                            {history.status}
+                                            {history.status_text.text}
                                         </div>
                                     )}
                                 </div>

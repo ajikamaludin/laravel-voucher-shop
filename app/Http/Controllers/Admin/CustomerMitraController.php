@@ -33,7 +33,7 @@ class CustomerMitraController extends Controller
                 ->count(),
             'sum_paylater_limit' => PaylaterCustomer::sum('limit'),
             'sum_paylater_usage' => PaylaterCustomer::sum('usage'),
-            'sum_paylater_remain' => PaylaterCustomer::selectRaw('(SUM("limit") - SUM(usage)) as remain')->value('remain'),
+            'sum_paylater_remain' => PaylaterCustomer::selectRaw('(SUM("limit") - SUM("usage")) as remain')->value('remain'),
         ];
 
         $query = Customer::query()->with(['level', 'paylater', 'locationFavorites'])
@@ -220,8 +220,8 @@ class CustomerMitraController extends Controller
     public function update(Request $request, Customer $customer)
     {
         $request->validate([
-            'email' => 'nullable|email|unique:customers,email,'.$customer->id,
-            'username' => 'required|string|min:5|alpha_dash|unique:customers,username,'.$customer->id,
+            'email' => 'nullable|email|unique:customers,email,' . $customer->id,
+            'username' => 'required|string|min:5|alpha_dash|unique:customers,username,' . $customer->id,
             'password' => 'nullable|string|min:8',
             'name' => 'required|string',
             'fullname' => 'required|string',

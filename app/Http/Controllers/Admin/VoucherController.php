@@ -54,9 +54,11 @@ class VoucherController extends Controller
             ->where('location_profile_id', $profile->id);
 
         if ($request->q != '') {
-            $query->where('username', 'ilike', "%$request->q%")
+            $query->where(function ($query) use ($request){
+                $query->where('username', 'ilike', "%$request->q%")
                 ->orWhere('comment', 'ilike', "%$request->q%")
                 ->orWhere('profile', 'ilike', "%$request->q%");
+            });
         }
 
         if ($request->sortBy != '' && $request->sortRule != '') {

@@ -1,23 +1,72 @@
 import { formatIDR } from '@/utils'
-import { router } from '@inertiajs/react'
+import { router, usePage } from '@inertiajs/react'
 import { HiMinusCircle, HiPlusCircle, HiTrash } from 'react-icons/hi2'
 
-export default function VoucherCard({ item: { location_profile, quantity } }) {
+export default function VoucherCard({ item, onRemove, onChangeQty }) {
+    const {
+        props: {
+            auth: { user },
+        },
+    } = usePage()
+
+    const { location_profile, quantity } = item
+
     const handleDelete = () => {
-        router.post(
-            route('cart.store', { profile: location_profile, param: 'delete' })
+        onRemove(item)
+        fetch(
+            route('api.cart.store', {
+                profile: location_profile,
+                param: 'delete',
+            }),
+            {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                    user: user.id,
+                },
+            }
         )
     }
 
     const handleAdd = () => {
-        router.post(
-            route('cart.store', { profile: location_profile, param: 'add' })
+        const qty = +quantity + 1
+        onChangeQty(item, qty)
+        fetch(
+            route('api.cart.store', {
+                profile: location_profile,
+                param: 'add',
+            }),
+            {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                    user: user.id,
+                },
+            }
         )
     }
 
     const handleSub = () => {
-        router.post(
-            route('cart.store', { profile: location_profile, param: 'sub' })
+        const qty = +quantity - 1
+        if (qty <= 0) {
+            return
+        }
+        onChangeQty(item, qty)
+        fetch(
+            route('api.cart.store', {
+                profile: location_profile,
+                param: 'sub',
+            }),
+            {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                    user: user.id,
+                },
+            }
         )
     }
 

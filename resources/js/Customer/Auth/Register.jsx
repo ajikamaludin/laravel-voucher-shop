@@ -68,7 +68,7 @@ export default function Index({ referral_code, flash }) {
                             onKeyDownCapture={(e) => handleKeyDown(e)}
                         />
                     </div>
-                    <div className="w-full">
+                    {/* <div className="w-full">
                         <FormInput
                             placeholder="nama panggilan"
                             name="name"
@@ -77,7 +77,7 @@ export default function Index({ referral_code, flash }) {
                             error={errors.name}
                             onKeyDownCapture={(e) => handleKeyDown(e)}
                         />
-                    </div>
+                    </div> */}
                     <div className="w-full">
                         <FormInput
                             placeholder="email"

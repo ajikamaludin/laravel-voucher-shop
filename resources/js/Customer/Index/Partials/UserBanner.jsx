@@ -12,12 +12,24 @@ export default function UserBanner({ user }) {
         <div>
             {/* user */}
             <div className="flex flex-row justify-between items-center px-5 py-6 text-lg bg-primary-900">
-                <div className="flex flex-col text-white">
-                    <div className="font-bold">{user.name}</div>
-                    <div className="flex flex-row items-center space-x-1 -mt-1">
-                        <div className="text-sm ">{user.username}</div>
-                        <div className="text-xs font-semibold px-2 py-1 bg-white text-black rounded-xl">
-                            {user.level.name}
+                <div className="flex flex-row items-center space-x-2">
+                    {user.image_url !== null ? (
+                        <img
+                            src={user.image_url}
+                            alt="profile image"
+                            className="rounded-full object-cover h-14 w-14"
+                            loading="lazy"
+                        />
+                    ) : (
+                        <HiOutlineUserCircle className="text-white h-14 w-14" />
+                    )}
+                    <div className="flex flex-col text-white">
+                        <div className="font-bold">{user.name}</div>
+                        <div className="flex flex-row items-center space-x-1 -mt-1">
+                            <div className="text-sm">{user.username}</div>
+                            <div className="text-xs font-semibold px-2 py-1 bg-white text-black rounded-xl">
+                                {user.level.name}
+                            </div>
                         </div>
                     </div>
                 </div>

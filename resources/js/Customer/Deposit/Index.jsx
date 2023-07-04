@@ -110,7 +110,7 @@ export default function Index(props) {
                                     </div>
                                     {+history.is_valid !== 0 && (
                                         <div
-                                            className={`text-xs px-2 py-1 rounded-full border text-white ${history.status.color}`}
+                                            className={`text-xs ${history.status.text_color}`}
                                         >
                                             {history.status.text}
                                         </div>

@@ -157,7 +157,7 @@ export default function Form(props) {
                                 >
                                     <img
                                         src={deposit.image_prove_url}
-                                        className="w-full object-fill h-96"
+                                        className="w-full object-contain h-96"
                                         loading="lazy"
                                     />
                                 </a>

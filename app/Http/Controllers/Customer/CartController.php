@@ -109,7 +109,7 @@ class CartController extends Controller
 
         // validate carts not empty
         if ($carts->count() == 0) {
-            return redirect()->route('home.index')
+            return redirect()->route('home.index', ['direct' => 1])
                 ->with('message', ['type' => 'error', 'message' => 'transaksi gagal, keranjang anda kosong']);
         }
 
@@ -119,7 +119,7 @@ class CartController extends Controller
             if ($batchCount < $item->quantity) {
                 $customer->carts()->delete();
 
-                return redirect()->route('home.index')
+                return redirect()->route('home.index', ['direct' => 1])
                     ->with('message', ['type' => 'error', 'message' => 'transaksi gagal, voucher sedang tidak tersedia']);
             }
         }

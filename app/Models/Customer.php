@@ -145,7 +145,7 @@ class Customer extends Authenticatable
                 return ' - ';
             }
 
-            return '+62'.$this->phone;
+            return '+62' . $this->phone;
         });
     }
 
@@ -238,6 +238,34 @@ class Customer extends Authenticatable
     {
         return Attribute::make(get: function () {
             if ($this->status == self::STATUS_SUSPEND) {
+                return false;
+            }
+
+            return true;
+        });
+    }
+
+    public function isProfileComplate(): Attribute
+    {
+        return Attribute::make(get: function () {
+            if (in_array(null, [
+                $this->username,
+                $this->email,
+                $this->name,
+                $this->fullname,
+                $this->address,
+                $this->phone,
+            ])) {
+                return false;
+            }
+            if (in_array('', [
+                $this->username,
+                $this->email,
+                $this->name,
+                $this->fullname,
+                $this->address,
+                $this->phone,
+            ])) {
                 return false;
             }
 

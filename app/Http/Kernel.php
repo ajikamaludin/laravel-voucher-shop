@@ -70,5 +70,6 @@ class Kernel extends HttpKernel
         'inertia.customer' => \App\Http\Middleware\HandleInertiaCustomerRequests::class,
         'guard_should_customer' => \App\Http\Middleware\GuardCustomer::class,
         'http_secure_aware' => \App\Http\Middleware\HttpSecureAware::class,
+        'customer.is_complate_profile' => \App\Http\Middleware\CustomerComplateProfile::class,
     ];
 }

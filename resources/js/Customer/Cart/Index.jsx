@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Head, router } from '@inertiajs/react'
 
 import { formatIDR } from '@/utils'
@@ -8,8 +8,28 @@ import EmptyHere from './IndexPartials/EmptyHere'
 import { useModalState } from '@/hooks'
 import Payment from './IndexPartials/Payment'
 
-export default function Index({ carts, total, allow_process }) {
+export default function Index({ carts: items, total, allow_process }) {
+    const [carts, setCarts] = useState(items)
     const paymentModal = useModalState()
+
+    const removeCart = (cart) => {
+        setCarts(carts.filter((c) => c.id !== cart.id))
+    }
+
+    console.log(carts)
+    const changeQty = (cart, qty) => {
+        setCarts(
+            carts.map((c) => {
+                if (c.id === cart.id) {
+                    return {
+                        ...c,
+                        quantity: qty,
+                    }
+                }
+                return c
+            })
+        )
+    }
 
     const handlePayment = () => {
         paymentModal.toggle()
@@ -28,7 +48,12 @@ export default function Index({ carts, total, allow_process }) {
                     <>
                         <div className="w-full px-2 flex flex-col space-y-2 pb-28">
                             {carts.map((item) => (
-                                <VoucherCard key={item.id} item={item} />
+                                <VoucherCard
+                                    key={item.id}
+                                    item={item}
+                                    onRemove={removeCart}
+                                    onChangeQty={changeQty}
+                                />
                             ))}
                         </div>
                         <div className="fixed bottom-12 w-full bg-white py-5 px-2 shadow-lg border-t max-w-md mx-auto">

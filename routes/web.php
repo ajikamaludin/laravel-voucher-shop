@@ -30,15 +30,10 @@ Route::middleware(['http_secure_aware', 'guard_should_customer', 'inertia.custom
 
     Route::get('/banner/{banner}', [HomeController::class, 'banner'])->name('home.banner');
 
-    Route::middleware('auth:customer')->group(function () {
+    Route::middleware(['auth:customer', 'customer.is_complate_profile'])->group(function () {
         // location to favorite
         Route::post('/locations/{location}/add-favorite', [HomeController::class, 'addFavorite'])->name('customer.location.favorite');
         Route::get('/favorites', [HomeController::class, 'favorite'])->name('home.favorite');
-
-        // profile
-        Route::get('profile', [ProfileController::class, 'index'])->name('customer.profile.index');
-        Route::get('profile/update', [ProfileController::class, 'show'])->name('customer.profile.show');
-        Route::post('profile/update', [ProfileController::class, 'update']);
 
         // verification
         Route::get('profile/verification', [VerificationController::class, 'index'])->name('customer.verification');
@@ -85,6 +80,13 @@ Route::middleware(['http_secure_aware', 'guard_should_customer', 'inertia.custom
 
         // cash deposit location
         Route::get('cash-deposit-locations', [DepositLocationController::class, 'index'])->name('customer.deposit-location.index');
+    });
+
+    Route::middleware('auth:customer')->group(function () {
+        // profile
+        Route::get('profile', [ProfileController::class, 'index'])->name('customer.profile.index');
+        Route::get('profile/update', [ProfileController::class, 'show'])->name('customer.profile.show');
+        Route::post('profile/update', [ProfileController::class, 'update']);
     });
 
     Route::middleware('guest:customer')->group(function () {

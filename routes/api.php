@@ -7,7 +7,9 @@ use App\Http\Controllers\Api\LocationController;
 use App\Http\Controllers\Api\LocationProfileController;
 use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\RoleController;
+use App\Http\Controllers\Customer\CartController;
 use App\Http\Controllers\Customer\DepositController;
+use App\Http\Middleware\CustomerApi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -37,3 +39,8 @@ Route::get('/notifications/{notif?}', [NotificationController::class, 'update'])
 // midtrans
 Route::post('mindtrans/notification', [DepositController::class, 'mindtrans_notification'])->name('api.midtrans.notification');
 Route::post('mindtrans/{deposit}/payment', [DepositController::class, 'midtrans_payment'])->name('api.midtrans.payment');
+
+// cart customer
+Route::middleware([CustomerApi::class])->group(function () {
+    Route::post('cart/{profile}', [CartController::class, 'store'])->name('api.cart.store');
+});

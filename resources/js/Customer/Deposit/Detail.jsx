@@ -88,7 +88,7 @@ export default function Detail({ deposit, back }) {
                     </div>
                     <div>
                         <div
-                            className={`text-xs px-2 py-1 rounded-full border ${deposit.status.color} text-white`}
+                            className={`text-xs ${deposit.status.text_color} `}
                         >
                             {deposit.status.text}
                         </div>
