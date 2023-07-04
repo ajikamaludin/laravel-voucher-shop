@@ -151,8 +151,8 @@ class Voucher extends Model
     {
         return Attribute::make(get: function () {
             return [
-                'color' => $this->sold == self::SOLD ? 'bg-green-200 border-green-600' : 'bg-yellow-100 border-yellow-300',
-                'text' => $this->sold == self::SOLD ? 'Ya' : 'Tidak',
+                'color' => $this->is_sold == self::SOLD ? 'bg-green-200 border-green-600' : 'bg-yellow-100 border-yellow-300',
+                'text' => $this->is_sold == self::SOLD ? 'Ya' : 'Tidak',
             ];
         });
     }
