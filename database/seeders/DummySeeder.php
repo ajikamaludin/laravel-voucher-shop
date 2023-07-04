@@ -26,11 +26,11 @@ class DummySeeder extends Seeder
     {
         $this->info();
         $this->banner();
-        // $this->account();
-        // $this->location();
-        // $this->location_profile();
-        // $this->voucher();
-        // $this->deposit_location();
+        $this->account();
+        $this->location();
+        $this->location_profile();
+        $this->voucher();
+        $this->deposit_location();
     }
 
     public function info()
