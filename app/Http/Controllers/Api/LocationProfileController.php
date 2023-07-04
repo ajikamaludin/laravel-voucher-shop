@@ -14,9 +14,9 @@ class LocationProfileController extends Controller
             ->orderBy('updated_at', 'desc');
 
         if ($request->q != '') {
-            $query->where('name', 'ilike', "%$request->q%")
-                ->orWhere('display_note', 'ilike', "%$request->q%")
-                ->orWhereHas('location', fn ($q) => $q->where('name', 'ilike', "%$request->q%"));
+            $query->where('name', 'like', "%$request->q%")
+                ->orWhere('display_note', 'like', "%$request->q%")
+                ->orWhereHas('location', fn ($q) => $q->where('name', 'like', "%$request->q%"));
         }
 
         return $query->limit(100)->get();

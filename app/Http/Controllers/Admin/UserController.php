@@ -15,7 +15,7 @@ class UserController extends Controller
         $query = User::query()->with(['role']);
 
         if ($request->q) {
-            $query->where('name', 'ilike', "%{$request->q}%");
+            $query->where('name', 'like', "%{$request->q}%");
         }
 
         $query->orderBy('created_at', 'desc');
@@ -70,9 +70,9 @@ class UserController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,'.$user->id,
+            'email' => 'required|email|unique:users,email,' . $user->id,
             'password' => 'nullable|string|max:255',
-            'username' => 'required|alpha_dash|unique:users,username,'.$user->id,
+            'username' => 'required|alpha_dash|unique:users,username,' . $user->id,
             'phone_wa' => 'required|string',
             'photo' => 'nullable|image',
         ]);

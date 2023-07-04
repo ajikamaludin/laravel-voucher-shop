@@ -20,11 +20,11 @@ class DepositController extends Controller
 
         if ($request->q != '') {
             $deposits->where(function ($query) use ($request) {
-                $query->where('description', 'ilike', "%$request->q%")
+                $query->where('description', 'like', "%$request->q%")
                     ->orWhereHas('customer', function ($query) use ($request) {
-                        $query->where('fullname', 'ilike', "%$request->q%")
-                            ->orWhere('email', 'ilike', "%$request->q%")
-                            ->orWhere('phone', 'ilike', "%$request->q%");
+                        $query->where('fullname', 'like', "%$request->q%")
+                            ->orWhere('email', 'like', "%$request->q%")
+                            ->orWhere('phone', 'like', "%$request->q%");
                     });
             });
         }

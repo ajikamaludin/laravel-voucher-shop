@@ -24,10 +24,10 @@ class CustomerController extends Controller
 
         if ($request->q != '') {
             $query->where(function ($query) use ($request) {
-                $query->where('name', 'ilike', "%$request->q%")
-                    ->orWhere('fullname', 'ilike', "%$request->q%")
-                    ->orWhere('email', 'ilike', "%$request->q%")
-                    ->orWhere('phone', 'ilike', "%$request->q%");
+                $query->where('name', 'like', "%$request->q%")
+                    ->orWhere('fullname', 'like', "%$request->q%")
+                    ->orWhere('email', 'like', "%$request->q%")
+                    ->orWhere('phone', 'like', "%$request->q%");
             });
         }
 
@@ -115,8 +115,8 @@ class CustomerController extends Controller
     public function update(Request $request, Customer $customer)
     {
         $request->validate([
-            'email' => 'nullable|email|unique:customers,email,'.$customer->id,
-            'username' => 'required|string|min:5|alpha_dash|unique:customers,username,'.$customer->id,
+            'email' => 'nullable|email|unique:customers,email,' . $customer->id,
+            'username' => 'required|string|min:5|alpha_dash|unique:customers,username,' . $customer->id,
             'password' => 'nullable|string|min:8',
             'name' => 'required|string',
             'fullname' => 'required|string',

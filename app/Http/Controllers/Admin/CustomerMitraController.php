@@ -44,10 +44,10 @@ class CustomerMitraController extends Controller
 
         if ($request->q != '') {
             $query->where(function ($query) use ($request) {
-                $query->where('name', 'ilike', "%$request->q%")
-                    ->orWhere('fullname', 'ilike', "%$request->q%")
-                    ->orWhere('email', 'ilike', "%$request->q%")
-                    ->orWhere('phone', 'ilike', "%$request->q%");
+                $query->where('name', 'like', "%$request->q%")
+                    ->orWhere('fullname', 'like', "%$request->q%")
+                    ->orWhere('email', 'like', "%$request->q%")
+                    ->orWhere('phone', 'like', "%$request->q%");
             });
         }
 
@@ -87,7 +87,7 @@ class CustomerMitraController extends Controller
         $locations = Location::query();
 
         if ($request->location_q != '') {
-            $locations->where('name', 'ilike', "%$request->location_q%");
+            $locations->where('name', 'like', "%$request->location_q%");
         }
 
         return inertia('CustomerMitra/Form', [
@@ -205,7 +205,7 @@ class CustomerMitraController extends Controller
         $locations = Location::query();
 
         if ($request->location_q != '') {
-            $locations->where('name', 'ilike', "%$request->location_q%");
+            $locations->where('name', 'like', "%$request->location_q%");
         }
 
         return inertia('CustomerMitra/Form', [

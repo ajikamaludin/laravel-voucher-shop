@@ -39,11 +39,11 @@ class SaleController extends Controller
             ->withCount(['items']);
 
         if ($request->q != '') {
-            $query->where('code', 'ilike', "%$request->q%")
+            $query->where('code', 'like', "%$request->q%")
                 ->orWhereHas('customer', function ($query) use ($request) {
-                    $query->where('name', 'ilike', "%$request->q%")
-                        ->orWhere('fullname', 'ilike', "%$request->q%")
-                        ->orWhere('username', 'ilike', "%$request->q%");
+                    $query->where('name', 'like', "%$request->q%")
+                        ->orWhere('fullname', 'like', "%$request->q%")
+                        ->orWhere('username', 'like', "%$request->q%");
                 });
         }
 

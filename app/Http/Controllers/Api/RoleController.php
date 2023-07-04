@@ -13,7 +13,7 @@ class RoleController extends Controller
         $query = Role::query();
 
         if ($request->q) {
-            $query->where('name', 'ilike', "%{$request->q}%");
+            $query->where('name', 'like', "%{$request->q}%");
         }
 
         return $query->limit(100)->get();
