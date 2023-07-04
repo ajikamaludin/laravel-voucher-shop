@@ -48,12 +48,12 @@ class GeneralController extends Controller
             $year = Carbon::parse($request->year);
         }
 
-        $saleDepositCharts = Sale::selectRaw('SUM(amount) as sale_total, DATE(date_time)')
+        $saleDepositCharts = Sale::selectRaw('SUM(amount) as sale_total, DATE(date_time) as date')
             ->whereBetween('date_time', [$startDate, $endDate])
             ->where('payed_with', Sale::PAYED_WITH_DEPOSIT)
             ->groupBy(DB::raw('DATE(date_time)'));
 
-        $salePaylaterCharts = Sale::selectRaw('SUM(amount) as sale_total, DATE(date_time)')
+        $salePaylaterCharts = Sale::selectRaw('SUM(amount) as sale_total, DATE(date_time) as date')
             ->whereBetween('date_time', [$startDate, $endDate])
             ->where('payed_with', Sale::PAYED_WITH_PAYLATER)
             ->groupBy(DB::raw('DATE(date_time)'));
@@ -105,12 +105,12 @@ class GeneralController extends Controller
 
         $saleYearDepositCharts = Sale::selectRaw('SUM(amount) as sale_total, MONTH(date_time) as month')
             ->where('payed_with', Sale::PAYED_WITH_DEPOSIT)
-            ->whereRaw('YEAR(sales.date_time) = '.Carbon::parse($year)->year)
+            ->whereRaw('YEAR(sales.date_time) = ' . Carbon::parse($year)->year)
             ->groupBy(DB::raw('MONTH(date_time)'));
 
         $saleYearPaylaterCharts = Sale::selectRaw('SUM(amount) as sale_total, MONTH(date_time) as month')
             ->where('payed_with', Sale::PAYED_WITH_PAYLATER)
-            ->whereRaw('YEAR(sales.date_time) = '.Carbon::parse($year)->year)
+            ->whereRaw('YEAR(sales.date_time) = ' . Carbon::parse($year)->year)
             ->groupBy(DB::raw('MONTH(date_time)'));
 
         // filter lokasi
