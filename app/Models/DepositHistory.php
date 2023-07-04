@@ -160,6 +160,10 @@ class DepositHistory extends Model
 
     public function create_notification()
     {
+        if ($this->type != self::TYPE_DEPOSIT) {
+            return;
+        }
+
         if ($this->payment_channel == Setting::PAYMENT_MANUAL) {
             $status = '';
             if ($this->is_valid == self::STATUS_WAIT_APPROVE) {
@@ -196,6 +200,34 @@ class DepositHistory extends Model
                 'type' => Notification::TYPE_DEPOSIT,
             ]);
         }
+
+
+        NotificationEvent::dispatch([
+            'id' => $notification->id,
+            'description' => $notification->description,
+            'url' => $notification->url,
+            'type' => Notification::TYPE_DEPOSIT,
+            'format_created_at' => now()->translatedFormat('d F Y H:i:s'),
+            'deposit_notifications' => Notification::where('entity_type', User::class)
+                ->where('type', Notification::TYPE_DEPOSIT)
+                ->where('is_read', Notification::UNREAD)->limit(10)
+                ->orderBy('created_at', 'desc')
+                ->get(),
+        ]);
+    }
+
+    public function create_notification_repayment()
+    {
+        if ($this->type != self::TYPE_REPAYMENT) {
+            return;
+        }
+
+        $notification = Notification::create([
+            'entity_type' => User::class,
+            'description' => $this->customer->fullname . ' melakukan pembayaran hutang sebesar ' . $this->amount,
+            'url' => route('paylater.repay.edit', $this),
+            'type' => Notification::TYPE_DEPOSIT,
+        ]);
 
         NotificationEvent::dispatch([
             'id' => $notification->id,

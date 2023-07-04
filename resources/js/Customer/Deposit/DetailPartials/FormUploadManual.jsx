@@ -232,7 +232,7 @@ export const FormUploadManual = () => {
                         {isEmpty(data.image_url) == false && (
                             <img
                                 src={`${data.image_url}`}
-                                className="w-full h-52 mb-1"
+                                className="w-full mb-1"
                                 alt="bukti transfer"
                                 loading="lazy"
                             />

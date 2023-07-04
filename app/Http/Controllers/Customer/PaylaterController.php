@@ -130,6 +130,8 @@ class PaylaterController extends Controller
             $deposit->update(['payment_token' => $token]);
         }
 
+        $deposit->create_notification_repayment();
+
         $paylater->save();
 
         DB::commit();

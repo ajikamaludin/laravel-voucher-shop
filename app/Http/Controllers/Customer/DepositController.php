@@ -131,6 +131,7 @@ class DepositController extends Controller
         ]);
 
         $deposit->create_notification();
+        $deposit->create_notification_repayment();
 
         session()->flash('message', ['type' => 'success', 'message' => 'Upload berhasil, silahkan tunggu untuk approve']);
     }
