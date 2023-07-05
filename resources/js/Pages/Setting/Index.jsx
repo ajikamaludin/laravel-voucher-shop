@@ -1,15 +1,14 @@
-import React, { Suspense } from 'react'
-import { Head, router, useForm } from '@inertiajs/react'
+import React from 'react'
+import { Head, useForm } from '@inertiajs/react'
 
+import { extractValue } from './utils'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import FormInput from '@/Components/FormInput'
 import Checkbox from '@/Components/Checkbox'
 import FormInputNumeric from '@/Components/FormInputNumeric'
 import FormInputTime from '@/Components/FormInputTime'
 import Button from '@/Components/Button'
-import { extractValue } from './utils'
-
-const TinyEditor = React.lazy(() => import('@/Components/TinyMCE'))
+import TextArea from '@/Components/TextArea'
 
 export default function General(props) {
     const { setting } = props
@@ -76,33 +75,13 @@ export default function General(props) {
                                 error={errors.OPEN_WEBSITE_NAME}
                             />
 
-                            <div className="py-4">
-                                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                    Share Text Voucher
-                                </label>
-                                <Suspense fallback={<div>Loading...</div>}>
-                                    <TinyEditor
-                                        value={data.SHARE_TEXT}
-                                        init={{
-                                            height: 500,
-                                            // menubar: false,
-                                            menubar:
-                                                'file edit view insert format tools table help',
-                                            plugins:
-                                                'preview importcss searchreplace autolink directionality code visualblocks visualchars fullscreen image link media codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help charmap emoticons',
-                                            toolbar_mode: 'scrolling',
-                                            toolbar:
-                                                'undo redo | insertfile image media link | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | charmap emoticons | fullscreen  preview save print | ltr rtl | anchor codesample',
-                                        }}
-                                        onEditorChange={(newValue, editor) => {
-                                            setData(
-                                                'SHARE_TEXT',
-                                                editor.getContent()
-                                            )
-                                        }}
-                                    />
-                                </Suspense>
-                            </div>
+                            <TextArea
+                                name="SHARE_TEXT"
+                                value={data.SHARE_TEXT}
+                                onChange={handleOnChange}
+                                label="Share Text Voucher"
+                                error={errors.SHARE_TEXT}
+                            />
                         </div>
                         <div className="p-2 border rounded-xl mt-2">
                             <Checkbox

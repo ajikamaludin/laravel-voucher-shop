@@ -22,7 +22,7 @@ class InstallationSeed extends Seeder
         $settings = [
             // general
             ['key' => 'OPEN_WEBSITE_NAME', 'value' => 'Welcome to Voucher App', 'type' => 'text'],
-            ['key' => 'SHARE_TEXT', 'value' => '<p>Baru Beli Voucher nih</p>', 'type' => 'text'],
+            ['key' => 'SHARE_TEXT', 'value' => 'Baru Beli Voucher nih', 'type' => 'text'],
 
             // affilate
             ['key' => 'AFFILATE_ENABLED', 'value' => '0', 'type' => 'checkbox'],
