@@ -6,6 +6,12 @@
         <meta name="mobile-web-app-capable" content="yes">
         <meta name="description" content="web shop online aplikasi jual voucher wifi online">
 
+        <link rel="icon" type="image/png" href="/icon-192.png" sizes="192x192" />
+        <link rel="icon" type="image/png" href="/icon-512.png" sizes="512x512" />
+        <link rel="mask-icon" href="/icon-512-maskable.png" color="#FFFFFF">
+        <link rel="manifest" href="/manifest.json">
+        <meta name="theme-color" content="#FFF">
+
         <title inertia>{{ config('app.name', 'Voucher') }}</title>
 
         <!-- Fonts -->
@@ -17,6 +23,12 @@
         @viteReactRefresh
         @vite(['resources/js/app.jsx', "resources/js/Customer/{$page['component']}.jsx"])
         @inertiaHead
+
+        <script>
+            if (typeof navigator.serviceWorker !== 'undefined') {
+                navigator.serviceWorker.register('sw.js')
+            }
+        </script>
     </head>
     <body class="font-sans antialiased" creator="aji.kamaludin2021@gmail.com">
         @inertia

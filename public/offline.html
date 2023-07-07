@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="id">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>Offline</title>
+
+        <!-- Styles -->
+        <style>
+            /*!tailwindcssv3.3.2|MITLicense|https://tailwindcss.com*/ /*1.Preventpaddingandborderfromaffectingelementwidth.(https://github.com/mozdevs/cssremedy/issues/4)2.Allowaddingabordertoanelementbyjustaddingaborder-width.(https://github.com/tailwindcss/tailwindcss/pull/116)*/
+            *,
+            ::before,
+            ::after {
+                box-sizing: border-box; /*1*/
+                border-width: 0; /*2*/
+                border-style: solid; /*2*/
+                border-color: #e5e7eb; /*2*/
+            }
+            ::before,
+            ::after {
+                --tw-content: '';
+            } /*1.Useaconsistentsensibleline-heightinallbrowsers.2.PreventadjustmentsoffontsizeafterorientationchangesiniOS.3.Useamorereadabletabsize.4.Usetheuser'sconfigured`sans`font-familybydefault.5.Usetheuser'sconfigured`sans`font-feature-settingsbydefault.6.Usetheuser'sconfigured`sans`font-variation-settingsbydefault.*/
+            html {
+                line-height: 1.5; /*1*/
+                -webkit-text-size-adjust: 100%; /*2*/
+                -moz-tab-size: 4; /*3*/
+                tab-size: 4; /*3*/
+                font-family: ui-sans-serif, system-ui, -apple-system,
+                    BlinkMacSystemFont, 'SegoeUI', Roboto, 'HelveticaNeue',
+                    Arial, 'NotoSans', sans-serif, 'AppleColorEmoji',
+                    'SegoeUIEmoji', 'SegoeUISymbol', 'NotoColorEmoji'; /*4*/
+                font-feature-settings: normal; /*5*/
+                font-variation-settings: normal; /*6*/
+            } /*1.Removethemargininallbrowsers.2.Inheritline-heightfrom`html`souserscansetthemasaclassdirectlyonthe`html`element.*/
+            body {
+                margin: 0; /*1*/
+                line-height: inherit; /*2*/
+            } /*1.AddthecorrectheightinFirefox.2.CorrecttheinheritanceofbordercolorinFirefox.(https://bugzilla.mozilla.org/show_bug.cgi?id=190655)3.Ensurehorizontalrulesarevisiblebydefault.*/
+            hr {
+                height: 0; /*1*/
+                color: inherit; /*2*/
+                border-top-width: 1px; /*3*/
+            } /*AddthecorrecttextdecorationinChrome,Edge,andSafari.*/
+            abbr:where([title]) {
+                -webkit-text-decoration: underlinedotted;
+                text-decoration: underlinedotted;
+            } /*Removethedefaultfontsizeandweightforheadings.*/
+            h1,
+            h2,
+            h3,
+            h4,
+            h5,
+            h6 {
+                font-size: inherit;
+                font-weight: inherit;
+            } /*Resetlinkstooptimizeforopt-instylinginsteadofopt-out.*/
+            a {
+                color: inherit;
+                text-decoration: inherit;
+            } /*AddthecorrectfontweightinEdgeandSafari.*/
+            b,
+            strong {
+                font-weight: bolder;
+            } /*1.Usetheuser'sconfigured`mono`fontfamilybydefault.2.Correcttheodd`em`fontsizinginallbrowsers.*/
+            code,
+            kbd,
+            samp,
+            pre {
+                font-family: ui-monospace, SFMono-Regular, Menlo, Monaco,
+                    Consolas, 'LiberationMono', 'CourierNew', monospace; /*1*/
+                font-size: 1em; /*2*/
+            } /*Addthecorrectfontsizeinallbrowsers.*/
+            small {
+                font-size: 80%;
+            } /*Prevent`sub`and`sup`elementsfromaffectingthelineheightinallbrowsers.*/
+            sub,
+            sup {
+                font-size: 75%;
+                line-height: 0;
+                position: relative;
+                vertical-align: baseline;
+            }
+            sub {
+                bottom: -0.25em;
+            }
+            sup {
+                top: -0.5em;
+            } /*1.RemovetextindentationfromtablecontentsinChromeandSafari.(https://bugs.chromium.org/p/chromium/issues/detail?id=999088,https://bugs.webkit.org/show_bug.cgi?id=201297)2.CorrecttablebordercolorinheritanceinallChromeandSafari.(https://bugs.chromium.org/p/chromium/issues/detail?id=935729,https://bugs.webkit.org/show_bug.cgi?id=195016)3.Removegapsbetweentablebordersbydefault.*/
+            table {
+                text-indent: 0; /*1*/
+                border-color: inherit; /*2*/
+                border-collapse: collapse; /*3*/
+            } /*1.Changethefontstylesinallbrowsers.2.RemovethemargininFirefoxandSafari.3.Removedefaultpaddinginallbrowsers.*/
+            button,
+            input,
+            optgroup,
+            select,
+            textarea {
+                font-family: inherit; /*1*/
+                font-size: 100%; /*1*/
+                font-weight: inherit; /*1*/
+                line-height: inherit; /*1*/
+                color: inherit; /*1*/
+                margin: 0; /*2*/
+                padding: 0; /*3*/
+            } /*RemovetheinheritanceoftexttransforminEdgeandFirefox.*/
+            button,
+            select {
+                text-transform: none;
+            } /*1.CorrecttheinabilitytostyleclickabletypesiniOSandSafari.2.Removedefaultbuttonstyles.*/
+            button,
+            [type='button'],
+            [type='reset'],
+            [type='submit'] {
+                -webkit-appearance: button; /*1*/
+                background-color: transparent; /*2*/
+                background-image: none; /*2*/
+            } /*UsethemodernFirefoxfocusstyleforallfocusableelements.*/
+            :-moz-focusring {
+                outline: auto;
+            } /*Removetheadditional`:invalid`stylesinFirefox.(https://github.com/mozilla/gecko-dev/blob/2f9eacd9d3d995c937b4251a5557d95d494c9be1/layout/style/res/forms.css#L728-L737)*/
+            :-moz-ui-invalid {
+                box-shadow: none;
+            } /*AddthecorrectverticalalignmentinChromeandFirefox.*/
+            progress {
+                vertical-align: baseline;
+            } /*CorrectthecursorstyleofincrementanddecrementbuttonsinSafari.*/
+            ::-webkit-inner-spin-button,
+            ::-webkit-outer-spin-button {
+                height: auto;
+            } /*1.CorrecttheoddappearanceinChromeandSafari.2.CorrecttheoutlinestyleinSafari.*/
+            [type='search'] {
+                -webkit-appearance: textfield; /*1*/
+                outline-offset: -2px; /*2*/
+            } /*RemovetheinnerpaddinginChromeandSafarionmacOS.*/
+            ::-webkit-search-decoration {
+                -webkit-appearance: none;
+            } /*1.CorrecttheinabilitytostyleclickabletypesiniOSandSafari.2.Changefontpropertiesto`inherit`inSafari.*/
+            ::-webkit-file-upload-button {
+                -webkit-appearance: button; /*1*/
+                font: inherit; /*2*/
+            } /*AddthecorrectdisplayinChromeandSafari.*/
+            summary {
+                display: list-item;
+            } /*Removesthedefaultspacingandborderforappropriateelements.*/
+            blockquote,
+            dl,
+            dd,
+            h1,
+            h2,
+            h3,
+            h4,
+            h5,
+            h6,
+            hr,
+            figure,
+            p,
+            pre {
+                margin: 0;
+            }
+            fieldset {
+                margin: 0;
+                padding: 0;
+            }
+            legend {
+                padding: 0;
+            }
+            ol,
+            ul,
+            menu {
+                list-style: none;
+                margin: 0;
+                padding: 0;
+            } /*Preventresizingtextareashorizontallybydefault.*/
+            textarea {
+                resize: vertical;
+            } /*1.ResetthedefaultplaceholderopacityinFirefox.(https://github.com/tailwindlabs/tailwindcss/issues/3300)2.Setthedefaultplaceholdercolortotheuser'sconfiguredgray400color.*/
+            input::placeholder,
+            textarea::placeholder {
+                opacity: 1; /*1*/
+                color: #9ca3af; /*2*/
+            } /*Setthedefaultcursorforbuttons.*/
+            button,
+            [role='button'] {
+                cursor: pointer;
+            } /*Makesuredisabledbuttonsdon'tgetthepointercursor.*/
+            :disabled {
+                cursor: default;
+            } /*1.Makereplacedelements`display:block`bydefault.(https://github.com/mozdevs/cssremedy/issues/14)2.Add`vertical-align:middle`toalignreplacedelementsmoresensiblybydefault.(https://github.com/jensimmons/cssremedy/issues/14#issuecomment-634934210)Thiscantriggerapoorlyconsideredlinterrorinsometoolsbutisincludedbydesign.*/
+            img,
+            svg,
+            video,
+            canvas,
+            audio,
+            iframe,
+            embed,
+            object {
+                display: block; /*1*/
+                vertical-align: middle; /*2*/
+            } /*Constrainimagesandvideostotheparentwidthandpreservetheirintrinsicaspectratio.(https://github.com/mozdevs/cssremedy/issues/14)*/
+            img,
+            video {
+                max-width: 100%;
+                height: auto;
+            } /*MakeelementswiththeHTMLhiddenattributestayhiddenbydefault*/
+            [hidden] {
+                display: none;
+            }
+            *,
+            ::before,
+            ::after {
+                --tw-border-spacing-x: 0;
+                --tw-border-spacing-y: 0;
+                --tw-translate-x: 0;
+                --tw-translate-y: 0;
+                --tw-rotate: 0;
+                --tw-skew-x: 0;
+                --tw-skew-y: 0;
+                --tw-scale-x: 1;
+                --tw-scale-y: 1;
+                --tw-pan-x: ;
+                --tw-pan-y: ;
+                --tw-pinch-zoom: ;
+                --tw-scroll-snap-strictness: proximity;
+                --tw-gradient-from-position: ;
+                --tw-gradient-via-position: ;
+                --tw-gradient-to-position: ;
+                --tw-ordinal: ;
+                --tw-slashed-zero: ;
+                --tw-numeric-figure: ;
+                --tw-numeric-spacing: ;
+                --tw-numeric-fraction: ;
+                --tw-ring-inset: ;
+                --tw-ring-offset-width: 0px;
+                --tw-ring-offset-color: #fff;
+                --tw-ring-color: rgb(59130246/0.5);
+                --tw-ring-offset-shadow: 00#0000;
+                --tw-ring-shadow: 00#0000;
+                --tw-shadow: 00#0000;
+                --tw-shadow-colored: 00#0000;
+                --tw-blur: ;
+                --tw-brightness: ;
+                --tw-contrast: ;
+                --tw-grayscale: ;
+                --tw-hue-rotate: ;
+                --tw-invert: ;
+                --tw-saturate: ;
+                --tw-sepia: ;
+                --tw-drop-shadow: ;
+                --tw-backdrop-blur: ;
+                --tw-backdrop-brightness: ;
+                --tw-backdrop-contrast: ;
+                --tw-backdrop-grayscale: ;
+                --tw-backdrop-hue-rotate: ;
+                --tw-backdrop-invert: ;
+                --tw-backdrop-opacity: ;
+                --tw-backdrop-saturate: ;
+                --tw-backdrop-sepia: ;
+            }
+            ::backdrop {
+                --tw-border-spacing-x: 0;
+                --tw-border-spacing-y: 0;
+                --tw-translate-x: 0;
+                --tw-translate-y: 0;
+                --tw-rotate: 0;
+                --tw-skew-x: 0;
+                --tw-skew-y: 0;
+                --tw-scale-x: 1;
+                --tw-scale-y: 1;
+                --tw-pan-x: ;
+                --tw-pan-y: ;
+                --tw-pinch-zoom: ;
+                --tw-scroll-snap-strictness: proximity;
+                --tw-gradient-from-position: ;
+                --tw-gradient-via-position: ;
+                --tw-gradient-to-position: ;
+                --tw-ordinal: ;
+                --tw-slashed-zero: ;
+                --tw-numeric-figure: ;
+                --tw-numeric-spacing: ;
+                --tw-numeric-fraction: ;
+                --tw-ring-inset: ;
+                --tw-ring-offset-width: 0px;
+                --tw-ring-offset-color: #fff;
+                --tw-ring-color: rgb(59130246/0.5);
+                --tw-ring-offset-shadow: 00#0000;
+                --tw-ring-shadow: 00#0000;
+                --tw-shadow: 00#0000;
+                --tw-shadow-colored: 00#0000;
+                --tw-blur: ;
+                --tw-brightness: ;
+                --tw-contrast: ;
+                --tw-grayscale: ;
+                --tw-hue-rotate: ;
+                --tw-invert: ;
+                --tw-saturate: ;
+                --tw-sepia: ;
+                --tw-drop-shadow: ;
+                --tw-backdrop-blur: ;
+                --tw-backdrop-brightness: ;
+                --tw-backdrop-contrast: ;
+                --tw-backdrop-grayscale: ;
+                --tw-backdrop-hue-rotate: ;
+                --tw-backdrop-invert: ;
+                --tw-backdrop-opacity: ;
+                --tw-backdrop-saturate: ;
+                --tw-backdrop-sepia: ;
+            }
+            .flex {
+                display: flex;
+            }
+            .h-screen {
+                height: 100vh;
+            }
+            .w-screen {
+                width: 100vw;
+            }
+            .flex-col {
+                flex-direction: column;
+            }
+            .items-center {
+                align-items: center;
+            }
+            .justify-center {
+                justify-content: center;
+            }
+            .text-2xl {
+                font-size: 1.5rem;
+                line-height: 2rem;
+            }
+            .antialiased {
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+            }
+        </style>
+    </head>
+    <body
+        class="antialiased text-2xl w-screen justify-center h-screen items-center flex flex-col"
+    >
+        <img
+            src="data:image/png;base64,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"
+        />
+        <div>Ada kendala jaringan</div>
+    </body>
+</html>

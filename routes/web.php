@@ -10,6 +10,7 @@ use App\Http\Controllers\Customer\PaylaterController;
 use App\Http\Controllers\Customer\PoinController;
 use App\Http\Controllers\Customer\PoinExchangeController;
 use App\Http\Controllers\Customer\ProfileController;
+use App\Http\Controllers\Customer\PWAController;
 use App\Http\Controllers\Customer\TransactionController;
 use App\Http\Controllers\Customer\VerificationController;
 use Illuminate\Support\Facades\Route;
@@ -25,7 +26,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::view('/offline.html', 'offline');
+
 Route::middleware(['http_secure_aware', 'guard_should_customer', 'inertia.customer'])->group(function () {
+    Route::get('/index.html', [HomeController::class, 'index'])->name('home.index');
     Route::get('/', [HomeController::class, 'index'])->name('home.index');
 
     Route::get('/banner/{banner}', [HomeController::class, 'banner'])->name('home.banner');
@@ -104,5 +108,9 @@ Route::middleware(['http_secure_aware', 'guard_should_customer', 'inertia.custom
         Route::get('/customer/{customer:id}/active', [AuthController::class, 'active'])->name('customer.active');
     });
 });
+
+// PWA Suppoer
+Route::get('/manifest.json', [PWAController::class, 'manifest']);
+Route::get('/.well-known/assetlinks.json', [PWAController::class, 'assetlinks']);
 
 require_once 'admin.php';
