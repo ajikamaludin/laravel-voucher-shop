@@ -68,22 +68,28 @@ class GeneralService
         if ($midtrans_enable == 1) {
             $payment[] = [
                 'name' => Setting::PAYMENT_MIDTRANS,
-                'logo' => asset(Setting::getByKey('MIDTRANS_LOGO')),
-                'display_name' => 'Midtrans',
+                'logo' => null, //asset(Setting::getByKey('MIDTRANS_LOGO')),
+                'tagline' => '<p>(Verifikasi <b>Otomatis</b> tanpa upload bukti pembayaran)</p>',
+                'display_name' => 'Payment Gateway',
                 'admin_fee' => Setting::getByKey('MIDTRANS_ADMIN_FEE'),
+                'open_hours' => '24 Jam',
             ];
         }
 
         $enable = Setting::getByKey('ENABLE_MANUAL_TRANSFER');
         if ($enable == 1) {
-            $openHour = Carbon::createFromFormat('H:i', Setting::getByKey('MANUAL_TRANSFER_OPEN_HOUR'));
-            $closeHour = Carbon::createFromFormat('H:i', Setting::getByKey('MANUAL_TRANSFER_CLOSE_HOUR'));
+            $openHourForm = Setting::getByKey('MANUAL_TRANSFER_OPEN_HOUR');
+            $closeHourForm = Setting::getByKey('MANUAL_TRANSFER_CLOSE_HOUR');
+            $openHour = Carbon::createFromFormat('H:i', $openHourForm);
+            $closeHour = Carbon::createFromFormat('H:i', $closeHourForm);
             if (now()->between($openHour, $closeHour)) {
                 $payment[] = [
                     'name' => Setting::PAYMENT_MANUAL,
                     'logo' => null,
-                    'display_name' => 'Transfer Manual',
+                    'tagline' => '<p>(Verifikasi <b>Manual</b> & upload bukti pembayaran)</p>',
+                    'display_name' => 'Transfer Bank & E-Money',
                     'admin_fee' => Setting::getByKey('ADMINFEE_MANUAL_TRANSFER'),
+                    'open_hours' => $openHourForm.' - '.$closeHourForm,
                 ];
             }
         }
@@ -103,8 +109,10 @@ class GeneralService
                 $payment[] = [
                     'name' => Setting::PAYMENT_CASH_DEPOSIT,
                     'logo' => null,
+                    'tagline' => '<p>(Verifikasi <b>Manual</b> & upload bukti pembayaran)</p>',
                     'display_name' => Setting::getByKey('TEXT_CASH_DEPOSIT'),
                     'admin_fee' => Setting::getByKey('ADMINFEE_CASH_DEPOSIT'),
+                    'open_hours' => null,
                 ];
             }
         }

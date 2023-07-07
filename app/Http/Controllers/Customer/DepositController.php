@@ -42,7 +42,7 @@ class DepositController extends Controller
     public function create(Request $request)
     {
         $customer = $request->user('customer');
-        if (! $customer->allow_transaction) {
+        if (!$customer->allow_transaction) {
             return redirect()->back()
                 ->with('message', ['type' => 'error', 'message' => 'akun anda dibekukan tidak dapat melakukan transaksi']);
         }
@@ -55,7 +55,7 @@ class DepositController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'amount' => 'required|numeric|min:10000',
+            'amount' => 'required|numeric|min:20000|max:6000000',
             'payment' => [
                 'required',
                 Rule::in([Setting::PAYMENT_MANUAL, Setting::PAYMENT_MIDTRANS, Setting::PAYMENT_CASH_DEPOSIT]),

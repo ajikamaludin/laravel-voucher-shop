@@ -29,7 +29,7 @@ class PaylaterController extends Controller
         if ($paylater->type == PaylaterHistory::TYPE_REPAYMENT) {
             $deposit = DepositHistory::where('related_id', $paylater->id)->first();
 
-            if (! in_array($deposit->is_valid, [DepositHistory::STATUS_VALID])) {
+            if (!in_array($deposit->is_valid, [DepositHistory::STATUS_VALID])) {
                 return redirect()->route('transactions.deposit.show', [
                     'deposit' => $deposit,
                     'back' => 'customer.paylater.index',
@@ -45,7 +45,7 @@ class PaylaterController extends Controller
     public function create(Request $request)
     {
         return inertia('Paylater/Repay', [
-            'amount' => $request->user('customer')->paylater->usage,
+            'amount' => $request->user('customer')?->paylater?->usage ?? 0,
             'payments' => GeneralService::getEnablePayment(),
         ]);
     }
@@ -53,7 +53,7 @@ class PaylaterController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'amount' => 'required|numeric|min:1000',
+            'amount' => 'required|numeric|min:1000|max:6000000',
             'payment' => [
                 'required',
                 Rule::in([Setting::PAYMENT_MANUAL, Setting::PAYMENT_MIDTRANS, Setting::PAYMENT_CASH_DEPOSIT]),
