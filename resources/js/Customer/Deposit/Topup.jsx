@@ -92,26 +92,29 @@ export default function Topup({ payments }) {
                 >
                     <HiChevronLeft className="font-bold h-5 w-5" />
                 </div>
-                <div className="w-full px-5">
-                    <div className="mb-2 font-bold">Pilih Nominal</div>
-                    <div className="w-full grid grid-cols-3 gap-2 text-center">
-                        {amounts.map((amount) => (
-                            <div
-                                key={amount}
-                                className={isActiveAmount(amount)}
-                                onClick={() => setAmount(amount)}
-                            >
-                                Rp{formatIDR(amount)}
-                            </div>
-                        ))}
+                <div className="w-full hidden">
+                    <div className="w-full px-5">
+                        <div className="mb-2 font-bold">Pilih Nominal</div>
+                        <div className="w-full grid grid-cols-3 gap-2 text-center">
+                            {amounts.map((amount) => (
+                                <div
+                                    key={amount}
+                                    className={isActiveAmount(amount)}
+                                    onClick={() => setAmount(amount)}
+                                >
+                                    Rp{formatIDR(amount)}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                    <div className="flex flex-row items-center space-x-2 justify-between w-full px-5 py-5">
+                        <div className="border-b flex-1"></div>
+                        <div>ATAU</div>
+                        <div className="border-b flex-1"></div>
                     </div>
                 </div>
-                <div className="flex flex-row items-center space-x-2 justify-between w-full px-5 py-5">
-                    <div className="border-b flex-1"></div>
-                    <div>ATAU</div>
-                    <div className="border-b flex-1"></div>
-                </div>
                 <div className="w-full px-5">
+                    <div className="mb-2 font-bold">Masukan Nominal</div>
                     <FormInputNumericWith
                         placeholder="masukan nominal, minimal 10.000"
                         value={data.amount}
