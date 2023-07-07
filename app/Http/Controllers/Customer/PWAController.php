@@ -57,12 +57,7 @@ class PWAController extends Controller
             ],
             "screenshots" => [
                 [
-                    "src" => "screenshot_1.png",
-                    "sizes" => "1280x800",
-                    "type" => "image/png"
-                ],
-                [
-                    "src" => "screenshot_2.png",
+                    "src" => "screenshot.png",
                     "sizes" => "750x1334",
                     "type" => "image/png"
                 ]
