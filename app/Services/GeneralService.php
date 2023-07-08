@@ -69,7 +69,7 @@ class GeneralService
             $payment[] = [
                 'name' => Setting::PAYMENT_MIDTRANS,
                 'logo' => null, //asset(Setting::getByKey('MIDTRANS_LOGO')),
-                'tagline' => '<p>(Verifikasi <b>Otomatis</b> tanpa upload bukti pembayaran)</p>',
+                'tagline' => '<p>(Verifikasi <b>Otomatis</b>)</p>',
                 'display_name' => 'Payment Gateway',
                 'admin_fee' => Setting::getByKey('MIDTRANS_ADMIN_FEE'),
                 'open_hours' => '24 Jam / Non Stop',

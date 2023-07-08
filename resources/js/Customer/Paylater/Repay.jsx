@@ -123,8 +123,8 @@ export default function Repay({ payments, amount, auth: { user } }) {
                         value={data.amount}
                         onChange={(e) => setData('amount', e.target.value)}
                         error={errors.amount}
-                        className={'pl-10'}
-                        leftItem={<div className="text-sm">Rp</div>}
+                        className={'pl-10 text-3xl'}
+                        leftItem={<div className="text-xl">Rp</div>}
                     />
                 </div>
                 {isNotFullPayment && (

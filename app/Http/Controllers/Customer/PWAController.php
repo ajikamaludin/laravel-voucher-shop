@@ -43,7 +43,7 @@ class PWAController extends Controller
             "start_url" => '/?direct=1',
             "id" => 'id.ajikamaludin.voucher',
             "scope" => ".",
-            "display" => "standalone",
+            "display" => "fullscreen",
             "background_color" => "#0940c4",
             "theme_color" => "#db1f1f",
             "description" => "Aplikasi Voucher WiFi",

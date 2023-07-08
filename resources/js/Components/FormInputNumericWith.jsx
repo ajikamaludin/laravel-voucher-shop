@@ -4,6 +4,10 @@ import Input from './Input'
 import { toFixed } from '@/utils'
 import { isEmpty } from 'lodash'
 
+const InputNum = (props) => {
+    return <Input {...props} pattern="\d*" textSize="text-xl" />
+}
+
 export default function FormInputNumericWith({
     name,
     onChange,
@@ -25,7 +29,7 @@ export default function FormInputNumericWith({
     return (
         <div>
             <label
-                htmlFor={label}
+                htmlFor={labelId}
                 className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
                 {label}
@@ -37,8 +41,10 @@ export default function FormInputNumericWith({
                     </div>
                 )}
                 <NumericFormat
-                    id={label}
+                    id={labelId}
                     max={max}
+                    inputMode="decimal"
+                    pattern="\d*"
                     thousandSeparator="."
                     decimalSeparator=","
                     allowNegative={false}
@@ -47,7 +53,7 @@ export default function FormInputNumericWith({
                         error &&
                         'focus:ring-red-600 border-red-600 focus:border-red-600'
                     }`}
-                    customInput={Input}
+                    customInput={InputNum}
                     value={value}
                     name={name}
                     onValueChange={(values) => {
