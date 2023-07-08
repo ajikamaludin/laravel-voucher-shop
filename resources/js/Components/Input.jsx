@@ -3,6 +3,7 @@ import React from 'react'
 export default function Input({
     id = '',
     type = 'text',
+    inputMode = 'text',
     name,
     onChange,
     value,
@@ -35,6 +36,7 @@ export default function Input({
                 disabled={disabled}
                 readOnly={readOnly}
                 onKeyDownCapture={onKeyDownCapture}
+                inputMode={inputMode}
             />
             {error && (
                 <p className="mb-2 text-sm text-red-600 dark:text-red-500">

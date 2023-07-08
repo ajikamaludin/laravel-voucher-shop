@@ -5,7 +5,7 @@ import { toFixed } from '@/utils'
 import { isEmpty } from 'lodash'
 
 const InputNum = (props) => {
-    return <Input {...props} pattern="\d*" textSize="text-xl" />
+    return <Input {...props} textSize="text-xl" inputMode="decimal" />
 }
 
 export default function FormInputNumericWith({
@@ -43,8 +43,8 @@ export default function FormInputNumericWith({
                 <NumericFormat
                     id={labelId}
                     max={max}
-                    inputMode="decimal"
                     pattern="\d*"
+                    inputMode="decimal"
                     thousandSeparator="."
                     decimalSeparator=","
                     allowNegative={false}
