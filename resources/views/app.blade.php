@@ -10,7 +10,7 @@
         <link rel="icon" type="image/png" href="/icon-512.png" sizes="512x512" />
         <link rel="mask-icon" href="/icon-512-maskable.png" color="#FFFFFF">
         <link rel="manifest" href="/manifest.json">
-        <meta name="theme-color" content="#FFF">
+        <meta name="theme-color" content="#000">
 
         <title inertia>{{ config('app.name', 'Voucher') }}</title>
 
