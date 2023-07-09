@@ -44,11 +44,11 @@ crontab -e
 ### Screenshot
 
 <div style="width:100%;display:flex;flex-direction:row;overflow-x:scroll">
-<img src="./_screenshot/1.png" style="width:100%">
-<img src="./_screenshot/2.png" style="width:100%">
-<img src="./_screenshot/3.png" style="width:100%">
-<img src="./_screenshot/4.png" style="width:100%">
-<img src="./_screenshot/5.png" style="width:100%">
+    <img src="./_screenshot/1.png" style="width:100%" itemscope>
+    <img src="./_screenshot/2.png" style="width:100%" itemscope>
+    <img src="./_screenshot/3.png" style="width:100%" itemscope>
+    <img src="./_screenshot/4.png" style="width:100%" itemscope>
+    <img src="./_screenshot/5.png" style="width:100%" itemscope>
 </div>
 
 ## Other
