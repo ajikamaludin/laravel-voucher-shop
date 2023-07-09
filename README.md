@@ -47,12 +47,6 @@ crontab -e
 <table>
     <tr>
         <td>
-            <img src="./_screenshot/1.png" style="width:100%" itemscope/>
-        </td>
-        <td>
-            <img src="./_screenshot/2.png" style="width:100%" itemscope/>
-        </td>
-        <td>
             <img src="./_screenshot/3.png" style="width:100%" itemscope/>
         </td>
         <td>
@@ -60,6 +54,12 @@ crontab -e
         </td>
         <td>
             <img src="./_screenshot/5.png" style="width:100%" itemscope/>
+        </td>
+        <td>
+            <img src="./_screenshot/1.png" style="width:100%" itemscope/>
+        </td>
+        <td>
+            <img src="./_screenshot/2.png" style="width:100%" itemscope/>
         </td>
     </tr>
 </table>
