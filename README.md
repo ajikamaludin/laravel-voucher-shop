@@ -41,6 +41,13 @@ crontab -e
 * * * * * cd /home/arm/projects/www/voucher && php artisan schedule:run >> /dev/null 2>&1
 ```
 
+### Screenshot
+
+<div style="width:100%;">
+<img src="./_screenshot/1.png" style="width:100%">
+<img src="./_screenshot/2.png" style="width:100%">
+</div>
+
 ## Other
 
 ### v1
