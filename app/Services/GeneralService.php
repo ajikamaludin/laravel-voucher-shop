@@ -89,7 +89,7 @@ class GeneralService
                     'tagline' => '<p>(Verifikasi <b>Manual</b> & upload bukti pembayaran)</p>',
                     'display_name' => 'Transfer Bank & E-Money',
                     'admin_fee' => Setting::getByKey('ADMINFEE_MANUAL_TRANSFER'),
-                    'open_hours' => $openHourForm . ' - ' . $closeHourForm,
+                    'open_hours' => $openHourForm.' - '.$closeHourForm,
                 ];
             }
         }
@@ -147,9 +147,9 @@ class GeneralService
         $time = explode(':', $time);
         foreach ($time as $t) { //00 : 00
             if ($t < 10) {
-                $r .= '0' . (int) $t . ':';
+                $r .= '0'.(int) $t.':';
             } else {
-                $r .= $t . ':';
+                $r .= $t.':';
             }
         }
 
@@ -162,7 +162,7 @@ class GeneralService
             ->whereDate('created_at', now())
             ->count() + 1;
 
-        return 'Invoice #TLH' . now()->format('dmy') . GeneralService::formatNumberCode($code);
+        return 'Invoice #TLH'.now()->format('dmy').GeneralService::formatNumberCode($code);
     }
 
     public static function generateDepositCode()
@@ -171,7 +171,7 @@ class GeneralService
             ->whereDate('created_at', now())
             ->count() + 1;
 
-        return 'Invoice #DSR' . now()->format('dmy') . GeneralService::formatNumberCode($code);
+        return 'Invoice #DSR'.now()->format('dmy').GeneralService::formatNumberCode($code);
     }
 
     public static function generateDepositRepayCode()
@@ -180,7 +180,7 @@ class GeneralService
             ->whereDate('created_at', now())
             ->count() + 1;
 
-        return 'Invoice #PLH' . now()->format('dmy') . GeneralService::formatNumberCode($code);
+        return 'Invoice #PLH'.now()->format('dmy').GeneralService::formatNumberCode($code);
     }
 
     public static function generateSaleVoucherCode()
@@ -189,14 +189,14 @@ class GeneralService
             ->where('payed_with', '!=', Sale::PAYED_WITH_POIN)
             ->count() + 1;
 
-        return 'Invoice #VCR' . now()->format('dmy') . GeneralService::formatNumberCode($code);
+        return 'Invoice #VCR'.now()->format('dmy').GeneralService::formatNumberCode($code);
     }
 
     public static function generateBonusPoinCode()
     {
         $code = PoinHistory::whereDate('created_at', now())->count() + 1;
 
-        return 'Invoice #BPN' . now()->format('dmy') . GeneralService::formatNumberCode($code);
+        return 'Invoice #BPN'.now()->format('dmy').GeneralService::formatNumberCode($code);
     }
 
     public static function generateExchangePoinCode()
@@ -205,19 +205,19 @@ class GeneralService
             ->where('payed_with', '=', Sale::PAYED_WITH_POIN)
             ->count() + 1;
 
-        return 'Invoice #PVC' . now()->format('dmy') . GeneralService::formatNumberCode($code);
+        return 'Invoice #PVC'.now()->format('dmy').GeneralService::formatNumberCode($code);
     }
 
     public static function formatNumberCode($number)
     {
         if ($number < 10) {
-            return '000' . $number;
+            return '000'.$number;
         }
         if ($number < 100) {
-            return '00' . $number;
+            return '00'.$number;
         }
         if ($number < 1000) {
-            return '0' . $number;
+            return '0'.$number;
         }
 
         return $number;

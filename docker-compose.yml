@@ -1,20 +1,14 @@
 version: "3.7"
 services:
   app:
-      build:
-        args:
-          user: aji
-          uid: 1000
-        context: ./
-        dockerfile: ./Dockerfile
-      image: voucher
+      image: ajikamaludin/php83user:latest
       container_name: voucher-app
       working_dir: /var/www/
       volumes:
         - ./:/var/www
         - ./user.ini:/usr/local/etc/php/php.ini
-        - "/etc/timezone:/etc/timezone:ro"
-        - "/etc/localtime:/etc/localtime:ro"
+        - /etc/timezone:/etc/timezone:ro
+        - /etc/localtime:/etc/localtime:ro
       mem_limit: 512m
       mem_reservation: 128M
       cpus: 0.5
@@ -94,7 +88,10 @@ services:
     networks:
       - voucher
   phpcli:
-    image: voucher
+    depends_on:
+      app:
+        condition: service_started
+    image: ajikamaludin/php83user:latest
     container_name: voucher-app-cli
     volumes:
       - ./:/var/www
@@ -103,8 +100,6 @@ services:
     mem_limit: 128M
     mem_reservation: 128M
     cpus: 0.5
-    depends_on:
-      - app
     networks:
       - voucher
 

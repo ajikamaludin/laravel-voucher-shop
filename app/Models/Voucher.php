@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class Voucher extends Model
 {
-    const UNSOLD = 0;
+    public const UNSOLD = 0;
 
-    const SOLD = 1;
+    public const SOLD = 1;
 
     protected $fillable = [
         'name',
@@ -49,7 +49,7 @@ class Voucher extends Model
 
     public function locationProfile()
     {
-        return $this->belongsTo(LocationProfile::class, 'location_profile_id');
+        return $this->belongsTo(LocationProfile::class, 'location_profile_id')->withTrashed();
     }
 
     public function validatePrice(): Attribute
