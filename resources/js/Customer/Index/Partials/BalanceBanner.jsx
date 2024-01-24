@@ -33,8 +33,8 @@ export default function BalanceBanner({ user }) {
                     </div>
                     <div className="font-bold">{user.level.name}</div>
                     <div className="text-xs flex flex-row items-center space-x-1 text-gray-400">
-                        {user.paylater_limit !== '' && (
-                            <div>Limit : {formatIDR(user.paylater_limit)}</div>
+                        {user.paylater_remain !== '' && (
+                            <div>Limit : {formatIDR(user.paylater_remain)}</div>
                         )}
                     </div>
                 </div>

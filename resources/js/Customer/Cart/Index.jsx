@@ -8,7 +8,7 @@ import EmptyHere from './IndexPartials/EmptyHere'
 import { useModalState } from '@/hooks'
 import Payment from './IndexPartials/Payment'
 
-export default function Index({ carts: items, total, allow_process }) {
+export default function Index({ carts: items, allow_process }) {
     const [carts, setCarts] = useState(items)
     const paymentModal = useModalState()
 
@@ -16,7 +16,6 @@ export default function Index({ carts: items, total, allow_process }) {
         setCarts(carts.filter((c) => c.id !== cart.id))
     }
 
-    console.log(carts)
     const changeQty = (cart, qty) => {
         setCarts(
             carts.map((c) => {
@@ -38,6 +37,10 @@ export default function Index({ carts: items, total, allow_process }) {
     const handleTopUp = () => {
         router.get(route('transactions.deposit.topup'))
     }
+
+    const total = carts
+        .map((item) => item.quantity * item.location_profile.validate_price)
+        .reduce((a, b) => a + b, 0)
 
     return (
         <CustomerLayout>

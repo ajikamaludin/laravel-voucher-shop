@@ -22,7 +22,6 @@ export default function FormInputYearPicker({
             <DatePicker
                 selected={converToDate(selected)}
                 onChange={(date) => {
-                    console.log(date)
                     onChange(dateToString(date))
                 }}
                 closeOnScroll={true}

@@ -6,15 +6,15 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class LocationProfile extends Model
 {
-    const EXPIRED_HOUR = 'Jam';
+    public const EXPIRED_HOUR = 'Jam';
 
-    const EXPIRED_DAY = 'Hari';
+    public const EXPIRED_DAY = 'Hari';
 
-    const EXPIRED_WEEK = 'Minggu';
+    public const EXPIRED_WEEK = 'Minggu';
 
-    const EXPIRED_MONTH = 'Bulan';
+    public const EXPIRED_MONTH = 'Bulan';
 
-    const EXPIRED_UNIT = [
+    public const EXPIRED_UNIT = [
         self::EXPIRED_HOUR,
         self::EXPIRED_DAY,
         self::EXPIRED_WEEK,
@@ -85,7 +85,7 @@ class LocationProfile extends Model
 
     public function location()
     {
-        return $this->belongsTo(Location::class);
+        return $this->belongsTo(Location::class)->withTrashed();
     }
 
     public function vouchers()

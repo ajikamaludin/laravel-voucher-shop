@@ -13,21 +13,24 @@ use Illuminate\Support\Str;
 
 class Customer extends Authenticatable
 {
-    use HasFactory, HasUlids, UserTrackable, SoftDeletes;
+    use HasFactory;
+    use HasUlids;
+    use UserTrackable;
+    use SoftDeletes;
 
-    const NOT_VERIFIED = 0;
+    public const NOT_VERIFIED = 0;
 
-    const VERIFIED = 1;
+    public const VERIFIED = 1;
 
-    const IN_VERICATION = 2;
+    public const IN_VERICATION = 2;
 
-    const STATUS_INACTIVE = 0;
+    public const STATUS_INACTIVE = 0;
 
-    const STATUS_ACTIVE = 1;
+    public const STATUS_ACTIVE = 1;
 
-    const STATUS_SUSPEND = 2;
+    public const STATUS_SUSPEND = 2;
 
-    const STATUS = [
+    public const STATUS = [
         self::STATUS_INACTIVE => 'Belum Aktif',
         self::STATUS_ACTIVE => 'Aktif',
         self::STATUS_SUSPEND => 'Suspend/Block',
