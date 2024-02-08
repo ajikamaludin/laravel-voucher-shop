@@ -14,10 +14,22 @@ class CustomerController extends Controller
     public function index(Request $request)
     {
         $stats = [
-            'basic_count' => Customer::whereHas('level', fn ($q) => $q->where('key', CustomerLevel::BASIC))->count(),
-            'silver_count' => Customer::whereHas('level', fn ($q) => $q->where('key', CustomerLevel::SILVER))->count(),
-            'gold_count' => Customer::whereHas('level', fn ($q) => $q->where('key', CustomerLevel::GOLD))->count(),
-            'platinum_count' => Customer::whereHas('level', fn ($q) => $q->where('key', CustomerLevel::PLATINUM))->count(),
+            'basic' => [
+                'name' => CustomerLevel::where('key', CustomerLevel::BASIC)->value('name'),
+                'count' => Customer::whereHas('level', fn ($q) => $q->where('key', CustomerLevel::BASIC))->count()
+            ],
+            'silver' => [
+                'name' => CustomerLevel::where('key', CustomerLevel::SILVER)->value('name'),
+                'count' => Customer::whereHas('level', fn ($q) => $q->where('key', CustomerLevel::SILVER))->count()
+            ],
+            'gold' => [
+                'name' => CustomerLevel::where('key', CustomerLevel::GOLD)->value('name'),
+                'count' => Customer::whereHas('level', fn ($q) => $q->where('key', CustomerLevel::GOLD))->count()
+            ],
+            'platinum' => [
+                'name' => CustomerLevel::where('key', CustomerLevel::PLATINUM)->value('name'),
+                'count' => Customer::whereHas('level', fn ($q) => $q->where('key', CustomerLevel::PLATINUM))->count()
+            ],
         ];
 
         $query = Customer::query()->with(['level', 'paylater', 'locationFavorites']);

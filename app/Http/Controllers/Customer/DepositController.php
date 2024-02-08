@@ -137,8 +137,15 @@ class DepositController extends Controller
     }
 
     public function midtrans_payment(Request $request, DepositHistory $deposit)
-    {
+    {        
+        info('midtrans_payment', ['request body' => $request->input()]);
+
         DB::beginTransaction();
+
+        if ($deposit->is_valid == DepositHistory::STATUS_VALID) {
+            info('midtrans_payment', ['payment valid redirect']);
+            return redirect()->route('transactions.deposit.show', ['deposit' => $deposit->id]);
+        }
 
         $transaction_status = $request->result['transaction_status'];
         if ($transaction_status == 'settlement' || $transaction_status == 'capture') {
@@ -149,10 +156,7 @@ class DepositController extends Controller
             $is_valid = DepositHistory::STATUS_INVALID;
         }
 
-        if ($deposit->is_valid == DepositHistory::STATUS_VALID) {
-            return redirect()->route('transactions.deposit.show', ['deposit' => $deposit->id]);
-        }
-
+        info('midtrans_payment', ['payment valid update']);
         $deposit->update([
             'is_valid' => $is_valid,
             'payment_response' => json_encode($request->result),

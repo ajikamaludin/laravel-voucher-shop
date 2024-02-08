@@ -98,29 +98,27 @@ export default function Customer(props) {
                 <div className="w-full mx-auto sm:px-6 lg:px-8">
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 mb-2">
                         <div className="border rounded-md shadow bg-white px-4 py-2 flex flex-col">
-                            <div className="text-gray-600 text-lg">Basic</div>
+                            <div className="text-gray-600 text-lg">{stats.basic.name}</div>
                             <div className="font-bold text-xl pt-2">
-                                {formatIDR(stats.basic_count)} Orang
+                                {formatIDR(stats.basic.count)} Orang
                             </div>
                         </div>
                         <div className="border rounded-md shadow bg-white px-4 py-2 flex flex-col">
-                            <div className="text-gray-600 text-lg">Silver</div>
+                            <div className="text-gray-600 text-lg">{stats.silver.name}</div>
                             <div className="font-bold text-xl pt-2">
-                                {formatIDR(stats.silver_count)} Orang
+                                {formatIDR(stats.silver.count)} Orang
                             </div>
                         </div>
                         <div className="border rounded-md shadow bg-white px-4 py-2 flex flex-col">
-                            <div className="text-gray-600 text-lg">Gold</div>
+                            <div className="text-gray-600 text-lg">{stats.gold.name}</div>
                             <div className="font-bold text-xl pt-2">
-                                {formatIDR(stats.gold_count)} Orang
+                                {formatIDR(stats.gold.count)} Orang
                             </div>
                         </div>
                         <div className="border rounded-md shadow bg-white px-4 py-2 flex flex-col">
-                            <div className="text-gray-600 text-lg">
-                                Platinum
-                            </div>
+                            <div className="text-gray-600 text-lg">{stats.platinum.name}</div>
                             <div className="font-bold text-xl pt-2">
-                                {formatIDR(stats.platinum_count)} Orang
+                                {formatIDR(stats.platinum.count)} Orang
                             </div>
                         </div>
                     </div>
